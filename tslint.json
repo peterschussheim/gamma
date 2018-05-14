@@ -1,0 +1,10 @@
+{
+  "extends": ["tslint:latest", "tslint-config-prettier"],
+  "rules": {
+    "no-empty-interface": true,
+    "adjacent-overload-signatures": true,
+    "no-duplicate-variable": true,
+    "triple-equals": true,
+    "prefer-template": true
+  }
+}
