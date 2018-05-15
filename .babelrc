@@ -1,0 +1,19 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": "current"
+        },
+        "useBuiltIns": true,
+        "exclude": [
+          "babel-plugin-transform-regenerator",
+          "transform-async-to-generator"
+        ]
+      }
+    ],
+    "flow"
+  ],
+  "retainLines": true
+}

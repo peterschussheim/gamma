@@ -47,3 +47,8 @@ typings/
 
 # next.js build output
 .next
+
+now-secrets.json
+lib
+dump.rdb
+debug
