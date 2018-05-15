@@ -6,11 +6,11 @@ Modeled after [githunt-api][githunt-api].
 
 ## Features
 
-- [ ] easily scale
+* [ ] easily scale
 
 ## TODO
 
-- [ ] add `dangerfile.js`
+* [ ] add `dangerfile.js`
 
 ## Docs
 
@@ -21,6 +21,7 @@ Modeled after [githunt-api][githunt-api].
 Please see the [connector-md][connector-md] produced by the Apollo team to learn more.
 
 ### Getting Started
+
 <!-- ### Project structure
 
 | File name 　　　　　　　　　　　　　　| Description 　　　　　　　　<br><br>|
