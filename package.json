@@ -39,6 +39,7 @@
     "sqlite3": "4.0.0"
   },
   "dependencies": {
+    "apollo-engine": "1.1.1",
     "apollo-server": "2.0.0-beta.1",
     "apollo-server-express": "2.0.0-beta.0",
     "chalk": "2.4.1",

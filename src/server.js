@@ -5,9 +5,8 @@ const uuid = require('node-uuid')
 debug('Server starting...')
 debug('logging with debug enabled!')
 import { ApolloServer, gql } from 'apollo-server'
-import { registerServer } from 'apollo-server-express'
 import express from 'express'
-import { setUpGitHubLogin } from './api/githubLogin'
+import { registerServer } from 'apollo-server-express'
 import 'express-async-errors'
 import logger from './shared/middlewares/logging'
 
@@ -28,15 +27,19 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000
 async function startServer() {
   const app = express()
 
-  //TODO: https://apollographql.slack.com/archives/C5SFWTR4Y/p1526075563000183
   const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    engine: {
+      origins: [{ requestTimeout: '80s' }]
+    }
   })
   registerServer({ app, server })
 
-  server.listen(PORT).then(({ url }) => {
-    debug(`🚀 Server ready at ${url}`)
-  })
+  server
+    .listen({ PORT, engine: true, apiKey: process.env.APOLLO_ENGINE_API_KEY })
+    .then(({ url }) => {
+      debug(`🚀 Server ready at ${url}`)
+    })
 }
 export default startServer
