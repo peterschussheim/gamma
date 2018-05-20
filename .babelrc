@@ -6,14 +6,11 @@
         "targets": {
           "node": "current"
         },
-        "useBuiltIns": true,
-        "exclude": [
-          "babel-plugin-transform-regenerator",
-          "transform-async-to-generator"
-        ]
+        "useBuiltIns": true
       }
     ],
     "flow"
   ],
+  "plugins": ["transform-object-rest-spread"],
   "retainLines": true
 }
