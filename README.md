@@ -22,6 +22,48 @@ Please see the [connector-md][connector-md] produced by the Apollo team to learn
 
 ### Getting Started
 
+1.  **Install Node/npm.** Make sure you have Node >= 8 installed.
+2.  **Clone and install dependencies.**
+    Run the following commands:
+
+```
+git clone https://github.com/peterschussheim/gamma
+cd gamma
+yarn
+```
+
+3.  **Run migrations.** Set up the SQLite database and run migrations/seed data with the following commands:
+
+```
+npm run migrate
+npm run seed
+```
+
+4.  **Get GitHub API keys.**
+
+* Go to [OAuth applications > Developer applications](https://github.com/settings/developers) in GitHub settings
+* Click 'Register a new application' button
+* Register your application like below
+* Click 'Register application' button at the bottom.
+* On the following page, grab the **Client ID** and **Client Secret**
+
+5.  **Add Environment Variables.** Set your Client ID and Client Secret Environment variables in the terminal like this:
+
+```
+export GITHUB_CLIENT_ID="your Client ID"
+export GITHUB_CLIENT_SECRET="your Client Secret"
+```
+
+Or you can use `dotenv`, to do this `cp .env.default .env` and edit with your Github keys.
+
+6.  **Run the app.**
+
+```
+npm run dev
+```
+
+1.  **Open the app.** Open http://localhost:4000/graphql to load a local `graphiql` instance.
+
 <!-- ### Project structure
 
 | File name 　　　　　　　　　　　　　　| Description 　　　　　　　　<br><br>|
