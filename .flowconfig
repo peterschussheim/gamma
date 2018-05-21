@@ -20,6 +20,7 @@ module.system.node.resolve_dirname=.
 module.file_ext=.js
 module.file_ext=.jsx
 module.file_ext=.json
+module.ignore_non_literal_requires=true
 
 [lints]
 untyped-type-import=error
