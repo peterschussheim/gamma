@@ -10,12 +10,19 @@ module.exports = {
     connection: {
       filename: './dev.sqlite3'
     },
+    seeds: {
+      directory: './seeds/dev'
+    },
+    debug: true,
     useNullAsDefault: true
   },
   test: {
     client: 'sqlite3',
     connection: {
       filename: './test.sqlite3'
+    },
+    seeds: {
+      directory: './seeds/test'
     },
     useNullAsDefault: true
   },
