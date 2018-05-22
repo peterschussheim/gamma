@@ -7,12 +7,19 @@ Modeled after [githunt-api][githunt-api].
 ## Features
 
 * [ ] easily scale
+* [ ]
 
 ## TODO
 
 * [ ] add `dangerfile.js`
 
 ## Docs
+
+### Implementation Notes
+
+* to maintain best practices with respect to what to store in a cookie on a user's client (browser), opt to use `connect-redis` as a server side session store, rather than something such as `cookie-session`, which stores the underlying session data on the client.
+  * [OWASP Session cheat sheet][owasp session cheat sheet]
+  * [difference between session and cookie-session][difference between session and cookie-session]
 
 ### Connectors
 
@@ -86,3 +93,5 @@ npm run dev
 [githunt-api]: https://github.com/apollographql/GitHunt-API/blob/d3e076eb8e4b9c702ce9890a31fe5d3d5e810e78/api/githubLogin.js
 [connector-diagram]: resources/connector-model-diagram.png
 [connector-md]: https://github.com/apollographql/graphql-tools/blob/master/designs/connectors.md
+[difference between session and cookie-session]: https://stackoverflow.com/questions/15744897/what-is-the-difference-between-session-and-cookiesession-middleware-in-conne/15745086#15745086
+[owasp session cheat sheet]: https://www.owasp.org/index.php/Session_Management_Cheat_Sheet
