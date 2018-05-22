@@ -1,5 +1,5 @@
 const faker = require('faker')
-
+// currently not in use.
 async function main() {
   var users = []
 
