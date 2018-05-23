@@ -1,36 +1,70 @@
 /* @flow */
-const compression = require('compression')
 const debug = require('debug')('api')
 const uuid = require('node-uuid')
 debug('Server starting...')
 debug('logging with debug enabled!')
-import { ApolloServer, gql, ForbiddenError } from 'apollo-server'
+import compression from 'compression'
 import express from 'express'
+import { ApolloServer, gql, ForbiddenError } from 'apollo-server'
 import { registerServer } from 'apollo-server-express'
 import 'express-async-errors'
-import logger from './shared/middlewares/logging'
 import { generateSchema } from './utils/generateSchema'
+
+import Raven from './shared/raven'
+import { init as initPassport } from './api/authentication'
+import middlewares from './api/routes/middlewares'
+import securityMiddleware from './shared/middlewares/security'
+import authRoutes from './api/routes/auth'
+import apiRoutes from './api/routes/api'
+
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000
+initPassport()
+
+const app = express()
+app.set('trust proxy', true)
+securityMiddleware(app)
+app.use(compression())
+app.use(middlewares)
+app.use('/auth', authRoutes)
+app.use('/api', apiRoutes)
+
+// $FlowIssue
+app.use(
+  (
+    err: Error,
+    req: express$Request,
+    res: express$Response,
+    next: express$NextFunction
+  ) => {
+    if (err) {
+      console.error(err)
+      res
+        .status(500)
+        .send(
+          'Oops, something went wrong! Our engineers have been alerted and will fix this asap.'
+        )
+      Raven.captureException(err)
+    } else {
+      return next()
+    }
+  }
+)
+
 var faker = require('faker')
-
-var randomName = faker.name.findName() // Rowan Nikolaus
-var randomEmail = faker.internet.email() // Kassandra.Haley@erich.biz
-var randomCard = faker.helpers.createCard() // random contact card containing many properties
-
+var randomName = faker.name.findName()
+var randomEmail = faker.internet.email()
+var randomCard = faker.helpers.createCard()
 const mocks = {}
-
 const typeDefs = gql`
   type Query {
     hello: String
   }
 `
-
 const resolvers = {
   Query: {
     hello: () => `Hello ${faker.name.findName()}!`
   }
 }
-
-const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000
 
 // const context = ({ req }) => {
 //   const user = myAuthenticationLookupCode(req)
@@ -46,8 +80,6 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000
 // }
 
 async function startServer() {
-  const app = express()
-
   const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -64,4 +96,27 @@ async function startServer() {
       debug(`🚀 Server ready at ${url}`)
     })
 }
+
+process.on('unhandledRejection', async err => {
+  console.error('Unhandled rejection', err)
+  try {
+    await new Promise(resolve => Raven.captureException(err, resolve))
+  } catch (err) {
+    console.error('Raven error', err)
+  } finally {
+    process.exit(1)
+  }
+})
+
+process.on('uncaughtException', async err => {
+  console.error('Uncaught exception', err)
+  try {
+    await new Promise(resolve => Raven.captureException(err, resolve))
+  } catch (err) {
+    console.error('Raven error', err)
+  } finally {
+    process.exit(1)
+  }
+})
+
 export default startServer
