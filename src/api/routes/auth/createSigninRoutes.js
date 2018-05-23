@@ -8,6 +8,8 @@
 * github.get('/', main);
 * github.get('/callback', ...callbacks);
 */
+const debug = require('debug')('api/auth:createSigninRoutes')
+
 import passport from 'passport'
 import { URL } from 'url'
 import isGammaUrl from '../../../utils/isGammaUrl'

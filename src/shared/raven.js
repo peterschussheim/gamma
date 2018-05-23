@@ -17,6 +17,7 @@ if (
   const noop = () => {}
   debug('mocking Raven in development')
   // Mock the Raven API in development
+  // TODO: Check `raven` docs for best practices on usage in dev environment.
   Raven = {
     captureException: noop,
     setUserContext: noop,
