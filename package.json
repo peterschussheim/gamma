@@ -7,7 +7,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production babel src -d lib/",
     "start": "cross-env NODE_ENV=production nodemon src/index.js --watch src -e js,graphql babel-node",
-    "dev": "cross-env NODE_ENV=development cross-env DEBUG=*,-express:router:*,-snapdragon:*,-nodemon*,-babel nodemon -r dotenv/config --watch src -e js,graphql ./node_modules/.bin/babel-node src/index.js",
+    "dev": "cross-env NODE_ENV=development cross-env DEBUG=*,-body-parser:*,-express:router:*,-snapdragon:*,-nodemon*,-babel nodemon -r dotenv/config --watch src -e js,graphql ./node_modules/.bin/babel-node src/index.js",
     "inspect": "cross-env NODE_ENV=development cross-env DEBUG=*,-body-parser:*,-express:router:*,-snapdragon:*,-nodemon*,-babel nodemon -r dotenv/config --watch src -e js,graphql ./node_modules/.bin/babel-node src/index.js --inspect",
     "clean": "rm -rf node-modules",
     "gen-schema-types": "./node_modules/.bin/babel-node src/utils/createTypes.js",
