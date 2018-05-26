@@ -8,8 +8,8 @@ import express from 'express'
 import { ApolloServer, gql, ForbiddenError } from 'apollo-server'
 import { registerServer } from 'apollo-server-express'
 import 'express-async-errors'
-import { generateSchema } from './utils/generateSchema'
-
+import { typeDefs } from './utils/generateSchema'
+import mergedResolvers from './resolvers/index'
 import Raven from './shared/raven'
 import { init as initPassport } from './api/authentication'
 import middlewares from './api/routes/middlewares'
@@ -17,7 +17,19 @@ import securityMiddleware from './shared/middlewares/security'
 import authRoutes from './api/routes/auth'
 import apiRoutes from './api/routes/api'
 
+import { getUserIdFromReq } from './utils/getUserIdFromReq'
+
+import { GitHubConnector } from './api/github/connector'
+import { Repositories } from './api/github/models'
+
+import type { DBUser, Loader } from './flowTypes'
+
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000
+const {
+  GITHUB_CLIENT_ID_DEVELOPMENT,
+  GITHUB_CLIENT_SECRET_DEVELOPMENT
+} = process.env
+
 initPassport()
 
 const app = express()
@@ -50,48 +62,59 @@ app.use(
   }
 )
 
-var faker = require('faker')
-var randomName = faker.name.findName()
-var randomEmail = faker.internet.email()
-var randomCard = faker.helpers.createCard()
-const mocks = {}
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`
-const resolvers = {
-  Query: {
-    hello: () => `Hello ${faker.name.findName()}!`
+// app.use('/', (req: express$Request, res: express$Response) => {
+//   res.redirect(
+//     process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
+//       ? 'https://gamma.app'
+//       : 'http://localhost:4000'
+//   )
+// })
+
+export type GraphQLContext = {
+  user: DBUser,
+  loaders: {
+    [key: string]: Loader
   }
 }
-
-// const context = ({ req }) => {
-//   const user = myAuthenticationLookupCode(req)
-//   if (!user) {
-//     throw new ForbiddenError(
-//       'You need to be authenticated to access this schema!'
-//     )
-//   }
-
-//   const scope = lookupScopeForUser(user)
-
-//   return { user, scope }
-// }
 
 async function startServer() {
   const server = new ApolloServer({
     typeDefs,
-    resolvers,
-    mocks: true,
-    engine: {
-      origins: [{ requestTimeout: '80s' }]
-    }
+    resolvers: mergedResolvers,
+    context: ({ req }) => ({
+      ...req,
+      user: () => {
+        let user
+        if (req.user) {
+          user = {
+            login: req.user.username,
+            html_url: req.user.profileUrl,
+            avatar_url: req.user.photos[0].value
+          }
+        }
+        return user
+      },
+      Repositories: new Repositories({
+        connector: new GitHubConnector({
+          clientId: GITHUB_CLIENT_ID_DEVELOPMENT,
+          clientSecret: GITHUB_CLIENT_SECRET_DEVELOPMENT
+        })
+      }),
+      tracing: true,
+      cacheControl: true
+    })
   })
   registerServer({ app, server })
-
   server
-    .listen({ PORT, engine: true, apiKey: process.env.APOLLO_ENGINE_API_KEY })
+    .listen({
+      PORT,
+      engine: true,
+      apiKey: process.env.ENGINE_API_KEY,
+      logging: {
+        // Only show warnings and errors, not info messages.
+        level: 'WARN'
+      }
+    })
     .then(({ url }) => {
       debug(`🚀 Server ready at ${url}`)
     })
