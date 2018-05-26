@@ -4,7 +4,6 @@
 .*/node_modules/cypress
 .*/node_modules/graphql
 .*/node_modules/react-apollo
-.*/node_modules/dataloader
 .*/node_modules/pg
 
 [include]
