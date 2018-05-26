@@ -1,5 +1,6 @@
 // @flow
 // require('now-env')
+const debug = require('debug')('api:authentication')
 const passport = require('passport')
 const { Strategy: GitHubStrategy } = require('passport-github2')
 const {

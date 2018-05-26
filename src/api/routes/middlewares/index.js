@@ -1,3 +1,4 @@
+const debug = require('debug')('api:routes:middlewares')
 import { Router } from 'express'
 import jwt from 'jsonwebtoken'
 import cookieParser from 'cookie-parser'
@@ -9,6 +10,8 @@ import session from '../../../shared/middlewares/session'
 const middlewares = Router()
 
 if (process.env.NODE_ENV === 'development') {
+  const raven = require('../../../shared/middlewares/raven').default
+  middlewares.use(raven)
   const logging = require('../../../shared/middlewares/logging')
   middlewares.use(logging)
 }
@@ -25,7 +28,9 @@ middlewares.use((req, res, next) => {
     try {
       const decoded = jwt.verify(token, process.env.API_TOKEN_SECRET)
       if (decoded.cookie) req.headers.cookie = decoded.cookie
-    } catch (err) {}
+    } catch (err) {
+      debug(`ERROR: ${err}`)
+    }
   }
   next()
 })
@@ -37,7 +42,7 @@ middlewares.options('*', cors)
 middlewares.use(cookieParser())
 
 middlewares.use(session)
-
+debug('connect-redis successfully loaded!')
 middlewares.use(passport.initialize())
 middlewares.use(passport.session())
 

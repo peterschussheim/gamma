@@ -8,7 +8,7 @@
 * github.get('/', main);
 * github.get('/callback', ...callbacks);
 */
-const debug = require('debug')('api/auth:createSigninRoutes')
+const debug = require('debug')('api:auth:createSigninRoutes')
 
 import passport from 'passport'
 import { URL } from 'url'
@@ -34,7 +34,7 @@ export const createSigninRoutes = (
         url = req.query.r
       }
 
-      // Attach the redirectURL and authType to the session so we have it in the /auth/twitter/callback route
+      // Attach the redirectURL and authType to the session so we have it in the /auth/github/callback route
       // $FlowIssue
       req.session.redirectUrl = url
       if (req.query.authType === 'token') {
