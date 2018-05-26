@@ -2,31 +2,25 @@ require('now-env')
 const debug = require('debug')('shared:raven')
 
 let Raven
+
+const options = {
+  autoBreadcrumbs: true,
+  captureUnhandledRejections: true,
+  environment: process.env.NODE_ENV
+}
+
 if (
   process.env.NODE_ENV === 'production' &&
   !process.env.FORCE_DEV &&
   process.env.SENTRY_DSN_SERVER
 ) {
+  debug(`Raven installed in ${process.env.NODE_ENV} environment`)
   Raven = require('raven')
-  Raven.config(process.env.SENTRY_DSN_SERVER, {
-    autoBreadcrumbs: true,
-    captureUnhandledRejections: true,
-    environment: process.env.NODE_ENV
-  }).install()
+  Raven.config(process.env.SENTRY_DSN_SERVER, options).install()
 } else {
-  const noop = () => {}
-  debug('mocking Raven in development')
-  // Mock the Raven API in development
-  // TODO: Check `raven` docs for best practices on usage in dev environment.
-  Raven = {
-    captureException: noop,
-    setUserContext: noop,
-    config: () => ({ install: noop }),
-    requestHandler: () => (req, res, next) => next(),
-    parsers: {
-      parseRequest: noop
-    }
-  }
+  debug(`Raven installed in ${process.env.NODE_ENV} environment`)
+  Raven = require('raven')
+  Raven.config(process.env.SENTRY_DSN_SERVER, options).install()
 }
 
 export default Raven
