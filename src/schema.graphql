@@ -1,0 +1,48 @@
+type Error {
+  path: String!
+  message: String!
+}
+
+type User {
+  # The name of the user
+  login: String!
+
+  # The URL to a directly embeddable image for this user's avatar
+  avatar_url: String!
+  email: String
+  password: String
+  confirmed: Boolean
+  githubId: String
+
+  # The URL of this user's GitHub page
+  html_url: String!
+}
+
+type Client {
+  id: ID!
+  name: String
+  age: Int
+  products: [Product]
+}
+
+type Product {
+  id: ID!
+  description: String
+  price: Int
+  client: Client
+}
+
+type Query {
+  clients: [Client]
+  client(id: ID!): Client
+  products: [Product]
+  product(id: ID!): Product
+  hello: String
+  # Return the currently logged in user, or null if nobody is logged in
+  currentUser: User
+}
+
+type Mutation {
+  addClient(name: String!, age: Int!): Client
+  login(email: String!, password: String!): [Error!]
+}

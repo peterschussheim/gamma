@@ -1,8 +1,0 @@
-type Counter {
-  count: Int!
-  countStr: String
-}
-
-type Subscription {
-  counter: Counter!
-}
