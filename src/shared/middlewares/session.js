@@ -1,29 +1,31 @@
 /* @flow */
 // import { cookieKeygrip } from '../cookieUtils'
-const debug = require('debug')('shared/middlewares:session')
+const debug = require('debug')('shared:middlewares:session')
 debug('Initializing connect-redis session store')
 import session from 'express-session'
 import connectRedis from 'connect-redis'
-import { redis } from '../../api/redis'
+import { redisInstance } from '../../api/redis'
 
 const RedisStore = connectRedis(session)
-const ONE_YEAR = 31556952000
 
-if (!process.env.SESSION_COOKIE_SECRET && !process.env.TEST_DB) {
+if (!process.env.SESSION_SECRET && !process.env.TEST_DB) {
   throw new Error(
-    '[shared/middlewares/session] You have to provide the SESSION_COOKIE_SECRET environment variable.'
+    '[shared/middlewares/session] You have to provide the SESSION_SECRET environment variable.'
   )
 }
 
-// TODO: fix expiration issue, currently expiration date is set to 24 hours.
 export default session({
   store: new RedisStore({
-    client: redis
+    client: redisInstance
   }),
   name: 'session',
-  secret: process.env.SESSION_COOKIE_SECRET,
+  secret: process.env.SESSION_SECRET,
   resave: false,
-  secure: process.env.NODE_ENV === 'production',
-  maxAge: ONE_YEAR,
-  saveUninitialized: true
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+  },
+  logErrors: true
 })
