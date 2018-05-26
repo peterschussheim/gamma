@@ -1,9 +1,6 @@
 // @flow
 import session from '../shared/middlewares/session'
 
-const ONE_YEAR = 31556952000
-const ONE_DAY = 86400000
-
 /**
  * Get the sessions' users' ID of a req manually, needed for websocket authentication
  */
