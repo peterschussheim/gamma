@@ -1,0 +1,2 @@
+endpoint: http://prism-Publi-1XHNX5H6W5JRP-941962228.us-east-1.elb.amazonaws.com/graphql-service/dev
+datamodel: datamodel.graphql

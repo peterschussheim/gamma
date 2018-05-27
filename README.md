@@ -9,10 +9,6 @@ Modeled after [githunt-api][githunt-api].
 * [ ] easily scale
 * [ ]
 
-## TODO
-
-* [ ] add `dangerfile.js`
-
 ## Docs
 
 ### Implementation Notes
