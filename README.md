@@ -11,6 +11,22 @@ Modeled after [githunt-api][githunt-api].
 
 ## Docs
 
+### Repo Structure
+
+```
+project
+├── package.json
+├── api
+│   ├── package.json
+│   └── index.js
+└── react-app
+|   ├── package.json
+|   └── index.js
+├── style-guide
+│   ├── package.json
+│   └── index.js
+```
+
 ### Implementation Notes
 
 * to maintain best practices with respect to what to store in a cookie on a user's client (browser), opt to use `connect-redis` as a server side session store, rather than something such as `cookie-session`, which stores the underlying session data on the client.
