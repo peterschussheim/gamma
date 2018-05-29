@@ -19,11 +19,6 @@ import apiRoutes from './api/routes/api'
 
 import { getUserIdFromReq } from './utils/getUserIdFromReq'
 
-import { GitHubConnector } from './api/github/connector'
-import { Repositories } from './api/github/models'
-
-import type { DBUser, Loader } from './flowTypes'
-
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000
 const {
   GITHUB_CLIENT_ID_DEVELOPMENT,
@@ -38,7 +33,7 @@ securityMiddleware(app)
 app.use(compression())
 app.use(middlewares)
 app.use('/auth', authRoutes)
-app.use('/api', apiRoutes)
+// app.use('/api', apiRoutes)
 
 // $FlowIssue
 app.use(
@@ -62,21 +57,6 @@ app.use(
   }
 )
 
-// app.use('/', (req: express$Request, res: express$Response) => {
-//   res.redirect(
-//     process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
-//       ? 'https://gamma.app'
-//       : 'http://localhost:4000'
-//   )
-// })
-
-export type GraphQLContext = {
-  user: DBUser,
-  loaders: {
-    [key: string]: Loader
-  }
-}
-
 async function startServer() {
   const server = new ApolloServer({
     typeDefs,
@@ -94,12 +74,6 @@ async function startServer() {
         }
         return user
       },
-      Repositories: new Repositories({
-        connector: new GitHubConnector({
-          clientId: GITHUB_CLIENT_ID_DEVELOPMENT,
-          clientSecret: GITHUB_CLIENT_SECRET_DEVELOPMENT
-        })
-      }),
       tracing: true,
       cacheControl: true
     })

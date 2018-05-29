@@ -3,12 +3,12 @@
 const debug = require('debug')('api:authentication')
 const passport = require('passport')
 const { Strategy: GitHubStrategy } = require('passport-github2')
-const {
-  getUser,
-  createOrFindUser,
-  saveUserProvider,
-  getUserByIndex
-} = require('./sql/models')
+// const {
+//   getUser,
+//   createOrFindUser,
+//   saveUserProvider,
+//   getUserByIndex
+// } = require('./sql/models')
 
 const IS_PROD = !process.env.FORCE_DEV && process.env.NODE_ENV === 'production'
 
