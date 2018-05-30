@@ -5,9 +5,6 @@ debug('logging with debug enabled!')
 import compression from 'compression'
 import express from 'express'
 
-import 'express-async-errors'
-import { typeDefs } from './utils/generateSchema'
-import mergedResolvers from './resolvers/index'
 import Raven from './shared/raven'
 import { init as initPassport } from './api/authentication'
 import middlewares from './api/routes/middlewares'

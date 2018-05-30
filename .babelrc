@@ -8,8 +8,7 @@
         },
         "useBuiltIns": true
       }
-    ],
-    "flow"
+    ]
   ],
   "plugins": ["transform-object-rest-spread"],
   "retainLines": true
