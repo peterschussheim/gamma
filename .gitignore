@@ -52,3 +52,8 @@ now-secrets.json
 lib
 dump.rdb
 debug
+
+# these cause more harm than good
+# when working with contributors
+package-lock.json
+yarn.lock
