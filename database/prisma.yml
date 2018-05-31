@@ -5,4 +5,4 @@ datamodel: datamodel.graphql
 hooks:
   post-deploy:
     - yarn get-remote-schema
-    - yarn prepare-bindings
+    - yarn codegen
