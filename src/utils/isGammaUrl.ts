@@ -1,4 +1,3 @@
-/* @flow */
 import { URL } from 'url'
 import { RELATIVE_URL } from './regexps'
 const IS_PROD = process.env.NODE_ENV === 'production'
@@ -6,7 +5,7 @@ const IS_PROD = process.env.NODE_ENV === 'production'
 /**
  * Verify a given URL string is a a gamma.app URL
  */
-export default (url: string): boolean => {
+export default url => {
   if (RELATIVE_URL.test(url)) return true
 
   try {

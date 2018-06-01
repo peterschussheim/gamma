@@ -1,4 +1,4 @@
-import cors from 'cors'
+import * as cors from 'cors'
 
 export default cors({
   origin:

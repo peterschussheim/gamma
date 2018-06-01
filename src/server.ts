@@ -1,35 +1,44 @@
 const debug = require('debug')('api')
-const uuid = require('node-uuid')
 debug('Server starting...')
 debug('logging with debug enabled!')
-import compression from 'compression'
-import express from 'express'
+import * as compression from 'compression'
+import * as express from 'express'
 
 import Raven from './shared/raven'
-import { init as initPassport } from './api/authentication'
+// import { init as initPassport } from './api/authentication'
 import middlewares from './api/routes/middlewares'
-import securityMiddleware from './shared/middlewares/security'
-import authRoutes from './api/routes/auth'
-import apiRoutes from './api/routes/api'
+import { securityMiddleware } from './shared/middlewares/security'
+// import authRoutes from './api/routes/auth'
+// import apiRoutes from './api/routes/api'
 
 import { GraphQLServer, PubSub } from 'graphql-yoga'
+import { Prisma } from './generated/prisma'
+import { resolvers, fragmentReplacements } from './resolvers'
+
+const db = new Prisma({
+  fragmentReplacements,
+  endpoint: process.env.PRISMA_ENDPOINT,
+  secret: process.env.PRISMA_SECRET,
+  debug: true
+})
+
 import { ApolloEngine } from 'apollo-engine'
 
 const PORT = parseInt(process.env.PORT, 10) || 4000
-const {
-  ENGINE_API_KEY,
-  GITHUB_CLIENT_ID_DEVELOPMENT,
-  GITHUB_CLIENT_SECRET_DEVELOPMENT
-} = process.env
+// const {
+//   ENGINE_API_KEY,
+//   GITHUB_CLIENT_ID_DEVELOPMENT,
+//   GITHUB_CLIENT_SECRET_DEVELOPMENT
+// } = process.env
 
-initPassport()
+// initPassport()
 
 const app = express()
 app.set('trust proxy', true)
 securityMiddleware(app)
 app.use(compression())
 app.use(middlewares)
-app.use('/auth', authRoutes)
+// app.use('/auth', authRoutes)
 // app.use('/api', apiRoutes)
 
 app.use((err, req, res, next) => {
@@ -50,9 +59,9 @@ const pubsub = new PubSub()
 
 async function startServer() {
   const graphQLServer = new GraphQLServer({
-    typeDefs,
-    resolvers: mergedResolvers,
-    context: { pubsub }
+    typeDefs: './src/schema.graphql',
+    resolvers,
+    context: req => ({ ...req, db, pubsub })
   })
 
   const engine = new ApolloEngine({

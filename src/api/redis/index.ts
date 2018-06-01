@@ -1,5 +1,5 @@
 const logger = require('debug')('api:redis')
-import redis from 'redis'
+import * as redis from 'redis'
 
 logger(`Connecting to Redis instance at: ${process.env.REDISLABS_URI}`)
 

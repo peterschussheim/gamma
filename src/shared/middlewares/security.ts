@@ -29,4 +29,4 @@ function securityMiddleware(server) {
   server.use(helmet.noSniff())
 }
 
-module.exports = securityMiddleware
+export { securityMiddleware }

@@ -1,8 +1,8 @@
 const debug = require('debug')('api:routes:middlewares')
 import { Router } from 'express'
 import jwt from 'jsonwebtoken'
-import cookieParser from 'cookie-parser'
-import passport from 'passport'
+import * as cookieParser from 'cookie-parser'
+import * as passport from 'passport'
 
 import cors from '../../../shared/middlewares/cors'
 import session from '../../../shared/middlewares/session'

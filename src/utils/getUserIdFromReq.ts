@@ -1,4 +1,3 @@
-// @flow
 import session from '../shared/middlewares/session'
 
 /**

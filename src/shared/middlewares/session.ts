@@ -1,9 +1,8 @@
-/* @flow */
 // import { cookieKeygrip } from '../cookieUtils'
 const debug = require('debug')('shared:middlewares:session')
 debug('Initializing connect-redis session store')
-import session from 'express-session'
-import connectRedis from 'connect-redis'
+import * as session from 'express-session'
+import * as connectRedis from 'connect-redis'
 import { redisInstance } from '../../api/redis'
 
 const RedisStore = connectRedis(session)

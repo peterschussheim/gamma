@@ -1,4 +1,3 @@
-// @flow
 import { Router } from 'express'
 import githubAuthRoutes from './github'
 import logoutRoutes from './logout'

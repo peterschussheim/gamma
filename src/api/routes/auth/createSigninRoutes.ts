@@ -1,5 +1,3 @@
-/* @flow */
-
 /*
 * A reusable set of routes for signing in with different providers. Handles token-based authentication.
 * Usage:
@@ -19,26 +17,21 @@ const FALLBACK_URL = IS_PROD
   ? 'https://gamma.app/home'
   : 'http://localhost:3000/home'
 
-type Strategy = 'github' | 'google'
+// type Strategy = 'github' | 'google'
 
-export const createSigninRoutes = (
-  strategy: Strategy,
-  strategyOptions?: Object
-) => {
+export const createSigninRoutes = (strategy, strategyOptions) => {
   return {
     // The main route takes care of storing the redirect URL in the session
     // and passing the right options
-    main: (req: express$Request, ...rest: any) => {
+    main: (req, ...rest) => {
       let url = FALLBACK_URL
       if (typeof req.query.r === 'string' && isGammaUrl(req.query.r)) {
         url = req.query.r
       }
 
       // Attach the redirectURL and authType to the session so we have it in the /auth/github/callback route
-      // $FlowIssue
       req.session.redirectUrl = url
       if (req.query.authType === 'token') {
-        // $FlowIssue
         req.session.authType = 'token'
       }
 
@@ -50,8 +43,7 @@ export const createSigninRoutes = (
       passport.authenticate(strategy, {
         failureRedirect: IS_PROD ? '/' : 'http://localhost:3000/'
       }),
-      (req: express$Request, res: express$Response) => {
-        // $FlowIssue
+      (req, res) => {
         const redirectUrl = req.session.redirectUrl
           ? new URL(req.session.redirectUrl)
           : new URL(FALLBACK_URL)
@@ -59,7 +51,6 @@ export const createSigninRoutes = (
 
         // Add the session cookies to the query params if token authentication
         if (
-          // $FlowIssue
           req.session.authType === 'token' &&
           req.session.passport &&
           req.session.passport.user
@@ -76,11 +67,9 @@ export const createSigninRoutes = (
           )
         }
 
-        // $FlowIssue
         req.session.authType = undefined
         // Delete the redirectURL from the session again so we don't redirect
         // to the old URL the next time around
-        // $FlowIssue
         req.session.redirectUrl = undefined
         return res.redirect(redirectUrl.href)
       }
