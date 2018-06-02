@@ -53,7 +53,7 @@ export const Query = {
   },
 
   featuredDestinations: async (parent, args, ctx: Context, info) => {
-    return ctx.db.query.neighbourhoods(
+    return ctx.db.query.neighborhoods(
       { orderBy: 'popularity_DESC', where: { featured: true } },
       info
     )
@@ -63,7 +63,7 @@ export const Query = {
     return ctx.db.query.cities({
       where: {
         name_in: cities,
-        neighbourhoods_every: {
+        neighborhood_every: {
           locations_every: {
             experience: {
               id_gt: '0'
