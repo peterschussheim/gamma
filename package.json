@@ -12,7 +12,7 @@
     "playground": "graphql playground",
     "get-remote-schema": "graphql get-schema --project database",
     "codegen": "graphql codegen",
-    "clean": "rm -rf node-modules",
+    "clean": "rm -rf node_modules",
     "lint": "eslint .",
     "precommit": "pretty-quick --staged",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
