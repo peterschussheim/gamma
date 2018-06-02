@@ -9,6 +9,9 @@ datamodel: datamodel.graphql
 # (this is why you're passing it to the `Prisma` constructor).
 secret: ${env:PRISMA_SECRET}
 
+seed:
+  import: seed.graphql
+
 hooks:
   post-deploy:
     - yarn get-remote-schema
