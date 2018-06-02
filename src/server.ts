@@ -1,11 +1,12 @@
 const debug = require('debug')('api')
 debug('Server starting...')
 debug('logging with debug enabled!')
-import * as compression from 'compression'
-import * as express from 'express'
+// import * as compression from 'compression'
+// import * as express from 'express'
 
 import Raven from './shared/raven'
-// import { init as initPassport } from './api/authentication'
+import { redisInstance } from './api/redis'
+import { init as initPassport } from './api/authentication'
 import middlewares from './api/routes/middlewares'
 import { securityMiddleware } from './shared/middlewares/security'
 // import authRoutes from './api/routes/auth'
@@ -31,29 +32,26 @@ const PORT = parseInt(process.env.PORT, 10) || 4000
 //   GITHUB_CLIENT_SECRET_DEVELOPMENT
 // } = process.env
 
-// initPassport()
+initPassport()
 
-const app = express()
-app.set('trust proxy', true)
-securityMiddleware(app)
-app.use(compression())
-app.use(middlewares)
+// app.set('trust proxy', true)
+// app.use(compression())
 // app.use('/auth', authRoutes)
 // app.use('/api', apiRoutes)
 
-app.use((err, req, res, next) => {
-  if (err) {
-    console.error(err)
-    res
-      .status(500)
-      .send(
-        'Oops, something went wrong! Our engineers have been alerted and will fix this asap.'
-      )
-    Raven.captureException(err)
-  } else {
-    return next()
-  }
-})
+// app.use((err, req, res, next) => {
+//   if (err) {
+//     console.error(err)
+//     res
+//       .status(500)
+//       .send(
+//         'Oops, something went wrong! Our engineers have been alerted and will fix this asap.'
+//       )
+//     Raven.captureException(err)
+//   } else {
+//     return next()
+//   }
+// })
 
 const pubsub = new PubSub()
 
@@ -61,21 +59,49 @@ async function startServer() {
   const graphQLServer = new GraphQLServer({
     typeDefs: './src/schema.graphql',
     resolvers,
-    context: req => ({ ...req, db, pubsub })
+    context: req => ({
+      ...req,
+      db,
+      pubsub,
+      redisInstance,
+      req: req.request
+    })
   })
 
-  const engine = new ApolloEngine({
-    apiKey: process.env.ENGINE_API_KEY
+  securityMiddleware(graphQLServer.express)
+  graphQLServer.express.use(middlewares)
+  graphQLServer.express.use((err, req, res, next) => {
+    if (err) {
+      debug.error(err)
+      res
+        .status(500)
+        .send(
+          'Oops, something went wrong! Our engineers have been alerted and will fix this asap.'
+        )
+      Raven.captureException(err)
+    } else {
+      return next()
+    }
   })
 
-  const httpServer = graphQLServer.createHttpServer({
-    tracing: true,
-    cacheControl: true
-  })
+  if (process.env.ENGINE_API_KEY) {
+    const engine = new ApolloEngine({
+      apiKey: process.env.ENGINE_API_KEY
+    })
 
-  engine.listen({ port: PORT, httpServer }, () =>
-    debug(`Server with Apollo Engine running on http://localhost:${PORT}`)
-  )
+    const httpServer = graphQLServer.createHttpServer({
+      tracing: true,
+      cacheControl: true
+    })
+
+    engine.listen({ port: PORT, httpServer, graphqlPaths: ['/'] }, () =>
+      debug(`Server with Apollo Engine running on http://localhost:${PORT}`)
+    )
+  } else {
+    graphQLServer.start({ port: PORT }, () =>
+      debug(`Server running on http://localhost:${PORT}`)
+    )
+  }
 }
 
 // async function startServer() {
