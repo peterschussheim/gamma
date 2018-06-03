@@ -1,4 +1,4 @@
-import { Context } from '../utils/getUserId'
+import { Context } from '../gamma'
 // import { WrapQuery } from 'graphql-tools'
 // import { SelectionSetNode, Kind } from 'graphql'
 export const Subscription = {

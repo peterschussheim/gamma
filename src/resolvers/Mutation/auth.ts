@@ -1,6 +1,7 @@
 const debug = require('debug')('mutation:auth')
 import * as bcrypt from 'bcryptjs'
-import { AuthError, Context } from '../../utils/getUserId'
+import { AuthError } from '../../utils/getUserId'
+import { Context } from '../../gamma'
 import * as jwt from 'jsonwebtoken'
 
 export const auth = {
@@ -10,6 +11,7 @@ export const auth = {
       data: { ...args, password }
     })
 
+    ctx.session.userId = user.id
     debug('New user created')
     debug('Returning signed token and user data')
 
@@ -30,6 +32,8 @@ export const auth = {
       throw new AuthError()
     }
 
+    ctx.session.userId = user.id
+    debug(`UserID from session: ${ctx.session.userId}`)
     debug('Logging in existing user')
     debug('Returning signed token and user data')
 

@@ -1,13 +1,14 @@
-import { getUserId, Context } from '../utils/getUserId'
+import { getUserIdFromToken } from '../utils/getUserId'
+import { Context } from '../gamma'
 
 export const Viewer = {
   bookings(_, args, ctx: Context, info) {
-    const id = getUserId(ctx)
+    const id = getUserIdFromToken(ctx)
     return ctx.db.query.bookings({ where: { bookee: { id } } }, info)
   },
 
   me(_, args, ctx: Context, info) {
-    const id = getUserId(ctx)
+    const id = getUserIdFromToken(ctx)
     return ctx.db.query.user({ where: { id } }, info)
   }
 }

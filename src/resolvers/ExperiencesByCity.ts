@@ -1,4 +1,4 @@
-import { Context } from '../utils/getUserId'
+import { Context } from '../gamma'
 
 export const ExperiencesByCity = {
   city: async ({ id }, args, ctx: Context, info) => {

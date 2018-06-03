@@ -1,4 +1,4 @@
-import { Context } from '../utils/getUserId'
+import { Context } from '../gamma'
 
 export const Home = {
   // TODO rewrite this once this lands: https://github.com/graphcool/prisma/issues/1312

@@ -1,7 +1,8 @@
-import { getUserId, Context } from '../../utils/getUserId'
+import { getUserIdFromToken } from '../../utils/getUserId'
+import { Context } from '../../gamma'
 
 export async function addPaymentMethod(parent, args, ctx: Context, info) {
-  const userId = getUserId(ctx)
+  const userId = getUserIdFromToken(ctx)
   await ctx.db.mutation.createPaymentAccount({
     data: {
       creditcard: { create: args },

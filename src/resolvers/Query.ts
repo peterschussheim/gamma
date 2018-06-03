@@ -1,4 +1,5 @@
-import { Context, getUserId } from '../utils/getUserId'
+import { Context } from '../gamma'
+import { getUserIdFromToken } from '../utils/getUserId'
 import { WrapQuery } from 'graphql-tools'
 import { SelectionSetNode, Kind } from 'graphql'
 
@@ -6,7 +7,7 @@ export const Query = {
   viewer: () => ({}),
 
   myLocation: async (parent, args, ctx, info) => {
-    const id = getUserId(ctx)
+    const id = getUserIdFromToken(ctx)
     return ctx.db.query.user({ where: { id } }, info, {
       transforms: [
         new WrapQuery(

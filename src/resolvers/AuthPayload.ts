@@ -1,4 +1,4 @@
-import { Context } from '../utils/getUserId'
+import { Context } from '../gamma'
 
 export const AuthPayload = {
   user: async ({ user: { id } }, args, ctx: Context, info) => {
