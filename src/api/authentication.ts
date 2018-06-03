@@ -3,6 +3,7 @@
 const debug = require('debug')('api:authentication')
 const passport = require('passport')
 const { Strategy: GitHubStrategy } = require('passport-github2')
+import { AuthError, getUserIdFromToken } from '../utils/getUserId'
 // const {
 //   getUser,
 //   createOrFindUser,
@@ -21,7 +22,6 @@ const GITHUB_CLIENT_ID = IS_PROD
   : process.env.GITHUB_CLIENT_ID_DEVELOPMENT
 
 const init = () => {
-  // Setup use serialization
   passport.serializeUser((user, done) => {
     done(null, user.id)
   })
