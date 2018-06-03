@@ -6,7 +6,7 @@ debug('logging with debug enabled!')
 
 import Raven from './shared/raven'
 import { redisInstance } from './api/redis'
-import { init as initPassport } from './api/authentication'
+// import { init as initPassport } from './api/authentication'
 import middlewares from './api/routes/middlewares'
 import { securityMiddleware } from './shared/middlewares/security'
 // import authRoutes from './api/routes/auth'
@@ -32,7 +32,7 @@ const PORT = parseInt(process.env.PORT, 10) || 4000
 //   GITHUB_CLIENT_SECRET_DEVELOPMENT
 // } = process.env
 
-initPassport()
+// initPassport()
 
 // app.set('trust proxy', true)
 // app.use(compression())
@@ -64,6 +64,7 @@ async function startServer() {
       db,
       pubsub,
       redisInstance,
+      session: req.request.session,
       req: req.request
     })
   })
