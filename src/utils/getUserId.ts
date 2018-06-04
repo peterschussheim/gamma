@@ -11,7 +11,7 @@ export function getUserIdFromToken(ctx: Context): string {
     return userId
   }
 
-  throw new AuthError()
+  throw new AuthError(`Could not get userId from token`)
 }
 
 export function getUserIdFromSession(ctx: Context): string {
@@ -19,11 +19,11 @@ export function getUserIdFromSession(ctx: Context): string {
     return ctx.session.userId
   }
 
-  throw new AuthError()
+  throw new AuthError(`Could not get userId from session`)
 }
 
 export class AuthError extends Error {
-  constructor() {
-    super('Not authorized')
+  constructor(message?: string) {
+    super(`Not authorized: ${message}`)
   }
 }
