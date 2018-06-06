@@ -9,6 +9,7 @@
     "start": "yarn dev",
     "dev": "cross-env NODE_ENV=development cross-env DEBUG=*,-body-parser:*,-express:router:*,-snapdragon:*,-nodemon*, nodemon -r dotenv/config --watch src -e ts,js,graphql -x ts-node src/index.ts",
     "playground": "graphql playground",
+    "deploy": "DEBUG=* prisma deploy -e .env",
     "get-remote-schema": "graphql get-schema --project database",
     "codegen": "graphql codegen",
     "clean": "rm -rf node_modules",
