@@ -8,7 +8,7 @@
 */
 const debug = require('debug')('api:auth:createSigninRoutes')
 
-import passport from 'passport'
+import * as passport from 'passport'
 import { URL } from 'url'
 import isGammaUrl from '../../../utils/isGammaUrl'
 import { signCookie, getCookies } from '../../../shared/cookieUtils'

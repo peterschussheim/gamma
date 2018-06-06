@@ -1,9 +1,9 @@
-// @flow
-// require('now-env')
 const debug = require('debug')('api:authentication')
-const passport = require('passport')
-const { Strategy: GitHubStrategy } = require('passport-github2')
-import { AuthError, getUserIdFromToken } from '../utils/getUserId'
+import * as passport from 'passport'
+import { Strategy as GitHubStrategy } from 'passport-github2'
+import { AuthError, getUserIdFromSession } from '../utils/getUserId'
+import { Prisma } from '../generated/prisma'
+import { Context } from '../gamma'
 // const {
 //   getUser,
 //   createOrFindUser,
@@ -21,13 +21,17 @@ const GITHUB_CLIENT_ID = IS_PROD
   ? 'REPLACEME'
   : process.env.GITHUB_CLIENT_ID_DEVELOPMENT
 
-const init = () => {
+const init = db => {
+  const findUserById = async id => {
+    return db.query.user({ where: { id } })
+  }
+
   passport.serializeUser((user, done) => {
     done(null, user.id)
   })
 
   passport.deserializeUser((id, done) => {
-    getUser({ id })
+    findUserById(id)
       .then(user => {
         done(null, user)
         return null

@@ -22,18 +22,18 @@ if (process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV) {
   middlewares.use(raven)
 }
 
-// middlewares.use((req, res, next) => {
-//   if (req.headers && !req.headers.cookie && req.headers.authorization) {
-//     const token = req.headers.authorization.replace(/^\s*Bearer\s*/, '')
-//     try {
-//       const decoded = jwt.verify(token, process.env.API_TOKEN_SECRET)
-//       if (decoded.cookie) req.headers.cookie = decoded.cookie
-//     } catch (err) {
-//       debug(`ERROR: ${err}`)
-//     }
-//   }
-//   next()
-// })
+middlewares.use((req, res, next) => {
+  if (req.headers && !req.headers.cookie && req.headers.authorization) {
+    const token = req.headers.authorization.replace(/^\s*Bearer\s*/, '')
+    try {
+      const decoded = jwt.verify(token, process.env.API_TOKEN_SECRET)
+      // if (decoded.cookie) req.headers.cookie = decoded.cookie
+    } catch (err) {
+      debug(`ERROR: ${err}`)
+    }
+  }
+  next()
+})
 
 // Cross origin request support
 middlewares.use(cors)

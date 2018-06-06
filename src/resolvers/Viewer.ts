@@ -6,7 +6,6 @@ export const Viewer = {
     const id = getUserIdFromSession(ctx)
     return ctx.db.query.bookings({ where: { bookee: { id } } }, info)
   },
-
   me(_, args, ctx: Context, info) {
     const id = getUserIdFromSession(ctx)
     return ctx.db.query.user({ where: { id } }, info)

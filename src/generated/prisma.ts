@@ -10383,6 +10383,7 @@ type User implements Node {
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
   profilePicture(where: PictureWhereInput): Picture
   hostingExperiences(where: ExperienceWhereInput, orderBy: ExperienceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Experience!]
+  githubId: String
 }
 
 """A connection to a list of items."""
@@ -10404,6 +10405,7 @@ input UserCreateInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceCreateManyWithoutHostInput
   location: LocationCreateOneWithoutUserInput
   bookings: BookingCreateManyWithoutBookeeInput
@@ -10464,6 +10466,7 @@ input UserCreateWithoutBookingsInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceCreateManyWithoutHostInput
   location: LocationCreateOneWithoutUserInput
   paymentAccount: PaymentAccountCreateManyWithoutUserInput
@@ -10483,6 +10486,7 @@ input UserCreateWithoutHostingExperiencesInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceCreateManyWithoutHostInput
   location: LocationCreateOneWithoutUserInput
   bookings: BookingCreateManyWithoutBookeeInput
@@ -10502,6 +10506,7 @@ input UserCreateWithoutLocationInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceCreateManyWithoutHostInput
   bookings: BookingCreateManyWithoutBookeeInput
   paymentAccount: PaymentAccountCreateManyWithoutUserInput
@@ -10521,6 +10526,7 @@ input UserCreateWithoutNotificationsInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceCreateManyWithoutHostInput
   location: LocationCreateOneWithoutUserInput
   bookings: BookingCreateManyWithoutBookeeInput
@@ -10540,6 +10546,7 @@ input UserCreateWithoutOwnedPlacesInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   location: LocationCreateOneWithoutUserInput
   bookings: BookingCreateManyWithoutBookeeInput
   paymentAccount: PaymentAccountCreateManyWithoutUserInput
@@ -10559,6 +10566,7 @@ input UserCreateWithoutPaymentAccountInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceCreateManyWithoutHostInput
   location: LocationCreateOneWithoutUserInput
   bookings: BookingCreateManyWithoutBookeeInput
@@ -10578,6 +10586,7 @@ input UserCreateWithoutReceivedMessagesInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceCreateManyWithoutHostInput
   location: LocationCreateOneWithoutUserInput
   bookings: BookingCreateManyWithoutBookeeInput
@@ -10597,6 +10606,7 @@ input UserCreateWithoutSentMessagesInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceCreateManyWithoutHostInput
   location: LocationCreateOneWithoutUserInput
   bookings: BookingCreateManyWithoutBookeeInput
@@ -10639,6 +10649,8 @@ enum UserOrderByInput {
   responseTime_DESC
   isSuperHost_ASC
   isSuperHost_DESC
+  githubId_ASC
+  githubId_DESC
 }
 
 type UserPreviousValues {
@@ -10653,6 +10665,7 @@ type UserPreviousValues {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean!
+  githubId: String
 }
 
 type UserSubscriptionPayload {
@@ -10703,6 +10716,7 @@ input UserUpdateInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceUpdateManyWithoutHostInput
   location: LocationUpdateOneWithoutUserInput
   bookings: BookingUpdateManyWithoutBookeeInput
@@ -10788,6 +10802,7 @@ input UserUpdateWithoutBookingsDataInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceUpdateManyWithoutHostInput
   location: LocationUpdateOneWithoutUserInput
   paymentAccount: PaymentAccountUpdateManyWithoutUserInput
@@ -10807,6 +10822,7 @@ input UserUpdateWithoutHostingExperiencesDataInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceUpdateManyWithoutHostInput
   location: LocationUpdateOneWithoutUserInput
   bookings: BookingUpdateManyWithoutBookeeInput
@@ -10826,6 +10842,7 @@ input UserUpdateWithoutLocationDataInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceUpdateManyWithoutHostInput
   bookings: BookingUpdateManyWithoutBookeeInput
   paymentAccount: PaymentAccountUpdateManyWithoutUserInput
@@ -10845,6 +10862,7 @@ input UserUpdateWithoutNotificationsDataInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceUpdateManyWithoutHostInput
   location: LocationUpdateOneWithoutUserInput
   bookings: BookingUpdateManyWithoutBookeeInput
@@ -10864,6 +10882,7 @@ input UserUpdateWithoutOwnedPlacesDataInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   location: LocationUpdateOneWithoutUserInput
   bookings: BookingUpdateManyWithoutBookeeInput
   paymentAccount: PaymentAccountUpdateManyWithoutUserInput
@@ -10883,6 +10902,7 @@ input UserUpdateWithoutPaymentAccountDataInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceUpdateManyWithoutHostInput
   location: LocationUpdateOneWithoutUserInput
   bookings: BookingUpdateManyWithoutBookeeInput
@@ -10902,6 +10922,7 @@ input UserUpdateWithoutReceivedMessagesDataInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceUpdateManyWithoutHostInput
   location: LocationUpdateOneWithoutUserInput
   bookings: BookingUpdateManyWithoutBookeeInput
@@ -10921,6 +10942,7 @@ input UserUpdateWithoutSentMessagesDataInput {
   responseRate: Float
   responseTime: Int
   isSuperHost: Boolean
+  githubId: String
   ownedPlaces: PlaceUpdateManyWithoutHostInput
   location: LocationUpdateOneWithoutUserInput
   bookings: BookingUpdateManyWithoutBookeeInput
@@ -11312,6 +11334,46 @@ input UserWhereInput {
 
   """All values that are not equal to given value."""
   isSuperHost_not: Boolean
+  githubId: String
+
+  """All values that are not equal to given value."""
+  githubId_not: String
+
+  """All values that are contained in given list."""
+  githubId_in: [String!]
+
+  """All values that are not contained in given list."""
+  githubId_not_in: [String!]
+
+  """All values less than the given value."""
+  githubId_lt: String
+
+  """All values less than or equal the given value."""
+  githubId_lte: String
+
+  """All values greater than the given value."""
+  githubId_gt: String
+
+  """All values greater than or equal the given value."""
+  githubId_gte: String
+
+  """All values containing the given string."""
+  githubId_contains: String
+
+  """All values not containing the given string."""
+  githubId_not_contains: String
+
+  """All values starting with the given string."""
+  githubId_starts_with: String
+
+  """All values not starting with the given string."""
+  githubId_not_starts_with: String
+
+  """All values ending with the given string."""
+  githubId_ends_with: String
+
+  """All values not ending with the given string."""
+  githubId_not_ends_with: String
   ownedPlaces_every: PlaceWhereInput
   ownedPlaces_some: PlaceWhereInput
   ownedPlaces_none: PlaceWhereInput
@@ -11906,6 +11968,8 @@ export type UserOrderByInput =
   | 'responseTime_DESC'
   | 'isSuperHost_ASC'
   | 'isSuperHost_DESC'
+  | 'githubId_ASC'
+  | 'githubId_DESC'
 
 export type PAYMENT_PROVIDER = 'PAYPAL' | 'CREDIT_CARD'
 
@@ -12148,6 +12212,20 @@ export interface UserWhereInput {
   responseTime_gte?: Int
   isSuperHost?: Boolean
   isSuperHost_not?: Boolean
+  githubId?: String
+  githubId_not?: String
+  githubId_in?: String[] | String
+  githubId_not_in?: String[] | String
+  githubId_lt?: String
+  githubId_lte?: String
+  githubId_gt?: String
+  githubId_gte?: String
+  githubId_contains?: String
+  githubId_not_contains?: String
+  githubId_starts_with?: String
+  githubId_not_starts_with?: String
+  githubId_ends_with?: String
+  githubId_not_ends_with?: String
   ownedPlaces_every?: PlaceWhereInput
   ownedPlaces_some?: PlaceWhereInput
   ownedPlaces_none?: PlaceWhereInput
@@ -13007,6 +13085,7 @@ export interface UserCreateWithoutPaymentAccountInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceCreateManyWithoutHostInput
   location?: LocationCreateOneWithoutUserInput
   bookings?: BookingCreateManyWithoutBookeeInput
@@ -13127,6 +13206,7 @@ export interface UserCreateWithoutSentMessagesInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceCreateManyWithoutHostInput
   location?: LocationCreateOneWithoutUserInput
   bookings?: BookingCreateManyWithoutBookeeInput
@@ -13725,6 +13805,7 @@ export interface UserUpdateWithoutNotificationsDataInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceUpdateManyWithoutHostInput
   location?: LocationUpdateOneWithoutUserInput
   bookings?: BookingUpdateManyWithoutBookeeInput
@@ -14294,6 +14375,7 @@ export interface UserCreateWithoutNotificationsInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceCreateManyWithoutHostInput
   location?: LocationCreateOneWithoutUserInput
   bookings?: BookingCreateManyWithoutBookeeInput
@@ -14359,6 +14441,7 @@ export interface UserUpdateInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceUpdateManyWithoutHostInput
   location?: LocationUpdateOneWithoutUserInput
   bookings?: BookingUpdateManyWithoutBookeeInput
@@ -14626,6 +14709,7 @@ export interface UserUpdateWithoutHostingExperiencesDataInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceUpdateManyWithoutHostInput
   location?: LocationUpdateOneWithoutUserInput
   bookings?: BookingUpdateManyWithoutBookeeInput
@@ -14993,6 +15077,7 @@ export interface UserUpdateWithoutOwnedPlacesDataInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   location?: LocationUpdateOneWithoutUserInput
   bookings?: BookingUpdateManyWithoutBookeeInput
   paymentAccount?: PaymentAccountUpdateManyWithoutUserInput
@@ -15334,6 +15419,7 @@ export interface UserUpdateWithoutLocationDataInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceUpdateManyWithoutHostInput
   bookings?: BookingUpdateManyWithoutBookeeInput
   paymentAccount?: PaymentAccountUpdateManyWithoutUserInput
@@ -15534,6 +15620,7 @@ export interface UserUpdateWithoutBookingsDataInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceUpdateManyWithoutHostInput
   location?: LocationUpdateOneWithoutUserInput
   paymentAccount?: PaymentAccountUpdateManyWithoutUserInput
@@ -15626,6 +15713,7 @@ export interface UserUpdateWithoutReceivedMessagesDataInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceUpdateManyWithoutHostInput
   location?: LocationUpdateOneWithoutUserInput
   bookings?: BookingUpdateManyWithoutBookeeInput
@@ -15722,6 +15810,7 @@ export interface UserCreateInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceCreateManyWithoutHostInput
   location?: LocationCreateOneWithoutUserInput
   bookings?: BookingCreateManyWithoutBookeeInput
@@ -15849,6 +15938,7 @@ export interface UserCreateWithoutOwnedPlacesInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   location?: LocationCreateOneWithoutUserInput
   bookings?: BookingCreateManyWithoutBookeeInput
   paymentAccount?: PaymentAccountCreateManyWithoutUserInput
@@ -16564,6 +16654,7 @@ export interface UserCreateWithoutReceivedMessagesInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceCreateManyWithoutHostInput
   location?: LocationCreateOneWithoutUserInput
   bookings?: BookingCreateManyWithoutBookeeInput
@@ -16583,6 +16674,7 @@ export interface UserUpdateWithoutPaymentAccountDataInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceUpdateManyWithoutHostInput
   location?: LocationUpdateOneWithoutUserInput
   bookings?: BookingUpdateManyWithoutBookeeInput
@@ -16723,6 +16815,7 @@ export interface UserUpdateWithoutSentMessagesDataInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceUpdateManyWithoutHostInput
   location?: LocationUpdateOneWithoutUserInput
   bookings?: BookingUpdateManyWithoutBookeeInput
@@ -16803,6 +16896,7 @@ export interface UserCreateWithoutHostingExperiencesInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceCreateManyWithoutHostInput
   location?: LocationCreateOneWithoutUserInput
   bookings?: BookingCreateManyWithoutBookeeInput
@@ -16843,6 +16937,7 @@ export interface UserCreateWithoutBookingsInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceCreateManyWithoutHostInput
   location?: LocationCreateOneWithoutUserInput
   paymentAccount?: PaymentAccountCreateManyWithoutUserInput
@@ -17075,6 +17170,7 @@ export interface UserCreateWithoutLocationInput {
   responseRate?: Float
   responseTime?: Int
   isSuperHost?: Boolean
+  githubId?: String
   ownedPlaces?: PlaceCreateManyWithoutHostInput
   bookings?: BookingCreateManyWithoutBookeeInput
   paymentAccount?: PaymentAccountCreateManyWithoutUserInput
@@ -17128,6 +17224,7 @@ export interface User extends Node {
   notifications?: Notification[]
   profilePicture?: Picture
   hostingExperiences?: Experience[]
+  githubId?: String
 }
 
 export interface RestaurantSubscriptionPayload {
@@ -17287,6 +17384,7 @@ export interface UserPreviousValues {
   responseRate?: Float
   responseTime?: Int
   isSuperHost: Boolean
+  githubId?: String
 }
 
 /*

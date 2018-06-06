@@ -1,4 +1,3 @@
-// @flow
 import { Router } from 'express'
 import { createSigninRoutes } from './createSigninRoutes'
 

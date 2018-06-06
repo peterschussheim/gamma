@@ -19,6 +19,7 @@ type User {
   notifications: [Notification!]!
   profilePicture: Picture
   hostingExperiences: [Experience!]!
+  githubId: String
 }
 
 type Place {

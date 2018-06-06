@@ -19,7 +19,7 @@ export default session({
   }),
   name: 'session',
   secret: process.env.SESSION_SECRET,
-  resave: false,
+  resave: false, // connect-redis implements 'touch' command, rendering 'resave' option unnecessary
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
