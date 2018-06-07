@@ -1,31 +1,59 @@
 # graphql-api-server
 
-## Overview
+* [graphql-api-server](#graphql-api-server)
+  * [Overview](#overview)
+  * [Features](#features)
+  * [Docs](#docs)
+    * [Repo Structure](#repo-structure)
+    * [Implementation Notes](#implementation-notes)
+      * [Security](#security)
+    * [Getting Started](#getting-started)
 
-Modeled after [githunt-api][githunt-api].
+## Overview
 
 ## Features
 
 * [ ] easily scale
-* [ ]
-
-## TODO
-
-* [ ] add `dangerfile.js`
+* [ ] FANTASTIC developer experience
+  * [ ] code generation
+  * [ ] `intellisense` using TypeScript
+* [ ] authentication
+  * [ ] `bearer` token auth for intra-server requests, ex: (`graphql-yoga` req from `prisma` db)
+  * [ ] `cookie`-based auth using `redis`
+    * [ ] used for ensuring requests originating from client application are authenticated
+* [ ] modular code
+* [ ] `sentry` error reporting
+* [ ] `CloudWatch` metrics for `prisma` service
 
 ## Docs
 
+### Repo Structure
+
+```
+project
+├── package.json
+├── api
+│   ├── package.json
+│   └── index.js
+└── react-app
+|   ├── package.json
+|   └── index.js
+├── style-guide
+│   ├── package.json
+│   └── index.js
+```
+
 ### Implementation Notes
 
-* to maintain best practices with respect to what to store in a cookie on a user's client (browser), opt to use `connect-redis` as a server side session store, rather than something such as `cookie-session`, which stores the underlying session data on the client.
-  * [OWASP Session cheat sheet][owasp session cheat sheet]
-  * [difference between session and cookie-session][difference between session and cookie-session]
+#### Security
 
-### Connectors
+To maintain best practices with respect to what to store in a cookie on a user's client (browser), opt to use `connect-redis` as a server side session store, rather than something such as `cookie-session`, which stores the underlying session data on the client.
 
-![this document][connector-diagram]
-
-Please see the [connector-md][connector-md] produced by the Apollo team to learn more.
+* [Transport Layer Protection Cheat Sheet][transport layer protection cheat sheet]
+* [OWASP Session cheat sheet][owasp session cheat sheet]
+* [owasp Authentication cheat sheet][owasp authentication cheat sheet]
+* [difference between session and cookie-session][difference between session and cookie-session]
+* [MDN: HTTP Cookies][mdn: http cookies]
 
 ### Getting Started
 
@@ -39,14 +67,7 @@ cd gamma
 yarn
 ```
 
-3.  **Run migrations.** Set up the SQLite database and run migrations/seed data with the following commands:
-
-```
-npm run migrate
-npm run seed
-```
-
-4.  **Get GitHub API keys.**
+3.  **Get GitHub API keys.**
 
 * Go to [OAuth applications > Developer applications](https://github.com/settings/developers) in GitHub settings
 * Click 'Register a new application' button
@@ -54,7 +75,7 @@ npm run seed
 * Click 'Register application' button at the bottom.
 * On the following page, grab the **Client ID** and **Client Secret**
 
-5.  **Add Environment Variables.** Set your Client ID and Client Secret Environment variables in the terminal like this:
+4.  **Add Environment Variables.** Set your Client ID and Client Secret Environment variables in the terminal like this:
 
 ```
 export GITHUB_CLIENT_ID="your Client ID"
@@ -63,13 +84,40 @@ export GITHUB_CLIENT_SECRET="your Client Secret"
 
 Or you can use `dotenv`, to do this `cp .env.default .env` and edit with your Github keys.
 
-6.  **Run the app.**
+5.  **Run the app server.**
+
+Start the application server (`graphql-yoga`) on port `4000`.
 
 ```
-npm run dev
+npm run start
 ```
 
-1.  **Open the app.** Open http://localhost:4000/graphql to load a local `graphiql` instance.
+6.  **Start `playground`** OPTIONAL
+
+During development, having `graphiql` to send queries is very useful. Run `yarn playground` in another shell
+to open `graphql-playground`, an improved version of `graphiql` that includes useful features such as remembering the workspace settings, queries, and easily query the **prisma DB** and/or the **application schema** running on the application server.
+
+6.  **Configure debugger** OPTIONAL
+
+Using the following `VSCode` `launch.json` snippet, we can easily debug the application server:
+
+```json
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "inspect ts-node",
+      "runtimeArgs": ["-r", "dotenv/config", "-r", "ts-node/register"],
+      "args": ["${workspaceFolder}/src/index.ts"]
+    }
+  ]
+}
+```
 
 <!-- ### Project structure
 
@@ -87,6 +135,12 @@ npm run dev
 | `　　　　├── prisma.ts` | The generated TypeScript bindings for the Prisma GraphQL API  |
 | `　　　　└── prisma.grapghql` | The **Prisma database schema** defining the Prisma GraphQL API  | -->
 
+<!-- ### Connectors
+
+![this document][connector-diagram]
+
+Please see the [connector-md][connector-md] produced by the Apollo team to learn more. -->
+
 [npm]: https://www.npmjs.com/
 [node]: https://nodejs.org
 [git]: https://git-scm.com/
@@ -95,3 +149,6 @@ npm run dev
 [connector-md]: https://github.com/apollographql/graphql-tools/blob/master/designs/connectors.md
 [difference between session and cookie-session]: https://stackoverflow.com/questions/15744897/what-is-the-difference-between-session-and-cookiesession-middleware-in-conne/15745086#15745086
 [owasp session cheat sheet]: https://www.owasp.org/index.php/Session_Management_Cheat_Sheet
+[owasp authentication cheat sheet]: https://www.owasp.org/index.php/Authentication_Cheat_Sheet
+[transport layer protection cheat sheet]: https://www.owasp.org/index.php/Transport_Layer_Protection_Cheat_Sheet
+[mdn: http cookies]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
