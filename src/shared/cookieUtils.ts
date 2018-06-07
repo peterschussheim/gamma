@@ -1,5 +1,5 @@
-import Keygrip from 'keygrip'
-import jwt from 'jsonwebtoken'
+import * as Keygrip from 'keygrip'
+import * as jwt from 'jsonwebtoken'
 
 export const cookieKeygrip = new Keygrip([process.env.SESSION_COOKIE_SECRET])
 

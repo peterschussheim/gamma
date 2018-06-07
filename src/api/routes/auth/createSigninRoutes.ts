@@ -13,11 +13,7 @@ import { URL } from 'url'
 import isGammaUrl from '../../../utils/isGammaUrl'
 import { signCookie, getCookies } from '../../../shared/cookieUtils'
 const IS_PROD = process.env.NODE_ENV === 'production'
-const FALLBACK_URL = IS_PROD
-  ? 'https://gamma.app/home'
-  : 'http://localhost:3000/home'
-
-// type Strategy = 'github' | 'google'
+const FALLBACK_URL = IS_PROD ? 'https://gamma.app' : 'http://localhost:3000'
 
 export const createSigninRoutes = (strategy, strategyOptions) => {
   return {

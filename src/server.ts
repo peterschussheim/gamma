@@ -2,20 +2,19 @@ const debug = require('debug')('api')
 debug('Server starting...')
 debug('logging with debug enabled!')
 import * as compression from 'compression'
+import * as passport from 'passport'
+import { GraphQLServer, PubSub } from 'graphql-yoga'
+import { Strategy } from 'passport-github2'
+import { ApolloEngine } from 'apollo-engine'
 
+import { Prisma } from './generated/prisma'
+import { resolvers, fragmentReplacements } from './resolvers'
 import Raven from './shared/raven'
 import { redisInstance } from './api/redis'
 import middlewares from './api/routes/middlewares'
 import { securityMiddleware } from './shared/middlewares/security'
-// import authRoutes from './api/routes/auth'
-// import apiRoutes from './api/routes/api'
-import { GraphQLServer, PubSub } from 'graphql-yoga'
-import { Prisma } from './generated/prisma'
-import { resolvers, fragmentReplacements } from './resolvers'
-import * as passport from 'passport'
-import { Strategy } from 'passport-github2'
-
-import { ApolloEngine } from 'apollo-engine'
+import authRoutes from './api/routes/auth'
+import apiRoutes from './api/routes/api'
 
 const PORT = parseInt(process.env.PORT, 10) || 4000
 
@@ -83,36 +82,34 @@ async function startServer() {
   securityMiddleware(graphQLServer.express)
   graphQLServer.express.use(compression())
   graphQLServer.express.use(middlewares)
-  graphQLServer.express.get('/login', (req, res) => {
-    res.redirect('/auth/github')
-  })
+
   // work on auth route next
-  // graphQLServer.express.use('/auth', authRoutes)
-  graphQLServer.express.get(
-    '/auth/github',
-    passport.authenticate('github', { scope: ['user:email'] }),
-    function(req, res) {
-      // The request will be redirected to GitHub for authentication, so this
-      // function will not be called.
-    }
-  )
+  graphQLServer.express.use('/auth', authRoutes)
+  // graphQLServer.express.get(
+  //   '/auth/github',
+  //   passport.authenticate('github', { scope: ['user:email'] }),
+  //   function(req, res) {
+  //     // The request will be redirected to GitHub for authentication, so this
+  //     // function will not be called.
+  //   }
+  // )
 
-  // GET /auth/github/callback
-  //   Use passport.authenticate() as route middleware to authenticate the
-  //   request.  If authentication fails, the user will be redirected back to the
-  //   login page.  Otherwise, the primary route function will be called,
-  //   which, in this example, will redirect the user to the home page.
-  graphQLServer.express.get(
-    '/auth/github/callback',
-    passport.authenticate('github', { failureRedirect: '/login' }),
-    (req, res) => res.redirect('/')
-  )
+  // // GET /auth/github/callback
+  // //   Use passport.authenticate() as route middleware to authenticate the
+  // //   request.  If authentication fails, the user will be redirected back to the
+  // //   login page.  Otherwise, the primary route function will be called,
+  // //   which, in this example, will redirect the user to the home page.
+  // graphQLServer.express.get(
+  //   '/auth/github/callback',
+  //   passport.authenticate('github', { failureRedirect: '/login' }),
+  //   (req, res) => res.redirect('/')
+  // )
 
-  graphQLServer.express.get('/logout', function(req, res) {
-    req.logout()
-    res.redirect('/')
-  })
-  // graphQLServer.express.use('/api', apiRoutes)
+  // graphQLServer.express.get('/logout', function(req, res) {
+  //   req.logout()
+  //   res.redirect('/')
+  // })
+  graphQLServer.express.use('/api', apiRoutes)
 
   graphQLServer.express.use((err, req, res, next) => {
     if (err) {
