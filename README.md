@@ -6,6 +6,7 @@
   * [Docs](#docs)
     * [Repo Structure](#repo-structure)
     * [Implementation Notes](#implementation-notes)
+      * [Security](#security)
     * [Getting Started](#getting-started)
 
 ## Overview
@@ -44,10 +45,15 @@ project
 
 ### Implementation Notes
 
-* to maintain best practices with respect to what to store in a cookie on a user's client (browser), opt to use `connect-redis` as a server side session store, rather than something such as `cookie-session`, which stores the underlying session data on the client.
-  * [OWASP Session cheat sheet][owasp session cheat sheet]
-  * [difference between session and cookie-session][difference between session and cookie-session]
-  * [MDN: HTTP Cookies][mdn: http cookies]
+#### Security
+
+To maintain best practices with respect to what to store in a cookie on a user's client (browser), opt to use `connect-redis` as a server side session store, rather than something such as `cookie-session`, which stores the underlying session data on the client.
+
+* [Transport Layer Protection Cheat Sheet][transport layer protection cheat sheet]
+* [OWASP Session cheat sheet][owasp session cheat sheet]
+* [owasp Authentication cheat sheet][owasp authentication cheat sheet]
+* [difference between session and cookie-session][difference between session and cookie-session]
+* [MDN: HTTP Cookies][mdn: http cookies]
 
 ### Getting Started
 
@@ -143,4 +149,6 @@ Please see the [connector-md][connector-md] produced by the Apollo team to learn
 [connector-md]: https://github.com/apollographql/graphql-tools/blob/master/designs/connectors.md
 [difference between session and cookie-session]: https://stackoverflow.com/questions/15744897/what-is-the-difference-between-session-and-cookiesession-middleware-in-conne/15745086#15745086
 [owasp session cheat sheet]: https://www.owasp.org/index.php/Session_Management_Cheat_Sheet
+[owasp authentication cheat sheet]: https://www.owasp.org/index.php/Authentication_Cheat_Sheet
+[transport layer protection cheat sheet]: https://www.owasp.org/index.php/Transport_Layer_Protection_Cheat_Sheet
 [mdn: http cookies]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
