@@ -5,11 +5,11 @@ export interface Session extends Express.Session {
 }
 
 export interface Context {
-  req: Express.Session
-  pubsub
   db: Prisma
-  session: Session
+  pubsub
   redisInstance
+  session: Session
+  req: Express.Session
 }
 // Type definitions for [~THE LIBRARY NAME~] [~OPTIONAL VERSION NUMBER~]
 // Project: [~THE PROJECT NAME~]
