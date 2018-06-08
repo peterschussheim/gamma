@@ -1,5 +1,5 @@
-const hpp = require('hpp')
-const helmet = require('helmet')
+import * as hpp from 'hpp'
+import * as helmet from 'helmet'
 
 function securityMiddleware(server) {
   // Don't expose any software information to hackers.
