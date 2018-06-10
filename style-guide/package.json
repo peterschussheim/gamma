@@ -3,14 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "apollo-cache-inmemory": "1.2.2",
+    "apollo-client": "2.3.2",
+    "apollo-link": "1.2.2",
+    "apollo-link-error": "1.1.0",
+    "apollo-link-http": "1.5.4",
+    "emotion": "9.2.3",
     "react": "^16.4.0",
+    "react-app-rewire-hot-loader": "1.0.1",
+    "react-app-rewired": "1.5.2",
     "react-dom": "^16.4.0",
+    "react-emotion": "9.2.3",
+    "react-hot-loader": "4.3.1",
     "react-scripts": "1.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test --env=jsdom",
+    "eject": "react-app-rewired eject"
   }
 }
