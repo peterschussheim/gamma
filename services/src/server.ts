@@ -21,20 +21,29 @@ async function startServer() {
     fragmentReplacements,
     endpoint: process.env.PRISMA_ENDPOINT,
     secret: process.env.PRISMA_SECRET,
-    debug: true
+    debug: false
   })
 
+  const fakeContext = req => ({
+    ...req,
+    db,
+    pubsub,
+    redisInstance,
+    session: req.request.session,
+    req: req.request
+  })
+  const context = req => ({
+    db,
+    pubsub,
+    redisInstance,
+    session: req.request.session,
+    req: req.request
+  })
+  debug(`FAKECONTEXT: ${JSON.stringify(fakeContext)}`)
   const graphQLServer = new GraphQLServer({
     typeDefs: './src/schema.graphql',
     resolvers,
-    context: req => ({
-      ...req,
-      db,
-      pubsub,
-      redisInstance,
-      session: req.request.session,
-      req: req.request
-    })
+    context
   })
 
   graphQLServer.express.set('trust proxy', true)
@@ -95,11 +104,11 @@ async function startServer() {
 }
 
 process.on('unhandledRejection', async err => {
-  console.error('Unhandled rejection', err)
+  debug('Unhandled rejection', err)
   try {
     await new Promise(resolve => Raven.captureException(err, resolve))
   } catch (err) {
-    console.error('Raven error', err)
+    debug('Raven error', err)
   } finally {
     process.exit(1)
   }

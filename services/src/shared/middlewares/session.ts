@@ -3,7 +3,7 @@ const debug = require('debug')('shared:middlewares:session')
 debug('Initializing connect-redis session store')
 import * as session from 'express-session'
 import * as connectRedis from 'connect-redis'
-import { redisInstance } from '../../api/redis'
+import { redisInstance } from '../../redis'
 
 const RedisStore = connectRedis(session)
 

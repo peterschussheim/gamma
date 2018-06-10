@@ -32,6 +32,11 @@ export const auth = {
       throw new AuthError()
     }
 
+    // need to understand to complete flow for connect-redis, IE: how it
+    // determines to create or reuse existing `sess` IDs in redis.
+    // reuse existing session in redis
+    // redis.hget(ctx.session.userId) ?????????
+
     ctx.session.userId = user.id
     debug(`UserID from session: ${ctx.session.userId}`)
     debug('Logging in existing user')

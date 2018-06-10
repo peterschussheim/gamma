@@ -1,13 +1,13 @@
 # graphql-api-server
 
-* [graphql-api-server](#graphql-api-server)
-  * [Overview](#overview)
-  * [Features](#features)
-  * [Docs](#docs)
-    * [Repo Structure](#repo-structure)
-    * [Implementation Notes](#implementation-notes)
-      * [Security](#security)
-    * [Getting Started](#getting-started)
+- [graphql-api-server](#graphql-api-server)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [Docs](#docs)
+    - [Repo Structure](#repo-structure)
+    - [Implementation Notes](#implementation-notes)
+      - [Security](#security)
+    - [Getting Started](#getting-started)
 
 ## Overview
 

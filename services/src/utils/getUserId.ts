@@ -1,6 +1,7 @@
+const debug = require('debug')('utils:getUserId')
 import * as jwt from 'jsonwebtoken'
 import { Context } from '../gamma'
-
+var util = require('util')
 /**
  * Gets user id from token
  * @param ctx
@@ -25,6 +26,17 @@ export function getUserIdFromToken(ctx: Context): string {
  * @returns user id from session
  */
 export function getUserIdFromSession(ctx: Context): string {
+  /**
+   * FIXME:
+   *
+   * Current behavior is as follows:
+   *
+   * 1) user exists in DB, but no cookie in their browser
+   * 2) user sends login mutation and if successful, express server .....
+   *
+   */
+  debug(`ctx.session: ${JSON.stringify(ctx.session)}`)
+  debug(`ctx.req: ${util.inspect(ctx.req.session)}`)
   if (ctx.session.userId) {
     return ctx.session.userId
   }
