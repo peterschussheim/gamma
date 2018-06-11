@@ -6,6 +6,7 @@ import LikeButton from './LikeButton'
 import FadeIn from './FadeIn'
 import TabsExample from './Tabs'
 import { ToggleUsage } from './Toggle'
+import Login from './Login/login'
 import { ReflexAdvancedDemo } from './SplitPane/usage'
 
 import {
@@ -36,6 +37,11 @@ class App extends React.Component {
     })
   }
 
+  onSubmit = e => {
+    const { username, password } = e
+    console.log(`username: ${username}\npassword: ${password}`)
+  }
+
   render() {
     const { isLoading } = this.state
     return (
@@ -48,6 +54,10 @@ class App extends React.Component {
         <StyleGuideLayout label="Donut" component={<Donut />} />
         <StyleGuideLayout label="Link" component={<Link />} />
         <StyleGuideLayout label="Tabs" component={<TabsExample />} />
+        <StyleGuideLayout
+          label="Login"
+          component={<Login onSubmit={this.onSubmit} />}
+        />
         <StyleGuideLayout label="Input" component={<InputExamples />} />
         <StyleGuideLayout label="Typography" component={<Typography />} />
         <StyleGuideLayout label="Grid" component={<Grid name="test" />} />
