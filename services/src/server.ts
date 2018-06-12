@@ -24,14 +24,6 @@ async function startServer() {
     debug: false
   })
 
-  const fakeContext = req => ({
-    ...req,
-    db,
-    pubsub,
-    redisInstance,
-    session: req.request.session,
-    req: req.request
-  })
   const context = req => ({
     db,
     pubsub,
@@ -39,7 +31,7 @@ async function startServer() {
     session: req.request.session,
     req: req.request
   })
-  debug(`FAKECONTEXT: ${JSON.stringify(fakeContext)}`)
+
   const graphQLServer = new GraphQLServer({
     typeDefs: './src/schema.graphql',
     resolvers,
@@ -94,7 +86,12 @@ async function startServer() {
     engine.listen(
       { port: PORT, httpServer, graphqlPaths: ['/graphql', '/subscriptions'] },
       () =>
-        debug(`Server with Apollo Engine running on http://localhost:${PORT}`)
+        debug(`Application server with Apollo Engine running on http://localhost:${PORT}
+Application GraphQL server available on http://localhost:${PORT}${
+          options.endpoint
+        }
+Playground available on http://localhost:${PORT}${options.playground}
+Subscriptions available on ws://localhost:${PORT}${options.subscriptions}`)
     )
   } else {
     graphQLServer.start(options, ({ port }) =>
@@ -124,12 +121,5 @@ process.on('uncaughtException', async err => {
     process.exit(1)
   }
 })
-
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next()
-  }
-  res.redirect('/login')
-}
 
 export default startServer
