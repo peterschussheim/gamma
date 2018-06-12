@@ -20,7 +20,7 @@ const httpLink = new HttpLink({
 // currently not working as expected.  Need to verify app server is configured
 // properly to spin up a ws connection
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000`,
+  uri: `ws://localhost:4000/subscriptions`,
   options: {
     reconnect: true
     // connectionParams: {
@@ -44,7 +44,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 })
 
 const link = split(
-  // split based on operation type
   ({ query }) => {
     const { kind, operation } = getMainDefinition(query)
     return kind === 'OperationDefinition' && operation === 'subscription'
