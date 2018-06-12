@@ -88,16 +88,15 @@ class App extends React.Component {
         <StyleGuideLayout
           label="FadeIn"
           component={
-            <FadeIn>
-              <Text className="fade-demo" content="HI">
-                <button
-                  className="fade-demo"
-                  type="button"
-                  onClick={this.props.handleReset}
-                >
-                  Reset
-                </button>
-              </Text>
+            <FadeIn className="fade-demo">
+              <Text className="fade-demo" content="HI" />
+              <Button
+                className="fade-demo"
+                type="button"
+                onClick={this.props.handleReset}
+              >
+                Reset
+              </Button>
             </FadeIn>
           }
         />

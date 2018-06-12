@@ -17,7 +17,7 @@ export default class FadeIn extends React.Component {
   }
 
   render() {
-    const { className } = this.props.children.props
+    const className = this.props.children.props.className || ''
     return React.cloneElement(this.props.children, {
       className: className + (this.state.mounted ? '' : 'fade-in'),
       onReset: this.handleReset
