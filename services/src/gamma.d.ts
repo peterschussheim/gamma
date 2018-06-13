@@ -1,5 +1,7 @@
 import { Prisma } from './generated/prisma'
 
+export interface Request extends Express.Request {}
+
 export interface Session extends Express.Session {
   userId?: string
 }
@@ -9,7 +11,7 @@ export interface Context {
   pubsub
   redisInstance
   session: Session
-  req: Express.Session
+  req: Request
 }
 // Type definitions for [~THE LIBRARY NAME~] [~OPTIONAL VERSION NUMBER~]
 // Project: [~THE PROJECT NAME~]

@@ -1,6 +1,6 @@
 const debug = require('debug')('mutation:auth')
 import * as bcrypt from 'bcryptjs'
-import { AuthError } from '../../utils/getUserId'
+import { getUserIdFromSession, AuthError } from '../../utils/getUserId'
 import { Context } from '../../gamma'
 import * as jwt from 'jsonwebtoken'
 
@@ -11,7 +11,7 @@ export const auth = {
       data: { ...args, password }
     })
 
-    ctx.session.userId = user.id
+    ctx.req.session.userId = user.id
     debug('New user created')
     debug('Returning signed token and user data')
 
@@ -37,8 +37,8 @@ export const auth = {
     // reuse existing session in redis
     // redis.hget(ctx.session.userId) ?????????
 
-    ctx.session.userId = user.id
-    debug(`UserID from session: ${ctx.session.userId}`)
+    ctx.req.session.userId = user.id
+    debug(`UserID from session: ${ctx.req.session.userId}`)
     debug('Logging in existing user')
     debug('Returning signed token and user data')
 

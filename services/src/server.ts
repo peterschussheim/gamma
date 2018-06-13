@@ -28,7 +28,7 @@ async function startServer() {
     db,
     pubsub,
     redisInstance,
-    session: req.request.session,
+    // session: req.request.session,
     req: req.request
   })
 
@@ -44,7 +44,7 @@ async function startServer() {
   graphQLServer.express.use(middlewares)
   graphQLServer.express.use((err, req, res, next) => {
     if (err) {
-      debug.error(err)
+      debug(err)
       res
         .status(500)
         .send(
@@ -84,7 +84,11 @@ async function startServer() {
     }
     const httpServer = graphQLServer.createHttpServer(optionsWithTracing)
     engine.listen(
-      { port: PORT, httpServer, graphqlPaths: ['/graphql', '/subscriptions'] },
+      {
+        port: PORT,
+        httpServer,
+        graphqlPaths: ['/graphql', '/subscriptions', 'playground']
+      },
       () =>
         debug(`Application server with Apollo Engine running on http://localhost:${PORT}
 Application GraphQL server available on http://localhost:${PORT}${

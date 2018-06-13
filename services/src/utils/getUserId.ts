@@ -7,18 +7,18 @@ var util = require('util')
  * @param ctx
  * @returns string user id from token
  */
-export function getUserIdFromToken(ctx: Context): string {
-  const Authorization = ctx.req.get('Authorization')
-  if (Authorization) {
-    const token = Authorization.replace('Bearer ', '')
-    const { userId } = jwt.verify(token, process.env.APP_SECRET!) as {
-      userId: string
-    }
-    return userId
-  }
+// export function getUserIdFromToken(ctx: Context): string {
+//   const Authorization = ctx.req.get('Authorization')
+//   if (Authorization) {
+//     const token = Authorization.replace('Bearer ', '')
+//     const { userId } = jwt.verify(token, process.env.APP_SECRET!) as {
+//       userId: string
+//     }
+//     return userId
+//   }
 
-  throw new AuthError(`Could not get userId from token`)
-}
+//   throw new AuthError(`Could not get userId from token`)
+// }
 
 /**
  * Gets user id from session
@@ -35,10 +35,9 @@ export function getUserIdFromSession(ctx: Context): string {
    * 2) user sends login mutation and if successful, express server .....
    *
    */
-  debug(`ctx.session: ${JSON.stringify(ctx.session)}`)
   debug(`ctx.req: ${util.inspect(ctx.req.session)}`)
-  if (ctx.session.userId) {
-    return ctx.session.userId
+  if (ctx.req.session.userId) {
+    return ctx.req.session.userId
   }
 
   throw new AuthError(`Could not get userId from session`)
