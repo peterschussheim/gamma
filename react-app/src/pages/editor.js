@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import * as api from '../utils/api'
+import React from 'react'
+// import * as api from '../utils/api'
 import Form from '../components/form'
 import { Input, TextArea } from '../components/inputs'
 
-class Editor extends Component {
+class Editor extends React.Component {
   static defaultProps = {
-    api
+    // api
   }
   handleSubmit = e => {
     e.preventDefault()

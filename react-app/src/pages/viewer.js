@@ -1,17 +1,6 @@
 import React from 'react'
 import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
-
-const VIEWER = gql`
-  {
-    viewer {
-      me {
-        id
-        email
-      }
-    }
-  }
-`
+import { VIEWER } from '../queries'
 
 export default () => (
   <Query query={VIEWER}>
