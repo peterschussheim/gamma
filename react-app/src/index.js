@@ -1,17 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import Routes from './routes'
-
 import { ApolloProvider } from 'react-apollo'
 import { ApolloClient } from 'apollo-client'
 import { ApolloLink, Observable } from 'apollo-link'
 import { withClientState } from 'apollo-link-state'
-import { getMainDefinition } from 'apollo-utilities'
-import { WebSocketLink } from 'apollo-link-ws'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { onError } from 'apollo-link-error'
+// import { getMainDefinition } from 'apollo-utilities'
+// import { WebSocketLink } from 'apollo-link-ws'
+
+import App from './App'
 
 const httpLink = new HttpLink({
   uri: `http://${process.env.REACT_APP_GAMMA_APP_SERVER_URI}`,
@@ -52,10 +51,14 @@ const client = new ApolloClient({
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
-        console.log(`APOLLO CLIENT GRAPHQL ERROR: ${graphQLErrors}`)
+        graphQLErrors.map(({ message, locations, path }) =>
+          console.error(
+            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+          )
+        )
       }
       if (networkError) {
-        console.log(`APOLLO CLIENT NETWORK ERROR: ${networkError}`)
+        console.error(`APOLLO CLIENT NETWORK ERROR: ${networkError}`)
         // logoutUser();
       }
     }),
@@ -88,20 +91,6 @@ const client = new ApolloClient({
 //   }
 // })
 
-// const errorLink = onError(({ graphQLErrors, networkError }) => {
-//   if (graphQLErrors) {
-//     graphQLErrors.map(({ message, locations, path }) =>
-//       console.log(
-//         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-//       )
-//     )
-//   }
-
-//   if (networkError) {
-//     console.log(`[Network error]: ${networkError}`)
-//   }
-// })
-
 // const link = split(
 //   ({ query }) => {
 //     const { kind, operation } = getMainDefinition(query)
@@ -119,7 +108,7 @@ const client = new ApolloClient({
 
 const AppWithApollo = () => (
   <ApolloProvider client={client}>
-    <Routes />
+    <App />
   </ApolloProvider>
 )
 
