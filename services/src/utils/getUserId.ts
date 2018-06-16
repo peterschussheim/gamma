@@ -37,9 +37,31 @@ export function getUserIdFromSession(ctx: Context): string {
    *
    */
   debug(`ctx.req: ${util.inspect(ctx.request.session)}`)
+
+  /**
+   * CASE 1:
+   *
+   * User has already authenticated previously, so we only want to return
+   * the `userId` on the `Session` object, which is then used in mutations
+   * (look up user data in db) which require authentication.
+   *
+   */
   if (ctx.request.session.userId) {
     return ctx.request.session.userId
   }
+
+  /**
+   * CASE 2:
+   *
+   * User has previously created an account and for whatever reason (manual
+   * logout, different device/browser, etc), needs to authenticate.
+   *
+   * In this case, we need to send an appropriate message to the client app
+   * so that the end user can proceed to either login or create a new account.
+   *
+   * ctx.res.send(403)???
+   *
+   */
 
   throw new AuthError(`Could not get userId from session`)
 }

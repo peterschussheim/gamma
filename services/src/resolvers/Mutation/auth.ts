@@ -11,7 +11,7 @@ export const auth = {
       data: { ...args, password }
     })
 
-    ctx.req.session.userId = user.id
+    ctx.request.session.userId = user.id
     debug('New user created')
     debug('Returning signed token and user data')
 
@@ -37,8 +37,8 @@ export const auth = {
     // reuse existing session in redis
     // redis.hget(ctx.session.userId) ?????????
 
-    ctx.req.session.userId = user.id
-    debug(`UserID from session: ${ctx.req.session.userId}`)
+    ctx.request.session.userId = user.id
+    debug(`UserID from session: ${ctx.request.session.userId}`)
     debug('Logging in existing user')
     debug('Returning signed token and user data')
 
@@ -47,4 +47,6 @@ export const auth = {
       user
     }
   }
+
+  // TODO: add logout mutation that destroys the current session
 }

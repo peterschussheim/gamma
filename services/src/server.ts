@@ -21,15 +21,14 @@ async function startServer() {
     fragmentReplacements,
     endpoint: process.env.PRISMA_ENDPOINT,
     secret: process.env.PRISMA_SECRET,
-    debug: false
+    debug: true
   })
 
   const context = req => ({
+    ...req,
     db,
     pubsub,
-    redisInstance,
-    // session: req.request.session,
-    req: req.request
+    redisInstance
   })
 
   const graphQLServer = new GraphQLServer({
