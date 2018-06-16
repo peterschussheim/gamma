@@ -9,10 +9,14 @@ function Login({ onSubmit }) {
         onSubmit={e => {
           e.preventDefault()
           const { email, password } = e.target.elements
-          onSubmit({
-            email: email.value,
-            password: password.value
-          })
+          console.log(`${email}, ${password}`)
+          // login({
+          //   variables: { email, password }
+          // })
+          // onSubmit({
+          //   email: email.value,
+          //   password: password.value
+          // })
         }}
       >
         <label style={{ justifySelf: 'right' }} htmlFor="email-input">
