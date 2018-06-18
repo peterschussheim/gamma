@@ -1,51 +1,47 @@
-# import CitySubscriptionPayload, PLACE_SIZES, DateTime, PAYMENT_PROVIDER, NOTIFICATION_TYPE, CURRENCY from "./generated/prisma.graphql"
+# import User, Post, Tag, File, Directory, PostWhereInput, PostOrderByInput, UserCreateInput, PostCreateInput, TagCreateInput, CommentCreateInput, UserUpdateInput, PostUpdateInput, TagUpdateInput, CommentUpdateInput, UserDeleteInput, PostDeleteInput, TagDeleteInput, CommentDeleteInput, PERMISSION, VISIBILITY from "./generated/prisma.graphql"
 
 type Query {
-  topExperiences: [Experience!]!
-  topHomes: [Home!]!
-  homesInPriceRange(min: Int!, max: Int!): [Home!]!
-  topReservations: [Reservation!]!
-  featuredDestinations: [Neighbourhood!]!
-  experiencesByCity(cities: [String!]!): [ExperiencesByCity!]!
-  viewer: Viewer
-  myLocation: Location
+  me: User
+  post(id: ID!): Post!
+  # Query a set of posts for a given data and/or multiple dates ordered chronologically.
+  postsByDate(
+    where: PostWhereInput
+    orderBy: PostOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Post!]!
+  ## Fetch global list of tags.
+  tags: [Tag!]!
 }
 
 type Mutation {
-  signup(
-    email: String!
-    password: String!
-    firstName: String!
-    lastName: String!
-    phone: String!
-  ): AuthPayload!
-  login(email: String!, password: String!): AuthPayload!
-  addPaymentMethod(
-    cardNumber: String!
-    expiresOnMonth: Int!
-    expiresOnYear: Int!
-    securityCode: String!
-    firstName: String!
-    lastName: String!
-    postalCode: String!
-    country: String!
-  ): MutationResult!
-  book(
-    placeId: ID!
-    checkIn: String!
-    checkOut: String!
-    numGuests: Int!
-  ): MutationResult!
+  signup(input: UserCreateInput): AuthPayload!
+  login(input: AuthInput): AuthPayload!
+  logout: MutationResult!
+  requestPasswordReset(email: String!): User
+  resetPassword(input: ResetPasswordInput): User!
+  updatePermissions(permissions: [PERMISSION], userId: ID!): User!
+  createPost(input: PostCreateInput): Post!
+  updatePost(input: PostUpdateInput): Post!
+  deletePost(input: PostDeleteInput): MutationResult!
+  createTag(input: TagCreateInput): Tag!
+  updateTag(input: TagUpdateInput): Tag!
+  deleteTag(input: TagDeleteInput): MutationResult!
+  createComment(input: CommentCreateInput): Comment!
+  updateComment(input: CommentUpdateInput): Comment!
+  deleteComment(input: CommentDeleteInput): MutationResult!
 }
 
 type Subscription {
-  city: CitySubscriptionPayload
   counter: Counter!
 }
 
-type Viewer {
-  me: User!
-  bookings: [Booking!]!
+type Counter {
+  count: Int!
+  countStr: String
 }
 
 type AuthPayload {
@@ -57,298 +53,13 @@ type MutationResult {
   success: Boolean!
 }
 
-type Counter {
-  count: Int!
-  countStr: String
-}
-
-type ExperiencesByCity {
-  experiences: [Experience!]!
-  city: City!
-}
-
-type Home {
-  id: ID!
-  name: String
-  description: String!
-  numRatings: Int!
-  avgRating: Float
-  pictures(first: Int): [Picture!]!
-  perNight: Int!
-}
-
-type Reservation {
-  id: ID!
-  title: String!
-  avgPricePerPerson: Int!
-  pictures: [Picture!]!
-  location: Location!
-  isCurated: Boolean!
-  slug: String!
-  popularity: Int!
-}
-
-type Experience {
-  id: ID!
-  category: ExperienceCategory
-  title: String!
-  location: Location!
-  pricePerPerson: Int!
-  reviews: [Review!]!
-  preview: Picture!
-  popularity: Int!
-}
-
-type Review {
-  accuracy: Int!
-  checkIn: Int!
-  cleanliness: Int!
-  communication: Int!
-  createdAt: DateTime!
-  id: ID!
-  location: Int!
-  stars: Int!
-  text: String!
-  value: Int!
-}
-
-type Neighbourhood {
-  id: ID!
-  name: String!
-  slug: String!
-  homePreview: Picture
-  city: City!
-  featured: Boolean!
-  popularity: Int!
-}
-
-type Location {
-  id: ID!
-  lat: Float!
-  lng: Float!
-  address: String
-  directions: String
-}
-
-type Picture {
-  id: ID!
-  url: String!
-}
-
-type City {
-  id: ID!
-  name: String!
-}
-
-type ExperienceCategory {
-  id: ID!
-  mainColor: String!
-  name: String!
-  experience: Experience
-}
-
-type User {
-  bookings: [Booking!]
-  createdAt: DateTime!
+input AuthInput {
   email: String!
-  firstName: String!
-  hostingExperiences: [Experience!]
-  id: ID!
-  isSuperHost: Boolean!
-  lastName: String!
-  location: Location!
-  notifications: [Notification!]
-  ownedPlaces: [Place!]
-  paymentAccount: [PaymentAccount!]
-  phone: String!
-  profilePicture: Picture
-  receivedMessages: [Message!]
-  responseRate: Float
-  responseTime: Int
-  sentMessages: [Message!]
-  updatedAt: DateTime!
-  token: String!
+  password: String!
 }
 
-type PaymentAccount {
-  id: ID!
-  createdAt: DateTime!
-  type: PAYMENT_PROVIDER
-  user: User!
-  payments: [Payment!]!
-  paypal: PaypalInformation
-  creditcard: CreditCardInformation
-}
-
-type Place {
-  id: ID!
-  name: String
-  size: PLACE_SIZES
-  shortDescription: String!
-  description: String!
-  slug: String!
-  maxGuests: Int!
-  numBedrooms: Int!
-  numBeds: Int!
-  numBaths: Int!
-  reviews: [Review!]!
-  amenities: Amenities!
-  host: User!
-  pricing: Pricing!
-  location: Location!
-  views: PlaceViews!
-  guestRequirements: GuestRequirements
-  policies: Policies
-  houseRules: HouseRules
-  bookings: [Booking!]!
-  pictures: [Picture!]
-  popularity: Int!
-}
-
-type Booking {
-  id: ID!
-  createdAt: DateTime!
-  bookee: User!
-  place: Place!
-  startDate: DateTime!
-  endDate: DateTime!
-  payment: Payment!
-}
-
-type Notification {
-  createdAt: DateTime!
-  id: ID!
-  link: String!
-  readDate: DateTime!
-  type: NOTIFICATION_TYPE
-  user: User!
-}
-
-type Payment {
-  booking: Booking!
-  createdAt: DateTime!
-  id: ID!
-  paymentMethod: PaymentAccount!
-  serviceFee: Float!
-}
-
-type PaypalInformation {
-  createdAt: DateTime!
-  email: String!
-  id: ID!
-  paymentAccount: PaymentAccount!
-}
-
-type CreditCardInformation {
-  cardNumber: String!
-  country: String!
-  createdAt: DateTime!
-  expiresOnMonth: Int!
-  expiresOnYear: Int!
-  firstName: String!
-  id: ID!
-  lastName: String!
-  paymentAccount: PaymentAccount
-  postalCode: String!
-  securityCode: String!
-}
-
-type Message {
-  createdAt: DateTime!
-  deliveredAt: DateTime!
-  id: ID!
-  readAt: DateTime!
-}
-
-type Pricing {
-  averageMonthly: Int!
-  averageWeekly: Int!
-  basePrice: Int!
-  cleaningFee: Int
-  currency: CURRENCY
-  extraGuests: Int
-  id: ID!
-  monthlyDiscount: Int
-  perNight: Int!
-  securityDeposit: Int
-  smartPricing: Boolean!
-  weekendPricing: Int
-  weeklyDiscount: Int
-}
-
-type PlaceViews {
-  id: ID!
-  lastWeek: Int!
-}
-
-type GuestRequirements {
-  govIssuedId: Boolean!
-  guestTripInformation: Boolean!
-  id: ID!
-  recommendationsFromOtherHosts: Boolean!
-}
-
-type Policies {
-  checkInEndTime: Float!
-  checkInStartTime: Float!
-  checkoutTime: Float!
-  createdAt: DateTime!
-  id: ID!
-  updatedAt: DateTime!
-}
-
-type HouseRules {
-  additionalRules: String
-  createdAt: DateTime!
-  id: ID!
-  partiesAndEventsAllowed: Boolean
-  petsAllowed: Boolean
-  smokingAllowed: Boolean
-  suitableForChildren: Boolean
-  suitableForInfants: Boolean
-  updatedAt: DateTime!
-}
-
-type Amenities {
-  airConditioning: Boolean!
-  babyBath: Boolean!
-  babyMonitor: Boolean!
-  babysitterRecommendations: Boolean!
-  bathtub: Boolean!
-  breakfast: Boolean!
-  buzzerWirelessIntercom: Boolean!
-  cableTv: Boolean!
-  changingTable: Boolean!
-  childrensBooksAndToys: Boolean!
-  childrensDinnerware: Boolean!
-  crib: Boolean!
-  doorman: Boolean!
-  dryer: Boolean!
-  elevator: Boolean!
-  essentials: Boolean!
-  familyKidFriendly: Boolean!
-  freeParkingOnPremises: Boolean!
-  freeParkingOnStreet: Boolean!
-  gym: Boolean!
-  hairDryer: Boolean!
-  hangers: Boolean!
-  heating: Boolean!
-  hotTub: Boolean!
-  id: ID!
-  indoorFireplace: Boolean!
-  internet: Boolean!
-  iron: Boolean!
-  kitchen: Boolean!
-  laptopFriendlyWorkspace: Boolean!
-  paidParkingOffPremises: Boolean!
-  petsAllowed: Boolean!
-  pool: Boolean!
-  privateEntrance: Boolean!
-  shampoo: Boolean!
-  smokingAllowed: Boolean!
-  suitableForEvents: Boolean!
-  tv: Boolean!
-  washer: Boolean!
-  wheelchairAccessible: Boolean!
-  wirelessInternet: Boolean!
+input ResetPasswordInput {
+  resetToken: String!
+  password: String!
+  confirmPassword: String!
 }

@@ -8,6 +8,9 @@ type User {
   resetTokenExpiry: String
   permissions: [PERMISSION!]!
   connectedWithGithub: Boolean! @default(value: "false")
+  sentMessages: [Message!]! @relation(name: "SentMessages")
+  receivedMessages: [Message!]! @relation(name: "ReceivedMessages")
+  notifications: [Notification!]!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -21,6 +24,7 @@ type Post {
   content: File!
   tags: [Tag!]!
   views: Int
+  comments: [Comment!]!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -28,6 +32,15 @@ type Post {
 type Tag {
   id: ID! @unique
   text: String!
+}
+
+type Comment {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  author: User!
+  content: String
+  post: Post!
 }
 
 type File {
@@ -53,6 +66,24 @@ type Directory {
   updatedAt: DateTime!
 }
 
+type Message {
+  id: ID! @unique
+  createdAt: DateTime!
+  from: User! @relation(name: "SentMessages")
+  to: User! @relation(name: "ReceivedMessages")
+  deliveredAt: DateTime!
+  readAt: DateTime
+}
+
+type Notification {
+  id: ID! @unique
+  createdAt: DateTime!
+  type: NOTIFICATION_TYPE
+  user: User!
+  link: String!
+  readDate: DateTime
+}
+
 enum VISIBILITY {
   PRIVATE
   PUBLIC
@@ -65,6 +96,11 @@ enum PERMISSION {
   UPDATE
   DELETE
   CHANGE_PERMISSIONS
+}
+
+enum NOTIFICATION_TYPE {
+  NEW_MESSAGE
+  NEW_COMMENT
 }
 
 enum FILE_TYPE {
