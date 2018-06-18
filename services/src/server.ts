@@ -11,6 +11,7 @@ import Raven from './shared/raven'
 import { redisInstance } from './redis'
 import middlewares from './routes/middlewares'
 import { securityMiddleware } from './shared/middlewares/security'
+var util = require('util')
 
 const PORT = parseInt(process.env.PORT, 10) || 4000
 
@@ -21,7 +22,7 @@ async function startServer() {
     fragmentReplacements,
     endpoint: process.env.PRISMA_ENDPOINT,
     secret: process.env.PRISMA_SECRET,
-    debug: true
+    debug: false
   })
 
   const context = req => ({
@@ -41,6 +42,28 @@ async function startServer() {
   securityMiddleware(graphQLServer.express)
   graphQLServer.express.use(compression())
   graphQLServer.express.use(middlewares)
+  graphQLServer.express.use((req, res, next) => {
+    debug(`REQ>COOKIES::::::${util.inspect(req.cookies)}`)
+    const { token } = req.cookies
+    if (token) {
+      debug(`${token}`)
+      // const { userId } = jwt.verify(token, process.env.APP_SECRET)
+      // req.userId = userId
+    }
+    next()
+  })
+
+  // 2. Get User from their ID
+  // graphQLServer.express.use(async (req, res, next) => {
+  //   if (!req.userId) return next()
+  //   const user = await db.query.user(
+  //     { where: { id: req.userId } },
+  //     `{ id, permissions, email, name }`
+  //   )
+  //   req.user = user
+  //   next()
+  // })
+
   graphQLServer.express.use((err, req, res, next) => {
     if (err) {
       debug(err)

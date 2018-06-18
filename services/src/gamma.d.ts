@@ -9,6 +9,7 @@ export interface Context {
   pubsub
   redisInstance
   request: any
+  response: any
 }
 // Type definitions for [~THE LIBRARY NAME~] [~OPTIONAL VERSION NUMBER~]
 // Project: [~THE PROJECT NAME~]
