@@ -34,8 +34,8 @@ const LoadingContainer = styled('span')(
   loadingAnimation
 )
 
-function Loading() {
-  return <LoadingContainer>Loading</LoadingContainer>
+function Loading(props) {
+  return <LoadingContainer>{props.loading || ':('}</LoadingContainer>
 }
 
 export default Loading
