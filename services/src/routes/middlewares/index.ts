@@ -1,6 +1,5 @@
 const debug = require('debug')('api:routes:middlewares')
 import { Router } from 'express'
-import * as jwt from 'jsonwebtoken'
 import * as cookieParser from 'cookie-parser'
 import views from '../../shared/middlewares/views'
 import useragent from '../../shared/middlewares/useragent'

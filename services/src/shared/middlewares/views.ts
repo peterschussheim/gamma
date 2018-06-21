@@ -10,6 +10,6 @@ export default (req, res, next) => {
   const { pathname } = url.parse(req.url, true)
 
   req.session.views[pathname] = (req.session.views[pathname] || 0) + 1
-  debug(`parsed url ${util.inspect(pathname)}`)
+  // debug(`parsed url ${util.inspect(pathname)}`)
   next()
 }

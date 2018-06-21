@@ -1,10 +1,12 @@
+/// <reference types="express-session" />
 const debug = require('debug')('utils:getUserId')
 import * as jwt from 'jsonwebtoken'
 import { Context } from '../gamma'
 var util = require('util')
 
 /**
- * Gets user id from token
+ * Gets userId by pulling the authorization header off off the Request object
+ * and verifying its' contents.  If valid, we return the userId.
  * @param ctx
  * @returns string user id from token
  */
@@ -36,7 +38,7 @@ export function getUserIdFromSession(ctx: Context): string {
    * 2) user sends login mutation and if successful, express server .....
    *
    */
-  debug(`ctx.req: ${util.inspect(ctx.request.session)}`)
+  // debug(`ctx.req: ${util.inspect(ctx.request.session)}`)
 
   /**
    * CASE 1:
