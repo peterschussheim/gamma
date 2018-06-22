@@ -1,13 +1,18 @@
 # graphql-api-server
 
-- [graphql-api-server](#graphql-api-server)
-  - [Overview](#overview)
-  - [Features](#features)
-  - [Docs](#docs)
-    - [Repo Structure](#repo-structure)
-    - [Implementation Notes](#implementation-notes)
-      - [Security](#security)
-    - [Getting Started](#getting-started)
+* [graphql-api-server](#graphql-api-server)
+  * [Overview](#overview)
+  * [Features](#features)
+  * [Docs](#docs)
+    * [Repo Structure](#repo-structure)
+    * [Authentication Flows](#authentication-flows)
+      * [Create Account](#create-account)
+      * [Login](#login)
+      * [Logout](#logout)
+      * [Reset PW](#reset-pw)
+    * [Implementation Notes](#implementation-notes)
+      * [Security](#security)
+    * [Getting Started](#getting-started)
 
 ## Overview
 
@@ -42,6 +47,42 @@ project
 │   ├── package.json
 │   └── index.js
 ```
+
+### Authentication Flows
+
+#### Create Account
+
+Creating an account involves a user entering her desired credentials (`email` must be unique and a `password`). Once the account is created, the user must verify they aren't a robot by clicking a confirmation link in an email sent during the new account process. The link contains a fast-expiring token stored in `redis`.
+
+1.  user creates a new user account using an `email` and `password` as credentials
+2.  email and hashed PW stored in DB, and we set a property on the new user object `confirmed: false`
+3.  send confirmation email to user
+4.  set `request.session.userId` to the newly-created users' ID (from DB)
+5.  send a `jwt` with the `userId` and the full `user` object to the client
+
+#### Login
+
+1.  Lookup given email in DB
+2.  if the email found in step 1 exists, throw if `confirmed: false` (might need to enable a mechanism to request a new confirm token)
+3.  Validate raw PW against hashed PW stored in DB
+4.  throw if user is not found (step 1) or pw is invalid (step 2)
+5.  set `request.session.userId` to the user we found in DB
+6.  **REPLACE WITH BRIEF INFO ABOUT HOW WE USE a `redis` list**
+7.  send a `jwt` with the `userId` and the full `user` object to the client (**user is now authenticated**)
+
+#### Logout
+
+Logout authenticated user from a given session. If a user is logged in on 3 individual browsers (browserA, browserB, browserC), calling this mutation in browserA will **only** destroy their session in browserA.
+
+1.  Attempt to pull the `userId` off Session obj
+2.  destroy the current session
+3.  return success message to client
+
+#### Reset PW
+
+Resetting a password requires us to programatically destroy ALL of a given users`sessions (multiple browsers, devices), it is necessary to keep track of all of a users' sessions. If`ctx.request.sessionID`exists, we can infer that the user is authenticated and we want to push this into a list in`redis`that holds all of this users' sessions. This is implemented by creating a list data structure in`redis`using`$userSessionIdPrefix:user.id`as its key and the`sessionID` as the value.
+
+1.
 
 ### Implementation Notes
 
@@ -151,4 +192,5 @@ Please see the [connector-md][connector-md] produced by the Apollo team to learn
 [owasp session cheat sheet]: https://www.owasp.org/index.php/Session_Management_Cheat_Sheet
 [owasp authentication cheat sheet]: https://www.owasp.org/index.php/Authentication_Cheat_Sheet
 [transport layer protection cheat sheet]: https://www.owasp.org/index.php/Transport_Layer_Protection_Cheat_Sheet
+[forgot password cheat sheet]: https://www.owasp.org/index.php/Forgot_Password_Cheat_Sheet
 [mdn: http cookies]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
