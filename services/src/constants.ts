@@ -1,3 +1,3 @@
 export const redisSessionPrefix = 'sess:'
-export const userSessionIdPrefix = 'usid:'
-export const forgotPasswordPrefix = 'forgotPassword:'
+export const userSessionIdPrefix = 'uid:'
+export const forgotPasswordPrefix = 'forgotpw:'
