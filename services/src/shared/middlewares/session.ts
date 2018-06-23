@@ -1,4 +1,3 @@
-// import { cookieKeygrip } from '../cookieUtils'
 const debug = require('debug')('shared:middlewares:session')
 debug('Initializing connect-redis session store')
 import * as session from 'express-session'
@@ -24,6 +23,6 @@ export default session({
   cookie: {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+    maxAge: 1000 * 60 * 60 * 24 // 1 day
   }
 })
