@@ -1,6 +1,6 @@
 {
   "name": "style-guide",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "private": true,
   "dependencies": {
     "apollo-cache-inmemory": "1.2.2",
