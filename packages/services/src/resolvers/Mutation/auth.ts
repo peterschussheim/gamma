@@ -2,13 +2,22 @@ const debug = require('debug')('mutation:auth')
 import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 
-import hasPermission from '../../utils/permissions'
 import { getUserIdFromSession, AuthError } from '../../utils/getUserId'
 import { Context } from '../../gamma'
 import {
   removeSingleSession,
   removeAllUserSessions
 } from '../../utils/sessions'
+import {
+  AccountNotFoundError,
+  ConfirmationTokenExpiredError,
+  ConfirmEmailError,
+  EmailInUseError,
+  InvalidEmailFormatError,
+  PostNotFoundError,
+  PwResetTokenExpiredError
+} from '../../utils/errors'
+const assert = require('assert')
 import { USER_SESSION_ID_PREFIX } from '../../constants'
 
 export const auth = {
@@ -18,7 +27,24 @@ export const auth = {
       data: { ...args, password }
     })
 
+    if (!user) {
+      throw new EmailInUseError()
+    }
+
     ctx.request.session.userId = user.id
+
+    if (ctx.request.sessionID) {
+      debug(
+        `Pushing current request sessionID into redis set: ${
+          ctx.request.sessionID
+        }`
+      )
+      // 4) create and/or add a new set for this user and add a the request.sessionID.
+      await ctx.redis.sadd(
+        `${USER_SESSION_ID_PREFIX}${user.id}`,
+        ctx.request.sessionID
+      )
+    }
     debug('New user created')
     debug('Returning signed token and user data')
 
@@ -64,34 +90,34 @@ export const auth = {
   },
 
   logout: async (parent, args, ctx: Context, info) => {
-    debug(`ctx.request.sessionID: ${ctx.request.sessionID}`)
-    // 1) verify there is a user logged in
     const userId = getUserIdFromSession(ctx)
     if (userId) {
-      // pass the sessionId from context
-      // await removeSingleSession(ctx.request.sessionID, ctx.redis)
-      // TODO: extract into function? or unnecessary?
-      await ctx.redis.srem(
-        `${USER_SESSION_ID_PREFIX}${userId}`,
-        ctx.request.sessionID
-      )
-      // 3) call `destroy` method on current Session obj
-      // TODO: verify `session.destroy` does not also clear the corresponding key in the session store.
+      await removeSingleSession(ctx.request.sessionID, userId, ctx.redis)
+
       ctx.request.session.destroy(err => {
         if (err) {
           debug(`LOGOUT: ${err}`)
         }
       })
-      // 4.success) succeeded
       return { success: true }
     }
-    // 4.error) failed
     return { success: false }
   },
 
-  // logoutOfAllDevices: async (parent, args, ctx: Context, info) => {
-  //   // todo
-  // },
+  logoutOfAllSessions: async (parent, args, ctx: Context, info) => {
+    const userId = getUserIdFromSession(ctx)
+    if (userId) {
+      await removeAllUserSessions(userId, ctx.redis)
+
+      ctx.request.session.destroy(err => {
+        if (err) {
+          debug(`LOGOUT: ${err}`)
+        }
+      })
+      return { success: true }
+    }
+    return { success: false }
+  },
 
   updateUser: async (parent, args, ctx: Context, info) => {
     const userId = getUserIdFromSession(ctx)

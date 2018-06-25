@@ -22,6 +22,7 @@ type Mutation {
   signup(email: String!, password: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
   logout: MutationResult!
+  logoutOfAllSessions: MutationResult!
   requestPasswordReset(email: String!): User
   resetPassword(input: ResetPasswordInput): User!
   updateUser(input: UserUpdateInput): User!
