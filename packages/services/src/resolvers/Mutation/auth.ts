@@ -70,6 +70,7 @@ export const auth = {
     if (userId) {
       // pass the sessionId from context
       // await removeSingleSession(ctx.request.sessionID, ctx.redis)
+      // TODO: extract into function? or unnecessary?
       await ctx.redis.srem(
         `${USER_SESSION_ID_PREFIX}${userId}`,
         ctx.request.sessionID

@@ -25,17 +25,26 @@ export const removeSingleSession = async (sessionID: string, redis: Redis) => {
  * @param redis {Redis}
  */
 export const removeAllUserSessions = async (userId: string, redis: Redis) => {
+  // TODO: refactor to use a set operation
   const sessionIds = await redis.lrange(
     `${USER_SESSION_ID_PREFIX}${userId}`,
     0,
     -1
   )
 
+  // delete each sessionID (`sess:9OSSlGnGCNFII7WhaI9tOwvvl1pf_gWn`)
+  // for this user
   await Promise.all(
     sessionIds.map(async id => {
       redis.del(`${REDIS_SESSION_PREFIX}${id}`)
     })
   )
+
+  // delete the entire set of sessions for this user
+  // (`usid:cjinb8g7j9znj0886y207ieg4,NPISWP9f8qNuB7WHwjI8s09vT275qyvC`)
+  // find proper set method:
+  //
+  // await redis.srem(`usid:cjinb8g7j9znj0886y207ieg4')
 }
 
 // // refactor to use `p-queue`
