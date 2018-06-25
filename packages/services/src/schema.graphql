@@ -1,0 +1,67 @@
+# import * from "./generated/prisma.graphql"
+
+type Query {
+  # Query the current user's data
+  viewer: Viewer
+  postById(id: ID!): Post!
+  # Query a set of posts for a given data and/or multiple dates ordered chronologically.
+  postsByDate(
+    where: PostWhereInput
+    orderBy: PostOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Post!]!
+  ## Fetch global list of tags.
+  tags: [Tag!]!
+}
+
+type Mutation {
+  signup(email: String!, password: String!): AuthPayload!
+  login(email: String!, password: String!): AuthPayload!
+  logout: MutationResult!
+  requestPasswordReset(email: String!): User
+  resetPassword(input: ResetPasswordInput): User!
+  updateUser(input: UserUpdateInput): User!
+  updatePermissions(permissions: [PERMISSION], userId: ID!): User!
+  createPost(input: PostCreateInput): Post!
+  updatePost(input: PostUpdateInput): Post!
+  deletePost(id: ID!): MutationResult!
+  createTag(input: TagCreateInput): Tag!
+  updateTag(input: TagUpdateInput): Tag!
+  deleteTag(id: ID!): MutationResult!
+  createComment(input: CommentCreateInput): Comment!
+  updateComment(input: CommentUpdateInput): Comment!
+  deleteComment(id: ID!): MutationResult!
+}
+
+type Subscription {
+  counter: Counter!
+}
+
+type Viewer {
+  # Used to check that a given user is authenticated.
+  me: User!
+}
+
+type Counter {
+  count: Int!
+  countStr: String
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+type MutationResult {
+  success: Boolean
+}
+
+input ResetPasswordInput {
+  resetToken: String!
+  password: String!
+  confirmPassword: String!
+}
