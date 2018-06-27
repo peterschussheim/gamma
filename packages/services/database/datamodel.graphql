@@ -11,6 +11,7 @@ type User {
   sentMessages: [Message!]! @relation(name: "SentMessages")
   receivedMessages: [Message!]! @relation(name: "ReceivedMessages")
   notifications: [Notification!]!
+  emailConfirmed: Boolean! @default(value: "false")
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -53,6 +54,12 @@ type File {
   isTransient: Boolean! @default(value: "false")
   bufferType: FILE_TYPE
   description: String
+  # Used when uploading to S3
+  uuid: String @unique
+  # MIME type
+  contentType: String
+  s3Url: String @unique
+  size: Int
   createdAt: DateTime!
   updatedAt: DateTime!
 }

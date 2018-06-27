@@ -16,14 +16,18 @@ type Query {
   ): [Post!]!
   ## Fetch global list of tags.
   tags: [Tag!]!
+  file(id: ID!): File
+  files: [File!]!
 }
 
 type Mutation {
-  signup(email: String!, password: String!): AuthPayload!
+  signup(email: String!, password: String!): MutationResult!
   login(email: String!, password: String!): AuthPayload!
   logout: MutationResult!
   logoutOfAllSessions: MutationResult!
+  # Initiates a pw reset
   requestPasswordReset(email: String!): User
+  # Completes the actual pw reset in db
   resetPassword(input: ResetPasswordInput): User!
   updateUser(input: UserUpdateInput): User!
   updatePermissions(permissions: [PERMISSION], userId: ID!): User!
@@ -36,6 +40,8 @@ type Mutation {
   createComment(input: CommentCreateInput): Comment!
   updateComment(input: CommentUpdateInput): Comment!
   deleteComment(id: ID!): MutationResult!
+  renameFile(id: ID!, name: String!): File
+  deleteFile(id: ID!): File
 }
 
 type Subscription {
