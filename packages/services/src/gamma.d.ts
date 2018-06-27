@@ -22,9 +22,16 @@ export interface Context {
   pubsub
   redis: Redis
   session: Session
-  request: any
-  response: any
+  req: any
+  res: any
   url: string
+}
+
+export interface FileMeta {
+  name: string
+  size: number
+  contentType: string
+  uuid: string
 }
 
 // export interface ResolverMap {
