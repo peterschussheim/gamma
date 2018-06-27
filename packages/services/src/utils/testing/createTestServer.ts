@@ -1,10 +1,15 @@
-import server from '../../server'
-import { AddressInfo } from 'net'
+import startServer from '../../server'
 
-// TODO NEXT: refactor this file to work with new `startServer` API
-// and inject env variables, options
+const PORT = parseInt(process.env.PORT, 10) || 4000
+const { PRISMA_ENDPOINT, PRISMA_SECRET } = process.env
+
+const prismaOptions = {
+  PRISMA_ENDPOINT,
+  PRISMA_SECRET,
+  PRISMA_DEBUG: false
+}
+
 export const setup = async () => {
-  const app = await server()
-  const { port } = app.address() as AddressInfo
-  process.env.TEST_HOST = `http://127.0.0.1:${port}`
+  process.env.TEST_HOST = `http://127.0.0.1:${PORT}/graphql`
+  return startServer(prismaOptions)
 }

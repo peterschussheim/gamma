@@ -16,19 +16,19 @@ export class MockClient {
     }
   }
 
-  async register(email: string, password: string) {
+  async signup(email: string, password: string) {
     return rp.post(this.url, {
       ...this.options,
       body: {
         query: `
-          mutation {
-            register(email: "${email}", password: "${password}") {
-              user {
-                id
-              }
-              token
+        mutation {
+          signup(email: "${email}", password: "${password}") {
+            user {
+              id
             }
+            token
           }
+        }
         `
       }
     })
