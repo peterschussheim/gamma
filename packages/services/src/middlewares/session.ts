@@ -1,14 +1,14 @@
-const debug = require('debug')('shared:middlewares:session')
+const debug = require('debug')('middlewares:session')
 debug('Initializing connect-redis session store')
 import * as session from 'express-session'
 import * as connectRedis from 'connect-redis'
-import { redisInstance } from '../../redis'
+import { redisInstance } from '../redis'
 
 const RedisStore = connectRedis(session)
 
 if (!process.env.SESSION_SECRET && !process.env.TEST_DB) {
   throw new Error(
-    '[shared/middlewares/session] You have to provide the SESSION_SECRET environment variable.'
+    '[middlewares:session] You have to provide the SESSION_SECRET environment variable.'
   )
 }
 
