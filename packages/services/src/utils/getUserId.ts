@@ -9,7 +9,7 @@ var util = require('inspector')
  * @returns string user id from token
  */
 export function getUserIdFromToken(ctx: Context): string {
-  const Authorization = ctx.request.get('Authorization')
+  const Authorization = ctx.req.get('Authorization')
   if (Authorization) {
     const token = Authorization.replace('Bearer ', '')
     const { userId } = jwt.verify(token, process.env.APP_SECRET!) as {
@@ -46,8 +46,8 @@ export function getUserIdFromSession(ctx: Context): string {
    * (look up user data in db) which require authentication.
    *
    */
-  if (ctx.request.session.userId) {
-    return ctx.request.session.userId
+  if (ctx.req.session.userId) {
+    return ctx.req.session.userId
   }
 
   /**

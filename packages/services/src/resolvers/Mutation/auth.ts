@@ -83,23 +83,22 @@ export const auth = {
     if (!valid || !user) {
       throw new AuthError()
     }
+    debug(ctx)
 
     // 3) Attach a key with userId === to the user's id in DB
-    ctx.request.session.userId = user.id
+    ctx.req.session.userId = user.id
 
-    if (ctx.request.sessionID) {
+    if (ctx.req.sessionID) {
       debug(
-        `Pushing current request sessionID into redis set: ${
-          ctx.request.sessionID
-        }`
+        `Pushing current request sessionID into redis set: ${ctx.req.sessionID}`
       )
       // 4) create and/or add a new set for this user and add a the request.sessionID.
       await ctx.redis.sadd(
         `${USER_SESSION_ID_PREFIX}${user.id}`,
-        ctx.request.sessionID
+        ctx.req.sessionID
       )
     }
-    debug(`Authenticating existing user: ${ctx.request.session.userId}`)
+    debug(`Authenticating existing user: ${ctx.req.session.userId}`)
     debug('Returning signed token and user data')
 
     // 5) Send an object to the client with a JWT and the requested user object
@@ -112,9 +111,9 @@ export const auth = {
   logout: async (parent, args, ctx: Context, info) => {
     const userId = getUserIdFromSession(ctx)
     if (userId) {
-      await removeSingleSession(ctx.request.sessionID, userId, ctx.redis)
+      await removeSingleSession(ctx.req.sessionID, userId, ctx.redis)
 
-      ctx.request.session.destroy(err => {
+      ctx.req.session.destroy(err => {
         if (err) {
           debug(`LOGOUT: ${err}`)
         }
@@ -129,7 +128,7 @@ export const auth = {
     if (userId) {
       await removeAllUserSessions(userId, ctx.redis)
 
-      ctx.request.session.destroy(err => {
+      ctx.req.session.destroy(err => {
         if (err) {
           debug(`LOGOUT: ${err}`)
         }
