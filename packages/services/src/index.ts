@@ -15,6 +15,7 @@ const prismaOptions = {
   PRISMA_DEBUG: false
 }
 
+// TODO: https://github.com/apollographql/subscriptions-transport-ws#constructorurl-options-websocketimpl
 const options: Options = {
   port: PORT,
   cors: {

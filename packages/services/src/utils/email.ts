@@ -4,10 +4,7 @@ import * as SparkPost from 'sparkpost'
 const client = new SparkPost(process.env.SPARKPOST_API_KEY)
 
 // TODO: add webhook listening for event 'click'
-export const sendConfirmationEmail = async (
-  email: string,
-  confirmationUrl: string
-) => {
+export const sendConfirmationEmail = async (email: string, url: string) => {
   const transmission = {
     options: {
       open_tracking: true,
@@ -20,7 +17,7 @@ export const sendConfirmationEmail = async (
           email
         },
         substitution_data: {
-          confirmationUrl
+          url
         }
       }
     ],
@@ -32,9 +29,9 @@ export const sendConfirmationEmail = async (
       subject: 'Confirm Email',
       reply_to: 'Support <support@gamma.app>',
       text:
-        'Hi! \nPlease verify your account by clicking the link below:\n{{confirmationUrl}}\nThis link expires in 24 hours',
+        'Hi! \nPlease verify your account by clicking the link below:\n{{url}}\nThis link expires in 24 hours',
       html:
-        '<p>Hi! \nPlease verify your account by clicking the link below:\n{{confirmationUrl}}\n</p><p>This link expires in 24 hours</p>'
+        '<p>Hi! \nPlease verify your account by clicking the link below:\n{{url}}\n</p><p>This link expires in 24 hours</p>'
     }
   }
 
