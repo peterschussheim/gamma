@@ -1,0 +1,131 @@
+type User {
+  id: ID! @unique
+  email: String! @unique
+  password: String!
+  name: String
+  posts: [Post!]!
+  resetToken: String
+  resetTokenExpiry: String
+  permissions: [PERMISSION!]!
+  connectedWithGithub: Boolean! @default(value: "false")
+  sentMessages: [Message!]! @relation(name: "SentMessages")
+  receivedMessages: [Message!]! @relation(name: "ReceivedMessages")
+  notifications: [Notification!]!
+  emailConfirmed: Boolean! @default(value: "false")
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# `Post` type is the main abstraction, representing a single day's worth
+# of entries
+type Post {
+  id: ID! @unique
+  author: User!
+  visibility: VISIBILITY @default(value: "PUBLIC")
+  content: File!
+  tags: [Tag!]!
+  views: Int
+  comments: [Comment!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Tag {
+  id: ID! @unique
+  text: String!
+}
+
+type Comment {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  author: User!
+  content: String
+  post: Post!
+}
+
+type File {
+  id: ID! @unique
+  name: String!
+  type: FILE_TYPE! @default(value: "MARKDOWN")
+  data: String! @default(value: "")
+  parent: Directory
+  isDirty: Boolean! @default(value: "false")
+  isTransient: Boolean! @default(value: "false")
+  bufferType: FILE_TYPE
+  description: String
+  # Used when uploading to S3
+  uuid: String @unique
+  # MIME type
+  contentType: String
+  s3Url: String @unique
+  size: Int
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Directory {
+  id: ID! @unique
+  name: String
+  children: [File!]!
+  isOpen: Boolean! @default(value: "true")
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Message {
+  id: ID! @unique
+  createdAt: DateTime!
+  from: User! @relation(name: "SentMessages")
+  to: User! @relation(name: "ReceivedMessages")
+  deliveredAt: DateTime!
+  readAt: DateTime
+}
+
+type Notification {
+  id: ID! @unique
+  createdAt: DateTime!
+  type: NOTIFICATION_TYPE
+  user: User!
+  link: String!
+  readDate: DateTime
+}
+
+enum VISIBILITY {
+  PRIVATE
+  PUBLIC
+}
+
+enum PERMISSION {
+  ADMIN
+  USER
+  CREATE
+  UPDATE
+  DELETE
+  CHANGE_PERMISSIONS
+}
+
+enum NOTIFICATION_TYPE {
+  NEW_MESSAGE
+  NEW_COMMENT
+}
+
+enum FILE_TYPE {
+  JAVASCRIPT
+  TYPESCRIPT
+  HTML
+  CSS
+  C
+  CPP
+  RUST
+  WAT
+  WASM
+  DIRECTORY
+  LOG
+  X86
+  MARKDOWN
+  JSON
+  DOT
+  TOML
+  UNKNOWN
+}

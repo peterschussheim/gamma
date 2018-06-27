@@ -1,0 +1,38 @@
+{
+  "name": "style-guide",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "apollo-cache-inmemory": "1.2.2",
+    "apollo-client": "2.3.2",
+    "apollo-link": "1.2.2",
+    "apollo-link-error": "1.1.0",
+    "apollo-link-http": "1.5.4",
+    "emotion": "9.2.3",
+    "react": "^16.4.0",
+    "react-app-rewire-hot-loader": "1.0.1",
+    "react-app-rewired": "1.5.2",
+    "react-dom": "^16.4.0",
+    "react-emotion": "9.2.3",
+    "react-hot-loader": "4.3.1",
+    "react-icons": "2.2.7",
+    "react-reflex": "2.2.7",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test --env=jsdom",
+    "eject": "react-app-rewired eject",
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check"
+  },
+  "devDependencies": {
+    "docz": "0.2.2",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-plugin-prettier": "2.6.0",
+    "husky": "0.14.3",
+    "prettier": "1.13.5",
+    "pretty-quick": "1.6.0",
+    "prop-types": "15.6.1"
+  }
+}
