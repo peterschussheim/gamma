@@ -6,10 +6,10 @@
   "author": "Peter Schussheim <peter@schussheim.com> (https://peterschussheim.com/)",
   "license": "MIT",
   "scripts": {
-    "build": "cross-env NODE_ENV=production rm -rf dist && graphql codegen && tsc src",
-    "start": "yarn dev",
+    "start": "cross-env NODE_ENV=production node -r dotenv/config dist/",
     "dev:verbose": "cross-env NODE_ENV=development cross-env PRISMA_DEBUG=true cross-env DEBUG=*,-snapdragon:*,-nodemon*, nodemon -r dotenv/config --watch src -e ts,js,graphql -x ts-node src/index.ts",
     "dev": "cross-env NODE_ENV=development cross-env DEBUG=*,-express-session*,-body-parser:*,-express:*,-snapdragon:*,-nodemon*, nodemon -r dotenv/config --watch src -e ts,js,graphql -x ts-node src/index.ts",
+    "build": "rm -rf dist && tsc",
     "playground": "graphql playground",
     "deploy": "DEBUG=* prisma deploy -e .env",
     "get-remote-schema": "graphql get-schema --project database",
