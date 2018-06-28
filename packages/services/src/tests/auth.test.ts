@@ -65,24 +65,26 @@ xtest('logout of all sessions for a given user', async () => {
   expect(await sess1.viewer()).toEqual(await sess2.viewer())
 
   // Logout of all sessions
-  await sess1.logoutOfAllSessions()
+  // await sess1.logoutOfAllSessions()
   expect(await sess1.viewer()).toEqual(await sess2.viewer())
 })
 
-xtest('single session', async () => {
-  const client = new MockClient(process.env.TEST_HOST as string)
-  await client.login(email, password)
-  const response = await client.viewer()
-  expect(response.data).toEqual({
-    viewer: {
-      id: userId,
-      email
-    }
-  })
+// xtest('single session', async () => {
+//   const client = new MockClient(process.env.TEST_HOST as string)
+//   await client.login(email, password)
+//   const response = await client.viewer()
+//   expect(response.data).toEqual({
+//     viewer: {
+//       user: {
 
-  await client.logout()
+//       },
+//       email
+//     }
+//   })
 
-  const response2 = await client.viewer()
+//   await client.logout()
 
-  expect(response2.data.viewer).toBeNull()
-})
+//   const response2 = await client.viewer()
+
+//   expect(response2.data.viewer).toBeNull()
+// })
