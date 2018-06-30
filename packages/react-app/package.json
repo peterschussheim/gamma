@@ -21,15 +21,15 @@
     "react-error-boundary": "1.2.3",
     "react-router-dom": "4.3.1",
     "react-scripts": "1.1.4",
-    "subscriptions-transport-ws": "0.9.9",
-    "style-guide": "0.0.0"
+    "subscriptions-transport-ws": "0.9.9"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+    "eslint-check":
+      "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "precommit": "pretty-quick --staged"
   },
   "devDependencies": {

@@ -20,14 +20,14 @@ const options: Options = {
   port: PORT,
   cors: {
     credentials: true,
-    origin:
-      process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
-        ? ['https://gamma.app', /gamma-(\w|-)+\.now\.sh/g, /gamma\.app/]
-        : [/localhost/]
+    origin: ['*']
+    // process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
+    //   ? ['https://gamma.app', /gamma-(\w|-)+\.now\.sh/g, /gamma\.app/]
+    //   : [/localhost/]
   },
   endpoint: '/graphql',
   subscriptions: '/subscriptions',
-  playground: '/playground',
+  playground: process.env.NODE_ENV === 'production' ? false : '/playground',
   formatError
 }
 
@@ -43,8 +43,8 @@ startServer(prismaOptions)
   .then(http => {
     const { port } = http.address() as AddressInfo
     debug(`Server running on http://localhost:${port}`)
-    debug(`GraphQL URI: http://localhost:${port}${options.endpoint}`)
-    debug(`Playground URI: http://localhost:${port}${options.playground}`)
+    // debug(`GraphQL URI: http://localhost:${port}${options.endpoint}`)
+    // debug(`Playground URI: http://localhost:${port}${options.playground}`)
   })
   .catch(err => {
     debug(`ERROR CAUGHT index.ts: ${err}`)

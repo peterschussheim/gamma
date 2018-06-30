@@ -17,9 +17,7 @@ const options: Options = {
         ? ['https://gamma.app', /gamma-(\w|-)+\.now\.sh/g, /gamma\.app/]
         : [/localhost/]
   },
-  endpoint: '/graphql',
-  subscriptions: '/subscriptions',
-  playground: '/playground'
+  endpoint: '/graphql'
 }
 
 faker.seed(Date.now() + 2)
@@ -50,6 +48,10 @@ test('new users can be created', async () => {
 })
 
 xtest('signup enforces unique email requirement', async () => {
+  const client = new MockClient(process.env.TEST_HOST as string)
+})
+
+xtest('ensure expired sessions for a user are removed from that users` set on expire', async () => {
   const client = new MockClient(process.env.TEST_HOST as string)
 })
 

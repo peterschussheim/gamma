@@ -13,7 +13,8 @@ import { onError } from 'apollo-link-error'
 import App from './App'
 
 const httpLink = new HttpLink({
-  uri: `http://${process.env.REACT_APP_GAMMA_APP_SERVER_URI}`,
+  // uri: `http://${process.env.REACT_APP_GAMMA_APP_SERVER_URI}`,
+  uri: 'https://api.gamma.app',
   credentials: 'include'
 })
 

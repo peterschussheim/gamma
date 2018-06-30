@@ -20,12 +20,12 @@ if (
   !process.env.FORCE_DEV &&
   !process.env.test
 ) {
-  const raven = require('.././raven').default
+  const raven = require('./raven').default
   middlewares.use(raven)
 }
 
-// middlewares.use(cors)
-// middlewares.options('*', cors)
+middlewares.use(cors)
+middlewares.options('*', cors)
 middlewares.use(cookieParser())
 middlewares.use(session)
 middlewares.use(useragent)
