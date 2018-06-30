@@ -44,6 +44,10 @@ export default function startServer(prismaOptions: PrismaBindingOptions) {
   securityMiddleware(graphQLServer.express)
   graphQLServer.express.use(compression())
   graphQLServer.express.use(middlewares)
+  graphQLServer.express.get('/', (req, res) => {
+    res.send('greetings')
+  })
+
   // TODO: add post route for s3 uploads
   graphQLServer.express.get(
     '/confirm/:id',

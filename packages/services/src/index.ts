@@ -28,7 +28,8 @@ const options: Options = {
   endpoint: '/graphql',
   subscriptions: '/subscriptions',
   playground: process.env.NODE_ENV === 'production' ? false : '/playground',
-  formatError
+  formatError,
+  getEndpoint: true
 }
 
 /**
