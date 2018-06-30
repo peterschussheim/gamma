@@ -21,3 +21,7 @@ project
 │   ├── package.json
 │   └── index.js
 ```
+
+## services aliases
+
+![](docs/path-aliases.png)

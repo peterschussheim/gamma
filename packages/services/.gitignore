@@ -50,6 +50,7 @@ typings/
 
 now-secrets.json
 lib
+dist
 dump.rdb
 debug
 
@@ -59,4 +60,3 @@ package-lock.json
 yarn.lock
 
 .vscode
-.DS_Store
