@@ -29,7 +29,8 @@ function Home() {
             'error'
           ) : data ? (
             <div>
-              <Timeline featuredDestinations={data.featuredDestinations} />
+              HI!!!!! HOME!
+              {/* <Timeline featuredDestinations={data.featuredDestinations} /> */}
             </div>
           ) : null
         }
@@ -38,10 +39,10 @@ function Home() {
   )
 }
 
-function Timeline({ users = [], featuredDestinations = [] }) {
+function Timeline({ users = [], posts = [] }) {
   return (
     <div>
-      {featuredDestinations
+      {posts
         .sort(sortByLatest)
         .map(p => (
           <Post

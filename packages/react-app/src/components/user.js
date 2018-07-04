@@ -18,12 +18,13 @@ class User extends React.Component {
 
   render() {
     return (
-      <Query query={VIEWER}>
+      <Query query={VIEWER} fetchPolicy={'network-only'}>
         {({ loading, error, data }) =>
           loading ? (
             <Loading />
           ) : error ? (
             error.message.includes('Not authorized') ? (
+              // TODO: handle inadequate permissions
               <div>
                 <span>You aren't logged in!</span>
                 <Login />
@@ -32,22 +33,28 @@ class User extends React.Component {
               <RenderError error={error} />
             )
           ) : data ? (
-            <React.Fragment>
-              <div>
-                ID:
-                {data.viewer.me.id}
-              </div>
-              <div>
-                EMAIL:
-                {data.viewer.me.email}
-              </div>
-              <Logout />
-            </React.Fragment>
+            <Me data={data} />
           ) : null
         }
       </Query>
     )
   }
+}
+
+function Me(props) {
+  return (
+    <React.Fragment>
+      <div>
+        ID:
+        {props.data.viewer.me.id}
+      </div>
+      <div>
+        EMAIL:
+        {props.data.viewer.me.email}
+      </div>
+      <Logout />
+    </React.Fragment>
+  )
 }
 
 export default User
