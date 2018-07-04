@@ -4,7 +4,6 @@ debug('logging with debug enabled!')
 import * as compression from 'compression'
 import { GraphQLServer, PubSub } from 'graphql-yoga'
 
-import Raven from './shared/raven'
 import { Prisma } from './generated/prisma'
 import { resolvers, fragmentReplacements } from './resolvers'
 import { redis } from './redis'

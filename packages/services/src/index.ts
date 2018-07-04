@@ -4,8 +4,9 @@ import { AddressInfo } from 'net'
 import { Options } from 'graphql-yoga'
 
 import startServer from './server'
+import cors from './middlewares/cors'
 import Raven from './shared/raven'
-
+var util = require('util')
 const PORT = parseInt(process.env.PORT, 10) || 4000
 const { PRISMA_ENDPOINT, PRISMA_SECRET } = process.env
 
@@ -20,18 +21,24 @@ const options: Options = {
   port: PORT,
   cors: {
     credentials: true,
-    origin: ['*']
-    // process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
-    //   ? ['https://gamma.app', /gamma-(\w|-)+\.now\.sh/g, /gamma\.app/]
-    //   : [/localhost/]
+    origin:
+      process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
+        ? [
+            'https://gamma.app',
+            /gamma-(\w|-)+\.now\.sh/g,
+            /gamma\.app/,
+            /services-(\w|-)+\.now\.sh/g,
+            // REMOVE ASAP
+            /localhost/
+          ]
+        : [/localhost/],
+    preflightContinue: true
   },
   endpoint: '/graphql',
   subscriptions: '/subscriptions',
   playground: process.env.NODE_ENV === 'production' ? false : '/playground',
-  formatError,
-  getEndpoint: true
+  formatError
 }
-
 /**
  *  Paths needed to handle:
  *
@@ -44,8 +51,12 @@ startServer(prismaOptions)
   .then(http => {
     const { port } = http.address() as AddressInfo
     debug(`Server running on http://localhost:${port}`)
-    // debug(`GraphQL URI: http://localhost:${port}${options.endpoint}`)
-    // debug(`Playground URI: http://localhost:${port}${options.playground}`)
+    debug(`GraphQL endpoint http://localhost:${port}${options.endpoint}`)
+    debug(
+      `API Server over web socket with subscriptions is now running on ws://localhost:${port}${
+        options.endpoint
+      }`
+    )
   })
   .catch(err => {
     debug(`ERROR CAUGHT index.ts: ${err}`)

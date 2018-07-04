@@ -1,6 +1,8 @@
 const debug = require('debug')('api:routes:middlewares')
 import { Router } from 'express'
 import * as cookieParser from 'cookie-parser'
+import * as morgan from 'morgan'
+
 import views from './views'
 import useragent from './useragent'
 import cors from './cors'
@@ -24,6 +26,7 @@ if (
   middlewares.use(raven)
 }
 
+middlewares.use(morgan('dev'))
 middlewares.use(cors)
 middlewares.options('*', cors)
 middlewares.use(cookieParser())
