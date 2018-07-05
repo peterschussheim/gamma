@@ -3,18 +3,11 @@ import { formatError } from 'apollo-errors'
 import { AddressInfo } from 'net'
 import { Options } from 'graphql-yoga'
 
-import db from './db'
+import { defaultPrismaOptions, initDatabase } from './db'
 import startServer from './server'
 import Raven from './shared/raven'
 
 const PORT = parseInt(process.env.PORT, 10) || 4000
-const { PRISMA_ENDPOINT, PRISMA_SECRET } = process.env
-
-const prismaOptions = {
-  PRISMA_ENDPOINT,
-  PRISMA_SECRET,
-  PRISMA_DEBUG: false
-}
 
 // TODO: https://github.com/apollographql/subscriptions-transport-ws#constructorurl-options-websocketimpl
 const options: Options = {
@@ -43,7 +36,7 @@ const options: Options = {
 /**
  * Instantiate an instance of our prisma db using desired env variables
  */
-const dbInstance = db(prismaOptions)
+const prisma = initDatabase(defaultPrismaOptions)
 
 /**
  *  Paths needed to handle:
@@ -53,7 +46,7 @@ const dbInstance = db(prismaOptions)
  *
  */
 
-startServer(dbInstance)
+startServer(prisma)
   .start(options)
   .then(http => {
     const { port } = http.address() as AddressInfo
