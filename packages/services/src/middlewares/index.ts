@@ -1,12 +1,12 @@
 const debug = require('debug')('api:routes:middlewares')
 import { Router } from 'express'
-import * as cookieParser from 'cookie-parser'
 import * as morgan from 'morgan'
 
 import views from './views'
 import useragent from './useragent'
 import cors from './cors'
 import session from './session'
+import auth from './auth'
 
 const middlewares = Router()
 
@@ -29,8 +29,10 @@ if (
 middlewares.use(morgan('dev'))
 middlewares.use(cors)
 middlewares.options('*', cors)
-middlewares.use(cookieParser())
+// WHY is `express-session` reporting 'no SID sent' when a user is logged into
+// react app?
 middlewares.use(session)
+middlewares.use(auth)
 middlewares.use(useragent)
 middlewares.use(views)
 
