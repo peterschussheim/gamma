@@ -83,7 +83,6 @@ export const auth = {
     if (!valid || !user) {
       throw new AuthError()
     }
-    debug(ctx)
 
     // 3) Attach a key with userId === to the user's id in DB
     ctx.req.session.userId = user.id

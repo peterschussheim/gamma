@@ -47,6 +47,7 @@ export function getUserIdFromSession(ctx: Context): string {
    *
    */
   if (ctx.req.session.userId) {
+    debug(`USERIDFROMSESS: ${ctx.req.session.userId}`)
     return ctx.req.session.userId
   }
 
