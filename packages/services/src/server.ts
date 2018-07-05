@@ -39,7 +39,7 @@ export default function startServer(prismaOptions: PrismaBindingOptions) {
     resolverValidationOptions: { requireResolversForResolveType: false }
   })
 
-  graphQLServer.express.set('trust proxy', true)
+  // graphQLServer.express.set('trust proxy', true)
   securityMiddleware(graphQLServer.express)
   graphQLServer.express.use(compression())
   graphQLServer.express.use(middlewares)
