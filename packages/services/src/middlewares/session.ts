@@ -3,7 +3,7 @@ debug('Initializing connect-redis session store')
 import * as session from 'express-session'
 import * as connectRedis from 'connect-redis'
 import { redisInstance } from '../redis'
-
+import { REDIS_SESSION_PREFIX } from '../constants'
 const RedisStore = connectRedis(session)
 
 if (!process.env.SESSION_SECRET && !process.env.TEST_DB) {
@@ -14,7 +14,8 @@ if (!process.env.SESSION_SECRET && !process.env.TEST_DB) {
 
 export default session({
   store: new RedisStore({
-    client: redisInstance
+    client: redisInstance,
+    prefix: REDIS_SESSION_PREFIX
   }),
   name: 'session',
   secret: process.env.SESSION_SECRET,
