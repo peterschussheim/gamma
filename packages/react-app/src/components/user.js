@@ -1,7 +1,6 @@
 import React from 'react'
 import { Query, Mutation } from 'react-apollo'
 import { LOGIN, VIEWER, REGISTER } from '../queries'
-import Loading from './loading'
 import Login from './login'
 import Logout from './logout'
 import RenderError from './error'
@@ -18,23 +17,18 @@ class User extends React.Component {
 
   render() {
     return (
-      <Query query={VIEWER} fetchPolicy={'network-only'}>
+      <Query query={VIEWER}>
         {({ loading, error, data }) =>
-          loading ? (
-            <Loading />
-          ) : error ? (
-            error.message.includes('Not authorized') ? (
-              // TODO: handle inadequate permissions
-              <div>
-                <span>You aren't logged in!</span>
-                <Login />
-              </div>
-            ) : (
-              <RenderError error={error} />
-            )
-          ) : data ? (
+          error && error.message.includes('Not authorized') ? (
+            <div>
+              <span>You aren't logged in!</span>
+              <Login />
+            </div>
+          ) : !loading && data.viewer ? (
             <Me data={data} />
-          ) : null
+          ) : (
+            <RenderError error={error} />
+          )
         }
       </Query>
     )
