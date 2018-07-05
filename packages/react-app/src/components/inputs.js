@@ -2,7 +2,7 @@ import styled from 'react-emotion'
 
 const Input = styled('input')({
   background: 'white',
-  height: 50,
+  height: 30,
   border: 'none',
   borderRadius: 0,
   boxShadow: 'var(--shadow)',
