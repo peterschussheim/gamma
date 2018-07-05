@@ -2,6 +2,6 @@
   "rules": [
     { "pathname": "/graphql", "method": ["POST"], "dest": "api.gamma.app" },
     { "pathname": "/confirm/**", "method": ["GET"], "dest": "api.gamma.app" },
-    { "dest": "gamma.app" }
+    { "dest": "ui.gamma.app" }
   ]
 }
