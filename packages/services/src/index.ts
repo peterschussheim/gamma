@@ -3,10 +3,10 @@ import { formatError } from 'apollo-errors'
 import { AddressInfo } from 'net'
 import { Options } from 'graphql-yoga'
 
+import db from './db'
 import startServer from './server'
-import cors from './middlewares/cors'
 import Raven from './shared/raven'
-var util = require('util')
+
 const PORT = parseInt(process.env.PORT, 10) || 4000
 const { PRISMA_ENDPOINT, PRISMA_SECRET } = process.env
 
@@ -39,6 +39,12 @@ const options: Options = {
   playground: process.env.NODE_ENV === 'production' ? false : '/playground',
   formatError
 }
+
+/**
+ * Instantiate an instance of our prisma db using desired env variables
+ */
+const dbInstance = db(prismaOptions)
+
 /**
  *  Paths needed to handle:
  *
@@ -46,7 +52,8 @@ const options: Options = {
  * 2) start server without apollo engine
  *
  */
-startServer(prismaOptions)
+
+startServer(dbInstance)
   .start(options)
   .then(http => {
     const { port } = http.address() as AddressInfo
@@ -54,7 +61,7 @@ startServer(prismaOptions)
     debug(`GraphQL endpoint http://localhost:${port}${options.endpoint}`)
     debug(
       `API Server over web socket with subscriptions is now running on ws://localhost:${port}${
-        options.endpoint
+        options.subscriptions
       }`
     )
   })
