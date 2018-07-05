@@ -27,7 +27,7 @@ export default function startServer(databaseInstance) {
     redis
   })
 
-  const graphQLServer = new GraphQLServer({
+  const server = new GraphQLServer({
     typeDefs: './src/schema.graphql',
     resolvers,
     context,
@@ -35,18 +35,18 @@ export default function startServer(databaseInstance) {
   })
 
   // graphQLServer.express.set('trust proxy', true)
-  securityMiddleware(graphQLServer.express)
-  graphQLServer.express.use(compression())
-  graphQLServer.express.use(middlewares)
-  graphQLServer.express.get('/', (req, res) => {
+  securityMiddleware(server.express)
+  server.express.use(compression())
+  server.express.use(middlewares)
+  server.express.get('/', (req, res) => {
     res.send('greetings')
   })
 
   // TODO: add post route for s3 uploads
-  graphQLServer.express.get(
+  server.express.get(
     '/confirm/:id',
     confirmEmail({ prisma: databaseInstance, redis })
   )
 
-  return graphQLServer
+  return server
 }
