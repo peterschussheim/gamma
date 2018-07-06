@@ -2,16 +2,42 @@ type User {
   id: ID! @unique
   email: String! @unique
   password: String!
+  # First and last name of user
   name: String
-  posts: [Post!]!
-  resetToken: String
-  resetTokenExpiry: String
-  permissions: [PERMISSION!]!
   connectedWithGithub: Boolean! @default(value: "false")
+  githubProfile: GithubProfile
+  # from Passport.js github strategy
+  githubProviderId: String
+  posts: [Post!]!
   sentMessages: [Message!]! @relation(name: "SentMessages")
   receivedMessages: [Message!]! @relation(name: "ReceivedMessages")
   notifications: [Notification!]!
+  resetToken: String
+  resetTokenExpiry: String
+  permissions: [PERMISSION!]!
   emailConfirmed: Boolean! @default(value: "false")
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type GithubProfile {
+  # DB generated id
+  id: ID! @unique
+  # GitHub user ID
+  githubUserId: String @unique
+  # GitHub username
+  username: String @unique
+  bio: String
+  website: String
+  email: String
+  profilePhoto: String
+  accessTokens: [AccessToken!]!
+}
+
+type AccessToken {
+  id: ID! @unique
+  scopes: [String!]
+  token: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
