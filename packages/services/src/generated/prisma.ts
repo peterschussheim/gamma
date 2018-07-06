@@ -2291,10 +2291,10 @@ input FileWhereUniqueInput {
   s3Url: String
 }
 
-type GithubProfile implements Node {
-  id: ID!
-  githubUserId: String
-  username: String
+type GithubProfile {
+  githubUserId: Int!
+  username: String!
+  name: String
   bio: String
   website: String
   email: String
@@ -2313,8 +2313,9 @@ type GithubProfileConnection {
 }
 
 input GithubProfileCreateInput {
-  githubUserId: String
-  username: String
+  githubUserId: Int!
+  username: String!
+  name: String
   bio: String
   website: String
   email: String
@@ -2337,12 +2338,12 @@ type GithubProfileEdge {
 }
 
 enum GithubProfileOrderByInput {
-  id_ASC
-  id_DESC
   githubUserId_ASC
   githubUserId_DESC
   username_ASC
   username_DESC
+  name_ASC
+  name_DESC
   bio_ASC
   bio_DESC
   website_ASC
@@ -2351,6 +2352,8 @@ enum GithubProfileOrderByInput {
   email_DESC
   profilePhoto_ASC
   profilePhoto_DESC
+  id_ASC
+  id_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -2358,9 +2361,9 @@ enum GithubProfileOrderByInput {
 }
 
 type GithubProfilePreviousValues {
-  id: ID!
-  githubUserId: String
-  username: String
+  githubUserId: Int!
+  username: String!
+  name: String
   bio: String
   website: String
   email: String
@@ -2407,8 +2410,9 @@ input GithubProfileSubscriptionWhereInput {
 }
 
 input GithubProfileUpdateDataInput {
-  githubUserId: String
+  githubUserId: Int
   username: String
+  name: String
   bio: String
   website: String
   email: String
@@ -2417,8 +2421,9 @@ input GithubProfileUpdateDataInput {
 }
 
 input GithubProfileUpdateInput {
-  githubUserId: String
+  githubUserId: Int
   username: String
+  name: String
   bio: String
   website: String
   email: String
@@ -2449,86 +2454,28 @@ input GithubProfileWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [GithubProfileWhereInput!]
-  id: ID
+  githubUserId: Int
 
   """All values that are not equal to given value."""
-  id_not: ID
+  githubUserId_not: Int
 
   """All values that are contained in given list."""
-  id_in: [ID!]
+  githubUserId_in: [Int!]
 
   """All values that are not contained in given list."""
-  id_not_in: [ID!]
+  githubUserId_not_in: [Int!]
 
   """All values less than the given value."""
-  id_lt: ID
+  githubUserId_lt: Int
 
   """All values less than or equal the given value."""
-  id_lte: ID
+  githubUserId_lte: Int
 
   """All values greater than the given value."""
-  id_gt: ID
+  githubUserId_gt: Int
 
   """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  githubUserId: String
-
-  """All values that are not equal to given value."""
-  githubUserId_not: String
-
-  """All values that are contained in given list."""
-  githubUserId_in: [String!]
-
-  """All values that are not contained in given list."""
-  githubUserId_not_in: [String!]
-
-  """All values less than the given value."""
-  githubUserId_lt: String
-
-  """All values less than or equal the given value."""
-  githubUserId_lte: String
-
-  """All values greater than the given value."""
-  githubUserId_gt: String
-
-  """All values greater than or equal the given value."""
-  githubUserId_gte: String
-
-  """All values containing the given string."""
-  githubUserId_contains: String
-
-  """All values not containing the given string."""
-  githubUserId_not_contains: String
-
-  """All values starting with the given string."""
-  githubUserId_starts_with: String
-
-  """All values not starting with the given string."""
-  githubUserId_not_starts_with: String
-
-  """All values ending with the given string."""
-  githubUserId_ends_with: String
-
-  """All values not ending with the given string."""
-  githubUserId_not_ends_with: String
+  githubUserId_gte: Int
   username: String
 
   """All values that are not equal to given value."""
@@ -2569,6 +2516,46 @@ input GithubProfileWhereInput {
 
   """All values not ending with the given string."""
   username_not_ends_with: String
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
   bio: String
 
   """All values that are not equal to given value."""
@@ -2735,8 +2722,7 @@ input GithubProfileWhereInput {
 }
 
 input GithubProfileWhereUniqueInput {
-  id: ID
-  githubUserId: String
+  githubUserId: Int
   username: String
 }
 
@@ -4795,15 +4781,7 @@ export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({
  * Types
  */
 
-export type CommentOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC'
-  | 'content_ASC'
-  | 'content_DESC'
+export type VISIBILITY = 'PRIVATE' | 'PUBLIC'
 
 export type NOTIFICATION_TYPE = 'NEW_MESSAGE' | 'NEW_COMMENT'
 
@@ -4947,12 +4925,12 @@ export type NotificationOrderByInput =
   | 'updatedAt_DESC'
 
 export type GithubProfileOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
   | 'githubUserId_ASC'
   | 'githubUserId_DESC'
   | 'username_ASC'
   | 'username_DESC'
+  | 'name_ASC'
+  | 'name_DESC'
   | 'bio_ASC'
   | 'bio_DESC'
   | 'website_ASC'
@@ -4961,6 +4939,8 @@ export type GithubProfileOrderByInput =
   | 'email_DESC'
   | 'profilePhoto_ASC'
   | 'profilePhoto_DESC'
+  | 'id_ASC'
+  | 'id_DESC'
   | 'updatedAt_ASC'
   | 'updatedAt_DESC'
   | 'createdAt_ASC'
@@ -4968,7 +4948,15 @@ export type GithubProfileOrderByInput =
 
 export type MutationType = 'CREATED' | 'UPDATED' | 'DELETED'
 
-export type VISIBILITY = 'PRIVATE' | 'PUBLIC'
+export type CommentOrderByInput =
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
+  | 'content_ASC'
+  | 'content_DESC'
 
 export type MessageOrderByInput =
   | 'id_ASC'
@@ -5433,6 +5421,22 @@ export interface CommentCreateManyWithoutPostInput {
   connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput
 }
 
+export interface PostSubscriptionWhereInput {
+  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
+  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
+  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: PostWhereInput
+}
+
+export interface CommentCreateWithoutPostInput {
+  content?: String
+  author: UserCreateOneInput
+}
+
 export interface AccessTokenSubscriptionWhereInput {
   AND?: AccessTokenSubscriptionWhereInput[] | AccessTokenSubscriptionWhereInput
   OR?: AccessTokenSubscriptionWhereInput[] | AccessTokenSubscriptionWhereInput
@@ -5442,28 +5446,6 @@ export interface AccessTokenSubscriptionWhereInput {
   updatedFields_contains_every?: String[] | String
   updatedFields_contains_some?: String[] | String
   node?: AccessTokenWhereInput
-}
-
-export interface CommentCreateWithoutPostInput {
-  content?: String
-  author: UserCreateOneInput
-}
-
-export interface GithubProfileSubscriptionWhereInput {
-  AND?:
-    | GithubProfileSubscriptionWhereInput[]
-    | GithubProfileSubscriptionWhereInput
-  OR?:
-    | GithubProfileSubscriptionWhereInput[]
-    | GithubProfileSubscriptionWhereInput
-  NOT?:
-    | GithubProfileSubscriptionWhereInput[]
-    | GithubProfileSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: GithubProfileWhereInput
 }
 
 export interface UserCreateOneInput {
@@ -5855,8 +5837,9 @@ export interface UserCreatepermissionsInput {
 }
 
 export interface GithubProfileCreateInput {
-  githubUserId?: String
-  username?: String
+  githubUserId: Int
+  username: String
+  name?: String
   bio?: String
   website?: String
   email?: String
@@ -5899,8 +5882,9 @@ export interface MessageSubscriptionWhereInput {
 }
 
 export interface GithubProfileUpdateDataInput {
-  githubUserId?: String
+  githubUserId?: Int
   username?: String
+  name?: String
   bio?: String
   website?: String
   email?: String
@@ -5932,26 +5916,10 @@ export interface AccessTokenUpdateManyInput {
     | AccessTokenUpsertWithWhereUniqueNestedInput
 }
 
-export interface PostSubscriptionWhereInput {
-  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
-  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
-  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: PostWhereInput
-}
-
-export interface AccessTokenUpdateWithWhereUniqueNestedInput {
-  where: AccessTokenWhereUniqueInput
-  data: AccessTokenUpdateDataInput
-}
-
-export interface AccessTokenWhereInput {
-  AND?: AccessTokenWhereInput[] | AccessTokenWhereInput
-  OR?: AccessTokenWhereInput[] | AccessTokenWhereInput
-  NOT?: AccessTokenWhereInput[] | AccessTokenWhereInput
+export interface PostWhereInput {
+  AND?: PostWhereInput[] | PostWhereInput
+  OR?: PostWhereInput[] | PostWhereInput
+  NOT?: PostWhereInput[] | PostWhereInput
   id?: ID_Input
   id_not?: ID_Input
   id_in?: ID_Input[] | ID_Input
@@ -5966,20 +5934,18 @@ export interface AccessTokenWhereInput {
   id_not_starts_with?: ID_Input
   id_ends_with?: ID_Input
   id_not_ends_with?: ID_Input
-  token?: String
-  token_not?: String
-  token_in?: String[] | String
-  token_not_in?: String[] | String
-  token_lt?: String
-  token_lte?: String
-  token_gt?: String
-  token_gte?: String
-  token_contains?: String
-  token_not_contains?: String
-  token_starts_with?: String
-  token_not_starts_with?: String
-  token_ends_with?: String
-  token_not_ends_with?: String
+  visibility?: VISIBILITY
+  visibility_not?: VISIBILITY
+  visibility_in?: VISIBILITY[] | VISIBILITY
+  visibility_not_in?: VISIBILITY[] | VISIBILITY
+  views?: Int
+  views_not?: Int
+  views_in?: Int[] | Int
+  views_not_in?: Int[] | Int
+  views_lt?: Int
+  views_lte?: Int
+  views_gt?: Int
+  views_gte?: Int
   createdAt?: DateTime
   createdAt_not?: DateTime
   createdAt_in?: DateTime[] | DateTime
@@ -5996,6 +5962,36 @@ export interface AccessTokenWhereInput {
   updatedAt_lte?: DateTime
   updatedAt_gt?: DateTime
   updatedAt_gte?: DateTime
+  author?: UserWhereInput
+  content?: FileWhereInput
+  tags_every?: TagWhereInput
+  tags_some?: TagWhereInput
+  tags_none?: TagWhereInput
+  comments_every?: CommentWhereInput
+  comments_some?: CommentWhereInput
+  comments_none?: CommentWhereInput
+}
+
+export interface AccessTokenUpdateWithWhereUniqueNestedInput {
+  where: AccessTokenWhereUniqueInput
+  data: AccessTokenUpdateDataInput
+}
+
+export interface GithubProfileSubscriptionWhereInput {
+  AND?:
+    | GithubProfileSubscriptionWhereInput[]
+    | GithubProfileSubscriptionWhereInput
+  OR?:
+    | GithubProfileSubscriptionWhereInput[]
+    | GithubProfileSubscriptionWhereInput
+  NOT?:
+    | GithubProfileSubscriptionWhereInput[]
+    | GithubProfileSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: GithubProfileWhereInput
 }
 
 export interface AccessTokenUpdateDataInput {
@@ -6218,10 +6214,10 @@ export interface TagUpdateWithWhereUniqueNestedInput {
   data: TagUpdateDataInput
 }
 
-export interface PostWhereInput {
-  AND?: PostWhereInput[] | PostWhereInput
-  OR?: PostWhereInput[] | PostWhereInput
-  NOT?: PostWhereInput[] | PostWhereInput
+export interface AccessTokenWhereInput {
+  AND?: AccessTokenWhereInput[] | AccessTokenWhereInput
+  OR?: AccessTokenWhereInput[] | AccessTokenWhereInput
+  NOT?: AccessTokenWhereInput[] | AccessTokenWhereInput
   id?: ID_Input
   id_not?: ID_Input
   id_in?: ID_Input[] | ID_Input
@@ -6236,18 +6232,20 @@ export interface PostWhereInput {
   id_not_starts_with?: ID_Input
   id_ends_with?: ID_Input
   id_not_ends_with?: ID_Input
-  visibility?: VISIBILITY
-  visibility_not?: VISIBILITY
-  visibility_in?: VISIBILITY[] | VISIBILITY
-  visibility_not_in?: VISIBILITY[] | VISIBILITY
-  views?: Int
-  views_not?: Int
-  views_in?: Int[] | Int
-  views_not_in?: Int[] | Int
-  views_lt?: Int
-  views_lte?: Int
-  views_gt?: Int
-  views_gte?: Int
+  token?: String
+  token_not?: String
+  token_in?: String[] | String
+  token_not_in?: String[] | String
+  token_lt?: String
+  token_lte?: String
+  token_gt?: String
+  token_gte?: String
+  token_contains?: String
+  token_not_contains?: String
+  token_starts_with?: String
+  token_not_starts_with?: String
+  token_ends_with?: String
+  token_not_ends_with?: String
   createdAt?: DateTime
   createdAt_not?: DateTime
   createdAt_in?: DateTime[] | DateTime
@@ -6264,14 +6262,6 @@ export interface PostWhereInput {
   updatedAt_lte?: DateTime
   updatedAt_gt?: DateTime
   updatedAt_gte?: DateTime
-  author?: UserWhereInput
-  content?: FileWhereInput
-  tags_every?: TagWhereInput
-  tags_some?: TagWhereInput
-  tags_none?: TagWhereInput
-  comments_every?: CommentWhereInput
-  comments_some?: CommentWhereInput
-  comments_none?: CommentWhereInput
 }
 
 export interface TagUpdateDataInput {
@@ -6279,8 +6269,7 @@ export interface TagUpdateDataInput {
 }
 
 export interface GithubProfileWhereUniqueInput {
-  id?: ID_Input
-  githubUserId?: String
+  githubUserId?: Int
   username?: String
 }
 
@@ -6419,34 +6408,14 @@ export interface GithubProfileWhereInput {
   AND?: GithubProfileWhereInput[] | GithubProfileWhereInput
   OR?: GithubProfileWhereInput[] | GithubProfileWhereInput
   NOT?: GithubProfileWhereInput[] | GithubProfileWhereInput
-  id?: ID_Input
-  id_not?: ID_Input
-  id_in?: ID_Input[] | ID_Input
-  id_not_in?: ID_Input[] | ID_Input
-  id_lt?: ID_Input
-  id_lte?: ID_Input
-  id_gt?: ID_Input
-  id_gte?: ID_Input
-  id_contains?: ID_Input
-  id_not_contains?: ID_Input
-  id_starts_with?: ID_Input
-  id_not_starts_with?: ID_Input
-  id_ends_with?: ID_Input
-  id_not_ends_with?: ID_Input
-  githubUserId?: String
-  githubUserId_not?: String
-  githubUserId_in?: String[] | String
-  githubUserId_not_in?: String[] | String
-  githubUserId_lt?: String
-  githubUserId_lte?: String
-  githubUserId_gt?: String
-  githubUserId_gte?: String
-  githubUserId_contains?: String
-  githubUserId_not_contains?: String
-  githubUserId_starts_with?: String
-  githubUserId_not_starts_with?: String
-  githubUserId_ends_with?: String
-  githubUserId_not_ends_with?: String
+  githubUserId?: Int
+  githubUserId_not?: Int
+  githubUserId_in?: Int[] | Int
+  githubUserId_not_in?: Int[] | Int
+  githubUserId_lt?: Int
+  githubUserId_lte?: Int
+  githubUserId_gt?: Int
+  githubUserId_gte?: Int
   username?: String
   username_not?: String
   username_in?: String[] | String
@@ -6461,6 +6430,20 @@ export interface GithubProfileWhereInput {
   username_not_starts_with?: String
   username_ends_with?: String
   username_not_ends_with?: String
+  name?: String
+  name_not?: String
+  name_in?: String[] | String
+  name_not_in?: String[] | String
+  name_lt?: String
+  name_lte?: String
+  name_gt?: String
+  name_gte?: String
+  name_contains?: String
+  name_not_contains?: String
+  name_starts_with?: String
+  name_not_starts_with?: String
+  name_ends_with?: String
+  name_not_ends_with?: String
   bio?: String
   bio_not?: String
   bio_in?: String[] | String
@@ -6540,8 +6523,9 @@ export interface MessageUpdateWithoutFromDataInput {
 }
 
 export interface GithubProfileUpdateInput {
-  githubUserId?: String
+  githubUserId?: Int
   username?: String
+  name?: String
   bio?: String
   website?: String
   email?: String
@@ -6851,10 +6835,10 @@ export interface MessageEdge {
   cursor: String
 }
 
-export interface GithubProfile extends Node {
-  id: ID_Output
-  githubUserId?: String
-  username?: String
+export interface GithubProfile {
+  githubUserId: Int
+  username: String
+  name?: String
   bio?: String
   website?: String
   email?: String
@@ -6937,13 +6921,11 @@ export interface CommentConnection {
   aggregate: AggregateComment
 }
 
-export interface Message extends Node {
-  id: ID_Output
-  createdAt: DateTime
-  from: User
-  to: User
-  deliveredAt: DateTime
-  readAt?: DateTime
+export interface MessageSubscriptionPayload {
+  mutation: MutationType
+  node?: Message
+  updatedFields?: String[]
+  previousValues?: MessagePreviousValues
 }
 
 /*
@@ -6967,9 +6949,9 @@ export interface AggregatePost {
 }
 
 export interface GithubProfilePreviousValues {
-  id: ID_Output
-  githubUserId?: String
-  username?: String
+  githubUserId: Int
+  username: String
+  name?: String
   bio?: String
   website?: String
   email?: String
@@ -6986,13 +6968,13 @@ export interface PostConnection {
   aggregate: AggregatePost
 }
 
-export interface Comment extends Node {
+export interface Message extends Node {
   id: ID_Output
   createdAt: DateTime
-  updatedAt: DateTime
-  author: User
-  content?: String
-  post: Post
+  from: User
+  to: User
+  deliveredAt: DateTime
+  readAt?: DateTime
 }
 
 /*
@@ -7033,11 +7015,13 @@ export interface GithubProfileConnection {
   aggregate: AggregateGithubProfile
 }
 
-export interface MessageSubscriptionPayload {
-  mutation: MutationType
-  node?: Message
-  updatedFields?: String[]
-  previousValues?: MessagePreviousValues
+export interface Comment extends Node {
+  id: ID_Output
+  createdAt: DateTime
+  updatedAt: DateTime
+  author: User
+  content?: String
+  post: Post
 }
 
 /*

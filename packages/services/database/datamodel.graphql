@@ -21,12 +21,11 @@ type User {
 }
 
 type GithubProfile {
-  # DB generated id
-  id: ID! @unique
   # GitHub user ID
-  githubUserId: String @unique
+  githubUserId: Int! @unique
   # GitHub username
-  username: String @unique
+  username: String! @unique
+  name: String
   bio: String
   website: String
   email: String
