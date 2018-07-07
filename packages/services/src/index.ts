@@ -51,12 +51,8 @@ startServer(prisma)
   .then(http => {
     const { port } = http.address() as AddressInfo
     debug(`Server running on http://localhost:${port}`)
-    debug(`GraphQL endpoint http://localhost:${port}${options.endpoint}`)
-    debug(
-      `API Server over web socket with subscriptions is now running on ws://localhost:${port}${
-        options.subscriptions
-      }`
-    )
+    debug(`GraphQL uri http://localhost:${port}${options.endpoint}`)
+    debug(`Subscriptions uri ws://localhost:${port}${options.subscriptions}`)
   })
   .catch(err => {
     debug(`ERROR CAUGHT index.ts: ${err}`)

@@ -1,4 +1,4 @@
-const debug = require('debug')('shared:middlewares:views')
+const debug = require('debug')('shared:middlewares:auth')
 const util = require('util')
 
 export default (req, res, next) => {

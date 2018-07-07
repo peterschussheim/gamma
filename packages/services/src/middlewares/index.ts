@@ -1,6 +1,8 @@
 const debug = require('debug')('api:routes:middlewares')
 import { Router } from 'express'
 import * as morgan from 'morgan'
+import * as jwt from 'jsonwebtoken'
+import * as passport from 'passport'
 
 import views from './views'
 import useragent from './useragent'
@@ -26,12 +28,32 @@ if (
   middlewares.use(raven)
 }
 
+/**
+ * Middleware that inspects request headers for an 'Authorization Bearer' header
+ * containing a JWT.  If found, decode and verify the token.  If successful,
+ * this will contain the `userId` which is attached to `req.headers`.
+ *
+ * If the above fails, move on to next middleware in the stack.
+ */
+middlewares.use((req, res, next) => {
+  if (req.headers && req.headers.authorization) {
+    const token = req.headers.authorization.replace(/^\s*Bearer\s*/, '')
+    try {
+      const { userId } = jwt.verify(token, process.env.APP_SECRET) as {
+        userId: string
+      }
+      if (userId) req.headers.cookie = userId
+    } catch (err) {}
+  }
+  next()
+})
+
 middlewares.use(morgan('dev'))
 middlewares.use(cors)
 middlewares.options('*', cors)
-// WHY is `express-session` reporting 'no SID sent' when a user is logged into
-// react app?
 middlewares.use(session)
+middlewares.use(passport.initialize())
+middlewares.use(passport.session())
 middlewares.use(auth)
 middlewares.use(useragent)
 middlewares.use(views)
