@@ -24,9 +24,7 @@ export const subscriptionLink = (config = {}) =>
     ...config
   })
 
-export const queryOrMutationLink = (
-  config = { uri: `${process.env.REACT_APP_API_BASE_URI}` }
-) =>
+export const queryOrMutationLink = (config = {}) =>
   new HttpLink({
     ...config,
     credentials: 'include'

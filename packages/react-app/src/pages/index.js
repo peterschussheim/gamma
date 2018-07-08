@@ -1,5 +1,6 @@
 import React from 'react'
 import Home from './home'
+import Profile from './profile'
 import Editor from './editor'
 import NotFound from './notfound'
 import ConfirmEmail from './confirmEmail'
@@ -10,6 +11,12 @@ const Signup = () => <div>SIGNUP</div>
 const routes = [
   {
     path: '/',
+    name: 'home',
+    exact: true,
+    component: Home
+  },
+  {
+    path: '/profile',
     name: 'home',
     exact: true,
     component: Home
@@ -43,13 +50,5 @@ const routes = [
     component: NotFound
   }
 ]
-
-{
-  /* <Route path="/" exact component={Home} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/signup" exact component={Signup} />
-          <Route path="/confirm/:id" component={ConfirmEmail} />
-          <PrivateRoute path="/profile" component={Profile} /> */
-}
 
 export default routes

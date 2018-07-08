@@ -23,7 +23,7 @@ class Login extends React.Component {
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
-    const { redirectToReferrer } = this.state
+    const { redirectToReferrer, email, password } = this.state
 
     if (redirectToReferrer) {
       return <Redirect to={from} />
@@ -47,7 +47,7 @@ class Login extends React.Component {
               email
             </label>
             <Input
-              value={this.state.email}
+              value={email}
               onChange={this.handleChange}
               id="email-input"
               placeholder="email..."
@@ -58,7 +58,7 @@ class Login extends React.Component {
               Password
             </label>
             <Input
-              value={this.state.password}
+              value={password}
               onChange={this.handleChange}
               placeholder="Password..."
               type="password"
@@ -68,6 +68,9 @@ class Login extends React.Component {
             <button type="submit">Login</button>
             <Link to="/signup">
               <button type="button">Signup</button>
+            </Link>
+            <Link to="/login/github">
+              <button type="button">Connect to GitHub</button>
             </Link>
           </Form>
         )}

@@ -8,7 +8,7 @@ const Navbar = () => (
   <nav>
     <div>
       <div>
-        <Link to="/feed">gamma</Link>
+        <Link to="/">gamma</Link>
       </div>
       <ul>
         <NavbarLink title="Search" href="/search" />
