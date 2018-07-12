@@ -2,11 +2,12 @@ import { Prisma } from './generated/prisma'
 import { fragmentReplacements } from './resolvers'
 import { PrismaBindingOptions } from './gamma'
 
-const { PRISMA_ENDPOINT, PRISMA_SECRET } = process.env
+const { PRISMA_ENDPOINT, PRISMA_SECRET, PRISMA_DEBUG } = process.env
+
 const prismaOptions = {
   PRISMA_ENDPOINT,
   PRISMA_SECRET,
-  PRISMA_DEBUG: false
+  PRISMA_DEBUG
 }
 
 export const defaultPrismaOptions = {
@@ -20,10 +21,11 @@ export const defaultPrismaOptions = {
  * @returns `Prisma` Class
  */
 export const initDatabase = (options: PrismaBindingOptions) => {
+  const DEBUG = options.PRISMA_DEBUG ? true : false
   return new Prisma({
     fragmentReplacements,
     endpoint: options.PRISMA_ENDPOINT,
     secret: options.PRISMA_SECRET,
-    debug: options.PRISMA_DEBUG ? true : false
+    debug: Boolean(DEBUG)
   })
 }
