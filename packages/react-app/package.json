@@ -22,11 +22,15 @@
     "react-error-boundary": "1.2.3",
     "react-router-dom": "4.3.1",
     "react-scripts": "1.1.4",
+    "serve": "9.2.0",
     "subscriptions-transport-ws": "0.9.9"
   },
   "scripts": {
     "start": "react-scripts start",
+    "now-start": "serve --single ./build",
     "build": "react-scripts build",
+    "deploy": "now && now alias",
+    "clean": "rm -rf build && rm -rf node_modules",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "eslint-check":
@@ -41,5 +45,5 @@
     "pretty-quick": "1.6.0",
     "prop-types": "15.6.1"
   },
-  "proxy": "http://localhost:4000"
+  "proxy": "http://localhost:4000/"
 }

@@ -15,6 +15,7 @@ import {
   queryOrMutationLink
 } from './config/links'
 
+// TODO: update below env variables so they are compatible with `.env` format
 const API_URI = `${process.env.REACT_APP_API_BASE_URI}/graphql`
 const LOCAL_API_URI = 'http://localhost:4000/graphql'
 

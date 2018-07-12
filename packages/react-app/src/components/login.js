@@ -5,17 +5,20 @@ import { Input } from './inputs'
 import Form from './form'
 import RenderError from './error'
 import { LOGIN, VIEWER } from '../queries'
-import fakeAuth from '../utils/auth'
 
 class Login extends React.Component {
-  initialState = { email: '', password: '', redirectToReferrer: false }
+  initialState = {
+    email: 'peter@schussheim.com',
+    password: '12345',
+    redirectToReferrer: false
+  }
   state = this.initialState
 
-  handleLogin = () => {
-    fakeAuth.authenticate(() => {
-      this.setState({ redirectToReferrer: true })
-    })
-  }
+  // handleLogin = () => {
+  //   Auth.authenticate(() => {
+  //     this.setState({ redirectToReferrer: true })
+  //   })
+  // }
   handleChange = e => {
     const { name, value } = e.target
     this.setState({ [name]: value })
@@ -23,23 +26,20 @@ class Login extends React.Component {
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
-    const { redirectToReferrer, email, password } = this.state
+    const { email, password } = this.state
 
-    if (redirectToReferrer) {
-      return <Redirect to={from} />
-    }
+    // if (redirectToReferrer) {
+    //   return <Redirect to={from} />
+    // }
 
     return (
-      <Mutation
-        mutation={LOGIN}
-        variables={this.state}
-        refetchQueries={[{ query: VIEWER }]}
-      >
+      <Mutation mutation={LOGIN} variables={this.state}>
         {(login, { error }) => (
           <Form
             onSubmit={e => {
               e.preventDefault()
               login()
+              window.location = '/'
             }}
           >
             <RenderError error={error} />
@@ -68,9 +68,6 @@ class Login extends React.Component {
             <button type="submit">Login</button>
             <Link to="/signup">
               <button type="button">Signup</button>
-            </Link>
-            <Link to="/login/github">
-              <button type="button">Connect to GitHub</button>
             </Link>
           </Form>
         )}

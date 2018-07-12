@@ -28,6 +28,12 @@ const routes = [
     component: Login
   },
   {
+    path: '/success',
+    name: 'sucess',
+    exact: true,
+    component: Home
+  },
+  {
     path: '/signup',
     name: 'signup',
     exact: true,
