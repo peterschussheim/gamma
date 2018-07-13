@@ -4,10 +4,7 @@ type User {
   password: String!
   # First and last name of user
   name: String
-  connectedWithGithub: Boolean! @default(value: "false")
   githubProfile: GithubProfile
-  # from Passport.js github strategy
-  githubProviderId: String
   posts: [Post!]!
   sentMessages: [Message!]! @relation(name: "SentMessages")
   receivedMessages: [Message!]! @relation(name: "ReceivedMessages")
@@ -21,12 +18,15 @@ type User {
 }
 
 type GithubProfile {
-  # GitHub user ID
+  # GitHub login
+  login: String! @unique
+  # GitHub id
   githubUserId: Int! @unique
-  # GitHub username
-  username: String! @unique
+  # GitHub node_id
+  node_id: String!
   name: String
   bio: String
+  # GitHub blog
   website: String
   email: String
   profilePhoto: String
@@ -41,8 +41,7 @@ type AccessToken {
   updatedAt: DateTime!
 }
 
-# `Post` type is the main abstraction, representing a single day's worth
-# of entries
+# `Post` represents a single day's worth of entries
 type Post {
   id: ID! @unique
   author: User!

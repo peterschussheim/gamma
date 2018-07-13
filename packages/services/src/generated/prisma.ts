@@ -2292,8 +2292,9 @@ input FileWhereUniqueInput {
 }
 
 type GithubProfile {
+  login: String!
   githubUserId: Int!
-  username: String!
+  node_id: String!
   name: String
   bio: String
   website: String
@@ -2313,8 +2314,9 @@ type GithubProfileConnection {
 }
 
 input GithubProfileCreateInput {
+  login: String!
   githubUserId: Int!
-  username: String!
+  node_id: String!
   name: String
   bio: String
   website: String
@@ -2338,10 +2340,12 @@ type GithubProfileEdge {
 }
 
 enum GithubProfileOrderByInput {
+  login_ASC
+  login_DESC
   githubUserId_ASC
   githubUserId_DESC
-  username_ASC
-  username_DESC
+  node_id_ASC
+  node_id_DESC
   name_ASC
   name_DESC
   bio_ASC
@@ -2361,8 +2365,9 @@ enum GithubProfileOrderByInput {
 }
 
 type GithubProfilePreviousValues {
+  login: String!
   githubUserId: Int!
-  username: String!
+  node_id: String!
   name: String
   bio: String
   website: String
@@ -2410,8 +2415,9 @@ input GithubProfileSubscriptionWhereInput {
 }
 
 input GithubProfileUpdateDataInput {
+  login: String
   githubUserId: Int
-  username: String
+  node_id: String
   name: String
   bio: String
   website: String
@@ -2421,8 +2427,9 @@ input GithubProfileUpdateDataInput {
 }
 
 input GithubProfileUpdateInput {
+  login: String
   githubUserId: Int
-  username: String
+  node_id: String
   name: String
   bio: String
   website: String
@@ -2454,6 +2461,46 @@ input GithubProfileWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [GithubProfileWhereInput!]
+  login: String
+
+  """All values that are not equal to given value."""
+  login_not: String
+
+  """All values that are contained in given list."""
+  login_in: [String!]
+
+  """All values that are not contained in given list."""
+  login_not_in: [String!]
+
+  """All values less than the given value."""
+  login_lt: String
+
+  """All values less than or equal the given value."""
+  login_lte: String
+
+  """All values greater than the given value."""
+  login_gt: String
+
+  """All values greater than or equal the given value."""
+  login_gte: String
+
+  """All values containing the given string."""
+  login_contains: String
+
+  """All values not containing the given string."""
+  login_not_contains: String
+
+  """All values starting with the given string."""
+  login_starts_with: String
+
+  """All values not starting with the given string."""
+  login_not_starts_with: String
+
+  """All values ending with the given string."""
+  login_ends_with: String
+
+  """All values not ending with the given string."""
+  login_not_ends_with: String
   githubUserId: Int
 
   """All values that are not equal to given value."""
@@ -2476,46 +2523,46 @@ input GithubProfileWhereInput {
 
   """All values greater than or equal the given value."""
   githubUserId_gte: Int
-  username: String
+  node_id: String
 
   """All values that are not equal to given value."""
-  username_not: String
+  node_id_not: String
 
   """All values that are contained in given list."""
-  username_in: [String!]
+  node_id_in: [String!]
 
   """All values that are not contained in given list."""
-  username_not_in: [String!]
+  node_id_not_in: [String!]
 
   """All values less than the given value."""
-  username_lt: String
+  node_id_lt: String
 
   """All values less than or equal the given value."""
-  username_lte: String
+  node_id_lte: String
 
   """All values greater than the given value."""
-  username_gt: String
+  node_id_gt: String
 
   """All values greater than or equal the given value."""
-  username_gte: String
+  node_id_gte: String
 
   """All values containing the given string."""
-  username_contains: String
+  node_id_contains: String
 
   """All values not containing the given string."""
-  username_not_contains: String
+  node_id_not_contains: String
 
   """All values starting with the given string."""
-  username_starts_with: String
+  node_id_starts_with: String
 
   """All values not starting with the given string."""
-  username_not_starts_with: String
+  node_id_not_starts_with: String
 
   """All values ending with the given string."""
-  username_ends_with: String
+  node_id_ends_with: String
 
   """All values not ending with the given string."""
-  username_not_ends_with: String
+  node_id_not_ends_with: String
   name: String
 
   """All values that are not equal to given value."""
@@ -2722,8 +2769,8 @@ input GithubProfileWhereInput {
 }
 
 input GithubProfileWhereUniqueInput {
+  login: String
   githubUserId: Int
-  username: String
 }
 
 """
@@ -4016,9 +4063,7 @@ type User implements Node {
   email: String!
   password: String!
   name: String
-  connectedWithGithub: Boolean!
   githubProfile(where: GithubProfileWhereInput): GithubProfile
-  githubProviderId: String
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
   sentMessages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
   receivedMessages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
@@ -4045,8 +4090,6 @@ input UserCreateInput {
   email: String!
   password: String!
   name: String
-  connectedWithGithub: Boolean
-  githubProviderId: String
   resetToken: String
   resetTokenExpiry: String
   emailConfirmed: Boolean
@@ -4091,8 +4134,6 @@ input UserCreateWithoutNotificationsInput {
   email: String!
   password: String!
   name: String
-  connectedWithGithub: Boolean
-  githubProviderId: String
   resetToken: String
   resetTokenExpiry: String
   emailConfirmed: Boolean
@@ -4107,8 +4148,6 @@ input UserCreateWithoutPostsInput {
   email: String!
   password: String!
   name: String
-  connectedWithGithub: Boolean
-  githubProviderId: String
   resetToken: String
   resetTokenExpiry: String
   emailConfirmed: Boolean
@@ -4123,8 +4162,6 @@ input UserCreateWithoutReceivedMessagesInput {
   email: String!
   password: String!
   name: String
-  connectedWithGithub: Boolean
-  githubProviderId: String
   resetToken: String
   resetTokenExpiry: String
   emailConfirmed: Boolean
@@ -4139,8 +4176,6 @@ input UserCreateWithoutSentMessagesInput {
   email: String!
   password: String!
   name: String
-  connectedWithGithub: Boolean
-  githubProviderId: String
   resetToken: String
   resetTokenExpiry: String
   emailConfirmed: Boolean
@@ -4169,10 +4204,6 @@ enum UserOrderByInput {
   password_DESC
   name_ASC
   name_DESC
-  connectedWithGithub_ASC
-  connectedWithGithub_DESC
-  githubProviderId_ASC
-  githubProviderId_DESC
   resetToken_ASC
   resetToken_DESC
   resetTokenExpiry_ASC
@@ -4190,8 +4221,6 @@ type UserPreviousValues {
   email: String!
   password: String!
   name: String
-  connectedWithGithub: Boolean!
-  githubProviderId: String
   resetToken: String
   resetTokenExpiry: String
   permissions: [PERMISSION!]
@@ -4243,8 +4272,6 @@ input UserUpdateDataInput {
   email: String
   password: String
   name: String
-  connectedWithGithub: Boolean
-  githubProviderId: String
   resetToken: String
   resetTokenExpiry: String
   emailConfirmed: Boolean
@@ -4260,8 +4287,6 @@ input UserUpdateInput {
   email: String
   password: String
   name: String
-  connectedWithGithub: Boolean
-  githubProviderId: String
   resetToken: String
   resetTokenExpiry: String
   emailConfirmed: Boolean
@@ -4321,8 +4346,6 @@ input UserUpdateWithoutNotificationsDataInput {
   email: String
   password: String
   name: String
-  connectedWithGithub: Boolean
-  githubProviderId: String
   resetToken: String
   resetTokenExpiry: String
   emailConfirmed: Boolean
@@ -4337,8 +4360,6 @@ input UserUpdateWithoutPostsDataInput {
   email: String
   password: String
   name: String
-  connectedWithGithub: Boolean
-  githubProviderId: String
   resetToken: String
   resetTokenExpiry: String
   emailConfirmed: Boolean
@@ -4353,8 +4374,6 @@ input UserUpdateWithoutReceivedMessagesDataInput {
   email: String
   password: String
   name: String
-  connectedWithGithub: Boolean
-  githubProviderId: String
   resetToken: String
   resetTokenExpiry: String
   emailConfirmed: Boolean
@@ -4369,8 +4388,6 @@ input UserUpdateWithoutSentMessagesDataInput {
   email: String
   password: String
   name: String
-  connectedWithGithub: Boolean
-  githubProviderId: String
   resetToken: String
   resetTokenExpiry: String
   emailConfirmed: Boolean
@@ -4575,50 +4592,6 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
-  connectedWithGithub: Boolean
-
-  """All values that are not equal to given value."""
-  connectedWithGithub_not: Boolean
-  githubProviderId: String
-
-  """All values that are not equal to given value."""
-  githubProviderId_not: String
-
-  """All values that are contained in given list."""
-  githubProviderId_in: [String!]
-
-  """All values that are not contained in given list."""
-  githubProviderId_not_in: [String!]
-
-  """All values less than the given value."""
-  githubProviderId_lt: String
-
-  """All values less than or equal the given value."""
-  githubProviderId_lte: String
-
-  """All values greater than the given value."""
-  githubProviderId_gt: String
-
-  """All values greater than or equal the given value."""
-  githubProviderId_gte: String
-
-  """All values containing the given string."""
-  githubProviderId_contains: String
-
-  """All values not containing the given string."""
-  githubProviderId_not_contains: String
-
-  """All values starting with the given string."""
-  githubProviderId_starts_with: String
-
-  """All values not starting with the given string."""
-  githubProviderId_not_starts_with: String
-
-  """All values ending with the given string."""
-  githubProviderId_ends_with: String
-
-  """All values not ending with the given string."""
-  githubProviderId_not_ends_with: String
   resetToken: String
 
   """All values that are not equal to given value."""
@@ -4843,10 +4816,6 @@ export type UserOrderByInput =
   | 'password_DESC'
   | 'name_ASC'
   | 'name_DESC'
-  | 'connectedWithGithub_ASC'
-  | 'connectedWithGithub_DESC'
-  | 'githubProviderId_ASC'
-  | 'githubProviderId_DESC'
   | 'resetToken_ASC'
   | 'resetToken_DESC'
   | 'resetTokenExpiry_ASC'
@@ -4925,10 +4894,12 @@ export type NotificationOrderByInput =
   | 'updatedAt_DESC'
 
 export type GithubProfileOrderByInput =
+  | 'login_ASC'
+  | 'login_DESC'
   | 'githubUserId_ASC'
   | 'githubUserId_DESC'
-  | 'username_ASC'
-  | 'username_DESC'
+  | 'node_id_ASC'
+  | 'node_id_DESC'
   | 'name_ASC'
   | 'name_DESC'
   | 'bio_ASC'
@@ -5035,22 +5006,6 @@ export interface UserWhereInput {
   name_not_starts_with?: String
   name_ends_with?: String
   name_not_ends_with?: String
-  connectedWithGithub?: Boolean
-  connectedWithGithub_not?: Boolean
-  githubProviderId?: String
-  githubProviderId_not?: String
-  githubProviderId_in?: String[] | String
-  githubProviderId_not_in?: String[] | String
-  githubProviderId_lt?: String
-  githubProviderId_lte?: String
-  githubProviderId_gt?: String
-  githubProviderId_gte?: String
-  githubProviderId_contains?: String
-  githubProviderId_not_contains?: String
-  githubProviderId_starts_with?: String
-  githubProviderId_not_starts_with?: String
-  githubProviderId_ends_with?: String
-  githubProviderId_not_ends_with?: String
   resetToken?: String
   resetToken_not?: String
   resetToken_in?: String[] | String
@@ -5116,8 +5071,6 @@ export interface UserCreateWithoutNotificationsInput {
   email: String
   password: String
   name?: String
-  connectedWithGithub?: Boolean
-  githubProviderId?: String
   resetToken?: String
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
@@ -5206,8 +5159,6 @@ export interface UserUpdateInput {
   email?: String
   password?: String
   name?: String
-  connectedWithGithub?: Boolean
-  githubProviderId?: String
   resetToken?: String
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
@@ -5498,8 +5449,6 @@ export interface UserCreateWithoutReceivedMessagesInput {
   email: String
   password: String
   name?: String
-  connectedWithGithub?: Boolean
-  githubProviderId?: String
   resetToken?: String
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
@@ -5586,8 +5535,6 @@ export interface UserCreateWithoutSentMessagesInput {
   email: String
   password: String
   name?: String
-  connectedWithGithub?: Boolean
-  githubProviderId?: String
   resetToken?: String
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
@@ -5652,8 +5599,6 @@ export interface UserCreateWithoutPostsInput {
   email: String
   password: String
   name?: String
-  connectedWithGithub?: Boolean
-  githubProviderId?: String
   resetToken?: String
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
@@ -5837,8 +5782,9 @@ export interface UserCreatepermissionsInput {
 }
 
 export interface GithubProfileCreateInput {
+  login: String
   githubUserId: Int
-  username: String
+  node_id: String
   name?: String
   bio?: String
   website?: String
@@ -5882,8 +5828,9 @@ export interface MessageSubscriptionWhereInput {
 }
 
 export interface GithubProfileUpdateDataInput {
+  login?: String
   githubUserId?: Int
-  username?: String
+  node_id?: String
   name?: String
   bio?: String
   website?: String
@@ -6003,8 +5950,6 @@ export interface UserUpdateWithoutNotificationsDataInput {
   email?: String
   password?: String
   name?: String
-  connectedWithGithub?: Boolean
-  githubProviderId?: String
   resetToken?: String
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
@@ -6136,8 +6081,6 @@ export interface UserUpdateWithoutSentMessagesDataInput {
   email?: String
   password?: String
   name?: String
-  connectedWithGithub?: Boolean
-  githubProviderId?: String
   resetToken?: String
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
@@ -6269,8 +6212,8 @@ export interface TagUpdateDataInput {
 }
 
 export interface GithubProfileWhereUniqueInput {
+  login?: String
   githubUserId?: Int
-  username?: String
 }
 
 export interface TagUpsertWithWhereUniqueNestedInput {
@@ -6311,8 +6254,6 @@ export interface UserUpdateWithoutPostsDataInput {
   email?: String
   password?: String
   name?: String
-  connectedWithGithub?: Boolean
-  githubProviderId?: String
   resetToken?: String
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
@@ -6346,8 +6287,6 @@ export interface UserCreateInput {
   email: String
   password: String
   name?: String
-  connectedWithGithub?: Boolean
-  githubProviderId?: String
   resetToken?: String
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
@@ -6363,8 +6302,6 @@ export interface UserUpdateDataInput {
   email?: String
   password?: String
   name?: String
-  connectedWithGithub?: Boolean
-  githubProviderId?: String
   resetToken?: String
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
@@ -6408,6 +6345,20 @@ export interface GithubProfileWhereInput {
   AND?: GithubProfileWhereInput[] | GithubProfileWhereInput
   OR?: GithubProfileWhereInput[] | GithubProfileWhereInput
   NOT?: GithubProfileWhereInput[] | GithubProfileWhereInput
+  login?: String
+  login_not?: String
+  login_in?: String[] | String
+  login_not_in?: String[] | String
+  login_lt?: String
+  login_lte?: String
+  login_gt?: String
+  login_gte?: String
+  login_contains?: String
+  login_not_contains?: String
+  login_starts_with?: String
+  login_not_starts_with?: String
+  login_ends_with?: String
+  login_not_ends_with?: String
   githubUserId?: Int
   githubUserId_not?: Int
   githubUserId_in?: Int[] | Int
@@ -6416,20 +6367,20 @@ export interface GithubProfileWhereInput {
   githubUserId_lte?: Int
   githubUserId_gt?: Int
   githubUserId_gte?: Int
-  username?: String
-  username_not?: String
-  username_in?: String[] | String
-  username_not_in?: String[] | String
-  username_lt?: String
-  username_lte?: String
-  username_gt?: String
-  username_gte?: String
-  username_contains?: String
-  username_not_contains?: String
-  username_starts_with?: String
-  username_not_starts_with?: String
-  username_ends_with?: String
-  username_not_ends_with?: String
+  node_id?: String
+  node_id_not?: String
+  node_id_in?: String[] | String
+  node_id_not_in?: String[] | String
+  node_id_lt?: String
+  node_id_lte?: String
+  node_id_gt?: String
+  node_id_gte?: String
+  node_id_contains?: String
+  node_id_not_contains?: String
+  node_id_starts_with?: String
+  node_id_not_starts_with?: String
+  node_id_ends_with?: String
+  node_id_not_ends_with?: String
   name?: String
   name_not?: String
   name_in?: String[] | String
@@ -6523,8 +6474,9 @@ export interface MessageUpdateWithoutFromDataInput {
 }
 
 export interface GithubProfileUpdateInput {
+  login?: String
   githubUserId?: Int
-  username?: String
+  node_id?: String
   name?: String
   bio?: String
   website?: String
@@ -6576,8 +6528,6 @@ export interface UserUpdateWithoutReceivedMessagesDataInput {
   email?: String
   password?: String
   name?: String
-  connectedWithGithub?: Boolean
-  githubProviderId?: String
   resetToken?: String
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
@@ -6793,9 +6743,7 @@ export interface User extends Node {
   email: String
   password: String
   name?: String
-  connectedWithGithub: Boolean
   githubProfile?: GithubProfile
-  githubProviderId?: String
   posts?: Post[]
   sentMessages?: Message[]
   receivedMessages?: Message[]
@@ -6836,8 +6784,9 @@ export interface MessageEdge {
 }
 
 export interface GithubProfile {
+  login: String
   githubUserId: Int
-  username: String
+  node_id: String
   name?: String
   bio?: String
   website?: String
@@ -6901,8 +6850,6 @@ export interface UserPreviousValues {
   email: String
   password: String
   name?: String
-  connectedWithGithub: Boolean
-  githubProviderId?: String
   resetToken?: String
   resetTokenExpiry?: String
   permissions?: PERMISSION[]
@@ -6949,8 +6896,9 @@ export interface AggregatePost {
 }
 
 export interface GithubProfilePreviousValues {
+  login: String
   githubUserId: Int
-  username: String
+  node_id: String
   name?: String
   bio?: String
   website?: String
