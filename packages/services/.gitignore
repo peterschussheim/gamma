@@ -62,3 +62,4 @@ package-lock.json
 # yarn.lock
 
 .vscode
+gh-profile.json

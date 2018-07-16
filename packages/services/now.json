@@ -2,5 +2,5 @@
   "name": "api",
   "alias": ["api.gamma.app"],
   "dotenv": ".env",
-  "type": "npm"
+  "type": "docker"
 }
