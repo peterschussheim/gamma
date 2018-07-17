@@ -1,5 +1,5 @@
 FROM mhart/alpine-node:10
-LABEL name "gamma-api"
+LABEL name "gamma-api-prod"
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --production
