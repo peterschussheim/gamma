@@ -12,6 +12,12 @@
     "precommit": "lint-staged",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check"
   },
+  "lint-staged": {
+    "*.js": [
+      "prettier --config .prettierrc --write",
+      "git add"
+    ]
+  },
   "devDependencies": {
     "autoprefixer": "9.0.0",
     "babel-core": "6.26.3",

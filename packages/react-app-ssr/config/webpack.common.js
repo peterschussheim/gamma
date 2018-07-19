@@ -1,8 +1,8 @@
-const path = require('path');
-const webpack = require('webpack');
+const path = require('path')
+const webpack = require('webpack')
 
-const ROOT_DIR = path.resolve(__dirname, '../');
-const SRC_DIR = path.resolve(ROOT_DIR, 'src');
+const ROOT_DIR = path.resolve(__dirname, '../')
+const SRC_DIR = path.resolve(ROOT_DIR, 'src')
 
 module.exports = {
   entry: path.join(SRC_DIR, '/browser/index'),
@@ -37,4 +37,4 @@ module.exports = {
       }
     })
   ]
-};
+}

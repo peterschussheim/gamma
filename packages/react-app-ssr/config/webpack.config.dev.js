@@ -1,12 +1,12 @@
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const path = require('path');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const common = require('./webpack.common.js');
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const path = require('path')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const common = require('./webpack.common.js')
 
-const ROOT_DIR = path.resolve(__dirname, '../');
-const DIST_DIR = path.resolve(ROOT_DIR, 'dist');
-const PUBLIC_DIR = path.resolve(ROOT_DIR, 'public');
+const ROOT_DIR = path.resolve(__dirname, '../')
+const DIST_DIR = path.resolve(ROOT_DIR, 'dist')
+const PUBLIC_DIR = path.resolve(ROOT_DIR, 'public')
 
 module.exports = merge(common, {
   mode: 'development',
@@ -37,4 +37,4 @@ module.exports = merge(common, {
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ]
-});
+})
