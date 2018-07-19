@@ -1,7 +1,7 @@
-var path = require('path');
-var webpack = require('webpack');
+var path = require('path')
+var webpack = require('webpack')
 
-const DEV = process.env.NODE_ENV !== 'production';
+const DEV = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   bail: !DEV,
@@ -59,7 +59,7 @@ module.exports = {
       }),
     DEV && new webpack.optimize.AggressiveMergingPlugin()
   ].filter(Boolean)
-};
+}
 // var browserConfig = {
 //   entry: './src/browser/index.js',
 //   output: {

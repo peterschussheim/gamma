@@ -1,7 +1,7 @@
-var webpack = require('webpack');
-var path = require('path');
+var webpack = require('webpack')
+var path = require('path')
 
-const DEV = process.env.NODE_ENV !== 'production';
+const DEV = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   bail: !DEV,
@@ -15,9 +15,9 @@ module.exports = {
   },
   externals: (context, request, callback) => {
     if (/^[a-z0-9-][a-z0-9-./]+$/.test(request)) {
-      return callback(null, `commonjs ${request}`);
+      return callback(null, `commonjs ${request}`)
     }
-    callback();
+    callback()
   },
   module: {
     loaders: [
@@ -54,7 +54,7 @@ module.exports = {
     __dirname: false,
     setImmediate: false
   }
-};
+}
 
 // var serverConfig = {
 //   entry: './src/server/index.js',
