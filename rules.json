@@ -2,6 +2,9 @@
   "rules": [
     {
       "pathname": "/graphql",
+      "method": [
+        "POST"
+      ],
       "dest": "api.gamma.app"
     },
     {
