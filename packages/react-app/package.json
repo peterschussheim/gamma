@@ -26,14 +26,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "now-start": "serve --single ./build",
     "build": "react-scripts build",
     "deploy": "now && now alias",
     "clean": "rm -rf build && rm -rf node_modules",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "eslint-check":
-      "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "precommit": "pretty-quick --staged"
   },
   "devDependencies": {
@@ -43,6 +41,5 @@
     "prettier": "1.13.5",
     "pretty-quick": "1.6.0",
     "prop-types": "15.6.1"
-  },
-  "proxy": "http://localhost:4000/"
+  }
 }

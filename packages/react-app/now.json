@@ -1,6 +1,6 @@
 {
   "name": "ui",
-  "alias": ["gamma.app"],
-  "dotenv": ".env",
-  "type": "npm"
+  "alias": ["ui.gamma.app"],
+  "dotenv": true,
+  "type": "static"
 }

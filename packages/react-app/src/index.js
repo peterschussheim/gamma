@@ -8,22 +8,24 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 
+import { BACKEND_API_ENDPOINT, BACKEND_WS_ENDPOINT } from './config/index'
 import {
   errorLink,
   requestLink,
   subscriptionLink,
   queryOrMutationLink
 } from './config/links'
-
-// TODO: update below env variables so they are compatible with `.env` format
-const API_URI = `${process.env.REACT_APP_API_BASE_URI}/graphql`
-const LOCAL_API_URI = 'http://localhost:4000/graphql'
-
+console.log(`${BACKEND_API_ENDPOINT}, ${BACKEND_WS_ENDPOINT}`)
+console.log(
+  `${process.env.REACT_APP_BACKEND_API_ENDPOINT}, ${
+    process.env.REACT_APP_BACKEND_WS_ENDPOINT
+  }`
+)
 const links = [
   errorLink,
   requestLink({
     queryOrMutationLink: queryOrMutationLink({
-      uri: process.env.NODE_ENV === 'production' ? API_URI : LOCAL_API_URI
+      uri: BACKEND_API_ENDPOINT
     }),
     subscriptionLink: subscriptionLink()
   })

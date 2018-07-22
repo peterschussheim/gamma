@@ -4,6 +4,8 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { onError } from 'apollo-link-error'
 import { getMainDefinition } from 'apollo-utilities'
 
+import { BACKEND_WS_ENDPOINT } from './index'
+
 export const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.map(({ message, location, path }) =>
@@ -16,11 +18,10 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 export const subscriptionLink = (config = {}) =>
   new WebSocketLink({
-    uri:
-      process.env.NODE_ENV !== 'production'
-        ? 'ws://localhost:4000/subscriptions'
-        : 'wss://api.gamma.com/subscriptions',
-    options: { reconnect: true },
+    uri: BACKEND_WS_ENDPOINT,
+    options: {
+      reconnect: true
+    },
     ...config
   })
 

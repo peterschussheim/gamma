@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Query } from 'react-apollo'
-
+import Logout from '../components/logout'
 import { VIEWER } from '../queries'
 import auth from '../utils/auth'
 
 class Profile extends React.Component {
   static defaultProps = {
-    authUrl: '/auth/github'
+    authUrl: 'http://localhost:4000/auth/github'
   }
   defaultState = {
     isAuthenticated: auth.isAuthenticated,
@@ -97,12 +97,7 @@ class Profile extends React.Component {
                 <button type="button" onClick={this.handleAuthorizeWithGithub}>
                   Connect to Github Via server
                 </button>
-                <button
-                  type="button"
-                  onClick={auth.logout(() => this.props.history.push('/'))}
-                >
-                  Logout
-                </button>
+                <Logout />
               </React.Fragment>
             )
           }

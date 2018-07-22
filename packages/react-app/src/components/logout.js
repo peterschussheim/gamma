@@ -6,7 +6,6 @@ export default () => {
   return (
     <Mutation mutation={LOGOUT} refetchQueries={[{ query: VIEWER }]}>
       {logout => <button onClick={logout}>Logout</button>}
-      {/* {logout => <button onClick={logout}>Logout</button>} */}
     </Mutation>
   )
 }
