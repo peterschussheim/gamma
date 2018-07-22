@@ -41,7 +41,7 @@ module.exports = {
       }
     }),
     new webpack.DefinePlugin({
-      __isBrowser__: 'false'
+      __isBrowser__: 'true'
     }),
     !DEV &&
       new webpack.optimize.UglifyJsPlugin({
@@ -60,40 +60,3 @@ module.exports = {
     DEV && new webpack.optimize.AggressiveMergingPlugin()
   ].filter(Boolean)
 }
-// var browserConfig = {
-//   entry: './src/browser/index.js',
-//   output: {
-//     path: path.resolve(__dirname, 'public'),
-//     filename: 'bundle.js',
-//     publicPath: '/'
-//   },
-//   module: {
-//     rules: [{ test: /\.(js)$/, use: 'babel-loader' }]
-//   },
-//   plugins: [
-//     new webpack.DefinePlugin({
-//       __isBrowser__: 'true'
-//     })
-//   ]
-// }
-
-// var serverConfig = {
-//   entry: './src/server/index.js',
-//   target: 'node',
-//   externals: [nodeExternals()],
-//   output: {
-//     path: __dirname,
-//     filename: 'server.js',
-//     publicPath: '/'
-//   },
-//   module: {
-//     rules: [{ test: /\.(js)$/, use: 'babel-loader' }]
-//   },
-//   plugins: [
-//     new webpack.DefinePlugin({
-//       __isBrowser__: 'false'
-//     })
-//   ]
-// }
-
-// module.exports = [browserConfig, serverConfig]
