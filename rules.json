@@ -1,10 +1,14 @@
 {
   "rules": [
     {
-      "pathname": "/graphql",
+      "pathname": "/api",
       "method": [
         "POST"
       ],
+      "dest": "api.gamma.app"
+    },
+    {
+      "pathname": "/subscriptions",
       "dest": "api.gamma.app"
     },
     {
