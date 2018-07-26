@@ -1,6 +1,24 @@
 {
   "name": "api",
   "alias": ["api.gamma.app"],
-  "dotenv": ".env",
+  "env": {
+    "NODE_ENV": "production",
+    "HOST": "0.0.0.0",
+    "SENTRY_DSN_SERVER": "@sentry-dsn-server",
+    "GITHUB_CLIENT_ID_PROD": "@github-client-id-prod",
+    "GITHUB_CLIENT_SECRET_PROD": "@github-client-secret-prod",
+    "GITHUB_CLIENT_ID_DEV": "@github-client-id-dev",
+    "GITHUB_CLIENT_SECRET_DEV": "@github-client-secret-dev",
+    "SESSION_SECRET": "@session-secret",
+    "APP_SECRET": "@app-secret",
+    "SPARKPOST_API_KEY": "@sparkpost-api-key",
+    "REDISLABS_PW": "@redislabs-pw",
+    "REDISLABS_URI": "@redislabs-uri",
+    "ENGINE_API_KEY": "@engine-api-key",
+    "PRISMA_ENDPOINT": "@prisma-endpoint",
+    "PRISMA_SECRET": "@prisma-secret",
+    "PRISMA_MANAGEMENT_API_SECRET": "@prisma-management-api-secret",
+    "MAILSLURP_KEY": "@mailslurp-key"
+  },
   "type": "docker"
 }
