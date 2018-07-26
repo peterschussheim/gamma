@@ -16,4 +16,4 @@ ARG NODE_ENV
 ENV NODE_ENV ${NODE_ENV:-production
 EXPOSE 4000
 
-CMD ["node", "-r", "dotenv/config", "./dist/index.js"]
+CMD ["node", "-r", "now-env", "./dist/index.js"]
