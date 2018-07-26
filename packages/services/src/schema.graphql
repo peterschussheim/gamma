@@ -50,7 +50,7 @@ type Subscription {
 
 type Viewer {
   # Used to check that a given user is authenticated.
-  me: User!
+  me: User
 }
 
 type Counter {

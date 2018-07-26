@@ -1,5 +1,5 @@
 # source: http://prism-publi-1xhnx5h6w5jrp-941962228.us-east-1.elb.amazonaws.com/database/dev
-# timestamp: Fri Jul 13 2018 14:40:30 GMT-0400 (EDT)
+# timestamp: Fri Jul 13 2018 15:52:32 GMT-0400 (EDT)
 
 type AccessToken implements Node {
   id: ID!
@@ -1521,15 +1521,18 @@ input FileWhereUniqueInput {
 }
 
 type GithubProfile {
+  profileOwner(where: UserWhereInput): User
   login: String!
   githubUserId: Int!
   node_id: String!
   name: String
   bio: String
   website: String
-  email: String
+  githubEmail: String!
   profilePhoto: String
   accessTokens(where: AccessTokenWhereInput, orderBy: AccessTokenOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AccessToken!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 """A connection to a list of items."""
@@ -1549,14 +1552,27 @@ input GithubProfileCreateInput {
   name: String
   bio: String
   website: String
-  email: String
+  githubEmail: String!
   profilePhoto: String
+  profileOwner: UserCreateOneWithoutGithubProfileInput
   accessTokens: AccessTokenCreateManyInput
 }
 
-input GithubProfileCreateOneInput {
-  create: GithubProfileCreateInput
+input GithubProfileCreateOneWithoutProfileOwnerInput {
+  create: GithubProfileCreateWithoutProfileOwnerInput
   connect: GithubProfileWhereUniqueInput
+}
+
+input GithubProfileCreateWithoutProfileOwnerInput {
+  login: String!
+  githubUserId: Int!
+  node_id: String!
+  name: String
+  bio: String
+  website: String
+  githubEmail: String!
+  profilePhoto: String
+  accessTokens: AccessTokenCreateManyInput
 }
 
 """An edge in a connection."""
@@ -1581,16 +1597,16 @@ enum GithubProfileOrderByInput {
   bio_DESC
   website_ASC
   website_DESC
-  email_ASC
-  email_DESC
+  githubEmail_ASC
+  githubEmail_DESC
   profilePhoto_ASC
   profilePhoto_DESC
-  id_ASC
-  id_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  id_ASC
+  id_DESC
 }
 
 type GithubProfilePreviousValues {
@@ -1600,8 +1616,10 @@ type GithubProfilePreviousValues {
   name: String
   bio: String
   website: String
-  email: String
+  githubEmail: String!
   profilePhoto: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type GithubProfileSubscriptionPayload {
@@ -1643,18 +1661,6 @@ input GithubProfileSubscriptionWhereInput {
   node: GithubProfileWhereInput
 }
 
-input GithubProfileUpdateDataInput {
-  login: String
-  githubUserId: Int
-  node_id: String
-  name: String
-  bio: String
-  website: String
-  email: String
-  profilePhoto: String
-  accessTokens: AccessTokenUpdateManyInput
-}
-
 input GithubProfileUpdateInput {
   login: String
   githubUserId: Int
@@ -1662,23 +1668,36 @@ input GithubProfileUpdateInput {
   name: String
   bio: String
   website: String
-  email: String
+  githubEmail: String
+  profilePhoto: String
+  profileOwner: UserUpdateOneWithoutGithubProfileInput
+  accessTokens: AccessTokenUpdateManyInput
+}
+
+input GithubProfileUpdateOneWithoutProfileOwnerInput {
+  create: GithubProfileCreateWithoutProfileOwnerInput
+  connect: GithubProfileWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: GithubProfileUpdateWithoutProfileOwnerDataInput
+  upsert: GithubProfileUpsertWithoutProfileOwnerInput
+}
+
+input GithubProfileUpdateWithoutProfileOwnerDataInput {
+  login: String
+  githubUserId: Int
+  node_id: String
+  name: String
+  bio: String
+  website: String
+  githubEmail: String
   profilePhoto: String
   accessTokens: AccessTokenUpdateManyInput
 }
 
-input GithubProfileUpdateOneInput {
-  create: GithubProfileCreateInput
-  connect: GithubProfileWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: GithubProfileUpdateDataInput
-  upsert: GithubProfileUpsertNestedInput
-}
-
-input GithubProfileUpsertNestedInput {
-  update: GithubProfileUpdateDataInput!
-  create: GithubProfileCreateInput!
+input GithubProfileUpsertWithoutProfileOwnerInput {
+  update: GithubProfileUpdateWithoutProfileOwnerDataInput!
+  create: GithubProfileCreateWithoutProfileOwnerInput!
 }
 
 input GithubProfileWhereInput {
@@ -1912,46 +1931,46 @@ input GithubProfileWhereInput {
 
   """All values not ending with the given string."""
   website_not_ends_with: String
-  email: String
+  githubEmail: String
 
   """All values that are not equal to given value."""
-  email_not: String
+  githubEmail_not: String
 
   """All values that are contained in given list."""
-  email_in: [String!]
+  githubEmail_in: [String!]
 
   """All values that are not contained in given list."""
-  email_not_in: [String!]
+  githubEmail_not_in: [String!]
 
   """All values less than the given value."""
-  email_lt: String
+  githubEmail_lt: String
 
   """All values less than or equal the given value."""
-  email_lte: String
+  githubEmail_lte: String
 
   """All values greater than the given value."""
-  email_gt: String
+  githubEmail_gt: String
 
   """All values greater than or equal the given value."""
-  email_gte: String
+  githubEmail_gte: String
 
   """All values containing the given string."""
-  email_contains: String
+  githubEmail_contains: String
 
   """All values not containing the given string."""
-  email_not_contains: String
+  githubEmail_not_contains: String
 
   """All values starting with the given string."""
-  email_starts_with: String
+  githubEmail_starts_with: String
 
   """All values not starting with the given string."""
-  email_not_starts_with: String
+  githubEmail_not_starts_with: String
 
   """All values ending with the given string."""
-  email_ends_with: String
+  githubEmail_ends_with: String
 
   """All values not ending with the given string."""
-  email_not_ends_with: String
+  githubEmail_not_ends_with: String
   profilePhoto: String
 
   """All values that are not equal to given value."""
@@ -1992,6 +2011,51 @@ input GithubProfileWhereInput {
 
   """All values not ending with the given string."""
   profilePhoto_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  profileOwner: UserWhereInput
   accessTokens_every: AccessTokenWhereInput
   accessTokens_some: AccessTokenWhereInput
   accessTokens_none: AccessTokenWhereInput
@@ -2000,6 +2064,7 @@ input GithubProfileWhereInput {
 input GithubProfileWhereUniqueInput {
   login: String
   githubUserId: Int
+  githubEmail: String
 }
 
 """
@@ -3323,7 +3388,7 @@ input UserCreateInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
-  githubProfile: GithubProfileCreateOneInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   posts: PostCreateManyWithoutAuthorInput
   sentMessages: MessageCreateManyWithoutFromInput
   receivedMessages: MessageCreateManyWithoutToInput
@@ -3332,6 +3397,11 @@ input UserCreateInput {
 
 input UserCreateOneInput {
   create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutGithubProfileInput {
+  create: UserCreateWithoutGithubProfileInput
   connect: UserWhereUniqueInput
 }
 
@@ -3359,6 +3429,20 @@ input UserCreatepermissionsInput {
   set: [PERMISSION!]
 }
 
+input UserCreateWithoutGithubProfileInput {
+  email: String!
+  password: String!
+  name: String
+  resetToken: String
+  resetTokenExpiry: String
+  emailConfirmed: Boolean
+  permissions: UserCreatepermissionsInput
+  posts: PostCreateManyWithoutAuthorInput
+  sentMessages: MessageCreateManyWithoutFromInput
+  receivedMessages: MessageCreateManyWithoutToInput
+  notifications: NotificationCreateManyWithoutUserInput
+}
+
 input UserCreateWithoutNotificationsInput {
   email: String!
   password: String!
@@ -3367,7 +3451,7 @@ input UserCreateWithoutNotificationsInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
-  githubProfile: GithubProfileCreateOneInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   posts: PostCreateManyWithoutAuthorInput
   sentMessages: MessageCreateManyWithoutFromInput
   receivedMessages: MessageCreateManyWithoutToInput
@@ -3381,7 +3465,7 @@ input UserCreateWithoutPostsInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
-  githubProfile: GithubProfileCreateOneInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   sentMessages: MessageCreateManyWithoutFromInput
   receivedMessages: MessageCreateManyWithoutToInput
   notifications: NotificationCreateManyWithoutUserInput
@@ -3395,7 +3479,7 @@ input UserCreateWithoutReceivedMessagesInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
-  githubProfile: GithubProfileCreateOneInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   posts: PostCreateManyWithoutAuthorInput
   sentMessages: MessageCreateManyWithoutFromInput
   notifications: NotificationCreateManyWithoutUserInput
@@ -3409,7 +3493,7 @@ input UserCreateWithoutSentMessagesInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
-  githubProfile: GithubProfileCreateOneInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   posts: PostCreateManyWithoutAuthorInput
   receivedMessages: MessageCreateManyWithoutToInput
   notifications: NotificationCreateManyWithoutUserInput
@@ -3505,7 +3589,7 @@ input UserUpdateDataInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
-  githubProfile: GithubProfileUpdateOneInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   sentMessages: MessageUpdateManyWithoutFromInput
   receivedMessages: MessageUpdateManyWithoutToInput
@@ -3520,7 +3604,7 @@ input UserUpdateInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
-  githubProfile: GithubProfileUpdateOneInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   sentMessages: MessageUpdateManyWithoutFromInput
   receivedMessages: MessageUpdateManyWithoutToInput
@@ -3533,6 +3617,15 @@ input UserUpdateOneInput {
   delete: Boolean
   update: UserUpdateDataInput
   upsert: UserUpsertNestedInput
+}
+
+input UserUpdateOneWithoutGithubProfileInput {
+  create: UserCreateWithoutGithubProfileInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateWithoutGithubProfileDataInput
+  upsert: UserUpsertWithoutGithubProfileInput
 }
 
 input UserUpdateOneWithoutNotificationsInput {
@@ -3571,6 +3664,20 @@ input UserUpdatepermissionsInput {
   set: [PERMISSION!]
 }
 
+input UserUpdateWithoutGithubProfileDataInput {
+  email: String
+  password: String
+  name: String
+  resetToken: String
+  resetTokenExpiry: String
+  emailConfirmed: Boolean
+  permissions: UserUpdatepermissionsInput
+  posts: PostUpdateManyWithoutAuthorInput
+  sentMessages: MessageUpdateManyWithoutFromInput
+  receivedMessages: MessageUpdateManyWithoutToInput
+  notifications: NotificationUpdateManyWithoutUserInput
+}
+
 input UserUpdateWithoutNotificationsDataInput {
   email: String
   password: String
@@ -3579,7 +3686,7 @@ input UserUpdateWithoutNotificationsDataInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
-  githubProfile: GithubProfileUpdateOneInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   sentMessages: MessageUpdateManyWithoutFromInput
   receivedMessages: MessageUpdateManyWithoutToInput
@@ -3593,7 +3700,7 @@ input UserUpdateWithoutPostsDataInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
-  githubProfile: GithubProfileUpdateOneInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   sentMessages: MessageUpdateManyWithoutFromInput
   receivedMessages: MessageUpdateManyWithoutToInput
   notifications: NotificationUpdateManyWithoutUserInput
@@ -3607,7 +3714,7 @@ input UserUpdateWithoutReceivedMessagesDataInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
-  githubProfile: GithubProfileUpdateOneInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   sentMessages: MessageUpdateManyWithoutFromInput
   notifications: NotificationUpdateManyWithoutUserInput
@@ -3621,7 +3728,7 @@ input UserUpdateWithoutSentMessagesDataInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
-  githubProfile: GithubProfileUpdateOneInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   receivedMessages: MessageUpdateManyWithoutToInput
   notifications: NotificationUpdateManyWithoutUserInput
@@ -3630,6 +3737,11 @@ input UserUpdateWithoutSentMessagesDataInput {
 input UserUpsertNestedInput {
   update: UserUpdateDataInput!
   create: UserCreateInput!
+}
+
+input UserUpsertWithoutGithubProfileInput {
+  update: UserUpdateWithoutGithubProfileDataInput!
+  create: UserCreateWithoutGithubProfileInput!
 }
 
 input UserUpsertWithoutNotificationsInput {

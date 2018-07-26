@@ -5,6 +5,7 @@ type User {
   # First and last name of user
   name: String
   githubProfile: GithubProfile
+    @relation(name: "LinkedProfile", onDelete: SET_NULL)
   posts: [Post!]!
   sentMessages: [Message!]! @relation(name: "SentMessages")
   receivedMessages: [Message!]! @relation(name: "ReceivedMessages")
@@ -18,6 +19,7 @@ type User {
 }
 
 type GithubProfile {
+  profileOwner: User @relation(name: "LinkedProfile", onDelete: SET_NULL)
   # GitHub login
   login: String! @unique
   # GitHub id
@@ -28,9 +30,11 @@ type GithubProfile {
   bio: String
   # GitHub blog
   website: String
-  email: String
+  githubEmail: String! @unique
   profilePhoto: String
   accessTokens: [AccessToken!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type AccessToken {

@@ -4,724 +4,114 @@ import { Options } from 'graphql-binding'
 import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'
 
 export interface Query {
-  users: <T = User[]>(
-    args: {
-      where?: UserWhereInput
-      orderBy?: UserOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  githubProfiles: <T = GithubProfile[]>(
-    args: {
-      where?: GithubProfileWhereInput
-      orderBy?: GithubProfileOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  accessTokens: <T = AccessToken[]>(
-    args: {
-      where?: AccessTokenWhereInput
-      orderBy?: AccessTokenOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  posts: <T = Post[]>(
-    args: {
-      where?: PostWhereInput
-      orderBy?: PostOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  tags: <T = Tag[]>(
-    args: {
-      where?: TagWhereInput
-      orderBy?: TagOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  comments: <T = Comment[]>(
-    args: {
-      where?: CommentWhereInput
-      orderBy?: CommentOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  files: <T = File[]>(
-    args: {
-      where?: FileWhereInput
-      orderBy?: FileOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  directories: <T = Directory[]>(
-    args: {
-      where?: DirectoryWhereInput
-      orderBy?: DirectoryOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  messages: <T = Message[]>(
-    args: {
-      where?: MessageWhereInput
-      orderBy?: MessageOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  notifications: <T = Notification[]>(
-    args: {
-      where?: NotificationWhereInput
-      orderBy?: NotificationOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  user: <T = User | null>(
-    args: { where: UserWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  githubProfile: <T = GithubProfile | null>(
-    args: { where: GithubProfileWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  accessToken: <T = AccessToken | null>(
-    args: { where: AccessTokenWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  post: <T = Post | null>(
-    args: { where: PostWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  tag: <T = Tag | null>(
-    args: { where: TagWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  comment: <T = Comment | null>(
-    args: { where: CommentWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  file: <T = File | null>(
-    args: { where: FileWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  directory: <T = Directory | null>(
-    args: { where: DirectoryWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  message: <T = Message | null>(
-    args: { where: MessageWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  notification: <T = Notification | null>(
-    args: { where: NotificationWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  usersConnection: <T = UserConnection>(
-    args: {
-      where?: UserWhereInput
-      orderBy?: UserOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  githubProfilesConnection: <T = GithubProfileConnection>(
-    args: {
-      where?: GithubProfileWhereInput
-      orderBy?: GithubProfileOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  accessTokensConnection: <T = AccessTokenConnection>(
-    args: {
-      where?: AccessTokenWhereInput
-      orderBy?: AccessTokenOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  postsConnection: <T = PostConnection>(
-    args: {
-      where?: PostWhereInput
-      orderBy?: PostOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  tagsConnection: <T = TagConnection>(
-    args: {
-      where?: TagWhereInput
-      orderBy?: TagOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  commentsConnection: <T = CommentConnection>(
-    args: {
-      where?: CommentWhereInput
-      orderBy?: CommentOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  filesConnection: <T = FileConnection>(
-    args: {
-      where?: FileWhereInput
-      orderBy?: FileOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  directoriesConnection: <T = DirectoryConnection>(
-    args: {
-      where?: DirectoryWhereInput
-      orderBy?: DirectoryOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  messagesConnection: <T = MessageConnection>(
-    args: {
-      where?: MessageWhereInput
-      orderBy?: MessageOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  notificationsConnection: <T = NotificationConnection>(
-    args: {
-      where?: NotificationWhereInput
-      orderBy?: NotificationOrderByInput
-      skip?: Int
-      after?: String
-      before?: String
-      first?: Int
-      last?: Int
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  node: <T = Node | null>(
-    args: { id: ID_Output },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-}
+    users: <T = User[]>(args: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    githubProfiles: <T = GithubProfile[]>(args: { where?: GithubProfileWhereInput, orderBy?: GithubProfileOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    accessTokens: <T = AccessToken[]>(args: { where?: AccessTokenWhereInput, orderBy?: AccessTokenOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    posts: <T = Post[]>(args: { where?: PostWhereInput, orderBy?: PostOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    tags: <T = Tag[]>(args: { where?: TagWhereInput, orderBy?: TagOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    comments: <T = Comment[]>(args: { where?: CommentWhereInput, orderBy?: CommentOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    files: <T = File[]>(args: { where?: FileWhereInput, orderBy?: FileOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    directories: <T = Directory[]>(args: { where?: DirectoryWhereInput, orderBy?: DirectoryOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    messages: <T = Message[]>(args: { where?: MessageWhereInput, orderBy?: MessageOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    notifications: <T = Notification[]>(args: { where?: NotificationWhereInput, orderBy?: NotificationOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    user: <T = User | null>(args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    githubProfile: <T = GithubProfile | null>(args: { where: GithubProfileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    accessToken: <T = AccessToken | null>(args: { where: AccessTokenWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    post: <T = Post | null>(args: { where: PostWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    tag: <T = Tag | null>(args: { where: TagWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    comment: <T = Comment | null>(args: { where: CommentWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    file: <T = File | null>(args: { where: FileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    directory: <T = Directory | null>(args: { where: DirectoryWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    message: <T = Message | null>(args: { where: MessageWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    notification: <T = Notification | null>(args: { where: NotificationWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    usersConnection: <T = UserConnection>(args: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    githubProfilesConnection: <T = GithubProfileConnection>(args: { where?: GithubProfileWhereInput, orderBy?: GithubProfileOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    accessTokensConnection: <T = AccessTokenConnection>(args: { where?: AccessTokenWhereInput, orderBy?: AccessTokenOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    postsConnection: <T = PostConnection>(args: { where?: PostWhereInput, orderBy?: PostOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    tagsConnection: <T = TagConnection>(args: { where?: TagWhereInput, orderBy?: TagOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    commentsConnection: <T = CommentConnection>(args: { where?: CommentWhereInput, orderBy?: CommentOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    filesConnection: <T = FileConnection>(args: { where?: FileWhereInput, orderBy?: FileOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    directoriesConnection: <T = DirectoryConnection>(args: { where?: DirectoryWhereInput, orderBy?: DirectoryOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    messagesConnection: <T = MessageConnection>(args: { where?: MessageWhereInput, orderBy?: MessageOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    notificationsConnection: <T = NotificationConnection>(args: { where?: NotificationWhereInput, orderBy?: NotificationOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    node: <T = Node | null>(args: { id: ID_Output }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> 
+  }
 
 export interface Mutation {
-  createUser: <T = User>(
-    args: { data: UserCreateInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  createGithubProfile: <T = GithubProfile>(
-    args: { data: GithubProfileCreateInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  createAccessToken: <T = AccessToken>(
-    args: { data: AccessTokenCreateInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  createPost: <T = Post>(
-    args: { data: PostCreateInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  createTag: <T = Tag>(
-    args: { data: TagCreateInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  createComment: <T = Comment>(
-    args: { data: CommentCreateInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  createFile: <T = File>(
-    args: { data: FileCreateInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  createDirectory: <T = Directory>(
-    args: { data: DirectoryCreateInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  createMessage: <T = Message>(
-    args: { data: MessageCreateInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  createNotification: <T = Notification>(
-    args: { data: NotificationCreateInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateUser: <T = User | null>(
-    args: { data: UserUpdateInput; where: UserWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateGithubProfile: <T = GithubProfile | null>(
-    args: {
-      data: GithubProfileUpdateInput
-      where: GithubProfileWhereUniqueInput
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateAccessToken: <T = AccessToken | null>(
-    args: { data: AccessTokenUpdateInput; where: AccessTokenWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updatePost: <T = Post | null>(
-    args: { data: PostUpdateInput; where: PostWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateTag: <T = Tag | null>(
-    args: { data: TagUpdateInput; where: TagWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateComment: <T = Comment | null>(
-    args: { data: CommentUpdateInput; where: CommentWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateFile: <T = File | null>(
-    args: { data: FileUpdateInput; where: FileWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateDirectory: <T = Directory | null>(
-    args: { data: DirectoryUpdateInput; where: DirectoryWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateMessage: <T = Message | null>(
-    args: { data: MessageUpdateInput; where: MessageWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateNotification: <T = Notification | null>(
-    args: {
-      data: NotificationUpdateInput
-      where: NotificationWhereUniqueInput
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteUser: <T = User | null>(
-    args: { where: UserWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteGithubProfile: <T = GithubProfile | null>(
-    args: { where: GithubProfileWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteAccessToken: <T = AccessToken | null>(
-    args: { where: AccessTokenWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deletePost: <T = Post | null>(
-    args: { where: PostWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteTag: <T = Tag | null>(
-    args: { where: TagWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteComment: <T = Comment | null>(
-    args: { where: CommentWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteFile: <T = File | null>(
-    args: { where: FileWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteDirectory: <T = Directory | null>(
-    args: { where: DirectoryWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteMessage: <T = Message | null>(
-    args: { where: MessageWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteNotification: <T = Notification | null>(
-    args: { where: NotificationWhereUniqueInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  upsertUser: <T = User>(
-    args: {
-      where: UserWhereUniqueInput
-      create: UserCreateInput
-      update: UserUpdateInput
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  upsertGithubProfile: <T = GithubProfile>(
-    args: {
-      where: GithubProfileWhereUniqueInput
-      create: GithubProfileCreateInput
-      update: GithubProfileUpdateInput
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  upsertAccessToken: <T = AccessToken>(
-    args: {
-      where: AccessTokenWhereUniqueInput
-      create: AccessTokenCreateInput
-      update: AccessTokenUpdateInput
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  upsertPost: <T = Post>(
-    args: {
-      where: PostWhereUniqueInput
-      create: PostCreateInput
-      update: PostUpdateInput
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  upsertTag: <T = Tag>(
-    args: {
-      where: TagWhereUniqueInput
-      create: TagCreateInput
-      update: TagUpdateInput
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  upsertComment: <T = Comment>(
-    args: {
-      where: CommentWhereUniqueInput
-      create: CommentCreateInput
-      update: CommentUpdateInput
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  upsertFile: <T = File>(
-    args: {
-      where: FileWhereUniqueInput
-      create: FileCreateInput
-      update: FileUpdateInput
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  upsertDirectory: <T = Directory>(
-    args: {
-      where: DirectoryWhereUniqueInput
-      create: DirectoryCreateInput
-      update: DirectoryUpdateInput
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  upsertMessage: <T = Message>(
-    args: {
-      where: MessageWhereUniqueInput
-      create: MessageCreateInput
-      update: MessageUpdateInput
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  upsertNotification: <T = Notification>(
-    args: {
-      where: NotificationWhereUniqueInput
-      create: NotificationCreateInput
-      update: NotificationUpdateInput
-    },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateManyUsers: <T = BatchPayload>(
-    args: { data: UserUpdateInput; where?: UserWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateManyGithubProfiles: <T = BatchPayload>(
-    args: { data: GithubProfileUpdateInput; where?: GithubProfileWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateManyAccessTokens: <T = BatchPayload>(
-    args: { data: AccessTokenUpdateInput; where?: AccessTokenWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateManyPosts: <T = BatchPayload>(
-    args: { data: PostUpdateInput; where?: PostWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateManyTags: <T = BatchPayload>(
-    args: { data: TagUpdateInput; where?: TagWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateManyComments: <T = BatchPayload>(
-    args: { data: CommentUpdateInput; where?: CommentWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateManyFiles: <T = BatchPayload>(
-    args: { data: FileUpdateInput; where?: FileWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateManyDirectories: <T = BatchPayload>(
-    args: { data: DirectoryUpdateInput; where?: DirectoryWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateManyMessages: <T = BatchPayload>(
-    args: { data: MessageUpdateInput; where?: MessageWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  updateManyNotifications: <T = BatchPayload>(
-    args: { data: NotificationUpdateInput; where?: NotificationWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteManyUsers: <T = BatchPayload>(
-    args: { where?: UserWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteManyGithubProfiles: <T = BatchPayload>(
-    args: { where?: GithubProfileWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteManyAccessTokens: <T = BatchPayload>(
-    args: { where?: AccessTokenWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteManyPosts: <T = BatchPayload>(
-    args: { where?: PostWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteManyTags: <T = BatchPayload>(
-    args: { where?: TagWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteManyComments: <T = BatchPayload>(
-    args: { where?: CommentWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteManyFiles: <T = BatchPayload>(
-    args: { where?: FileWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteManyDirectories: <T = BatchPayload>(
-    args: { where?: DirectoryWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteManyMessages: <T = BatchPayload>(
-    args: { where?: MessageWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-  deleteManyNotifications: <T = BatchPayload>(
-    args: { where?: NotificationWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<T>
-}
+    createUser: <T = User>(args: { data: UserCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createGithubProfile: <T = GithubProfile>(args: { data: GithubProfileCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createAccessToken: <T = AccessToken>(args: { data: AccessTokenCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createPost: <T = Post>(args: { data: PostCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createTag: <T = Tag>(args: { data: TagCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createComment: <T = Comment>(args: { data: CommentCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createFile: <T = File>(args: { data: FileCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createDirectory: <T = Directory>(args: { data: DirectoryCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createMessage: <T = Message>(args: { data: MessageCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createNotification: <T = Notification>(args: { data: NotificationCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateUser: <T = User | null>(args: { data: UserUpdateInput, where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateGithubProfile: <T = GithubProfile | null>(args: { data: GithubProfileUpdateInput, where: GithubProfileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateAccessToken: <T = AccessToken | null>(args: { data: AccessTokenUpdateInput, where: AccessTokenWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updatePost: <T = Post | null>(args: { data: PostUpdateInput, where: PostWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateTag: <T = Tag | null>(args: { data: TagUpdateInput, where: TagWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateComment: <T = Comment | null>(args: { data: CommentUpdateInput, where: CommentWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateFile: <T = File | null>(args: { data: FileUpdateInput, where: FileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateDirectory: <T = Directory | null>(args: { data: DirectoryUpdateInput, where: DirectoryWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateMessage: <T = Message | null>(args: { data: MessageUpdateInput, where: MessageWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateNotification: <T = Notification | null>(args: { data: NotificationUpdateInput, where: NotificationWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteUser: <T = User | null>(args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteGithubProfile: <T = GithubProfile | null>(args: { where: GithubProfileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteAccessToken: <T = AccessToken | null>(args: { where: AccessTokenWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deletePost: <T = Post | null>(args: { where: PostWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteTag: <T = Tag | null>(args: { where: TagWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteComment: <T = Comment | null>(args: { where: CommentWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteFile: <T = File | null>(args: { where: FileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteDirectory: <T = Directory | null>(args: { where: DirectoryWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteMessage: <T = Message | null>(args: { where: MessageWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteNotification: <T = Notification | null>(args: { where: NotificationWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertUser: <T = User>(args: { where: UserWhereUniqueInput, create: UserCreateInput, update: UserUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertGithubProfile: <T = GithubProfile>(args: { where: GithubProfileWhereUniqueInput, create: GithubProfileCreateInput, update: GithubProfileUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertAccessToken: <T = AccessToken>(args: { where: AccessTokenWhereUniqueInput, create: AccessTokenCreateInput, update: AccessTokenUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertPost: <T = Post>(args: { where: PostWhereUniqueInput, create: PostCreateInput, update: PostUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertTag: <T = Tag>(args: { where: TagWhereUniqueInput, create: TagCreateInput, update: TagUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertComment: <T = Comment>(args: { where: CommentWhereUniqueInput, create: CommentCreateInput, update: CommentUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertFile: <T = File>(args: { where: FileWhereUniqueInput, create: FileCreateInput, update: FileUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertDirectory: <T = Directory>(args: { where: DirectoryWhereUniqueInput, create: DirectoryCreateInput, update: DirectoryUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertMessage: <T = Message>(args: { where: MessageWhereUniqueInput, create: MessageCreateInput, update: MessageUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertNotification: <T = Notification>(args: { where: NotificationWhereUniqueInput, create: NotificationCreateInput, update: NotificationUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyUsers: <T = BatchPayload>(args: { data: UserUpdateInput, where?: UserWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyGithubProfiles: <T = BatchPayload>(args: { data: GithubProfileUpdateInput, where?: GithubProfileWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyAccessTokens: <T = BatchPayload>(args: { data: AccessTokenUpdateInput, where?: AccessTokenWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyPosts: <T = BatchPayload>(args: { data: PostUpdateInput, where?: PostWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyTags: <T = BatchPayload>(args: { data: TagUpdateInput, where?: TagWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyComments: <T = BatchPayload>(args: { data: CommentUpdateInput, where?: CommentWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyFiles: <T = BatchPayload>(args: { data: FileUpdateInput, where?: FileWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyDirectories: <T = BatchPayload>(args: { data: DirectoryUpdateInput, where?: DirectoryWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyMessages: <T = BatchPayload>(args: { data: MessageUpdateInput, where?: MessageWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyNotifications: <T = BatchPayload>(args: { data: NotificationUpdateInput, where?: NotificationWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyUsers: <T = BatchPayload>(args: { where?: UserWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyGithubProfiles: <T = BatchPayload>(args: { where?: GithubProfileWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyAccessTokens: <T = BatchPayload>(args: { where?: AccessTokenWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyPosts: <T = BatchPayload>(args: { where?: PostWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyTags: <T = BatchPayload>(args: { where?: TagWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyComments: <T = BatchPayload>(args: { where?: CommentWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyFiles: <T = BatchPayload>(args: { where?: FileWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyDirectories: <T = BatchPayload>(args: { where?: DirectoryWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyMessages: <T = BatchPayload>(args: { where?: MessageWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyNotifications: <T = BatchPayload>(args: { where?: NotificationWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> 
+  }
 
 export interface Subscription {
-  user: <T = UserSubscriptionPayload | null>(
-    args: { where?: UserSubscriptionWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<AsyncIterator<T>>
-  githubProfile: <T = GithubProfileSubscriptionPayload | null>(
-    args: { where?: GithubProfileSubscriptionWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<AsyncIterator<T>>
-  accessToken: <T = AccessTokenSubscriptionPayload | null>(
-    args: { where?: AccessTokenSubscriptionWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<AsyncIterator<T>>
-  post: <T = PostSubscriptionPayload | null>(
-    args: { where?: PostSubscriptionWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<AsyncIterator<T>>
-  tag: <T = TagSubscriptionPayload | null>(
-    args: { where?: TagSubscriptionWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<AsyncIterator<T>>
-  comment: <T = CommentSubscriptionPayload | null>(
-    args: { where?: CommentSubscriptionWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<AsyncIterator<T>>
-  file: <T = FileSubscriptionPayload | null>(
-    args: { where?: FileSubscriptionWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<AsyncIterator<T>>
-  directory: <T = DirectorySubscriptionPayload | null>(
-    args: { where?: DirectorySubscriptionWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<AsyncIterator<T>>
-  message: <T = MessageSubscriptionPayload | null>(
-    args: { where?: MessageSubscriptionWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<AsyncIterator<T>>
-  notification: <T = NotificationSubscriptionPayload | null>(
-    args: { where?: NotificationSubscriptionWhereInput },
-    info?: GraphQLResolveInfo | string,
-    options?: Options
-  ) => Promise<AsyncIterator<T>>
-}
+    user: <T = UserSubscriptionPayload | null>(args: { where?: UserSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    githubProfile: <T = GithubProfileSubscriptionPayload | null>(args: { where?: GithubProfileSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    accessToken: <T = AccessTokenSubscriptionPayload | null>(args: { where?: AccessTokenSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    post: <T = PostSubscriptionPayload | null>(args: { where?: PostSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    tag: <T = TagSubscriptionPayload | null>(args: { where?: TagSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    comment: <T = CommentSubscriptionPayload | null>(args: { where?: CommentSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    file: <T = FileSubscriptionPayload | null>(args: { where?: FileSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    directory: <T = DirectorySubscriptionPayload | null>(args: { where?: DirectorySubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    message: <T = MessageSubscriptionPayload | null>(args: { where?: MessageSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    notification: <T = NotificationSubscriptionPayload | null>(args: { where?: NotificationSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> 
+  }
 
 export interface Exists {
   User: (where?: UserWhereInput) => Promise<boolean>
@@ -741,36 +131,22 @@ export interface Prisma {
   mutation: Mutation
   subscription: Subscription
   exists: Exists
-  request: <T = any>(
-    query: string,
-    variables?: { [key: string]: any }
-  ) => Promise<T>
-  delegate(
-    operation: 'query' | 'mutation',
-    fieldName: string,
-    args: {
-      [key: string]: any
-    },
-    infoOrQuery?: GraphQLResolveInfo | string,
-    options?: Options
-  ): Promise<any>
-  delegateSubscription(
-    fieldName: string,
-    args?: {
-      [key: string]: any
-    },
-    infoOrQuery?: GraphQLResolveInfo | string,
-    options?: Options
-  ): Promise<AsyncIterator<any>>
-  getAbstractResolvers(filterSchema?: GraphQLSchema | string): IResolvers
+  request: <T = any>(query: string, variables?: {[key: string]: any}) => Promise<T>
+  delegate(operation: 'query' | 'mutation', fieldName: string, args: {
+    [key: string]: any;
+}, infoOrQuery?: GraphQLResolveInfo | string, options?: Options): Promise<any>;
+delegateSubscription(fieldName: string, args?: {
+    [key: string]: any;
+}, infoOrQuery?: GraphQLResolveInfo | string, options?: Options): Promise<AsyncIterator<any>>;
+getAbstractResolvers(filterSchema?: GraphQLSchema | string): IResolvers;
 }
 
 export interface BindingConstructor<T> {
-  new (options: BasePrismaOptions): T
+  new(options: BasePrismaOptions): T
 }
 /**
  * Type Defs
- */
+*/
 
 const typeDefs = `type AccessToken implements Node {
   id: ID!
@@ -2292,15 +1668,18 @@ input FileWhereUniqueInput {
 }
 
 type GithubProfile {
+  profileOwner(where: UserWhereInput): User
   login: String!
   githubUserId: Int!
   node_id: String!
   name: String
   bio: String
   website: String
-  email: String
+  githubEmail: String!
   profilePhoto: String
   accessTokens(where: AccessTokenWhereInput, orderBy: AccessTokenOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AccessToken!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 """A connection to a list of items."""
@@ -2320,14 +1699,27 @@ input GithubProfileCreateInput {
   name: String
   bio: String
   website: String
-  email: String
+  githubEmail: String!
   profilePhoto: String
+  profileOwner: UserCreateOneWithoutGithubProfileInput
   accessTokens: AccessTokenCreateManyInput
 }
 
-input GithubProfileCreateOneInput {
-  create: GithubProfileCreateInput
+input GithubProfileCreateOneWithoutProfileOwnerInput {
+  create: GithubProfileCreateWithoutProfileOwnerInput
   connect: GithubProfileWhereUniqueInput
+}
+
+input GithubProfileCreateWithoutProfileOwnerInput {
+  login: String!
+  githubUserId: Int!
+  node_id: String!
+  name: String
+  bio: String
+  website: String
+  githubEmail: String!
+  profilePhoto: String
+  accessTokens: AccessTokenCreateManyInput
 }
 
 """An edge in a connection."""
@@ -2352,16 +1744,16 @@ enum GithubProfileOrderByInput {
   bio_DESC
   website_ASC
   website_DESC
-  email_ASC
-  email_DESC
+  githubEmail_ASC
+  githubEmail_DESC
   profilePhoto_ASC
   profilePhoto_DESC
-  id_ASC
-  id_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  id_ASC
+  id_DESC
 }
 
 type GithubProfilePreviousValues {
@@ -2371,8 +1763,10 @@ type GithubProfilePreviousValues {
   name: String
   bio: String
   website: String
-  email: String
+  githubEmail: String!
   profilePhoto: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type GithubProfileSubscriptionPayload {
@@ -2414,18 +1808,6 @@ input GithubProfileSubscriptionWhereInput {
   node: GithubProfileWhereInput
 }
 
-input GithubProfileUpdateDataInput {
-  login: String
-  githubUserId: Int
-  node_id: String
-  name: String
-  bio: String
-  website: String
-  email: String
-  profilePhoto: String
-  accessTokens: AccessTokenUpdateManyInput
-}
-
 input GithubProfileUpdateInput {
   login: String
   githubUserId: Int
@@ -2433,23 +1815,36 @@ input GithubProfileUpdateInput {
   name: String
   bio: String
   website: String
-  email: String
+  githubEmail: String
+  profilePhoto: String
+  profileOwner: UserUpdateOneWithoutGithubProfileInput
+  accessTokens: AccessTokenUpdateManyInput
+}
+
+input GithubProfileUpdateOneWithoutProfileOwnerInput {
+  create: GithubProfileCreateWithoutProfileOwnerInput
+  connect: GithubProfileWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: GithubProfileUpdateWithoutProfileOwnerDataInput
+  upsert: GithubProfileUpsertWithoutProfileOwnerInput
+}
+
+input GithubProfileUpdateWithoutProfileOwnerDataInput {
+  login: String
+  githubUserId: Int
+  node_id: String
+  name: String
+  bio: String
+  website: String
+  githubEmail: String
   profilePhoto: String
   accessTokens: AccessTokenUpdateManyInput
 }
 
-input GithubProfileUpdateOneInput {
-  create: GithubProfileCreateInput
-  connect: GithubProfileWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: GithubProfileUpdateDataInput
-  upsert: GithubProfileUpsertNestedInput
-}
-
-input GithubProfileUpsertNestedInput {
-  update: GithubProfileUpdateDataInput!
-  create: GithubProfileCreateInput!
+input GithubProfileUpsertWithoutProfileOwnerInput {
+  update: GithubProfileUpdateWithoutProfileOwnerDataInput!
+  create: GithubProfileCreateWithoutProfileOwnerInput!
 }
 
 input GithubProfileWhereInput {
@@ -2683,46 +2078,46 @@ input GithubProfileWhereInput {
 
   """All values not ending with the given string."""
   website_not_ends_with: String
-  email: String
+  githubEmail: String
 
   """All values that are not equal to given value."""
-  email_not: String
+  githubEmail_not: String
 
   """All values that are contained in given list."""
-  email_in: [String!]
+  githubEmail_in: [String!]
 
   """All values that are not contained in given list."""
-  email_not_in: [String!]
+  githubEmail_not_in: [String!]
 
   """All values less than the given value."""
-  email_lt: String
+  githubEmail_lt: String
 
   """All values less than or equal the given value."""
-  email_lte: String
+  githubEmail_lte: String
 
   """All values greater than the given value."""
-  email_gt: String
+  githubEmail_gt: String
 
   """All values greater than or equal the given value."""
-  email_gte: String
+  githubEmail_gte: String
 
   """All values containing the given string."""
-  email_contains: String
+  githubEmail_contains: String
 
   """All values not containing the given string."""
-  email_not_contains: String
+  githubEmail_not_contains: String
 
   """All values starting with the given string."""
-  email_starts_with: String
+  githubEmail_starts_with: String
 
   """All values not starting with the given string."""
-  email_not_starts_with: String
+  githubEmail_not_starts_with: String
 
   """All values ending with the given string."""
-  email_ends_with: String
+  githubEmail_ends_with: String
 
   """All values not ending with the given string."""
-  email_not_ends_with: String
+  githubEmail_not_ends_with: String
   profilePhoto: String
 
   """All values that are not equal to given value."""
@@ -2763,6 +2158,51 @@ input GithubProfileWhereInput {
 
   """All values not ending with the given string."""
   profilePhoto_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  profileOwner: UserWhereInput
   accessTokens_every: AccessTokenWhereInput
   accessTokens_some: AccessTokenWhereInput
   accessTokens_none: AccessTokenWhereInput
@@ -2771,6 +2211,7 @@ input GithubProfileWhereInput {
 input GithubProfileWhereUniqueInput {
   login: String
   githubUserId: Int
+  githubEmail: String
 }
 
 """
@@ -4094,7 +3535,7 @@ input UserCreateInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
-  githubProfile: GithubProfileCreateOneInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   posts: PostCreateManyWithoutAuthorInput
   sentMessages: MessageCreateManyWithoutFromInput
   receivedMessages: MessageCreateManyWithoutToInput
@@ -4103,6 +3544,11 @@ input UserCreateInput {
 
 input UserCreateOneInput {
   create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutGithubProfileInput {
+  create: UserCreateWithoutGithubProfileInput
   connect: UserWhereUniqueInput
 }
 
@@ -4130,6 +3576,20 @@ input UserCreatepermissionsInput {
   set: [PERMISSION!]
 }
 
+input UserCreateWithoutGithubProfileInput {
+  email: String!
+  password: String!
+  name: String
+  resetToken: String
+  resetTokenExpiry: String
+  emailConfirmed: Boolean
+  permissions: UserCreatepermissionsInput
+  posts: PostCreateManyWithoutAuthorInput
+  sentMessages: MessageCreateManyWithoutFromInput
+  receivedMessages: MessageCreateManyWithoutToInput
+  notifications: NotificationCreateManyWithoutUserInput
+}
+
 input UserCreateWithoutNotificationsInput {
   email: String!
   password: String!
@@ -4138,7 +3598,7 @@ input UserCreateWithoutNotificationsInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
-  githubProfile: GithubProfileCreateOneInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   posts: PostCreateManyWithoutAuthorInput
   sentMessages: MessageCreateManyWithoutFromInput
   receivedMessages: MessageCreateManyWithoutToInput
@@ -4152,7 +3612,7 @@ input UserCreateWithoutPostsInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
-  githubProfile: GithubProfileCreateOneInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   sentMessages: MessageCreateManyWithoutFromInput
   receivedMessages: MessageCreateManyWithoutToInput
   notifications: NotificationCreateManyWithoutUserInput
@@ -4166,7 +3626,7 @@ input UserCreateWithoutReceivedMessagesInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
-  githubProfile: GithubProfileCreateOneInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   posts: PostCreateManyWithoutAuthorInput
   sentMessages: MessageCreateManyWithoutFromInput
   notifications: NotificationCreateManyWithoutUserInput
@@ -4180,7 +3640,7 @@ input UserCreateWithoutSentMessagesInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
-  githubProfile: GithubProfileCreateOneInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   posts: PostCreateManyWithoutAuthorInput
   receivedMessages: MessageCreateManyWithoutToInput
   notifications: NotificationCreateManyWithoutUserInput
@@ -4276,7 +3736,7 @@ input UserUpdateDataInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
-  githubProfile: GithubProfileUpdateOneInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   sentMessages: MessageUpdateManyWithoutFromInput
   receivedMessages: MessageUpdateManyWithoutToInput
@@ -4291,7 +3751,7 @@ input UserUpdateInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
-  githubProfile: GithubProfileUpdateOneInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   sentMessages: MessageUpdateManyWithoutFromInput
   receivedMessages: MessageUpdateManyWithoutToInput
@@ -4304,6 +3764,15 @@ input UserUpdateOneInput {
   delete: Boolean
   update: UserUpdateDataInput
   upsert: UserUpsertNestedInput
+}
+
+input UserUpdateOneWithoutGithubProfileInput {
+  create: UserCreateWithoutGithubProfileInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateWithoutGithubProfileDataInput
+  upsert: UserUpsertWithoutGithubProfileInput
 }
 
 input UserUpdateOneWithoutNotificationsInput {
@@ -4342,6 +3811,20 @@ input UserUpdatepermissionsInput {
   set: [PERMISSION!]
 }
 
+input UserUpdateWithoutGithubProfileDataInput {
+  email: String
+  password: String
+  name: String
+  resetToken: String
+  resetTokenExpiry: String
+  emailConfirmed: Boolean
+  permissions: UserUpdatepermissionsInput
+  posts: PostUpdateManyWithoutAuthorInput
+  sentMessages: MessageUpdateManyWithoutFromInput
+  receivedMessages: MessageUpdateManyWithoutToInput
+  notifications: NotificationUpdateManyWithoutUserInput
+}
+
 input UserUpdateWithoutNotificationsDataInput {
   email: String
   password: String
@@ -4350,7 +3833,7 @@ input UserUpdateWithoutNotificationsDataInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
-  githubProfile: GithubProfileUpdateOneInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   sentMessages: MessageUpdateManyWithoutFromInput
   receivedMessages: MessageUpdateManyWithoutToInput
@@ -4364,7 +3847,7 @@ input UserUpdateWithoutPostsDataInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
-  githubProfile: GithubProfileUpdateOneInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   sentMessages: MessageUpdateManyWithoutFromInput
   receivedMessages: MessageUpdateManyWithoutToInput
   notifications: NotificationUpdateManyWithoutUserInput
@@ -4378,7 +3861,7 @@ input UserUpdateWithoutReceivedMessagesDataInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
-  githubProfile: GithubProfileUpdateOneInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   sentMessages: MessageUpdateManyWithoutFromInput
   notifications: NotificationUpdateManyWithoutUserInput
@@ -4392,7 +3875,7 @@ input UserUpdateWithoutSentMessagesDataInput {
   resetTokenExpiry: String
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
-  githubProfile: GithubProfileUpdateOneInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   receivedMessages: MessageUpdateManyWithoutToInput
   notifications: NotificationUpdateManyWithoutUserInput
@@ -4401,6 +3884,11 @@ input UserUpdateWithoutSentMessagesDataInput {
 input UserUpsertNestedInput {
   update: UserUpdateDataInput!
   create: UserCreateInput!
+}
+
+input UserUpsertWithoutGithubProfileInput {
+  update: UserUpdateWithoutGithubProfileDataInput!
+  create: UserCreateWithoutGithubProfileInput!
 }
 
 input UserUpsertWithoutNotificationsInput {
@@ -4746,200 +4234,190 @@ enum VISIBILITY {
 }
 `
 
-export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({
-  typeDefs
-})
+export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({typeDefs})
 
 /**
  * Types
- */
+*/
 
-export type VISIBILITY = 'PRIVATE' | 'PUBLIC'
+export type VISIBILITY =   'PRIVATE' |
+  'PUBLIC'
 
-export type NOTIFICATION_TYPE = 'NEW_MESSAGE' | 'NEW_COMMENT'
+export type NOTIFICATION_TYPE =   'NEW_MESSAGE' |
+  'NEW_COMMENT'
 
-export type TagOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'text_ASC'
-  | 'text_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
+export type TagOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'text_ASC' |
+  'text_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
 
-export type DirectoryOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'name_ASC'
-  | 'name_DESC'
-  | 'isOpen_ASC'
-  | 'isOpen_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC'
+export type DirectoryOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'name_ASC' |
+  'name_DESC' |
+  'isOpen_ASC' |
+  'isOpen_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC'
 
-export type FILE_TYPE =
-  | 'JAVASCRIPT'
-  | 'TYPESCRIPT'
-  | 'HTML'
-  | 'CSS'
-  | 'C'
-  | 'CPP'
-  | 'RUST'
-  | 'WAT'
-  | 'WASM'
-  | 'DIRECTORY'
-  | 'LOG'
-  | 'X86'
-  | 'MARKDOWN'
-  | 'JSON'
-  | 'DOT'
-  | 'TOML'
-  | 'UNKNOWN'
+export type FILE_TYPE =   'JAVASCRIPT' |
+  'TYPESCRIPT' |
+  'HTML' |
+  'CSS' |
+  'C' |
+  'CPP' |
+  'RUST' |
+  'WAT' |
+  'WASM' |
+  'DIRECTORY' |
+  'LOG' |
+  'X86' |
+  'MARKDOWN' |
+  'JSON' |
+  'DOT' |
+  'TOML' |
+  'UNKNOWN'
 
-export type PERMISSION =
-  | 'ADMIN'
-  | 'USER'
-  | 'CREATE'
-  | 'UPDATE'
-  | 'DELETE'
-  | 'CHANGE_PERMISSIONS'
+export type PERMISSION =   'ADMIN' |
+  'USER' |
+  'CREATE' |
+  'UPDATE' |
+  'DELETE' |
+  'CHANGE_PERMISSIONS'
 
-export type UserOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'email_ASC'
-  | 'email_DESC'
-  | 'password_ASC'
-  | 'password_DESC'
-  | 'name_ASC'
-  | 'name_DESC'
-  | 'resetToken_ASC'
-  | 'resetToken_DESC'
-  | 'resetTokenExpiry_ASC'
-  | 'resetTokenExpiry_DESC'
-  | 'emailConfirmed_ASC'
-  | 'emailConfirmed_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC'
+export type UserOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'email_ASC' |
+  'email_DESC' |
+  'password_ASC' |
+  'password_DESC' |
+  'name_ASC' |
+  'name_DESC' |
+  'resetToken_ASC' |
+  'resetToken_DESC' |
+  'resetTokenExpiry_ASC' |
+  'resetTokenExpiry_DESC' |
+  'emailConfirmed_ASC' |
+  'emailConfirmed_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC'
 
-export type AccessTokenOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'token_ASC'
-  | 'token_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC'
+export type AccessTokenOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'token_ASC' |
+  'token_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC'
 
-export type PostOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'visibility_ASC'
-  | 'visibility_DESC'
-  | 'views_ASC'
-  | 'views_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC'
+export type PostOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'visibility_ASC' |
+  'visibility_DESC' |
+  'views_ASC' |
+  'views_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC'
 
-export type FileOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'name_ASC'
-  | 'name_DESC'
-  | 'type_ASC'
-  | 'type_DESC'
-  | 'data_ASC'
-  | 'data_DESC'
-  | 'isDirty_ASC'
-  | 'isDirty_DESC'
-  | 'isTransient_ASC'
-  | 'isTransient_DESC'
-  | 'bufferType_ASC'
-  | 'bufferType_DESC'
-  | 'description_ASC'
-  | 'description_DESC'
-  | 'uuid_ASC'
-  | 'uuid_DESC'
-  | 'contentType_ASC'
-  | 'contentType_DESC'
-  | 's3Url_ASC'
-  | 's3Url_DESC'
-  | 'size_ASC'
-  | 'size_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC'
+export type FileOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'name_ASC' |
+  'name_DESC' |
+  'type_ASC' |
+  'type_DESC' |
+  'data_ASC' |
+  'data_DESC' |
+  'isDirty_ASC' |
+  'isDirty_DESC' |
+  'isTransient_ASC' |
+  'isTransient_DESC' |
+  'bufferType_ASC' |
+  'bufferType_DESC' |
+  'description_ASC' |
+  'description_DESC' |
+  'uuid_ASC' |
+  'uuid_DESC' |
+  'contentType_ASC' |
+  'contentType_DESC' |
+  's3Url_ASC' |
+  's3Url_DESC' |
+  'size_ASC' |
+  'size_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC'
 
-export type NotificationOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
-  | 'type_ASC'
-  | 'type_DESC'
-  | 'link_ASC'
-  | 'link_DESC'
-  | 'readDate_ASC'
-  | 'readDate_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC'
+export type NotificationOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'type_ASC' |
+  'type_DESC' |
+  'link_ASC' |
+  'link_DESC' |
+  'readDate_ASC' |
+  'readDate_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC'
 
-export type GithubProfileOrderByInput =
-  | 'login_ASC'
-  | 'login_DESC'
-  | 'githubUserId_ASC'
-  | 'githubUserId_DESC'
-  | 'node_id_ASC'
-  | 'node_id_DESC'
-  | 'name_ASC'
-  | 'name_DESC'
-  | 'bio_ASC'
-  | 'bio_DESC'
-  | 'website_ASC'
-  | 'website_DESC'
-  | 'email_ASC'
-  | 'email_DESC'
-  | 'profilePhoto_ASC'
-  | 'profilePhoto_DESC'
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
+export type GithubProfileOrderByInput =   'login_ASC' |
+  'login_DESC' |
+  'githubUserId_ASC' |
+  'githubUserId_DESC' |
+  'node_id_ASC' |
+  'node_id_DESC' |
+  'name_ASC' |
+  'name_DESC' |
+  'bio_ASC' |
+  'bio_DESC' |
+  'website_ASC' |
+  'website_DESC' |
+  'githubEmail_ASC' |
+  'githubEmail_DESC' |
+  'profilePhoto_ASC' |
+  'profilePhoto_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'id_ASC' |
+  'id_DESC'
 
-export type MutationType = 'CREATED' | 'UPDATED' | 'DELETED'
+export type MutationType =   'CREATED' |
+  'UPDATED' |
+  'DELETED'
 
-export type CommentOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC'
-  | 'content_ASC'
-  | 'content_DESC'
+export type CommentOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'content_ASC' |
+  'content_DESC'
 
-export type MessageOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
-  | 'deliveredAt_ASC'
-  | 'deliveredAt_DESC'
-  | 'readAt_ASC'
-  | 'readAt_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC'
+export type MessageOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'deliveredAt_ASC' |
+  'deliveredAt_DESC' |
+  'readAt_ASC' |
+  'readAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC'
 
 export interface PostCreateOneWithoutCommentsInput {
   create?: PostCreateWithoutCommentsInput
@@ -5075,7 +4553,7 @@ export interface UserCreateWithoutNotificationsInput {
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
   permissions?: UserCreatepermissionsInput
-  githubProfile?: GithubProfileCreateOneInput
+  githubProfile?: GithubProfileCreateOneWithoutProfileOwnerInput
   posts?: PostCreateManyWithoutAuthorInput
   sentMessages?: MessageCreateManyWithoutFromInput
   receivedMessages?: MessageCreateManyWithoutToInput
@@ -5136,23 +4614,23 @@ export interface NotificationWhereInput {
   user?: UserWhereInput
 }
 
-export interface PostCreateWithoutAuthorInput {
-  visibility?: VISIBILITY
-  views?: Int
-  content: FileCreateOneInput
-  tags?: TagCreateManyInput
-  comments?: CommentCreateManyWithoutPostInput
+export interface DirectoryCreateOneWithoutChildrenInput {
+  create?: DirectoryCreateWithoutChildrenInput
+  connect?: DirectoryWhereUniqueInput
 }
 
-export interface NotificationUpsertWithWhereUniqueWithoutUserInput {
-  where: NotificationWhereUniqueInput
-  update: NotificationUpdateWithoutUserDataInput
-  create: NotificationCreateWithoutUserInput
+export interface MessageUpdateManyWithoutToInput {
+  create?: MessageCreateWithoutToInput[] | MessageCreateWithoutToInput
+  connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+  disconnect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+  delete?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+  update?: MessageUpdateWithWhereUniqueWithoutToInput[] | MessageUpdateWithWhereUniqueWithoutToInput
+  upsert?: MessageUpsertWithWhereUniqueWithoutToInput[] | MessageUpsertWithWhereUniqueWithoutToInput
 }
 
-export interface FileCreateOneInput {
-  create?: FileCreateInput
-  connect?: FileWhereUniqueInput
+export interface DirectoryCreateWithoutChildrenInput {
+  name?: String
+  isOpen?: Boolean
 }
 
 export interface UserUpdateInput {
@@ -5163,26 +4641,16 @@ export interface UserUpdateInput {
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
   permissions?: UserUpdatepermissionsInput
-  githubProfile?: GithubProfileUpdateOneInput
+  githubProfile?: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts?: PostUpdateManyWithoutAuthorInput
   sentMessages?: MessageUpdateManyWithoutFromInput
   receivedMessages?: MessageUpdateManyWithoutToInput
   notifications?: NotificationUpdateManyWithoutUserInput
 }
 
-export interface FileCreateInput {
-  name: String
-  type?: FILE_TYPE
-  data?: String
-  isDirty?: Boolean
-  isTransient?: Boolean
-  bufferType?: FILE_TYPE
-  description?: String
-  uuid?: String
-  contentType?: String
-  s3Url?: String
-  size?: Int
-  parent?: DirectoryCreateOneWithoutChildrenInput
+export interface TagCreateManyInput {
+  create?: TagCreateInput[] | TagCreateInput
+  connect?: TagWhereUniqueInput[] | TagWhereUniqueInput
 }
 
 export interface CommentWhereInput {
@@ -5237,9 +4705,8 @@ export interface CommentWhereInput {
   post?: PostWhereInput
 }
 
-export interface DirectoryCreateOneWithoutChildrenInput {
-  create?: DirectoryCreateWithoutChildrenInput
-  connect?: DirectoryWhereUniqueInput
+export interface TagCreateInput {
+  text: String
 }
 
 export interface TagWhereInput {
@@ -5276,9 +4743,9 @@ export interface TagWhereInput {
   text_not_ends_with?: String
 }
 
-export interface DirectoryCreateWithoutChildrenInput {
-  name?: String
-  isOpen?: Boolean
+export interface CommentCreateManyWithoutPostInput {
+  create?: CommentCreateWithoutPostInput[] | CommentCreateWithoutPostInput
+  connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput
 }
 
 export interface FileSubscriptionWhereInput {
@@ -5292,9 +4759,9 @@ export interface FileSubscriptionWhereInput {
   node?: FileWhereInput
 }
 
-export interface TagCreateManyInput {
-  create?: TagCreateInput[] | TagCreateInput
-  connect?: TagWhereUniqueInput[] | TagWhereUniqueInput
+export interface CommentCreateWithoutPostInput {
+  content?: String
+  author: UserCreateOneInput
 }
 
 export interface DirectoryWhereInput {
@@ -5352,8 +4819,9 @@ export interface DirectoryWhereInput {
   children_none?: FileWhereInput
 }
 
-export interface TagCreateInput {
-  text: String
+export interface UserCreateOneInput {
+  create?: UserCreateInput
+  connect?: UserWhereUniqueInput
 }
 
 export interface TagSubscriptionWhereInput {
@@ -5367,9 +4835,9 @@ export interface TagSubscriptionWhereInput {
   node?: TagWhereInput
 }
 
-export interface CommentCreateManyWithoutPostInput {
-  create?: CommentCreateWithoutPostInput[] | CommentCreateWithoutPostInput
-  connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput
+export interface MessageCreateManyWithoutFromInput {
+  create?: MessageCreateWithoutFromInput[] | MessageCreateWithoutFromInput
+  connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
 }
 
 export interface PostSubscriptionWhereInput {
@@ -5383,9 +4851,10 @@ export interface PostSubscriptionWhereInput {
   node?: PostWhereInput
 }
 
-export interface CommentCreateWithoutPostInput {
-  content?: String
-  author: UserCreateOneInput
+export interface MessageCreateWithoutFromInput {
+  deliveredAt: DateTime
+  readAt?: DateTime
+  to: UserCreateOneWithoutReceivedMessagesInput
 }
 
 export interface AccessTokenSubscriptionWhereInput {
@@ -5399,8 +4868,8 @@ export interface AccessTokenSubscriptionWhereInput {
   node?: AccessTokenWhereInput
 }
 
-export interface UserCreateOneInput {
-  create?: UserCreateInput
+export interface UserCreateOneWithoutReceivedMessagesInput {
+  create?: UserCreateWithoutReceivedMessagesInput
   connect?: UserWhereUniqueInput
 }
 
@@ -5415,36 +4884,6 @@ export interface UserSubscriptionWhereInput {
   node?: UserWhereInput
 }
 
-export interface MessageCreateManyWithoutFromInput {
-  create?: MessageCreateWithoutFromInput[] | MessageCreateWithoutFromInput
-  connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-}
-
-export interface UserUpsertWithoutNotificationsInput {
-  update: UserUpdateWithoutNotificationsDataInput
-  create: UserCreateWithoutNotificationsInput
-}
-
-export interface MessageCreateWithoutFromInput {
-  deliveredAt: DateTime
-  readAt?: DateTime
-  to: UserCreateOneWithoutReceivedMessagesInput
-}
-
-export interface UserWhereUniqueInput {
-  id?: ID_Input
-  email?: String
-}
-
-export interface UserCreateOneWithoutReceivedMessagesInput {
-  create?: UserCreateWithoutReceivedMessagesInput
-  connect?: UserWhereUniqueInput
-}
-
-export interface AccessTokenWhereUniqueInput {
-  id?: ID_Input
-}
-
 export interface UserCreateWithoutReceivedMessagesInput {
   email: String
   password: String
@@ -5453,27 +4892,25 @@ export interface UserCreateWithoutReceivedMessagesInput {
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
   permissions?: UserCreatepermissionsInput
-  githubProfile?: GithubProfileCreateOneInput
+  githubProfile?: GithubProfileCreateOneWithoutProfileOwnerInput
   posts?: PostCreateManyWithoutAuthorInput
   sentMessages?: MessageCreateManyWithoutFromInput
   notifications?: NotificationCreateManyWithoutUserInput
 }
 
-export interface TagWhereUniqueInput {
-  id?: ID_Input
+export interface UserUpsertWithoutNotificationsInput {
+  update: UserUpdateWithoutNotificationsDataInput
+  create: UserCreateWithoutNotificationsInput
 }
 
 export interface NotificationCreateManyWithoutUserInput {
-  create?:
-    | NotificationCreateWithoutUserInput[]
-    | NotificationCreateWithoutUserInput
+  create?: NotificationCreateWithoutUserInput[] | NotificationCreateWithoutUserInput
   connect?: NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
 }
 
-export interface FileWhereUniqueInput {
+export interface UserWhereUniqueInput {
   id?: ID_Input
-  uuid?: String
-  s3Url?: String
+  email?: String
 }
 
 export interface NotificationCreateWithoutUserInput {
@@ -5482,13 +4919,52 @@ export interface NotificationCreateWithoutUserInput {
   readDate?: DateTime
 }
 
-export interface MessageWhereUniqueInput {
+export interface AccessTokenWhereUniqueInput {
   id?: ID_Input
 }
 
 export interface MessageCreateManyWithoutToInput {
   create?: MessageCreateWithoutToInput[] | MessageCreateWithoutToInput
   connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+}
+
+export interface TagWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface MessageCreateWithoutToInput {
+  deliveredAt: DateTime
+  readAt?: DateTime
+  from: UserCreateOneWithoutSentMessagesInput
+}
+
+export interface FileWhereUniqueInput {
+  id?: ID_Input
+  uuid?: String
+  s3Url?: String
+}
+
+export interface UserCreateOneWithoutSentMessagesInput {
+  create?: UserCreateWithoutSentMessagesInput
+  connect?: UserWhereUniqueInput
+}
+
+export interface MessageWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface UserCreateWithoutSentMessagesInput {
+  email: String
+  password: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserCreatepermissionsInput
+  githubProfile?: GithubProfileCreateOneWithoutProfileOwnerInput
+  posts?: PostCreateManyWithoutAuthorInput
+  receivedMessages?: MessageCreateManyWithoutToInput
+  notifications?: NotificationCreateManyWithoutUserInput
 }
 
 export interface UserUpdateOneWithoutNotificationsInput {
@@ -5499,10 +4975,17 @@ export interface UserUpdateOneWithoutNotificationsInput {
   upsert?: UserUpsertWithoutNotificationsInput
 }
 
-export interface MessageCreateWithoutToInput {
-  deliveredAt: DateTime
-  readAt?: DateTime
-  from: UserCreateOneWithoutSentMessagesInput
+export interface GithubProfileCreateInput {
+  login: String
+  githubUserId: Int
+  node_id: String
+  name?: String
+  bio?: String
+  website?: String
+  githubEmail: String
+  profilePhoto?: String
+  profileOwner?: UserCreateOneWithoutGithubProfileInput
+  accessTokens?: AccessTokenCreateManyInput
 }
 
 export interface MessageUpdateInput {
@@ -5512,8 +4995,8 @@ export interface MessageUpdateInput {
   to?: UserUpdateOneWithoutReceivedMessagesInput
 }
 
-export interface UserCreateOneWithoutSentMessagesInput {
-  create?: UserCreateWithoutSentMessagesInput
+export interface UserCreateOneWithoutGithubProfileInput {
+  create?: UserCreateWithoutGithubProfileInput
   connect?: UserWhereUniqueInput
 }
 
@@ -5531,7 +5014,7 @@ export interface FileUpdateWithoutParentDataInput {
   size?: Int
 }
 
-export interface UserCreateWithoutSentMessagesInput {
+export interface UserCreateWithoutGithubProfileInput {
   email: String
   password: String
   name?: String
@@ -5539,8 +5022,8 @@ export interface UserCreateWithoutSentMessagesInput {
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
   permissions?: UserCreatepermissionsInput
-  githubProfile?: GithubProfileCreateOneInput
   posts?: PostCreateManyWithoutAuthorInput
+  sentMessages?: MessageCreateManyWithoutFromInput
   receivedMessages?: MessageCreateManyWithoutToInput
   notifications?: NotificationCreateManyWithoutUserInput
 }
@@ -5550,12 +5033,8 @@ export interface FileUpdateManyWithoutParentInput {
   connect?: FileWhereUniqueInput[] | FileWhereUniqueInput
   disconnect?: FileWhereUniqueInput[] | FileWhereUniqueInput
   delete?: FileWhereUniqueInput[] | FileWhereUniqueInput
-  update?:
-    | FileUpdateWithWhereUniqueWithoutParentInput[]
-    | FileUpdateWithWhereUniqueWithoutParentInput
-  upsert?:
-    | FileUpsertWithWhereUniqueWithoutParentInput[]
-    | FileUpsertWithWhereUniqueWithoutParentInput
+  update?: FileUpdateWithWhereUniqueWithoutParentInput[] | FileUpdateWithWhereUniqueWithoutParentInput
+  upsert?: FileUpsertWithWhereUniqueWithoutParentInput[] | FileUpsertWithWhereUniqueWithoutParentInput
 }
 
 export interface PostCreateInput {
@@ -5603,7 +5082,7 @@ export interface UserCreateWithoutPostsInput {
   resetTokenExpiry?: String
   emailConfirmed?: Boolean
   permissions?: UserCreatepermissionsInput
-  githubProfile?: GithubProfileCreateOneInput
+  githubProfile?: GithubProfileCreateOneWithoutProfileOwnerInput
   sentMessages?: MessageCreateManyWithoutFromInput
   receivedMessages?: MessageCreateManyWithoutToInput
   notifications?: NotificationCreateManyWithoutUserInput
@@ -5626,9 +5105,9 @@ export interface UserUpsertWithoutPostsInput {
   create: UserCreateWithoutPostsInput
 }
 
-export interface UserUpsertWithoutReceivedMessagesInput {
-  update: UserUpdateWithoutReceivedMessagesDataInput
-  create: UserCreateWithoutReceivedMessagesInput
+export interface MessageUpdateWithWhereUniqueWithoutToInput {
+  where: MessageWhereUniqueInput
+  data: MessageUpdateWithoutToDataInput
 }
 
 export interface UserUpdateOneWithoutPostsInput {
@@ -5658,10 +5137,18 @@ export interface DirectoryCreateInput {
   children?: FileCreateManyWithoutParentInput
 }
 
-export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput
-  update: PostUpdateWithoutAuthorDataInput
-  create: PostCreateWithoutAuthorInput
+export interface UserUpdateWithoutGithubProfileDataInput {
+  email?: String
+  password?: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserUpdatepermissionsInput
+  posts?: PostUpdateManyWithoutAuthorInput
+  sentMessages?: MessageUpdateManyWithoutFromInput
+  receivedMessages?: MessageUpdateManyWithoutToInput
+  notifications?: NotificationUpdateManyWithoutUserInput
 }
 
 export interface FileCreateManyWithoutParentInput {
@@ -5669,9 +5156,17 @@ export interface FileCreateManyWithoutParentInput {
   connect?: FileWhereUniqueInput[] | FileWhereUniqueInput
 }
 
-export interface UserUpsertNestedInput {
-  update: UserUpdateDataInput
-  create: UserCreateInput
+export interface GithubProfileUpdateInput {
+  login?: String
+  githubUserId?: Int
+  node_id?: String
+  name?: String
+  bio?: String
+  website?: String
+  githubEmail?: String
+  profilePhoto?: String
+  profileOwner?: UserUpdateOneWithoutGithubProfileInput
+  accessTokens?: AccessTokenUpdateManyInput
 }
 
 export interface FileCreateWithoutParentInput {
@@ -5688,9 +5183,10 @@ export interface FileCreateWithoutParentInput {
   size?: Int
 }
 
-export interface UserUpsertWithoutSentMessagesInput {
-  update: UserUpdateWithoutSentMessagesDataInput
-  create: UserCreateWithoutSentMessagesInput
+export interface CommentUpsertWithWhereUniqueWithoutPostInput {
+  where: CommentWhereUniqueInput
+  update: CommentUpdateWithoutPostDataInput
+  create: CommentCreateWithoutPostInput
 }
 
 export interface MessageCreateInput {
@@ -5700,12 +5196,10 @@ export interface MessageCreateInput {
   to: UserCreateOneWithoutReceivedMessagesInput
 }
 
-export interface UserUpdateOneWithoutSentMessagesInput {
-  create?: UserCreateWithoutSentMessagesInput
-  connect?: UserWhereUniqueInput
-  delete?: Boolean
-  update?: UserUpdateWithoutSentMessagesDataInput
-  upsert?: UserUpsertWithoutSentMessagesInput
+export interface MessageUpsertWithWhereUniqueWithoutToInput {
+  where: MessageWhereUniqueInput
+  update: MessageUpdateWithoutToDataInput
+  create: MessageCreateWithoutToInput
 }
 
 export interface NotificationCreateInput {
@@ -5715,9 +5209,18 @@ export interface NotificationCreateInput {
   user: UserCreateOneWithoutNotificationsInput
 }
 
-export interface MessageUpdateWithWhereUniqueWithoutToInput {
-  where: MessageWhereUniqueInput
-  data: MessageUpdateWithoutToDataInput
+export interface UserUpdateWithoutSentMessagesDataInput {
+  email?: String
+  password?: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserUpdatepermissionsInput
+  githubProfile?: GithubProfileUpdateOneWithoutProfileOwnerInput
+  posts?: PostUpdateManyWithoutAuthorInput
+  receivedMessages?: MessageUpdateManyWithoutToInput
+  notifications?: NotificationUpdateManyWithoutUserInput
 }
 
 export interface UserCreateOneWithoutNotificationsInput {
@@ -5725,10 +5228,10 @@ export interface UserCreateOneWithoutNotificationsInput {
   connect?: UserWhereUniqueInput
 }
 
-export interface MessageUpsertWithWhereUniqueWithoutFromInput {
-  where: MessageWhereUniqueInput
-  update: MessageUpdateWithoutFromDataInput
-  create: MessageCreateWithoutFromInput
+export interface MessageUpdateWithoutToDataInput {
+  deliveredAt?: DateTime
+  readAt?: DateTime
+  from?: UserUpdateOneWithoutSentMessagesInput
 }
 
 export interface MessageWhereInput {
@@ -5781,14 +5284,14 @@ export interface UserCreatepermissionsInput {
   set?: PERMISSION[] | PERMISSION
 }
 
-export interface GithubProfileCreateInput {
+export interface GithubProfileCreateWithoutProfileOwnerInput {
   login: String
   githubUserId: Int
   node_id: String
   name?: String
   bio?: String
   website?: String
-  email?: String
+  githubEmail: String
   profilePhoto?: String
   accessTokens?: AccessTokenCreateManyInput
 }
@@ -5807,47 +5310,41 @@ export interface PostCreateManyWithoutAuthorInput {
   connect?: PostWhereUniqueInput[] | PostWhereUniqueInput
 }
 
-export interface GithubProfileUpdateOneInput {
-  create?: GithubProfileCreateInput
+export interface GithubProfileUpdateOneWithoutProfileOwnerInput {
+  create?: GithubProfileCreateWithoutProfileOwnerInput
   connect?: GithubProfileWhereUniqueInput
   disconnect?: Boolean
   delete?: Boolean
-  update?: GithubProfileUpdateDataInput
-  upsert?: GithubProfileUpsertNestedInput
+  update?: GithubProfileUpdateWithoutProfileOwnerDataInput
+  upsert?: GithubProfileUpsertWithoutProfileOwnerInput
 }
 
-export interface MessageSubscriptionWhereInput {
-  AND?: MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput
-  OR?: MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput
-  NOT?: MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: MessageWhereInput
+export interface FileCreateOneInput {
+  create?: FileCreateInput
+  connect?: FileWhereUniqueInput
 }
 
-export interface GithubProfileUpdateDataInput {
+export interface GithubProfileUpdateWithoutProfileOwnerDataInput {
   login?: String
   githubUserId?: Int
   node_id?: String
   name?: String
   bio?: String
   website?: String
-  email?: String
+  githubEmail?: String
   profilePhoto?: String
   accessTokens?: AccessTokenUpdateManyInput
 }
 
-export interface CommentSubscriptionWhereInput {
-  AND?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput
-  OR?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput
-  NOT?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput
+export interface NotificationSubscriptionWhereInput {
+  AND?: NotificationSubscriptionWhereInput[] | NotificationSubscriptionWhereInput
+  OR?: NotificationSubscriptionWhereInput[] | NotificationSubscriptionWhereInput
+  NOT?: NotificationSubscriptionWhereInput[] | NotificationSubscriptionWhereInput
   mutation_in?: MutationType[] | MutationType
   updatedFields_contains?: String
   updatedFields_contains_every?: String[] | String
   updatedFields_contains_some?: String[] | String
-  node?: CommentWhereInput
+  node?: NotificationWhereInput
 }
 
 export interface AccessTokenUpdateManyInput {
@@ -5855,290 +5352,8 @@ export interface AccessTokenUpdateManyInput {
   connect?: AccessTokenWhereUniqueInput[] | AccessTokenWhereUniqueInput
   disconnect?: AccessTokenWhereUniqueInput[] | AccessTokenWhereUniqueInput
   delete?: AccessTokenWhereUniqueInput[] | AccessTokenWhereUniqueInput
-  update?:
-    | AccessTokenUpdateWithWhereUniqueNestedInput[]
-    | AccessTokenUpdateWithWhereUniqueNestedInput
-  upsert?:
-    | AccessTokenUpsertWithWhereUniqueNestedInput[]
-    | AccessTokenUpsertWithWhereUniqueNestedInput
-}
-
-export interface PostWhereInput {
-  AND?: PostWhereInput[] | PostWhereInput
-  OR?: PostWhereInput[] | PostWhereInput
-  NOT?: PostWhereInput[] | PostWhereInput
-  id?: ID_Input
-  id_not?: ID_Input
-  id_in?: ID_Input[] | ID_Input
-  id_not_in?: ID_Input[] | ID_Input
-  id_lt?: ID_Input
-  id_lte?: ID_Input
-  id_gt?: ID_Input
-  id_gte?: ID_Input
-  id_contains?: ID_Input
-  id_not_contains?: ID_Input
-  id_starts_with?: ID_Input
-  id_not_starts_with?: ID_Input
-  id_ends_with?: ID_Input
-  id_not_ends_with?: ID_Input
-  visibility?: VISIBILITY
-  visibility_not?: VISIBILITY
-  visibility_in?: VISIBILITY[] | VISIBILITY
-  visibility_not_in?: VISIBILITY[] | VISIBILITY
-  views?: Int
-  views_not?: Int
-  views_in?: Int[] | Int
-  views_not_in?: Int[] | Int
-  views_lt?: Int
-  views_lte?: Int
-  views_gt?: Int
-  views_gte?: Int
-  createdAt?: DateTime
-  createdAt_not?: DateTime
-  createdAt_in?: DateTime[] | DateTime
-  createdAt_not_in?: DateTime[] | DateTime
-  createdAt_lt?: DateTime
-  createdAt_lte?: DateTime
-  createdAt_gt?: DateTime
-  createdAt_gte?: DateTime
-  updatedAt?: DateTime
-  updatedAt_not?: DateTime
-  updatedAt_in?: DateTime[] | DateTime
-  updatedAt_not_in?: DateTime[] | DateTime
-  updatedAt_lt?: DateTime
-  updatedAt_lte?: DateTime
-  updatedAt_gt?: DateTime
-  updatedAt_gte?: DateTime
-  author?: UserWhereInput
-  content?: FileWhereInput
-  tags_every?: TagWhereInput
-  tags_some?: TagWhereInput
-  tags_none?: TagWhereInput
-  comments_every?: CommentWhereInput
-  comments_some?: CommentWhereInput
-  comments_none?: CommentWhereInput
-}
-
-export interface AccessTokenUpdateWithWhereUniqueNestedInput {
-  where: AccessTokenWhereUniqueInput
-  data: AccessTokenUpdateDataInput
-}
-
-export interface GithubProfileSubscriptionWhereInput {
-  AND?:
-    | GithubProfileSubscriptionWhereInput[]
-    | GithubProfileSubscriptionWhereInput
-  OR?:
-    | GithubProfileSubscriptionWhereInput[]
-    | GithubProfileSubscriptionWhereInput
-  NOT?:
-    | GithubProfileSubscriptionWhereInput[]
-    | GithubProfileSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: GithubProfileWhereInput
-}
-
-export interface AccessTokenUpdateDataInput {
-  token?: String
-  scopes?: AccessTokenUpdatescopesInput
-}
-
-export interface UserUpdateWithoutNotificationsDataInput {
-  email?: String
-  password?: String
-  name?: String
-  resetToken?: String
-  resetTokenExpiry?: String
-  emailConfirmed?: Boolean
-  permissions?: UserUpdatepermissionsInput
-  githubProfile?: GithubProfileUpdateOneInput
-  posts?: PostUpdateManyWithoutAuthorInput
-  sentMessages?: MessageUpdateManyWithoutFromInput
-  receivedMessages?: MessageUpdateManyWithoutToInput
-}
-
-export interface AccessTokenUpdatescopesInput {
-  set?: String[] | String
-}
-
-export interface PostWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface AccessTokenUpsertWithWhereUniqueNestedInput {
-  where: AccessTokenWhereUniqueInput
-  update: AccessTokenUpdateDataInput
-  create: AccessTokenCreateInput
-}
-
-export interface DirectoryWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface GithubProfileUpsertNestedInput {
-  update: GithubProfileUpdateDataInput
-  create: GithubProfileCreateInput
-}
-
-export interface NotificationUpdateInput {
-  type?: NOTIFICATION_TYPE
-  link?: String
-  readDate?: DateTime
-  user?: UserUpdateOneWithoutNotificationsInput
-}
-
-export interface PostUpdateManyWithoutAuthorInput {
-  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput
-  disconnect?: PostWhereUniqueInput[] | PostWhereUniqueInput
-  delete?: PostWhereUniqueInput[] | PostWhereUniqueInput
-  update?:
-    | PostUpdateWithWhereUniqueWithoutAuthorInput[]
-    | PostUpdateWithWhereUniqueWithoutAuthorInput
-  upsert?:
-    | PostUpsertWithWhereUniqueWithoutAuthorInput[]
-    | PostUpsertWithWhereUniqueWithoutAuthorInput
-}
-
-export interface FileUpdateWithWhereUniqueWithoutParentInput {
-  where: FileWhereUniqueInput
-  data: FileUpdateWithoutParentDataInput
-}
-
-export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput
-  data: PostUpdateWithoutAuthorDataInput
-}
-
-export interface PostUpsertWithoutCommentsInput {
-  update: PostUpdateWithoutCommentsDataInput
-  create: PostCreateWithoutCommentsInput
-}
-
-export interface PostUpdateWithoutAuthorDataInput {
-  visibility?: VISIBILITY
-  views?: Int
-  content?: FileUpdateOneInput
-  tags?: TagUpdateManyInput
-  comments?: CommentUpdateManyWithoutPostInput
-}
-
-export interface TagUpdateInput {
-  text?: String
-}
-
-export interface FileUpdateOneInput {
-  create?: FileCreateInput
-  connect?: FileWhereUniqueInput
-  delete?: Boolean
-  update?: FileUpdateDataInput
-  upsert?: FileUpsertNestedInput
-}
-
-export interface PostUpdateInput {
-  visibility?: VISIBILITY
-  views?: Int
-  author?: UserUpdateOneWithoutPostsInput
-  content?: FileUpdateOneInput
-  tags?: TagUpdateManyInput
-  comments?: CommentUpdateManyWithoutPostInput
-}
-
-export interface FileUpdateDataInput {
-  name?: String
-  type?: FILE_TYPE
-  data?: String
-  isDirty?: Boolean
-  isTransient?: Boolean
-  bufferType?: FILE_TYPE
-  description?: String
-  uuid?: String
-  contentType?: String
-  s3Url?: String
-  size?: Int
-  parent?: DirectoryUpdateOneWithoutChildrenInput
-}
-
-export interface CommentUpsertWithWhereUniqueWithoutPostInput {
-  where: CommentWhereUniqueInput
-  update: CommentUpdateWithoutPostDataInput
-  create: CommentCreateWithoutPostInput
-}
-
-export interface DirectoryUpdateOneWithoutChildrenInput {
-  create?: DirectoryCreateWithoutChildrenInput
-  connect?: DirectoryWhereUniqueInput
-  disconnect?: Boolean
-  delete?: Boolean
-  update?: DirectoryUpdateWithoutChildrenDataInput
-  upsert?: DirectoryUpsertWithoutChildrenInput
-}
-
-export interface UserUpdateWithoutSentMessagesDataInput {
-  email?: String
-  password?: String
-  name?: String
-  resetToken?: String
-  resetTokenExpiry?: String
-  emailConfirmed?: Boolean
-  permissions?: UserUpdatepermissionsInput
-  githubProfile?: GithubProfileUpdateOneInput
-  posts?: PostUpdateManyWithoutAuthorInput
-  receivedMessages?: MessageUpdateManyWithoutToInput
-  notifications?: NotificationUpdateManyWithoutUserInput
-}
-
-export interface DirectoryUpdateWithoutChildrenDataInput {
-  name?: String
-  isOpen?: Boolean
-}
-
-export interface MessageUpdateManyWithoutToInput {
-  create?: MessageCreateWithoutToInput[] | MessageCreateWithoutToInput
-  connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-  disconnect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-  delete?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-  update?:
-    | MessageUpdateWithWhereUniqueWithoutToInput[]
-    | MessageUpdateWithWhereUniqueWithoutToInput
-  upsert?:
-    | MessageUpsertWithWhereUniqueWithoutToInput[]
-    | MessageUpsertWithWhereUniqueWithoutToInput
-}
-
-export interface DirectoryUpsertWithoutChildrenInput {
-  update: DirectoryUpdateWithoutChildrenDataInput
-  create: DirectoryCreateWithoutChildrenInput
-}
-
-export interface GithubProfileCreateOneInput {
-  create?: GithubProfileCreateInput
-  connect?: GithubProfileWhereUniqueInput
-}
-
-export interface FileUpsertNestedInput {
-  update: FileUpdateDataInput
-  create: FileCreateInput
-}
-
-export interface AccessTokenCreatescopesInput {
-  set?: String[] | String
-}
-
-export interface TagUpdateManyInput {
-  create?: TagCreateInput[] | TagCreateInput
-  connect?: TagWhereUniqueInput[] | TagWhereUniqueInput
-  disconnect?: TagWhereUniqueInput[] | TagWhereUniqueInput
-  delete?: TagWhereUniqueInput[] | TagWhereUniqueInput
-  update?:
-    | TagUpdateWithWhereUniqueNestedInput[]
-    | TagUpdateWithWhereUniqueNestedInput
-  upsert?:
-    | TagUpsertWithWhereUniqueNestedInput[]
-    | TagUpsertWithWhereUniqueNestedInput
+  update?: AccessTokenUpdateWithWhereUniqueNestedInput[] | AccessTokenUpdateWithWhereUniqueNestedInput
+  upsert?: AccessTokenUpsertWithWhereUniqueNestedInput[] | AccessTokenUpsertWithWhereUniqueNestedInput
 }
 
 export interface DirectorySubscriptionWhereInput {
@@ -6152,390 +5367,9 @@ export interface DirectorySubscriptionWhereInput {
   node?: DirectoryWhereInput
 }
 
-export interface TagUpdateWithWhereUniqueNestedInput {
-  where: TagWhereUniqueInput
-  data: TagUpdateDataInput
-}
-
-export interface AccessTokenWhereInput {
-  AND?: AccessTokenWhereInput[] | AccessTokenWhereInput
-  OR?: AccessTokenWhereInput[] | AccessTokenWhereInput
-  NOT?: AccessTokenWhereInput[] | AccessTokenWhereInput
-  id?: ID_Input
-  id_not?: ID_Input
-  id_in?: ID_Input[] | ID_Input
-  id_not_in?: ID_Input[] | ID_Input
-  id_lt?: ID_Input
-  id_lte?: ID_Input
-  id_gt?: ID_Input
-  id_gte?: ID_Input
-  id_contains?: ID_Input
-  id_not_contains?: ID_Input
-  id_starts_with?: ID_Input
-  id_not_starts_with?: ID_Input
-  id_ends_with?: ID_Input
-  id_not_ends_with?: ID_Input
-  token?: String
-  token_not?: String
-  token_in?: String[] | String
-  token_not_in?: String[] | String
-  token_lt?: String
-  token_lte?: String
-  token_gt?: String
-  token_gte?: String
-  token_contains?: String
-  token_not_contains?: String
-  token_starts_with?: String
-  token_not_starts_with?: String
-  token_ends_with?: String
-  token_not_ends_with?: String
-  createdAt?: DateTime
-  createdAt_not?: DateTime
-  createdAt_in?: DateTime[] | DateTime
-  createdAt_not_in?: DateTime[] | DateTime
-  createdAt_lt?: DateTime
-  createdAt_lte?: DateTime
-  createdAt_gt?: DateTime
-  createdAt_gte?: DateTime
-  updatedAt?: DateTime
-  updatedAt_not?: DateTime
-  updatedAt_in?: DateTime[] | DateTime
-  updatedAt_not_in?: DateTime[] | DateTime
-  updatedAt_lt?: DateTime
-  updatedAt_lte?: DateTime
-  updatedAt_gt?: DateTime
-  updatedAt_gte?: DateTime
-}
-
-export interface TagUpdateDataInput {
-  text?: String
-}
-
-export interface GithubProfileWhereUniqueInput {
-  login?: String
-  githubUserId?: Int
-}
-
-export interface TagUpsertWithWhereUniqueNestedInput {
-  where: TagWhereUniqueInput
-  update: TagUpdateDataInput
-  create: TagCreateInput
-}
-
-export interface NotificationWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface CommentUpdateManyWithoutPostInput {
-  create?: CommentCreateWithoutPostInput[] | CommentCreateWithoutPostInput
-  connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput
-  disconnect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput
-  delete?: CommentWhereUniqueInput[] | CommentWhereUniqueInput
-  update?:
-    | CommentUpdateWithWhereUniqueWithoutPostInput[]
-    | CommentUpdateWithWhereUniqueWithoutPostInput
-  upsert?:
-    | CommentUpsertWithWhereUniqueWithoutPostInput[]
-    | CommentUpsertWithWhereUniqueWithoutPostInput
-}
-
-export interface DirectoryUpdateInput {
-  name?: String
-  isOpen?: Boolean
-  children?: FileUpdateManyWithoutParentInput
-}
-
-export interface CommentUpdateWithWhereUniqueWithoutPostInput {
-  where: CommentWhereUniqueInput
-  data: CommentUpdateWithoutPostDataInput
-}
-
-export interface UserUpdateWithoutPostsDataInput {
-  email?: String
-  password?: String
-  name?: String
-  resetToken?: String
-  resetTokenExpiry?: String
-  emailConfirmed?: Boolean
-  permissions?: UserUpdatepermissionsInput
-  githubProfile?: GithubProfileUpdateOneInput
-  sentMessages?: MessageUpdateManyWithoutFromInput
-  receivedMessages?: MessageUpdateManyWithoutToInput
-  notifications?: NotificationUpdateManyWithoutUserInput
-}
-
-export interface CommentUpdateWithoutPostDataInput {
-  content?: String
-  author?: UserUpdateOneInput
-}
-
-export interface MessageUpsertWithWhereUniqueWithoutToInput {
-  where: MessageWhereUniqueInput
-  update: MessageUpdateWithoutToDataInput
-  create: MessageCreateWithoutToInput
-}
-
-export interface UserUpdateOneInput {
-  create?: UserCreateInput
-  connect?: UserWhereUniqueInput
-  delete?: Boolean
-  update?: UserUpdateDataInput
-  upsert?: UserUpsertNestedInput
-}
-
-export interface UserCreateInput {
-  email: String
-  password: String
-  name?: String
-  resetToken?: String
-  resetTokenExpiry?: String
-  emailConfirmed?: Boolean
-  permissions?: UserCreatepermissionsInput
-  githubProfile?: GithubProfileCreateOneInput
-  posts?: PostCreateManyWithoutAuthorInput
-  sentMessages?: MessageCreateManyWithoutFromInput
-  receivedMessages?: MessageCreateManyWithoutToInput
-  notifications?: NotificationCreateManyWithoutUserInput
-}
-
-export interface UserUpdateDataInput {
-  email?: String
-  password?: String
-  name?: String
-  resetToken?: String
-  resetTokenExpiry?: String
-  emailConfirmed?: Boolean
-  permissions?: UserUpdatepermissionsInput
-  githubProfile?: GithubProfileUpdateOneInput
-  posts?: PostUpdateManyWithoutAuthorInput
-  sentMessages?: MessageUpdateManyWithoutFromInput
-  receivedMessages?: MessageUpdateManyWithoutToInput
-  notifications?: NotificationUpdateManyWithoutUserInput
-}
-
-export interface NotificationSubscriptionWhereInput {
-  AND?:
-    | NotificationSubscriptionWhereInput[]
-    | NotificationSubscriptionWhereInput
-  OR?: NotificationSubscriptionWhereInput[] | NotificationSubscriptionWhereInput
-  NOT?:
-    | NotificationSubscriptionWhereInput[]
-    | NotificationSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: NotificationWhereInput
-}
-
-export interface MessageUpdateManyWithoutFromInput {
-  create?: MessageCreateWithoutFromInput[] | MessageCreateWithoutFromInput
-  connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-  disconnect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-  delete?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-  update?:
-    | MessageUpdateWithWhereUniqueWithoutFromInput[]
-    | MessageUpdateWithWhereUniqueWithoutFromInput
-  upsert?:
-    | MessageUpsertWithWhereUniqueWithoutFromInput[]
-    | MessageUpsertWithWhereUniqueWithoutFromInput
-}
-
-export interface GithubProfileWhereInput {
-  AND?: GithubProfileWhereInput[] | GithubProfileWhereInput
-  OR?: GithubProfileWhereInput[] | GithubProfileWhereInput
-  NOT?: GithubProfileWhereInput[] | GithubProfileWhereInput
-  login?: String
-  login_not?: String
-  login_in?: String[] | String
-  login_not_in?: String[] | String
-  login_lt?: String
-  login_lte?: String
-  login_gt?: String
-  login_gte?: String
-  login_contains?: String
-  login_not_contains?: String
-  login_starts_with?: String
-  login_not_starts_with?: String
-  login_ends_with?: String
-  login_not_ends_with?: String
-  githubUserId?: Int
-  githubUserId_not?: Int
-  githubUserId_in?: Int[] | Int
-  githubUserId_not_in?: Int[] | Int
-  githubUserId_lt?: Int
-  githubUserId_lte?: Int
-  githubUserId_gt?: Int
-  githubUserId_gte?: Int
-  node_id?: String
-  node_id_not?: String
-  node_id_in?: String[] | String
-  node_id_not_in?: String[] | String
-  node_id_lt?: String
-  node_id_lte?: String
-  node_id_gt?: String
-  node_id_gte?: String
-  node_id_contains?: String
-  node_id_not_contains?: String
-  node_id_starts_with?: String
-  node_id_not_starts_with?: String
-  node_id_ends_with?: String
-  node_id_not_ends_with?: String
-  name?: String
-  name_not?: String
-  name_in?: String[] | String
-  name_not_in?: String[] | String
-  name_lt?: String
-  name_lte?: String
-  name_gt?: String
-  name_gte?: String
-  name_contains?: String
-  name_not_contains?: String
-  name_starts_with?: String
-  name_not_starts_with?: String
-  name_ends_with?: String
-  name_not_ends_with?: String
-  bio?: String
-  bio_not?: String
-  bio_in?: String[] | String
-  bio_not_in?: String[] | String
-  bio_lt?: String
-  bio_lte?: String
-  bio_gt?: String
-  bio_gte?: String
-  bio_contains?: String
-  bio_not_contains?: String
-  bio_starts_with?: String
-  bio_not_starts_with?: String
-  bio_ends_with?: String
-  bio_not_ends_with?: String
-  website?: String
-  website_not?: String
-  website_in?: String[] | String
-  website_not_in?: String[] | String
-  website_lt?: String
-  website_lte?: String
-  website_gt?: String
-  website_gte?: String
-  website_contains?: String
-  website_not_contains?: String
-  website_starts_with?: String
-  website_not_starts_with?: String
-  website_ends_with?: String
-  website_not_ends_with?: String
-  email?: String
-  email_not?: String
-  email_in?: String[] | String
-  email_not_in?: String[] | String
-  email_lt?: String
-  email_lte?: String
-  email_gt?: String
-  email_gte?: String
-  email_contains?: String
-  email_not_contains?: String
-  email_starts_with?: String
-  email_not_starts_with?: String
-  email_ends_with?: String
-  email_not_ends_with?: String
-  profilePhoto?: String
-  profilePhoto_not?: String
-  profilePhoto_in?: String[] | String
-  profilePhoto_not_in?: String[] | String
-  profilePhoto_lt?: String
-  profilePhoto_lte?: String
-  profilePhoto_gt?: String
-  profilePhoto_gte?: String
-  profilePhoto_contains?: String
-  profilePhoto_not_contains?: String
-  profilePhoto_starts_with?: String
-  profilePhoto_not_starts_with?: String
-  profilePhoto_ends_with?: String
-  profilePhoto_not_ends_with?: String
-  accessTokens_every?: AccessTokenWhereInput
-  accessTokens_some?: AccessTokenWhereInput
-  accessTokens_none?: AccessTokenWhereInput
-}
-
-export interface MessageUpdateWithWhereUniqueWithoutFromInput {
-  where: MessageWhereUniqueInput
-  data: MessageUpdateWithoutFromDataInput
-}
-
-export interface FileUpsertWithWhereUniqueWithoutParentInput {
-  where: FileWhereUniqueInput
-  update: FileUpdateWithoutParentDataInput
-  create: FileCreateWithoutParentInput
-}
-
-export interface MessageUpdateWithoutFromDataInput {
-  deliveredAt?: DateTime
-  readAt?: DateTime
-  to?: UserUpdateOneWithoutReceivedMessagesInput
-}
-
-export interface GithubProfileUpdateInput {
-  login?: String
-  githubUserId?: Int
-  node_id?: String
-  name?: String
-  bio?: String
-  website?: String
-  email?: String
-  profilePhoto?: String
-  accessTokens?: AccessTokenUpdateManyInput
-}
-
-export interface UserUpdateOneWithoutReceivedMessagesInput {
-  create?: UserCreateWithoutReceivedMessagesInput
-  connect?: UserWhereUniqueInput
-  delete?: Boolean
-  update?: UserUpdateWithoutReceivedMessagesDataInput
-  upsert?: UserUpsertWithoutReceivedMessagesInput
-}
-
-export interface AccessTokenCreateManyInput {
-  create?: AccessTokenCreateInput[] | AccessTokenCreateInput
-  connect?: AccessTokenWhereUniqueInput[] | AccessTokenWhereUniqueInput
-}
-
-export interface NotificationUpdateWithoutUserDataInput {
-  type?: NOTIFICATION_TYPE
-  link?: String
-  readDate?: DateTime
-}
-
-export interface NotificationUpdateWithWhereUniqueWithoutUserInput {
-  where: NotificationWhereUniqueInput
-  data: NotificationUpdateWithoutUserDataInput
-}
-
-export interface NotificationUpdateManyWithoutUserInput {
-  create?:
-    | NotificationCreateWithoutUserInput[]
-    | NotificationCreateWithoutUserInput
-  connect?: NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
-  disconnect?: NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
-  delete?: NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
-  update?:
-    | NotificationUpdateWithWhereUniqueWithoutUserInput[]
-    | NotificationUpdateWithWhereUniqueWithoutUserInput
-  upsert?:
-    | NotificationUpsertWithWhereUniqueWithoutUserInput[]
-    | NotificationUpsertWithWhereUniqueWithoutUserInput
-}
-
-export interface UserUpdateWithoutReceivedMessagesDataInput {
-  email?: String
-  password?: String
-  name?: String
-  resetToken?: String
-  resetTokenExpiry?: String
-  emailConfirmed?: Boolean
-  permissions?: UserUpdatepermissionsInput
-  githubProfile?: GithubProfileUpdateOneInput
-  posts?: PostUpdateManyWithoutAuthorInput
-  sentMessages?: MessageUpdateManyWithoutFromInput
-  notifications?: NotificationUpdateManyWithoutUserInput
+export interface AccessTokenUpdateWithWhereUniqueNestedInput {
+  where: AccessTokenWhereUniqueInput
+  data: AccessTokenUpdateDataInput
 }
 
 export interface FileWhereInput {
@@ -6679,10 +5513,262 @@ export interface FileWhereInput {
   parent?: DirectoryWhereInput
 }
 
-export interface MessageUpdateWithoutToDataInput {
-  deliveredAt?: DateTime
-  readAt?: DateTime
-  from?: UserUpdateOneWithoutSentMessagesInput
+export interface AccessTokenUpdateDataInput {
+  token?: String
+  scopes?: AccessTokenUpdatescopesInput
+}
+
+export interface AccessTokenWhereInput {
+  AND?: AccessTokenWhereInput[] | AccessTokenWhereInput
+  OR?: AccessTokenWhereInput[] | AccessTokenWhereInput
+  NOT?: AccessTokenWhereInput[] | AccessTokenWhereInput
+  id?: ID_Input
+  id_not?: ID_Input
+  id_in?: ID_Input[] | ID_Input
+  id_not_in?: ID_Input[] | ID_Input
+  id_lt?: ID_Input
+  id_lte?: ID_Input
+  id_gt?: ID_Input
+  id_gte?: ID_Input
+  id_contains?: ID_Input
+  id_not_contains?: ID_Input
+  id_starts_with?: ID_Input
+  id_not_starts_with?: ID_Input
+  id_ends_with?: ID_Input
+  id_not_ends_with?: ID_Input
+  token?: String
+  token_not?: String
+  token_in?: String[] | String
+  token_not_in?: String[] | String
+  token_lt?: String
+  token_lte?: String
+  token_gt?: String
+  token_gte?: String
+  token_contains?: String
+  token_not_contains?: String
+  token_starts_with?: String
+  token_not_starts_with?: String
+  token_ends_with?: String
+  token_not_ends_with?: String
+  createdAt?: DateTime
+  createdAt_not?: DateTime
+  createdAt_in?: DateTime[] | DateTime
+  createdAt_not_in?: DateTime[] | DateTime
+  createdAt_lt?: DateTime
+  createdAt_lte?: DateTime
+  createdAt_gt?: DateTime
+  createdAt_gte?: DateTime
+  updatedAt?: DateTime
+  updatedAt_not?: DateTime
+  updatedAt_in?: DateTime[] | DateTime
+  updatedAt_not_in?: DateTime[] | DateTime
+  updatedAt_lt?: DateTime
+  updatedAt_lte?: DateTime
+  updatedAt_gt?: DateTime
+  updatedAt_gte?: DateTime
+}
+
+export interface AccessTokenUpdatescopesInput {
+  set?: String[] | String
+}
+
+export interface GithubProfileWhereInput {
+  AND?: GithubProfileWhereInput[] | GithubProfileWhereInput
+  OR?: GithubProfileWhereInput[] | GithubProfileWhereInput
+  NOT?: GithubProfileWhereInput[] | GithubProfileWhereInput
+  login?: String
+  login_not?: String
+  login_in?: String[] | String
+  login_not_in?: String[] | String
+  login_lt?: String
+  login_lte?: String
+  login_gt?: String
+  login_gte?: String
+  login_contains?: String
+  login_not_contains?: String
+  login_starts_with?: String
+  login_not_starts_with?: String
+  login_ends_with?: String
+  login_not_ends_with?: String
+  githubUserId?: Int
+  githubUserId_not?: Int
+  githubUserId_in?: Int[] | Int
+  githubUserId_not_in?: Int[] | Int
+  githubUserId_lt?: Int
+  githubUserId_lte?: Int
+  githubUserId_gt?: Int
+  githubUserId_gte?: Int
+  node_id?: String
+  node_id_not?: String
+  node_id_in?: String[] | String
+  node_id_not_in?: String[] | String
+  node_id_lt?: String
+  node_id_lte?: String
+  node_id_gt?: String
+  node_id_gte?: String
+  node_id_contains?: String
+  node_id_not_contains?: String
+  node_id_starts_with?: String
+  node_id_not_starts_with?: String
+  node_id_ends_with?: String
+  node_id_not_ends_with?: String
+  name?: String
+  name_not?: String
+  name_in?: String[] | String
+  name_not_in?: String[] | String
+  name_lt?: String
+  name_lte?: String
+  name_gt?: String
+  name_gte?: String
+  name_contains?: String
+  name_not_contains?: String
+  name_starts_with?: String
+  name_not_starts_with?: String
+  name_ends_with?: String
+  name_not_ends_with?: String
+  bio?: String
+  bio_not?: String
+  bio_in?: String[] | String
+  bio_not_in?: String[] | String
+  bio_lt?: String
+  bio_lte?: String
+  bio_gt?: String
+  bio_gte?: String
+  bio_contains?: String
+  bio_not_contains?: String
+  bio_starts_with?: String
+  bio_not_starts_with?: String
+  bio_ends_with?: String
+  bio_not_ends_with?: String
+  website?: String
+  website_not?: String
+  website_in?: String[] | String
+  website_not_in?: String[] | String
+  website_lt?: String
+  website_lte?: String
+  website_gt?: String
+  website_gte?: String
+  website_contains?: String
+  website_not_contains?: String
+  website_starts_with?: String
+  website_not_starts_with?: String
+  website_ends_with?: String
+  website_not_ends_with?: String
+  githubEmail?: String
+  githubEmail_not?: String
+  githubEmail_in?: String[] | String
+  githubEmail_not_in?: String[] | String
+  githubEmail_lt?: String
+  githubEmail_lte?: String
+  githubEmail_gt?: String
+  githubEmail_gte?: String
+  githubEmail_contains?: String
+  githubEmail_not_contains?: String
+  githubEmail_starts_with?: String
+  githubEmail_not_starts_with?: String
+  githubEmail_ends_with?: String
+  githubEmail_not_ends_with?: String
+  profilePhoto?: String
+  profilePhoto_not?: String
+  profilePhoto_in?: String[] | String
+  profilePhoto_not_in?: String[] | String
+  profilePhoto_lt?: String
+  profilePhoto_lte?: String
+  profilePhoto_gt?: String
+  profilePhoto_gte?: String
+  profilePhoto_contains?: String
+  profilePhoto_not_contains?: String
+  profilePhoto_starts_with?: String
+  profilePhoto_not_starts_with?: String
+  profilePhoto_ends_with?: String
+  profilePhoto_not_ends_with?: String
+  createdAt?: DateTime
+  createdAt_not?: DateTime
+  createdAt_in?: DateTime[] | DateTime
+  createdAt_not_in?: DateTime[] | DateTime
+  createdAt_lt?: DateTime
+  createdAt_lte?: DateTime
+  createdAt_gt?: DateTime
+  createdAt_gte?: DateTime
+  updatedAt?: DateTime
+  updatedAt_not?: DateTime
+  updatedAt_in?: DateTime[] | DateTime
+  updatedAt_not_in?: DateTime[] | DateTime
+  updatedAt_lt?: DateTime
+  updatedAt_lte?: DateTime
+  updatedAt_gt?: DateTime
+  updatedAt_gte?: DateTime
+  profileOwner?: UserWhereInput
+  accessTokens_every?: AccessTokenWhereInput
+  accessTokens_some?: AccessTokenWhereInput
+  accessTokens_none?: AccessTokenWhereInput
+}
+
+export interface AccessTokenUpsertWithWhereUniqueNestedInput {
+  where: AccessTokenWhereUniqueInput
+  update: AccessTokenUpdateDataInput
+  create: AccessTokenCreateInput
+}
+
+export interface GithubProfileWhereUniqueInput {
+  login?: String
+  githubUserId?: Int
+  githubEmail?: String
+}
+
+export interface GithubProfileUpsertWithoutProfileOwnerInput {
+  update: GithubProfileUpdateWithoutProfileOwnerDataInput
+  create: GithubProfileCreateWithoutProfileOwnerInput
+}
+
+export interface CommentWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface PostUpdateManyWithoutAuthorInput {
+  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput
+  disconnect?: PostWhereUniqueInput[] | PostWhereUniqueInput
+  delete?: PostWhereUniqueInput[] | PostWhereUniqueInput
+  update?: PostUpdateWithWhereUniqueWithoutAuthorInput[] | PostUpdateWithWhereUniqueWithoutAuthorInput
+  upsert?: PostUpsertWithWhereUniqueWithoutAuthorInput[] | PostUpsertWithWhereUniqueWithoutAuthorInput
+}
+
+export interface NotificationWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput
+  data: PostUpdateWithoutAuthorDataInput
+}
+
+export interface FileUpsertWithWhereUniqueWithoutParentInput {
+  where: FileWhereUniqueInput
+  update: FileUpdateWithoutParentDataInput
+  create: FileCreateWithoutParentInput
+}
+
+export interface PostUpdateWithoutAuthorDataInput {
+  visibility?: VISIBILITY
+  views?: Int
+  content?: FileUpdateOneInput
+  tags?: TagUpdateManyInput
+  comments?: CommentUpdateManyWithoutPostInput
+}
+
+export interface DirectoryUpdateInput {
+  name?: String
+  isOpen?: Boolean
+  children?: FileUpdateManyWithoutParentInput
+}
+
+export interface FileUpdateOneInput {
+  create?: FileCreateInput
+  connect?: FileWhereUniqueInput
+  delete?: Boolean
+  update?: FileUpdateDataInput
+  upsert?: FileUpsertNestedInput
 }
 
 export interface PostUpdateOneWithoutCommentsInput {
@@ -6693,8 +5779,433 @@ export interface PostUpdateOneWithoutCommentsInput {
   upsert?: PostUpsertWithoutCommentsInput
 }
 
-export interface CommentWhereUniqueInput {
+export interface FileUpdateDataInput {
+  name?: String
+  type?: FILE_TYPE
+  data?: String
+  isDirty?: Boolean
+  isTransient?: Boolean
+  bufferType?: FILE_TYPE
+  description?: String
+  uuid?: String
+  contentType?: String
+  s3Url?: String
+  size?: Int
+  parent?: DirectoryUpdateOneWithoutChildrenInput
+}
+
+export interface UserUpdateWithoutPostsDataInput {
+  email?: String
+  password?: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserUpdatepermissionsInput
+  githubProfile?: GithubProfileUpdateOneWithoutProfileOwnerInput
+  sentMessages?: MessageUpdateManyWithoutFromInput
+  receivedMessages?: MessageUpdateManyWithoutToInput
+  notifications?: NotificationUpdateManyWithoutUserInput
+}
+
+export interface DirectoryUpdateOneWithoutChildrenInput {
+  create?: DirectoryCreateWithoutChildrenInput
+  connect?: DirectoryWhereUniqueInput
+  disconnect?: Boolean
+  delete?: Boolean
+  update?: DirectoryUpdateWithoutChildrenDataInput
+  upsert?: DirectoryUpsertWithoutChildrenInput
+}
+
+export interface UserUpsertWithoutGithubProfileInput {
+  update: UserUpdateWithoutGithubProfileDataInput
+  create: UserCreateWithoutGithubProfileInput
+}
+
+export interface DirectoryUpdateWithoutChildrenDataInput {
+  name?: String
+  isOpen?: Boolean
+}
+
+export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput
+  update: PostUpdateWithoutAuthorDataInput
+  create: PostCreateWithoutAuthorInput
+}
+
+export interface DirectoryUpsertWithoutChildrenInput {
+  update: DirectoryUpdateWithoutChildrenDataInput
+  create: DirectoryCreateWithoutChildrenInput
+}
+
+export interface UserUpsertWithoutSentMessagesInput {
+  update: UserUpdateWithoutSentMessagesDataInput
+  create: UserCreateWithoutSentMessagesInput
+}
+
+export interface FileUpsertNestedInput {
+  update: FileUpdateDataInput
+  create: FileCreateInput
+}
+
+export interface UserCreateInput {
+  email: String
+  password: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserCreatepermissionsInput
+  githubProfile?: GithubProfileCreateOneWithoutProfileOwnerInput
+  posts?: PostCreateManyWithoutAuthorInput
+  sentMessages?: MessageCreateManyWithoutFromInput
+  receivedMessages?: MessageCreateManyWithoutToInput
+  notifications?: NotificationCreateManyWithoutUserInput
+}
+
+export interface TagUpdateManyInput {
+  create?: TagCreateInput[] | TagCreateInput
+  connect?: TagWhereUniqueInput[] | TagWhereUniqueInput
+  disconnect?: TagWhereUniqueInput[] | TagWhereUniqueInput
+  delete?: TagWhereUniqueInput[] | TagWhereUniqueInput
+  update?: TagUpdateWithWhereUniqueNestedInput[] | TagUpdateWithWhereUniqueNestedInput
+  upsert?: TagUpsertWithWhereUniqueNestedInput[] | TagUpsertWithWhereUniqueNestedInput
+}
+
+export interface AccessTokenCreateManyInput {
+  create?: AccessTokenCreateInput[] | AccessTokenCreateInput
+  connect?: AccessTokenWhereUniqueInput[] | AccessTokenWhereUniqueInput
+}
+
+export interface TagUpdateWithWhereUniqueNestedInput {
+  where: TagWhereUniqueInput
+  data: TagUpdateDataInput
+}
+
+export interface PostCreateWithoutAuthorInput {
+  visibility?: VISIBILITY
+  views?: Int
+  content: FileCreateOneInput
+  tags?: TagCreateManyInput
+  comments?: CommentCreateManyWithoutPostInput
+}
+
+export interface TagUpdateDataInput {
+  text?: String
+}
+
+export interface MessageSubscriptionWhereInput {
+  AND?: MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput
+  OR?: MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput
+  NOT?: MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: MessageWhereInput
+}
+
+export interface TagUpsertWithWhereUniqueNestedInput {
+  where: TagWhereUniqueInput
+  update: TagUpdateDataInput
+  create: TagCreateInput
+}
+
+export interface PostWhereInput {
+  AND?: PostWhereInput[] | PostWhereInput
+  OR?: PostWhereInput[] | PostWhereInput
+  NOT?: PostWhereInput[] | PostWhereInput
   id?: ID_Input
+  id_not?: ID_Input
+  id_in?: ID_Input[] | ID_Input
+  id_not_in?: ID_Input[] | ID_Input
+  id_lt?: ID_Input
+  id_lte?: ID_Input
+  id_gt?: ID_Input
+  id_gte?: ID_Input
+  id_contains?: ID_Input
+  id_not_contains?: ID_Input
+  id_starts_with?: ID_Input
+  id_not_starts_with?: ID_Input
+  id_ends_with?: ID_Input
+  id_not_ends_with?: ID_Input
+  visibility?: VISIBILITY
+  visibility_not?: VISIBILITY
+  visibility_in?: VISIBILITY[] | VISIBILITY
+  visibility_not_in?: VISIBILITY[] | VISIBILITY
+  views?: Int
+  views_not?: Int
+  views_in?: Int[] | Int
+  views_not_in?: Int[] | Int
+  views_lt?: Int
+  views_lte?: Int
+  views_gt?: Int
+  views_gte?: Int
+  createdAt?: DateTime
+  createdAt_not?: DateTime
+  createdAt_in?: DateTime[] | DateTime
+  createdAt_not_in?: DateTime[] | DateTime
+  createdAt_lt?: DateTime
+  createdAt_lte?: DateTime
+  createdAt_gt?: DateTime
+  createdAt_gte?: DateTime
+  updatedAt?: DateTime
+  updatedAt_not?: DateTime
+  updatedAt_in?: DateTime[] | DateTime
+  updatedAt_not_in?: DateTime[] | DateTime
+  updatedAt_lt?: DateTime
+  updatedAt_lte?: DateTime
+  updatedAt_gt?: DateTime
+  updatedAt_gte?: DateTime
+  author?: UserWhereInput
+  content?: FileWhereInput
+  tags_every?: TagWhereInput
+  tags_some?: TagWhereInput
+  tags_none?: TagWhereInput
+  comments_every?: CommentWhereInput
+  comments_some?: CommentWhereInput
+  comments_none?: CommentWhereInput
+}
+
+export interface CommentUpdateManyWithoutPostInput {
+  create?: CommentCreateWithoutPostInput[] | CommentCreateWithoutPostInput
+  connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput
+  disconnect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput
+  delete?: CommentWhereUniqueInput[] | CommentWhereUniqueInput
+  update?: CommentUpdateWithWhereUniqueWithoutPostInput[] | CommentUpdateWithWhereUniqueWithoutPostInput
+  upsert?: CommentUpsertWithWhereUniqueWithoutPostInput[] | CommentUpsertWithWhereUniqueWithoutPostInput
+}
+
+export interface UserUpdateWithoutNotificationsDataInput {
+  email?: String
+  password?: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserUpdatepermissionsInput
+  githubProfile?: GithubProfileUpdateOneWithoutProfileOwnerInput
+  posts?: PostUpdateManyWithoutAuthorInput
+  sentMessages?: MessageUpdateManyWithoutFromInput
+  receivedMessages?: MessageUpdateManyWithoutToInput
+}
+
+export interface CommentUpdateWithWhereUniqueWithoutPostInput {
+  where: CommentWhereUniqueInput
+  data: CommentUpdateWithoutPostDataInput
+}
+
+export interface DirectoryWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface CommentUpdateWithoutPostDataInput {
+  content?: String
+  author?: UserUpdateOneInput
+}
+
+export interface FileUpdateWithWhereUniqueWithoutParentInput {
+  where: FileWhereUniqueInput
+  data: FileUpdateWithoutParentDataInput
+}
+
+export interface UserUpdateOneInput {
+  create?: UserCreateInput
+  connect?: UserWhereUniqueInput
+  delete?: Boolean
+  update?: UserUpdateDataInput
+  upsert?: UserUpsertNestedInput
+}
+
+export interface TagUpdateInput {
+  text?: String
+}
+
+export interface UserUpdateDataInput {
+  email?: String
+  password?: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserUpdatepermissionsInput
+  githubProfile?: GithubProfileUpdateOneWithoutProfileOwnerInput
+  posts?: PostUpdateManyWithoutAuthorInput
+  sentMessages?: MessageUpdateManyWithoutFromInput
+  receivedMessages?: MessageUpdateManyWithoutToInput
+  notifications?: NotificationUpdateManyWithoutUserInput
+}
+
+export interface UserUpdateOneWithoutGithubProfileInput {
+  create?: UserCreateWithoutGithubProfileInput
+  connect?: UserWhereUniqueInput
+  disconnect?: Boolean
+  delete?: Boolean
+  update?: UserUpdateWithoutGithubProfileDataInput
+  upsert?: UserUpsertWithoutGithubProfileInput
+}
+
+export interface MessageUpdateManyWithoutFromInput {
+  create?: MessageCreateWithoutFromInput[] | MessageCreateWithoutFromInput
+  connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+  disconnect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+  delete?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+  update?: MessageUpdateWithWhereUniqueWithoutFromInput[] | MessageUpdateWithWhereUniqueWithoutFromInput
+  upsert?: MessageUpsertWithWhereUniqueWithoutFromInput[] | MessageUpsertWithWhereUniqueWithoutFromInput
+}
+
+export interface UserUpdateOneWithoutSentMessagesInput {
+  create?: UserCreateWithoutSentMessagesInput
+  connect?: UserWhereUniqueInput
+  delete?: Boolean
+  update?: UserUpdateWithoutSentMessagesDataInput
+  upsert?: UserUpsertWithoutSentMessagesInput
+}
+
+export interface MessageUpdateWithWhereUniqueWithoutFromInput {
+  where: MessageWhereUniqueInput
+  data: MessageUpdateWithoutFromDataInput
+}
+
+export interface AccessTokenCreatescopesInput {
+  set?: String[] | String
+}
+
+export interface MessageUpdateWithoutFromDataInput {
+  deliveredAt?: DateTime
+  readAt?: DateTime
+  to?: UserUpdateOneWithoutReceivedMessagesInput
+}
+
+export interface CommentSubscriptionWhereInput {
+  AND?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput
+  OR?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput
+  NOT?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: CommentWhereInput
+}
+
+export interface UserUpdateOneWithoutReceivedMessagesInput {
+  create?: UserCreateWithoutReceivedMessagesInput
+  connect?: UserWhereUniqueInput
+  delete?: Boolean
+  update?: UserUpdateWithoutReceivedMessagesDataInput
+  upsert?: UserUpsertWithoutReceivedMessagesInput
+}
+
+export interface PostWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface UserUpdateWithoutReceivedMessagesDataInput {
+  email?: String
+  password?: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserUpdatepermissionsInput
+  githubProfile?: GithubProfileUpdateOneWithoutProfileOwnerInput
+  posts?: PostUpdateManyWithoutAuthorInput
+  sentMessages?: MessageUpdateManyWithoutFromInput
+  notifications?: NotificationUpdateManyWithoutUserInput
+}
+
+export interface PostUpsertWithoutCommentsInput {
+  update: PostUpdateWithoutCommentsDataInput
+  create: PostCreateWithoutCommentsInput
+}
+
+export interface NotificationUpdateManyWithoutUserInput {
+  create?: NotificationCreateWithoutUserInput[] | NotificationCreateWithoutUserInput
+  connect?: NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  disconnect?: NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  delete?: NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  update?: NotificationUpdateWithWhereUniqueWithoutUserInput[] | NotificationUpdateWithWhereUniqueWithoutUserInput
+  upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput[] | NotificationUpsertWithWhereUniqueWithoutUserInput
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput
+  create: UserCreateInput
+}
+
+export interface NotificationUpdateWithWhereUniqueWithoutUserInput {
+  where: NotificationWhereUniqueInput
+  data: NotificationUpdateWithoutUserDataInput
+}
+
+export interface FileCreateInput {
+  name: String
+  type?: FILE_TYPE
+  data?: String
+  isDirty?: Boolean
+  isTransient?: Boolean
+  bufferType?: FILE_TYPE
+  description?: String
+  uuid?: String
+  contentType?: String
+  s3Url?: String
+  size?: Int
+  parent?: DirectoryCreateOneWithoutChildrenInput
+}
+
+export interface MessageUpsertWithWhereUniqueWithoutFromInput {
+  where: MessageWhereUniqueInput
+  update: MessageUpdateWithoutFromDataInput
+  create: MessageCreateWithoutFromInput
+}
+
+export interface UserUpsertWithoutReceivedMessagesInput {
+  update: UserUpdateWithoutReceivedMessagesDataInput
+  create: UserCreateWithoutReceivedMessagesInput
+}
+
+export interface NotificationUpsertWithWhereUniqueWithoutUserInput {
+  where: NotificationWhereUniqueInput
+  update: NotificationUpdateWithoutUserDataInput
+  create: NotificationCreateWithoutUserInput
+}
+
+export interface NotificationUpdateWithoutUserDataInput {
+  type?: NOTIFICATION_TYPE
+  link?: String
+  readDate?: DateTime
+}
+
+export interface GithubProfileSubscriptionWhereInput {
+  AND?: GithubProfileSubscriptionWhereInput[] | GithubProfileSubscriptionWhereInput
+  OR?: GithubProfileSubscriptionWhereInput[] | GithubProfileSubscriptionWhereInput
+  NOT?: GithubProfileSubscriptionWhereInput[] | GithubProfileSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: GithubProfileWhereInput
+}
+
+export interface GithubProfileCreateOneWithoutProfileOwnerInput {
+  create?: GithubProfileCreateWithoutProfileOwnerInput
+  connect?: GithubProfileWhereUniqueInput
+}
+
+export interface PostUpdateInput {
+  visibility?: VISIBILITY
+  views?: Int
+  author?: UserUpdateOneWithoutPostsInput
+  content?: FileUpdateOneInput
+  tags?: TagUpdateManyInput
+  comments?: CommentUpdateManyWithoutPostInput
+}
+
+export interface NotificationUpdateInput {
+  type?: NOTIFICATION_TYPE
+  link?: String
+  readDate?: DateTime
+  user?: UserUpdateOneWithoutNotificationsInput
 }
 
 /*
@@ -6784,15 +6295,18 @@ export interface MessageEdge {
 }
 
 export interface GithubProfile {
+  profileOwner?: User
   login: String
   githubUserId: Int
   node_id: String
   name?: String
   bio?: String
   website?: String
-  email?: String
+  githubEmail: String
   profilePhoto?: String
   accessTokens?: AccessToken[]
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 export interface AggregateDirectory {
@@ -6902,8 +6416,10 @@ export interface GithubProfilePreviousValues {
   name?: String
   bio?: String
   website?: String
-  email?: String
+  githubEmail: String
   profilePhoto?: String
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 /*
