@@ -1,3 +1,5 @@
+const debug = require('debug')('ssr:server')
+const util = require('util')
 import Express from 'express'
 import path from 'path'
 import proxy from 'http-proxy-middleware'
@@ -11,6 +13,9 @@ import { ApolloProvider, renderToStringWithData } from 'react-apollo'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloLink } from 'apollo-link'
 import fetch from 'cross-fetch'
+
+import { securityMiddleware } from './securityMiddleware'
+import middlewares from './middlewares'
 
 import {
   errorLink,
@@ -27,15 +32,22 @@ if (process.env.PORT) {
 }
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
+
 const API_HOST =
-  NODE_ENV !== 'production' ? 'http://localhost:4000' : 'https://api.gamma.app'
+  NODE_ENV !== 'production'
+    ? 'http://localhost:4000/api'
+    : 'https://api.gamma.app'
 
 const app = new Express()
+app.set('trust proxy', true)
+securityMiddleware(app)
+app.use(middlewares)
 
 const apiProxy = proxy({ target: API_HOST, changeOrigin: true })
-app.use('/graphql', apiProxy)
-app.use('/login', apiProxy)
-app.use('/logout', apiProxy)
+app.use('/api', apiProxy)
+// app.use('/graphql', apiProxy)
+app.use('/auth/login', apiProxy)
+app.use('/auth/logout', apiProxy)
 
 if (process.env.NODE_ENV === 'production') {
   /**
@@ -52,14 +64,15 @@ if (process.env.NODE_ENV === 'production') {
   )
 }
 
-app.use((req, res) => {
+app.use((req, res, next) => {
+  // debug(util.inspect(req.session))
   const client = new ApolloClient({
     ssrMode: true,
     link: ApolloLink.from([
       errorLink,
       queryOrMutationLink({
         fetch,
-        uri: `${API_HOST}/graphql`,
+        uri: `${API_HOST}`,
         credentials: 'include',
         headers: {
           cookie: req.headers.cookie
@@ -74,7 +87,7 @@ app.use((req, res) => {
   const component = (
     <ApolloProvider client={client}>
       <StaticRouter location={req.url} context={context}>
-        <Layout />
+        <Layout user={req.user} />
       </StaticRouter>
     </ApolloProvider>
   )

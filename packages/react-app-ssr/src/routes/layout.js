@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router'
 import routes from './index'
 import Navbar from '../components/navbar'
 
-export const Layout = () => {
+export const Layout = ({ user }) => {
   return (
     <div>
       <Navbar />

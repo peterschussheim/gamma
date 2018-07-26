@@ -14,11 +14,6 @@ class Login extends React.Component {
   }
   state = this.initialState
 
-  // handleLogin = () => {
-  //   Auth.authenticate(() => {
-  //     this.setState({ redirectToReferrer: true })
-  //   })
-  // }
   handleChange = e => {
     const { name, value } = e.target
     this.setState({ [name]: value })
@@ -26,20 +21,24 @@ class Login extends React.Component {
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
-    const { email, password } = this.state
+    const { email, password, redirectToReferrer } = this.state
 
-    // if (redirectToReferrer) {
-    //   return <Redirect to={from} />
-    // }
+    if (redirectToReferrer) {
+      return <Redirect to={from} />
+    }
 
     return (
-      <Mutation mutation={LOGIN} variables={this.state}>
+      <Mutation
+        mutation={LOGIN}
+        variables={this.state}
+        refetchQueries={[{ query: VIEWER }]}
+      >
         {(login, { error }) => (
           <Form
             onSubmit={e => {
               e.preventDefault()
               login()
-              window.location = '/'
+              this.setState({ redirectToReferrer: true })
             }}
           >
             <RenderError error={error} />
@@ -52,6 +51,7 @@ class Login extends React.Component {
               id="email-input"
               placeholder="email..."
               name="email"
+              autoComplete="username email"
               style={{ flex: 1 }}
             />
             <label style={{ justifySelf: 'right' }} id="password-input">
@@ -63,6 +63,7 @@ class Login extends React.Component {
               placeholder="Password..."
               type="password"
               name="password"
+              autoComplete="current-password"
               aria-labelledby="password-input"
             />
             <button type="submit">Login</button>

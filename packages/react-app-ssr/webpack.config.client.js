@@ -1,5 +1,6 @@
-var path = require('path')
 var webpack = require('webpack')
+var path = require('path')
+const Dotenv = require('dotenv-webpack')
 
 const DEV = process.env.NODE_ENV !== 'production'
 
@@ -40,6 +41,7 @@ module.exports = {
         NODE_ENV: JSON.stringify(DEV ? 'development' : 'production')
       }
     }),
+    new Dotenv(),
     new webpack.DefinePlugin({
       __isBrowser__: 'true'
     }),

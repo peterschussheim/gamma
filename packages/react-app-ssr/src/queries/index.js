@@ -47,7 +47,25 @@ export const VIEWER = gql`
     viewer {
       me {
         id
-        email
+        githubProfile {
+          profileOwner {
+            email
+          }
+          githubUserId
+          createdAt
+        }
+        posts {
+          id
+          visibility
+          content {
+            id
+            data
+          }
+          tags {
+            id
+            text
+          }
+        }
       }
     }
   }

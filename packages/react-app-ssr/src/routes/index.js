@@ -22,7 +22,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/login',
+    path: '/auth/login',
     name: 'login',
     exact: true,
     component: Login
@@ -34,7 +34,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/signup',
+    path: '/auth/signup',
     name: 'signup',
     exact: true,
     component: Signup
