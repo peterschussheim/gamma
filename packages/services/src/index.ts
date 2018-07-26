@@ -1,35 +1,54 @@
 const debug = require('debug')('entrypoint')
+const util = require('util')
 import { formatError } from 'apollo-errors'
-import { AddressInfo } from 'net'
 import { Options } from 'graphql-yoga'
-
+import { defaultPrismaOptions, initDatabase } from './db'
 import startServer from './server'
 import Raven from './shared/raven'
 
-const PORT = parseInt(process.env.PORT, 10) || 4000
-const { PRISMA_ENDPOINT, PRISMA_SECRET } = process.env
+const PORT = process.env.PORT || 4000
+const HOST = process.env.HOST || 'localhost'
+const NODE_ENV = process.env.NODE_ENV || 'development'
 
-const prismaOptions = {
-  PRISMA_ENDPOINT,
-  PRISMA_SECRET,
-  PRISMA_DEBUG: false
-}
-
-// TODO: https://github.com/apollographql/subscriptions-transport-ws#constructorurl-options-websocketimpl
 const options: Options = {
   port: PORT,
   cors: {
     credentials: true,
-    origin: ['*']
-    // process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
-    //   ? ['https://gamma.app', /gamma-(\w|-)+\.now\.sh/g, /gamma\.app/]
-    //   : [/localhost/]
+    origin:
+      process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
+        ? [
+            'https://gamma.app',
+            /gamma-(\w|-)+\.app/g,
+            /gamma\.app/,
+            /ui\.gamma\.app/g
+          ]
+        : [/localhost/, /github\.com/],
+    preflightContinue: true
   },
-  endpoint: '/graphql',
-  subscriptions: '/subscriptions',
+  endpoint: '/api',
+  subscriptions: {
+    path: '/subscriptions',
+    onDisconnect: rawSocket => {
+      const userId = rawSocket.upgradeReq.session
+    },
+    onConnect: (connectionParams, rawSocket, context) => {
+      // debug(`onConnect WS Context: ${util.inspect(context)}`)
+      const userId = rawSocket.upgradeReq.session
+      // debug(`onConnect WS Raw Socket: ${util.inspect(rawSocket)}`)
+      return userId
+    }
+  },
   playground: process.env.NODE_ENV === 'production' ? false : '/playground',
-  formatError
+  formatError,
+  bodyParserOptions: {
+    type: '*/*'
+  }
 }
+
+/**
+ * Instantiate an instance of our prisma db using desired env variables
+ */
+const prisma = initDatabase(defaultPrismaOptions)
 
 /**
  *  Paths needed to handle:
@@ -38,13 +57,14 @@ const options: Options = {
  * 2) start server without apollo engine
  *
  */
-startServer(prismaOptions)
+
+startServer(prisma)
   .start(options)
   .then(http => {
-    const { port } = http.address() as AddressInfo
-    debug(`Server running on http://localhost:${port}`)
-    // debug(`GraphQL URI: http://localhost:${port}${options.endpoint}`)
-    // debug(`Playground URI: http://localhost:${port}${options.playground}`)
+    debug(`NODE_ENV: ${NODE_ENV}`)
+    debug(`Server running on http://localhost:${PORT}`)
+    debug(`GraphQL uri http://localhost:${PORT}${options.endpoint}`)
+    debug(`Subscriptions uri ws://${HOST}:${PORT}/subscriptions`)
   })
   .catch(err => {
     debug(`ERROR CAUGHT index.ts: ${err}`)

@@ -1,7 +1,7 @@
 const debug = require('debug')('mutation:auth')
 import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
-
+var util = require('util')
 import { getUserIdFromSession, AuthError } from '../../utils/getUserId'
 import { Context } from '../../gamma'
 import { sendConfirmationEmail } from '../../utils/email'
@@ -12,6 +12,7 @@ import {
 } from '../../utils/sessions'
 
 import {
+  UnauthenticatedError,
   AccountNotFoundError,
   ConfirmationTokenExpiredError,
   ConfirmEmailError,
@@ -36,11 +37,7 @@ export const auth = {
     }
 
     if (process.env.NODE_ENV !== 'test') {
-      const confirmationUrl = await createConfirmEmailLink(
-        ctx.url,
-        user.id,
-        ctx.redis
-      )
+      const confirmationUrl = await createConfirmEmailLink(user.id, ctx.redis)
 
       await sendConfirmationEmail(user.email, confirmationUrl)
       debug(`Confirmation email sent to ${user.email}`)
@@ -83,10 +80,13 @@ export const auth = {
     if (!valid || !user) {
       throw new AuthError()
     }
-    debug(ctx)
 
     // 3) Attach a key with userId === to the user's id in DB
     ctx.req.session.userId = user.id
+    if (user.githubProfile) {
+      debug(`GITHUB:::::::::::::::::::${user.githubProfile.githubUserId}`)
+      ctx.req.session.githubId = user.githubProfile.githubUserId
+    }
 
     if (ctx.req.sessionID) {
       debug(
@@ -101,6 +101,11 @@ export const auth = {
     debug(`Authenticating existing user: ${ctx.req.session.userId}`)
     debug('Returning signed token and user data')
 
+    const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET)
+    ctx.res.cookie('token', token, {
+      maxAge: 1000 * 60 * 60 * 24 * 365,
+      httpOnly: true
+    })
     // 5) Send an object to the client with a JWT and the requested user object
     return {
       token: jwt.sign({ userId: user.id }, process.env.APP_SECRET),
@@ -112,14 +117,16 @@ export const auth = {
     const userId = getUserIdFromSession(ctx)
     if (userId) {
       await removeSingleSession(ctx.req.sessionID, userId, ctx.redis)
-
       ctx.req.session.destroy(err => {
         if (err) {
           debug(`LOGOUT: ${err}`)
         }
       })
+      // not sure if this is a proper logout mechanism
+      ctx.res.clearCookie('token')
       return { success: true }
     }
+
     return { success: false }
   },
 

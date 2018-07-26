@@ -4,91 +4,56 @@ debug('logging with debug enabled!')
 import * as compression from 'compression'
 import { GraphQLServer, PubSub } from 'graphql-yoga'
 
-import Raven from './shared/raven'
-import { Prisma } from './generated/prisma'
-import { resolvers, fragmentReplacements } from './resolvers'
+import { resolvers } from './resolvers'
 import { redis } from './redis'
 import middlewares from './middlewares'
 import { securityMiddleware } from './middlewares/security'
-import { PrismaBindingOptions } from './gamma'
 import confirmEmail from './controllers/confirmEmail'
-const pubsub = new PubSub()
+import { init as initPassport } from './initAuth'
+import authRoutes from './routes/auth'
+import getUser from './middlewares/getUser'
 
-const getPrismaInstance = (options: PrismaBindingOptions) => {
-  return new Prisma({
-    fragmentReplacements,
-    endpoint: options.PRISMA_ENDPOINT,
-    secret: options.PRISMA_SECRET,
-    debug: options.PRISMA_DEBUG ? true : false
-  })
-}
-
-export default function startServer(prismaOptions: PrismaBindingOptions) {
+export default function startServer(databaseInstance) {
+  const pubsub = new PubSub()
   const context = ({ request, response }) => ({
     req: request,
     res: response,
-    db: getPrismaInstance(prismaOptions),
-    url: request.protocol + '://' + request.get('host'),
+    db: databaseInstance,
     pubsub,
     redis
   })
 
-  const graphQLServer = new GraphQLServer({
+  const server = new GraphQLServer({
     typeDefs: './src/schema.graphql',
     resolvers,
     context,
     resolverValidationOptions: { requireResolversForResolveType: false }
   })
 
-  graphQLServer.express.set('trust proxy', true)
-  securityMiddleware(graphQLServer.express)
-  graphQLServer.express.use(compression())
-  graphQLServer.express.use(middlewares)
-  // TODO: add post route for s3 uploads
-  graphQLServer.express.get(
-    '/confirm/:id',
-    confirmEmail({ prisma: getPrismaInstance(prismaOptions), redis })
+  initPassport(databaseInstance)
+  // TODO: add something to handle is server is too busy
+  server.express.set('trust proxy', true)
+  securityMiddleware(server.express)
+  server.express.use(compression())
+  server.express.use(middlewares)
+  server.express.use('/auth', authRoutes)
+  server.express.post(server.options.endpoint, (req, res, next) =>
+    getUser(req, res, next, databaseInstance)
   )
 
-  return graphQLServer
-}
+  // server.express.use('/', (req, res) => {
+  //   res.redirect(
+  //     process.env.NODE_ENV === 'production'
+  //       ? 'https://gamma.app'
+  //       : 'http://localhost:3000'
+  //   )
+  // })
 
-// graphQLServer.express.use((err, req, res, next) => {
-//   debug('test')
-//   if (err) {
-//     debug(err)
-//     res
-//       .status(500)
-//       .send(
-//         'Something went wrong! Our engineers have been alerted and will fix this asap.'
-//       )
-//     Raven.captureException(err)
-//   } else {
-//     return next()
-//   }
-// })
-// if (process.env.ENGINE_API_KEY && !process.env.TEST) {
-//   const engine = new ApolloEngine({
-//     apiKey: process.env.ENGINE_API_KEY
-//   })
-//   const optionsWithTracing = {
-//     tracing: true,
-//     cacheControl: true,
-//     ...options
-//   }
-//   const httpServer = graphQLServer.createHttpServer(optionsWithTracing)
-//   engine.listen(
-//     {
-//       port: options.PORT,
-//       httpServer,
-//       graphqlPaths: ['/graphql', '/subscriptions', 'playground']
-//     },
-//     () =>
-//       debug(`Application server with Apollo Engine running on http://localhost:${PORT}
-// Application GraphQL server available on http://localhost:${PORT}${
-//         options.endpoint
-//       }
-// Playground available on http://localhost:${PORT}${options.playground}
-// Subscriptions available on ws://localhost:${PORT}${options.subscriptions}`)
-//   )
-// }
+  server.express.get(
+    '/confirm/:id',
+    confirmEmail({ prisma: databaseInstance, redis })
+  )
+  // TODO: add post route for s3 uploads
+
+  return server
+}

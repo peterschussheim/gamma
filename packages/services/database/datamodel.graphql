@@ -2,22 +2,50 @@ type User {
   id: ID! @unique
   email: String! @unique
   password: String!
+  # First and last name of user
   name: String
+  githubProfile: GithubProfile
+    @relation(name: "LinkedProfile", onDelete: SET_NULL)
   posts: [Post!]!
-  resetToken: String
-  resetTokenExpiry: String
-  permissions: [PERMISSION!]!
-  connectedWithGithub: Boolean! @default(value: "false")
   sentMessages: [Message!]! @relation(name: "SentMessages")
   receivedMessages: [Message!]! @relation(name: "ReceivedMessages")
   notifications: [Notification!]!
+  resetToken: String
+  resetTokenExpiry: String
+  permissions: [PERMISSION!]!
   emailConfirmed: Boolean! @default(value: "false")
   createdAt: DateTime!
   updatedAt: DateTime!
 }
 
-# `Post` type is the main abstraction, representing a single day's worth
-# of entries
+type GithubProfile {
+  profileOwner: User @relation(name: "LinkedProfile", onDelete: SET_NULL)
+  # GitHub login
+  login: String! @unique
+  # GitHub id
+  githubUserId: Int! @unique
+  # GitHub node_id
+  node_id: String!
+  name: String
+  bio: String
+  # GitHub blog
+  website: String
+  githubEmail: String! @unique
+  profilePhoto: String
+  accessTokens: [AccessToken!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type AccessToken {
+  id: ID! @unique
+  scopes: [String!]
+  token: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# `Post` represents a single day's worth of entries
 type Post {
   id: ID! @unique
   author: User!

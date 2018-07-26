@@ -56,7 +56,9 @@ debug
 # these cause more harm than good
 # when working with contributors
 package-lock.json
-yarn.lock
+
+# disabled to allow circleci and now to use yarn instead of npm
+# yarn.lock
 
 .vscode
 .DS_Store

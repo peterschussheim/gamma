@@ -1,4 +1,7 @@
 const debug = require('debug')('utils:sessions')
+import * as Keygrip from 'keygrip'
+import * as jwt from 'jsonwebtoken'
+import { Redis } from 'ioredis'
 
 import {
   USER_SESSION_ID_PREFIX,
@@ -6,7 +9,6 @@ import {
   USER_SESSION_ID_PREFIX_TEST,
   REDIS_SESSION_PREFIX_TEST
 } from '../constants'
-import { Redis } from 'ioredis'
 
 /**
  * if process.env=test use ****_TEST prefix
@@ -60,4 +62,22 @@ export const removeAllUserSessions = async (userId: string, redis: Redis) => {
   // delete the entire set of sessions for this user
   // `usid:cjinb8g7j9znj0886y207ieg4`
   await redis.del(`${USER_SESSION_ID_PREFIX}${userId}`)
+}
+
+export const cookieKeygrip = new Keygrip([process.env.SESSION_SECRET])
+
+export const getCookies = ({ userId }: { userId: string }) => {
+  const session = new Buffer(
+    JSON.stringify({ passport: { user: userId } })
+  ).toString('base64')
+
+  const sessionSig = cookieKeygrip.sign(`session=${session}`)
+
+  return { session, 'session.sig': sessionSig }
+}
+
+export const signCookie = (cookie: string) => {
+  return jwt.sign({ cookie }, process.env.APP_SECRET, {
+    expiresIn: '25y'
+  })
 }

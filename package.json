@@ -1,0 +1,14 @@
+{
+  "name": "gamma",
+  "version": "0.0.0",
+  "private": true,
+  "author":
+    "Peter Schussheim <peter@schussheim.com> (https://peterschussheim.com/)",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/peterschussheim/gamma"
+  },
+  "scripts": {
+    "test": "echo 'test'"
+  }
+}

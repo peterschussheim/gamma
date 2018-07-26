@@ -1,0 +1,26 @@
+{
+  "rules": [
+    {
+      "pathname": "/api",
+      "method": [
+        "POST"
+      ],
+      "dest": "api.gamma.app"
+    },
+    {
+      "pathname": "/subscriptions",
+      "dest": "api.gamma.app"
+    },
+    {
+      "pathname": "/confirm/**",
+      "dest": "api.gamma.app"
+    },
+    {
+      "pathname": "/auth/**",
+      "dest": "api.gamma.app"
+    },
+    {
+      "dest": "ui.gamma.app"
+    }
+  ]
+}

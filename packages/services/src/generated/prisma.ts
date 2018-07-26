@@ -5,6 +5,8 @@ import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'
 
 export interface Query {
     users: <T = User[]>(args: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    githubProfiles: <T = GithubProfile[]>(args: { where?: GithubProfileWhereInput, orderBy?: GithubProfileOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    accessTokens: <T = AccessToken[]>(args: { where?: AccessTokenWhereInput, orderBy?: AccessTokenOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     posts: <T = Post[]>(args: { where?: PostWhereInput, orderBy?: PostOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     tags: <T = Tag[]>(args: { where?: TagWhereInput, orderBy?: TagOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     comments: <T = Comment[]>(args: { where?: CommentWhereInput, orderBy?: CommentOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
@@ -13,6 +15,8 @@ export interface Query {
     messages: <T = Message[]>(args: { where?: MessageWhereInput, orderBy?: MessageOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     notifications: <T = Notification[]>(args: { where?: NotificationWhereInput, orderBy?: NotificationOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     user: <T = User | null>(args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    githubProfile: <T = GithubProfile | null>(args: { where: GithubProfileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    accessToken: <T = AccessToken | null>(args: { where: AccessTokenWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     post: <T = Post | null>(args: { where: PostWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     tag: <T = Tag | null>(args: { where: TagWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     comment: <T = Comment | null>(args: { where: CommentWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
@@ -21,6 +25,8 @@ export interface Query {
     message: <T = Message | null>(args: { where: MessageWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     notification: <T = Notification | null>(args: { where: NotificationWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     usersConnection: <T = UserConnection>(args: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    githubProfilesConnection: <T = GithubProfileConnection>(args: { where?: GithubProfileWhereInput, orderBy?: GithubProfileOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    accessTokensConnection: <T = AccessTokenConnection>(args: { where?: AccessTokenWhereInput, orderBy?: AccessTokenOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     postsConnection: <T = PostConnection>(args: { where?: PostWhereInput, orderBy?: PostOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     tagsConnection: <T = TagConnection>(args: { where?: TagWhereInput, orderBy?: TagOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     commentsConnection: <T = CommentConnection>(args: { where?: CommentWhereInput, orderBy?: CommentOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
@@ -33,6 +39,8 @@ export interface Query {
 
 export interface Mutation {
     createUser: <T = User>(args: { data: UserCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createGithubProfile: <T = GithubProfile>(args: { data: GithubProfileCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createAccessToken: <T = AccessToken>(args: { data: AccessTokenCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createPost: <T = Post>(args: { data: PostCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createTag: <T = Tag>(args: { data: TagCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createComment: <T = Comment>(args: { data: CommentCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
@@ -41,6 +49,8 @@ export interface Mutation {
     createMessage: <T = Message>(args: { data: MessageCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createNotification: <T = Notification>(args: { data: NotificationCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateUser: <T = User | null>(args: { data: UserUpdateInput, where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateGithubProfile: <T = GithubProfile | null>(args: { data: GithubProfileUpdateInput, where: GithubProfileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateAccessToken: <T = AccessToken | null>(args: { data: AccessTokenUpdateInput, where: AccessTokenWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updatePost: <T = Post | null>(args: { data: PostUpdateInput, where: PostWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateTag: <T = Tag | null>(args: { data: TagUpdateInput, where: TagWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateComment: <T = Comment | null>(args: { data: CommentUpdateInput, where: CommentWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
@@ -49,6 +59,8 @@ export interface Mutation {
     updateMessage: <T = Message | null>(args: { data: MessageUpdateInput, where: MessageWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateNotification: <T = Notification | null>(args: { data: NotificationUpdateInput, where: NotificationWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteUser: <T = User | null>(args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteGithubProfile: <T = GithubProfile | null>(args: { where: GithubProfileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteAccessToken: <T = AccessToken | null>(args: { where: AccessTokenWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deletePost: <T = Post | null>(args: { where: PostWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteTag: <T = Tag | null>(args: { where: TagWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteComment: <T = Comment | null>(args: { where: CommentWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
@@ -57,6 +69,8 @@ export interface Mutation {
     deleteMessage: <T = Message | null>(args: { where: MessageWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteNotification: <T = Notification | null>(args: { where: NotificationWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertUser: <T = User>(args: { where: UserWhereUniqueInput, create: UserCreateInput, update: UserUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertGithubProfile: <T = GithubProfile>(args: { where: GithubProfileWhereUniqueInput, create: GithubProfileCreateInput, update: GithubProfileUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertAccessToken: <T = AccessToken>(args: { where: AccessTokenWhereUniqueInput, create: AccessTokenCreateInput, update: AccessTokenUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertPost: <T = Post>(args: { where: PostWhereUniqueInput, create: PostCreateInput, update: PostUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertTag: <T = Tag>(args: { where: TagWhereUniqueInput, create: TagCreateInput, update: TagUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertComment: <T = Comment>(args: { where: CommentWhereUniqueInput, create: CommentCreateInput, update: CommentUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
@@ -65,6 +79,8 @@ export interface Mutation {
     upsertMessage: <T = Message>(args: { where: MessageWhereUniqueInput, create: MessageCreateInput, update: MessageUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertNotification: <T = Notification>(args: { where: NotificationWhereUniqueInput, create: NotificationCreateInput, update: NotificationUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyUsers: <T = BatchPayload>(args: { data: UserUpdateInput, where?: UserWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyGithubProfiles: <T = BatchPayload>(args: { data: GithubProfileUpdateInput, where?: GithubProfileWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyAccessTokens: <T = BatchPayload>(args: { data: AccessTokenUpdateInput, where?: AccessTokenWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyPosts: <T = BatchPayload>(args: { data: PostUpdateInput, where?: PostWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyTags: <T = BatchPayload>(args: { data: TagUpdateInput, where?: TagWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyComments: <T = BatchPayload>(args: { data: CommentUpdateInput, where?: CommentWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
@@ -73,6 +89,8 @@ export interface Mutation {
     updateManyMessages: <T = BatchPayload>(args: { data: MessageUpdateInput, where?: MessageWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyNotifications: <T = BatchPayload>(args: { data: NotificationUpdateInput, where?: NotificationWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyUsers: <T = BatchPayload>(args: { where?: UserWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyGithubProfiles: <T = BatchPayload>(args: { where?: GithubProfileWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyAccessTokens: <T = BatchPayload>(args: { where?: AccessTokenWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyPosts: <T = BatchPayload>(args: { where?: PostWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyTags: <T = BatchPayload>(args: { where?: TagWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyComments: <T = BatchPayload>(args: { where?: CommentWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
@@ -84,6 +102,8 @@ export interface Mutation {
 
 export interface Subscription {
     user: <T = UserSubscriptionPayload | null>(args: { where?: UserSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    githubProfile: <T = GithubProfileSubscriptionPayload | null>(args: { where?: GithubProfileSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    accessToken: <T = AccessTokenSubscriptionPayload | null>(args: { where?: AccessTokenSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
     post: <T = PostSubscriptionPayload | null>(args: { where?: PostSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
     tag: <T = TagSubscriptionPayload | null>(args: { where?: TagSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
     comment: <T = CommentSubscriptionPayload | null>(args: { where?: CommentSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
@@ -95,6 +115,8 @@ export interface Subscription {
 
 export interface Exists {
   User: (where?: UserWhereInput) => Promise<boolean>
+  GithubProfile: (where?: GithubProfileWhereInput) => Promise<boolean>
+  AccessToken: (where?: AccessTokenWhereInput) => Promise<boolean>
   Post: (where?: PostWhereInput) => Promise<boolean>
   Tag: (where?: TagWhereInput) => Promise<boolean>
   Comment: (where?: CommentWhereInput) => Promise<boolean>
@@ -126,7 +148,283 @@ export interface BindingConstructor<T> {
  * Type Defs
 */
 
-const typeDefs = `type AggregateComment {
+const typeDefs = `type AccessToken implements Node {
+  id: ID!
+  scopes: [String!]
+  token: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type AccessTokenConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [AccessTokenEdge]!
+  aggregate: AggregateAccessToken!
+}
+
+input AccessTokenCreateInput {
+  token: String!
+  scopes: AccessTokenCreatescopesInput
+}
+
+input AccessTokenCreateManyInput {
+  create: [AccessTokenCreateInput!]
+  connect: [AccessTokenWhereUniqueInput!]
+}
+
+input AccessTokenCreatescopesInput {
+  set: [String!]
+}
+
+"""An edge in a connection."""
+type AccessTokenEdge {
+  """The item at the end of the edge."""
+  node: AccessToken!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum AccessTokenOrderByInput {
+  id_ASC
+  id_DESC
+  token_ASC
+  token_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type AccessTokenPreviousValues {
+  id: ID!
+  scopes: [String!]
+  token: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type AccessTokenSubscriptionPayload {
+  mutation: MutationType!
+  node: AccessToken
+  updatedFields: [String!]
+  previousValues: AccessTokenPreviousValues
+}
+
+input AccessTokenSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [AccessTokenSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [AccessTokenSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [AccessTokenSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: AccessTokenWhereInput
+}
+
+input AccessTokenUpdateDataInput {
+  token: String
+  scopes: AccessTokenUpdatescopesInput
+}
+
+input AccessTokenUpdateInput {
+  token: String
+  scopes: AccessTokenUpdatescopesInput
+}
+
+input AccessTokenUpdateManyInput {
+  create: [AccessTokenCreateInput!]
+  connect: [AccessTokenWhereUniqueInput!]
+  disconnect: [AccessTokenWhereUniqueInput!]
+  delete: [AccessTokenWhereUniqueInput!]
+  update: [AccessTokenUpdateWithWhereUniqueNestedInput!]
+  upsert: [AccessTokenUpsertWithWhereUniqueNestedInput!]
+}
+
+input AccessTokenUpdatescopesInput {
+  set: [String!]
+}
+
+input AccessTokenUpdateWithWhereUniqueNestedInput {
+  where: AccessTokenWhereUniqueInput!
+  data: AccessTokenUpdateDataInput!
+}
+
+input AccessTokenUpsertWithWhereUniqueNestedInput {
+  where: AccessTokenWhereUniqueInput!
+  update: AccessTokenUpdateDataInput!
+  create: AccessTokenCreateInput!
+}
+
+input AccessTokenWhereInput {
+  """Logical AND on all given filters."""
+  AND: [AccessTokenWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [AccessTokenWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [AccessTokenWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  token: String
+
+  """All values that are not equal to given value."""
+  token_not: String
+
+  """All values that are contained in given list."""
+  token_in: [String!]
+
+  """All values that are not contained in given list."""
+  token_not_in: [String!]
+
+  """All values less than the given value."""
+  token_lt: String
+
+  """All values less than or equal the given value."""
+  token_lte: String
+
+  """All values greater than the given value."""
+  token_gt: String
+
+  """All values greater than or equal the given value."""
+  token_gte: String
+
+  """All values containing the given string."""
+  token_contains: String
+
+  """All values not containing the given string."""
+  token_not_contains: String
+
+  """All values starting with the given string."""
+  token_starts_with: String
+
+  """All values not starting with the given string."""
+  token_not_starts_with: String
+
+  """All values ending with the given string."""
+  token_ends_with: String
+
+  """All values not ending with the given string."""
+  token_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+}
+
+input AccessTokenWhereUniqueInput {
+  id: ID
+}
+
+type AggregateAccessToken {
+  count: Int!
+}
+
+type AggregateComment {
   count: Int!
 }
 
@@ -135,6 +433,10 @@ type AggregateDirectory {
 }
 
 type AggregateFile {
+  count: Int!
+}
+
+type AggregateGithubProfile {
   count: Int!
 }
 
@@ -1365,6 +1667,553 @@ input FileWhereUniqueInput {
   s3Url: String
 }
 
+type GithubProfile {
+  profileOwner(where: UserWhereInput): User
+  login: String!
+  githubUserId: Int!
+  node_id: String!
+  name: String
+  bio: String
+  website: String
+  githubEmail: String!
+  profilePhoto: String
+  accessTokens(where: AccessTokenWhereInput, orderBy: AccessTokenOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AccessToken!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type GithubProfileConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [GithubProfileEdge]!
+  aggregate: AggregateGithubProfile!
+}
+
+input GithubProfileCreateInput {
+  login: String!
+  githubUserId: Int!
+  node_id: String!
+  name: String
+  bio: String
+  website: String
+  githubEmail: String!
+  profilePhoto: String
+  profileOwner: UserCreateOneWithoutGithubProfileInput
+  accessTokens: AccessTokenCreateManyInput
+}
+
+input GithubProfileCreateOneWithoutProfileOwnerInput {
+  create: GithubProfileCreateWithoutProfileOwnerInput
+  connect: GithubProfileWhereUniqueInput
+}
+
+input GithubProfileCreateWithoutProfileOwnerInput {
+  login: String!
+  githubUserId: Int!
+  node_id: String!
+  name: String
+  bio: String
+  website: String
+  githubEmail: String!
+  profilePhoto: String
+  accessTokens: AccessTokenCreateManyInput
+}
+
+"""An edge in a connection."""
+type GithubProfileEdge {
+  """The item at the end of the edge."""
+  node: GithubProfile!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum GithubProfileOrderByInput {
+  login_ASC
+  login_DESC
+  githubUserId_ASC
+  githubUserId_DESC
+  node_id_ASC
+  node_id_DESC
+  name_ASC
+  name_DESC
+  bio_ASC
+  bio_DESC
+  website_ASC
+  website_DESC
+  githubEmail_ASC
+  githubEmail_DESC
+  profilePhoto_ASC
+  profilePhoto_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  id_ASC
+  id_DESC
+}
+
+type GithubProfilePreviousValues {
+  login: String!
+  githubUserId: Int!
+  node_id: String!
+  name: String
+  bio: String
+  website: String
+  githubEmail: String!
+  profilePhoto: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type GithubProfileSubscriptionPayload {
+  mutation: MutationType!
+  node: GithubProfile
+  updatedFields: [String!]
+  previousValues: GithubProfilePreviousValues
+}
+
+input GithubProfileSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [GithubProfileSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [GithubProfileSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [GithubProfileSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: GithubProfileWhereInput
+}
+
+input GithubProfileUpdateInput {
+  login: String
+  githubUserId: Int
+  node_id: String
+  name: String
+  bio: String
+  website: String
+  githubEmail: String
+  profilePhoto: String
+  profileOwner: UserUpdateOneWithoutGithubProfileInput
+  accessTokens: AccessTokenUpdateManyInput
+}
+
+input GithubProfileUpdateOneWithoutProfileOwnerInput {
+  create: GithubProfileCreateWithoutProfileOwnerInput
+  connect: GithubProfileWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: GithubProfileUpdateWithoutProfileOwnerDataInput
+  upsert: GithubProfileUpsertWithoutProfileOwnerInput
+}
+
+input GithubProfileUpdateWithoutProfileOwnerDataInput {
+  login: String
+  githubUserId: Int
+  node_id: String
+  name: String
+  bio: String
+  website: String
+  githubEmail: String
+  profilePhoto: String
+  accessTokens: AccessTokenUpdateManyInput
+}
+
+input GithubProfileUpsertWithoutProfileOwnerInput {
+  update: GithubProfileUpdateWithoutProfileOwnerDataInput!
+  create: GithubProfileCreateWithoutProfileOwnerInput!
+}
+
+input GithubProfileWhereInput {
+  """Logical AND on all given filters."""
+  AND: [GithubProfileWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [GithubProfileWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [GithubProfileWhereInput!]
+  login: String
+
+  """All values that are not equal to given value."""
+  login_not: String
+
+  """All values that are contained in given list."""
+  login_in: [String!]
+
+  """All values that are not contained in given list."""
+  login_not_in: [String!]
+
+  """All values less than the given value."""
+  login_lt: String
+
+  """All values less than or equal the given value."""
+  login_lte: String
+
+  """All values greater than the given value."""
+  login_gt: String
+
+  """All values greater than or equal the given value."""
+  login_gte: String
+
+  """All values containing the given string."""
+  login_contains: String
+
+  """All values not containing the given string."""
+  login_not_contains: String
+
+  """All values starting with the given string."""
+  login_starts_with: String
+
+  """All values not starting with the given string."""
+  login_not_starts_with: String
+
+  """All values ending with the given string."""
+  login_ends_with: String
+
+  """All values not ending with the given string."""
+  login_not_ends_with: String
+  githubUserId: Int
+
+  """All values that are not equal to given value."""
+  githubUserId_not: Int
+
+  """All values that are contained in given list."""
+  githubUserId_in: [Int!]
+
+  """All values that are not contained in given list."""
+  githubUserId_not_in: [Int!]
+
+  """All values less than the given value."""
+  githubUserId_lt: Int
+
+  """All values less than or equal the given value."""
+  githubUserId_lte: Int
+
+  """All values greater than the given value."""
+  githubUserId_gt: Int
+
+  """All values greater than or equal the given value."""
+  githubUserId_gte: Int
+  node_id: String
+
+  """All values that are not equal to given value."""
+  node_id_not: String
+
+  """All values that are contained in given list."""
+  node_id_in: [String!]
+
+  """All values that are not contained in given list."""
+  node_id_not_in: [String!]
+
+  """All values less than the given value."""
+  node_id_lt: String
+
+  """All values less than or equal the given value."""
+  node_id_lte: String
+
+  """All values greater than the given value."""
+  node_id_gt: String
+
+  """All values greater than or equal the given value."""
+  node_id_gte: String
+
+  """All values containing the given string."""
+  node_id_contains: String
+
+  """All values not containing the given string."""
+  node_id_not_contains: String
+
+  """All values starting with the given string."""
+  node_id_starts_with: String
+
+  """All values not starting with the given string."""
+  node_id_not_starts_with: String
+
+  """All values ending with the given string."""
+  node_id_ends_with: String
+
+  """All values not ending with the given string."""
+  node_id_not_ends_with: String
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  bio: String
+
+  """All values that are not equal to given value."""
+  bio_not: String
+
+  """All values that are contained in given list."""
+  bio_in: [String!]
+
+  """All values that are not contained in given list."""
+  bio_not_in: [String!]
+
+  """All values less than the given value."""
+  bio_lt: String
+
+  """All values less than or equal the given value."""
+  bio_lte: String
+
+  """All values greater than the given value."""
+  bio_gt: String
+
+  """All values greater than or equal the given value."""
+  bio_gte: String
+
+  """All values containing the given string."""
+  bio_contains: String
+
+  """All values not containing the given string."""
+  bio_not_contains: String
+
+  """All values starting with the given string."""
+  bio_starts_with: String
+
+  """All values not starting with the given string."""
+  bio_not_starts_with: String
+
+  """All values ending with the given string."""
+  bio_ends_with: String
+
+  """All values not ending with the given string."""
+  bio_not_ends_with: String
+  website: String
+
+  """All values that are not equal to given value."""
+  website_not: String
+
+  """All values that are contained in given list."""
+  website_in: [String!]
+
+  """All values that are not contained in given list."""
+  website_not_in: [String!]
+
+  """All values less than the given value."""
+  website_lt: String
+
+  """All values less than or equal the given value."""
+  website_lte: String
+
+  """All values greater than the given value."""
+  website_gt: String
+
+  """All values greater than or equal the given value."""
+  website_gte: String
+
+  """All values containing the given string."""
+  website_contains: String
+
+  """All values not containing the given string."""
+  website_not_contains: String
+
+  """All values starting with the given string."""
+  website_starts_with: String
+
+  """All values not starting with the given string."""
+  website_not_starts_with: String
+
+  """All values ending with the given string."""
+  website_ends_with: String
+
+  """All values not ending with the given string."""
+  website_not_ends_with: String
+  githubEmail: String
+
+  """All values that are not equal to given value."""
+  githubEmail_not: String
+
+  """All values that are contained in given list."""
+  githubEmail_in: [String!]
+
+  """All values that are not contained in given list."""
+  githubEmail_not_in: [String!]
+
+  """All values less than the given value."""
+  githubEmail_lt: String
+
+  """All values less than or equal the given value."""
+  githubEmail_lte: String
+
+  """All values greater than the given value."""
+  githubEmail_gt: String
+
+  """All values greater than or equal the given value."""
+  githubEmail_gte: String
+
+  """All values containing the given string."""
+  githubEmail_contains: String
+
+  """All values not containing the given string."""
+  githubEmail_not_contains: String
+
+  """All values starting with the given string."""
+  githubEmail_starts_with: String
+
+  """All values not starting with the given string."""
+  githubEmail_not_starts_with: String
+
+  """All values ending with the given string."""
+  githubEmail_ends_with: String
+
+  """All values not ending with the given string."""
+  githubEmail_not_ends_with: String
+  profilePhoto: String
+
+  """All values that are not equal to given value."""
+  profilePhoto_not: String
+
+  """All values that are contained in given list."""
+  profilePhoto_in: [String!]
+
+  """All values that are not contained in given list."""
+  profilePhoto_not_in: [String!]
+
+  """All values less than the given value."""
+  profilePhoto_lt: String
+
+  """All values less than or equal the given value."""
+  profilePhoto_lte: String
+
+  """All values greater than the given value."""
+  profilePhoto_gt: String
+
+  """All values greater than or equal the given value."""
+  profilePhoto_gte: String
+
+  """All values containing the given string."""
+  profilePhoto_contains: String
+
+  """All values not containing the given string."""
+  profilePhoto_not_contains: String
+
+  """All values starting with the given string."""
+  profilePhoto_starts_with: String
+
+  """All values not starting with the given string."""
+  profilePhoto_not_starts_with: String
+
+  """All values ending with the given string."""
+  profilePhoto_ends_with: String
+
+  """All values not ending with the given string."""
+  profilePhoto_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  profileOwner: UserWhereInput
+  accessTokens_every: AccessTokenWhereInput
+  accessTokens_some: AccessTokenWhereInput
+  accessTokens_none: AccessTokenWhereInput
+}
+
+input GithubProfileWhereUniqueInput {
+  login: String
+  githubUserId: Int
+  githubEmail: String
+}
+
 """
 The \`Long\` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -1671,6 +2520,8 @@ input MessageWhereUniqueInput {
 
 type Mutation {
   createUser(data: UserCreateInput!): User!
+  createGithubProfile(data: GithubProfileCreateInput!): GithubProfile!
+  createAccessToken(data: AccessTokenCreateInput!): AccessToken!
   createPost(data: PostCreateInput!): Post!
   createTag(data: TagCreateInput!): Tag!
   createComment(data: CommentCreateInput!): Comment!
@@ -1679,6 +2530,8 @@ type Mutation {
   createMessage(data: MessageCreateInput!): Message!
   createNotification(data: NotificationCreateInput!): Notification!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateGithubProfile(data: GithubProfileUpdateInput!, where: GithubProfileWhereUniqueInput!): GithubProfile
+  updateAccessToken(data: AccessTokenUpdateInput!, where: AccessTokenWhereUniqueInput!): AccessToken
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateTag(data: TagUpdateInput!, where: TagWhereUniqueInput!): Tag
   updateComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
@@ -1687,6 +2540,8 @@ type Mutation {
   updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message
   updateNotification(data: NotificationUpdateInput!, where: NotificationWhereUniqueInput!): Notification
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteGithubProfile(where: GithubProfileWhereUniqueInput!): GithubProfile
+  deleteAccessToken(where: AccessTokenWhereUniqueInput!): AccessToken
   deletePost(where: PostWhereUniqueInput!): Post
   deleteTag(where: TagWhereUniqueInput!): Tag
   deleteComment(where: CommentWhereUniqueInput!): Comment
@@ -1695,6 +2550,8 @@ type Mutation {
   deleteMessage(where: MessageWhereUniqueInput!): Message
   deleteNotification(where: NotificationWhereUniqueInput!): Notification
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertGithubProfile(where: GithubProfileWhereUniqueInput!, create: GithubProfileCreateInput!, update: GithubProfileUpdateInput!): GithubProfile!
+  upsertAccessToken(where: AccessTokenWhereUniqueInput!, create: AccessTokenCreateInput!, update: AccessTokenUpdateInput!): AccessToken!
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   upsertTag(where: TagWhereUniqueInput!, create: TagCreateInput!, update: TagUpdateInput!): Tag!
   upsertComment(where: CommentWhereUniqueInput!, create: CommentCreateInput!, update: CommentUpdateInput!): Comment!
@@ -1703,6 +2560,8 @@ type Mutation {
   upsertMessage(where: MessageWhereUniqueInput!, create: MessageCreateInput!, update: MessageUpdateInput!): Message!
   upsertNotification(where: NotificationWhereUniqueInput!, create: NotificationCreateInput!, update: NotificationUpdateInput!): Notification!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyGithubProfiles(data: GithubProfileUpdateInput!, where: GithubProfileWhereInput): BatchPayload!
+  updateManyAccessTokens(data: AccessTokenUpdateInput!, where: AccessTokenWhereInput): BatchPayload!
   updateManyPosts(data: PostUpdateInput!, where: PostWhereInput): BatchPayload!
   updateManyTags(data: TagUpdateInput!, where: TagWhereInput): BatchPayload!
   updateManyComments(data: CommentUpdateInput!, where: CommentWhereInput): BatchPayload!
@@ -1711,6 +2570,8 @@ type Mutation {
   updateManyMessages(data: MessageUpdateInput!, where: MessageWhereInput): BatchPayload!
   updateManyNotifications(data: NotificationUpdateInput!, where: NotificationWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyGithubProfiles(where: GithubProfileWhereInput): BatchPayload!
+  deleteManyAccessTokens(where: AccessTokenWhereInput): BatchPayload!
   deleteManyPosts(where: PostWhereInput): BatchPayload!
   deleteManyTags(where: TagWhereInput): BatchPayload!
   deleteManyComments(where: CommentWhereInput): BatchPayload!
@@ -2377,6 +3238,8 @@ input PostWhereUniqueInput {
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  githubProfiles(where: GithubProfileWhereInput, orderBy: GithubProfileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GithubProfile]!
+  accessTokens(where: AccessTokenWhereInput, orderBy: AccessTokenOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AccessToken]!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
   tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag]!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment]!
@@ -2385,6 +3248,8 @@ type Query {
   messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message]!
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification]!
   user(where: UserWhereUniqueInput!): User
+  githubProfile(where: GithubProfileWhereUniqueInput!): GithubProfile
+  accessToken(where: AccessTokenWhereUniqueInput!): AccessToken
   post(where: PostWhereUniqueInput!): Post
   tag(where: TagWhereUniqueInput!): Tag
   comment(where: CommentWhereUniqueInput!): Comment
@@ -2393,6 +3258,8 @@ type Query {
   message(where: MessageWhereUniqueInput!): Message
   notification(where: NotificationWhereUniqueInput!): Notification
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  githubProfilesConnection(where: GithubProfileWhereInput, orderBy: GithubProfileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GithubProfileConnection!
+  accessTokensConnection(where: AccessTokenWhereInput, orderBy: AccessTokenOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AccessTokenConnection!
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
   tagsConnection(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TagConnection!
   commentsConnection(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection!
@@ -2410,6 +3277,8 @@ type Query {
 
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  githubProfile(where: GithubProfileSubscriptionWhereInput): GithubProfileSubscriptionPayload
+  accessToken(where: AccessTokenSubscriptionWhereInput): AccessTokenSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   tag(where: TagSubscriptionWhereInput): TagSubscriptionPayload
   comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
@@ -2635,14 +3504,14 @@ type User implements Node {
   email: String!
   password: String!
   name: String
+  githubProfile(where: GithubProfileWhereInput): GithubProfile
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
-  resetToken: String
-  resetTokenExpiry: String
-  permissions: [PERMISSION!]
-  connectedWithGithub: Boolean!
   sentMessages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
   receivedMessages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
+  resetToken: String
+  resetTokenExpiry: String
+  permissions: [PERMISSION!]
   emailConfirmed: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -2664,9 +3533,9 @@ input UserCreateInput {
   name: String
   resetToken: String
   resetTokenExpiry: String
-  connectedWithGithub: Boolean
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   posts: PostCreateManyWithoutAuthorInput
   sentMessages: MessageCreateManyWithoutFromInput
   receivedMessages: MessageCreateManyWithoutToInput
@@ -2675,6 +3544,11 @@ input UserCreateInput {
 
 input UserCreateOneInput {
   create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutGithubProfileInput {
+  create: UserCreateWithoutGithubProfileInput
   connect: UserWhereUniqueInput
 }
 
@@ -2702,15 +3576,29 @@ input UserCreatepermissionsInput {
   set: [PERMISSION!]
 }
 
+input UserCreateWithoutGithubProfileInput {
+  email: String!
+  password: String!
+  name: String
+  resetToken: String
+  resetTokenExpiry: String
+  emailConfirmed: Boolean
+  permissions: UserCreatepermissionsInput
+  posts: PostCreateManyWithoutAuthorInput
+  sentMessages: MessageCreateManyWithoutFromInput
+  receivedMessages: MessageCreateManyWithoutToInput
+  notifications: NotificationCreateManyWithoutUserInput
+}
+
 input UserCreateWithoutNotificationsInput {
   email: String!
   password: String!
   name: String
   resetToken: String
   resetTokenExpiry: String
-  connectedWithGithub: Boolean
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   posts: PostCreateManyWithoutAuthorInput
   sentMessages: MessageCreateManyWithoutFromInput
   receivedMessages: MessageCreateManyWithoutToInput
@@ -2722,9 +3610,9 @@ input UserCreateWithoutPostsInput {
   name: String
   resetToken: String
   resetTokenExpiry: String
-  connectedWithGithub: Boolean
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   sentMessages: MessageCreateManyWithoutFromInput
   receivedMessages: MessageCreateManyWithoutToInput
   notifications: NotificationCreateManyWithoutUserInput
@@ -2736,9 +3624,9 @@ input UserCreateWithoutReceivedMessagesInput {
   name: String
   resetToken: String
   resetTokenExpiry: String
-  connectedWithGithub: Boolean
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   posts: PostCreateManyWithoutAuthorInput
   sentMessages: MessageCreateManyWithoutFromInput
   notifications: NotificationCreateManyWithoutUserInput
@@ -2750,9 +3638,9 @@ input UserCreateWithoutSentMessagesInput {
   name: String
   resetToken: String
   resetTokenExpiry: String
-  connectedWithGithub: Boolean
   emailConfirmed: Boolean
   permissions: UserCreatepermissionsInput
+  githubProfile: GithubProfileCreateOneWithoutProfileOwnerInput
   posts: PostCreateManyWithoutAuthorInput
   receivedMessages: MessageCreateManyWithoutToInput
   notifications: NotificationCreateManyWithoutUserInput
@@ -2780,8 +3668,6 @@ enum UserOrderByInput {
   resetToken_DESC
   resetTokenExpiry_ASC
   resetTokenExpiry_DESC
-  connectedWithGithub_ASC
-  connectedWithGithub_DESC
   emailConfirmed_ASC
   emailConfirmed_DESC
   createdAt_ASC
@@ -2798,7 +3684,6 @@ type UserPreviousValues {
   resetToken: String
   resetTokenExpiry: String
   permissions: [PERMISSION!]
-  connectedWithGithub: Boolean!
   emailConfirmed: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -2849,9 +3734,9 @@ input UserUpdateDataInput {
   name: String
   resetToken: String
   resetTokenExpiry: String
-  connectedWithGithub: Boolean
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   sentMessages: MessageUpdateManyWithoutFromInput
   receivedMessages: MessageUpdateManyWithoutToInput
@@ -2864,9 +3749,9 @@ input UserUpdateInput {
   name: String
   resetToken: String
   resetTokenExpiry: String
-  connectedWithGithub: Boolean
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   sentMessages: MessageUpdateManyWithoutFromInput
   receivedMessages: MessageUpdateManyWithoutToInput
@@ -2879,6 +3764,15 @@ input UserUpdateOneInput {
   delete: Boolean
   update: UserUpdateDataInput
   upsert: UserUpsertNestedInput
+}
+
+input UserUpdateOneWithoutGithubProfileInput {
+  create: UserCreateWithoutGithubProfileInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateWithoutGithubProfileDataInput
+  upsert: UserUpsertWithoutGithubProfileInput
 }
 
 input UserUpdateOneWithoutNotificationsInput {
@@ -2917,15 +3811,29 @@ input UserUpdatepermissionsInput {
   set: [PERMISSION!]
 }
 
+input UserUpdateWithoutGithubProfileDataInput {
+  email: String
+  password: String
+  name: String
+  resetToken: String
+  resetTokenExpiry: String
+  emailConfirmed: Boolean
+  permissions: UserUpdatepermissionsInput
+  posts: PostUpdateManyWithoutAuthorInput
+  sentMessages: MessageUpdateManyWithoutFromInput
+  receivedMessages: MessageUpdateManyWithoutToInput
+  notifications: NotificationUpdateManyWithoutUserInput
+}
+
 input UserUpdateWithoutNotificationsDataInput {
   email: String
   password: String
   name: String
   resetToken: String
   resetTokenExpiry: String
-  connectedWithGithub: Boolean
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   sentMessages: MessageUpdateManyWithoutFromInput
   receivedMessages: MessageUpdateManyWithoutToInput
@@ -2937,9 +3845,9 @@ input UserUpdateWithoutPostsDataInput {
   name: String
   resetToken: String
   resetTokenExpiry: String
-  connectedWithGithub: Boolean
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   sentMessages: MessageUpdateManyWithoutFromInput
   receivedMessages: MessageUpdateManyWithoutToInput
   notifications: NotificationUpdateManyWithoutUserInput
@@ -2951,9 +3859,9 @@ input UserUpdateWithoutReceivedMessagesDataInput {
   name: String
   resetToken: String
   resetTokenExpiry: String
-  connectedWithGithub: Boolean
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   sentMessages: MessageUpdateManyWithoutFromInput
   notifications: NotificationUpdateManyWithoutUserInput
@@ -2965,9 +3873,9 @@ input UserUpdateWithoutSentMessagesDataInput {
   name: String
   resetToken: String
   resetTokenExpiry: String
-  connectedWithGithub: Boolean
   emailConfirmed: Boolean
   permissions: UserUpdatepermissionsInput
+  githubProfile: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts: PostUpdateManyWithoutAuthorInput
   receivedMessages: MessageUpdateManyWithoutToInput
   notifications: NotificationUpdateManyWithoutUserInput
@@ -2976,6 +3884,11 @@ input UserUpdateWithoutSentMessagesDataInput {
 input UserUpsertNestedInput {
   update: UserUpdateDataInput!
   create: UserCreateInput!
+}
+
+input UserUpsertWithoutGithubProfileInput {
+  update: UserUpdateWithoutGithubProfileDataInput!
+  create: UserCreateWithoutGithubProfileInput!
 }
 
 input UserUpsertWithoutNotificationsInput {
@@ -3247,10 +4160,6 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   resetTokenExpiry_not_ends_with: String
-  connectedWithGithub: Boolean
-
-  """All values that are not equal to given value."""
-  connectedWithGithub_not: Boolean
   emailConfirmed: Boolean
 
   """All values that are not equal to given value."""
@@ -3299,6 +4208,7 @@ input UserWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
+  githubProfile: GithubProfileWhereInput
   posts_every: PostWhereInput
   posts_some: PostWhereInput
   posts_none: PostWhereInput
@@ -3330,17 +4240,31 @@ export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({typeDe
  * Types
 */
 
-export type CommentOrderByInput =   'id_ASC' |
-  'id_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'content_ASC' |
-  'content_DESC'
+export type VISIBILITY =   'PRIVATE' |
+  'PUBLIC'
 
 export type NOTIFICATION_TYPE =   'NEW_MESSAGE' |
   'NEW_COMMENT'
+
+export type TagOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'text_ASC' |
+  'text_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
+
+export type DirectoryOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'name_ASC' |
+  'name_DESC' |
+  'isOpen_ASC' |
+  'isOpen_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC'
 
 export type FILE_TYPE =   'JAVASCRIPT' |
   'TYPESCRIPT' |
@@ -3360,16 +4284,12 @@ export type FILE_TYPE =   'JAVASCRIPT' |
   'TOML' |
   'UNKNOWN'
 
-export type DirectoryOrderByInput =   'id_ASC' |
-  'id_DESC' |
-  'name_ASC' |
-  'name_DESC' |
-  'isOpen_ASC' |
-  'isOpen_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC'
+export type PERMISSION =   'ADMIN' |
+  'USER' |
+  'CREATE' |
+  'UPDATE' |
+  'DELETE' |
+  'CHANGE_PERMISSIONS'
 
 export type UserOrderByInput =   'id_ASC' |
   'id_DESC' |
@@ -3383,10 +4303,17 @@ export type UserOrderByInput =   'id_ASC' |
   'resetToken_DESC' |
   'resetTokenExpiry_ASC' |
   'resetTokenExpiry_DESC' |
-  'connectedWithGithub_ASC' |
-  'connectedWithGithub_DESC' |
   'emailConfirmed_ASC' |
   'emailConfirmed_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC'
+
+export type AccessTokenOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'token_ASC' |
+  'token_DESC' |
   'createdAt_ASC' |
   'createdAt_DESC' |
   'updatedAt_ASC' |
@@ -3432,15 +4359,6 @@ export type FileOrderByInput =   'id_ASC' |
   'updatedAt_ASC' |
   'updatedAt_DESC'
 
-export type TagOrderByInput =   'id_ASC' |
-  'id_DESC' |
-  'text_ASC' |
-  'text_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC'
-
 export type NotificationOrderByInput =   'id_ASC' |
   'id_DESC' |
   'createdAt_ASC' |
@@ -3454,19 +4372,41 @@ export type NotificationOrderByInput =   'id_ASC' |
   'updatedAt_ASC' |
   'updatedAt_DESC'
 
+export type GithubProfileOrderByInput =   'login_ASC' |
+  'login_DESC' |
+  'githubUserId_ASC' |
+  'githubUserId_DESC' |
+  'node_id_ASC' |
+  'node_id_DESC' |
+  'name_ASC' |
+  'name_DESC' |
+  'bio_ASC' |
+  'bio_DESC' |
+  'website_ASC' |
+  'website_DESC' |
+  'githubEmail_ASC' |
+  'githubEmail_DESC' |
+  'profilePhoto_ASC' |
+  'profilePhoto_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'id_ASC' |
+  'id_DESC'
+
 export type MutationType =   'CREATED' |
   'UPDATED' |
   'DELETED'
 
-export type PERMISSION =   'ADMIN' |
-  'USER' |
-  'CREATE' |
-  'UPDATE' |
-  'DELETE' |
-  'CHANGE_PERMISSIONS'
-
-export type VISIBILITY =   'PRIVATE' |
-  'PUBLIC'
+export type CommentOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'content_ASC' |
+  'content_DESC'
 
 export type MessageOrderByInput =   'id_ASC' |
   'id_DESC' |
@@ -3479,12 +4419,9 @@ export type MessageOrderByInput =   'id_ASC' |
   'updatedAt_ASC' |
   'updatedAt_DESC'
 
-export interface PostCreateWithoutCommentsInput {
-  visibility?: VISIBILITY
-  views?: Int
-  author: UserCreateOneWithoutPostsInput
-  content: FileCreateOneInput
-  tags?: TagCreateManyInput
+export interface PostCreateOneWithoutCommentsInput {
+  create?: PostCreateWithoutCommentsInput
+  connect?: PostWhereUniqueInput
 }
 
 export interface UserWhereInput {
@@ -3575,8 +4512,6 @@ export interface UserWhereInput {
   resetTokenExpiry_not_starts_with?: String
   resetTokenExpiry_ends_with?: String
   resetTokenExpiry_not_ends_with?: String
-  connectedWithGithub?: Boolean
-  connectedWithGithub_not?: Boolean
   emailConfirmed?: Boolean
   emailConfirmed_not?: Boolean
   createdAt?: DateTime
@@ -3595,6 +4530,7 @@ export interface UserWhereInput {
   updatedAt_lte?: DateTime
   updatedAt_gt?: DateTime
   updatedAt_gte?: DateTime
+  githubProfile?: GithubProfileWhereInput
   posts_every?: PostWhereInput
   posts_some?: PostWhereInput
   posts_none?: PostWhereInput
@@ -3609,19 +4545,18 @@ export interface UserWhereInput {
   notifications_none?: NotificationWhereInput
 }
 
-export interface UserUpdateInput {
-  email?: String
-  password?: String
+export interface UserCreateWithoutNotificationsInput {
+  email: String
+  password: String
   name?: String
   resetToken?: String
   resetTokenExpiry?: String
-  connectedWithGithub?: Boolean
   emailConfirmed?: Boolean
-  permissions?: UserUpdatepermissionsInput
-  posts?: PostUpdateManyWithoutAuthorInput
-  sentMessages?: MessageUpdateManyWithoutFromInput
-  receivedMessages?: MessageUpdateManyWithoutToInput
-  notifications?: NotificationUpdateManyWithoutUserInput
+  permissions?: UserCreatepermissionsInput
+  githubProfile?: GithubProfileCreateOneWithoutProfileOwnerInput
+  posts?: PostCreateManyWithoutAuthorInput
+  sentMessages?: MessageCreateManyWithoutFromInput
+  receivedMessages?: MessageCreateManyWithoutToInput
 }
 
 export interface NotificationWhereInput {
@@ -3679,61 +4614,154 @@ export interface NotificationWhereInput {
   user?: UserWhereInput
 }
 
+export interface DirectoryCreateOneWithoutChildrenInput {
+  create?: DirectoryCreateWithoutChildrenInput
+  connect?: DirectoryWhereUniqueInput
+}
+
+export interface MessageUpdateManyWithoutToInput {
+  create?: MessageCreateWithoutToInput[] | MessageCreateWithoutToInput
+  connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+  disconnect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+  delete?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+  update?: MessageUpdateWithWhereUniqueWithoutToInput[] | MessageUpdateWithWhereUniqueWithoutToInput
+  upsert?: MessageUpsertWithWhereUniqueWithoutToInput[] | MessageUpsertWithWhereUniqueWithoutToInput
+}
+
+export interface DirectoryCreateWithoutChildrenInput {
+  name?: String
+  isOpen?: Boolean
+}
+
+export interface UserUpdateInput {
+  email?: String
+  password?: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserUpdatepermissionsInput
+  githubProfile?: GithubProfileUpdateOneWithoutProfileOwnerInput
+  posts?: PostUpdateManyWithoutAuthorInput
+  sentMessages?: MessageUpdateManyWithoutFromInput
+  receivedMessages?: MessageUpdateManyWithoutToInput
+  notifications?: NotificationUpdateManyWithoutUserInput
+}
+
+export interface TagCreateManyInput {
+  create?: TagCreateInput[] | TagCreateInput
+  connect?: TagWhereUniqueInput[] | TagWhereUniqueInput
+}
+
+export interface CommentWhereInput {
+  AND?: CommentWhereInput[] | CommentWhereInput
+  OR?: CommentWhereInput[] | CommentWhereInput
+  NOT?: CommentWhereInput[] | CommentWhereInput
+  id?: ID_Input
+  id_not?: ID_Input
+  id_in?: ID_Input[] | ID_Input
+  id_not_in?: ID_Input[] | ID_Input
+  id_lt?: ID_Input
+  id_lte?: ID_Input
+  id_gt?: ID_Input
+  id_gte?: ID_Input
+  id_contains?: ID_Input
+  id_not_contains?: ID_Input
+  id_starts_with?: ID_Input
+  id_not_starts_with?: ID_Input
+  id_ends_with?: ID_Input
+  id_not_ends_with?: ID_Input
+  createdAt?: DateTime
+  createdAt_not?: DateTime
+  createdAt_in?: DateTime[] | DateTime
+  createdAt_not_in?: DateTime[] | DateTime
+  createdAt_lt?: DateTime
+  createdAt_lte?: DateTime
+  createdAt_gt?: DateTime
+  createdAt_gte?: DateTime
+  updatedAt?: DateTime
+  updatedAt_not?: DateTime
+  updatedAt_in?: DateTime[] | DateTime
+  updatedAt_not_in?: DateTime[] | DateTime
+  updatedAt_lt?: DateTime
+  updatedAt_lte?: DateTime
+  updatedAt_gt?: DateTime
+  updatedAt_gte?: DateTime
+  content?: String
+  content_not?: String
+  content_in?: String[] | String
+  content_not_in?: String[] | String
+  content_lt?: String
+  content_lte?: String
+  content_gt?: String
+  content_gte?: String
+  content_contains?: String
+  content_not_contains?: String
+  content_starts_with?: String
+  content_not_starts_with?: String
+  content_ends_with?: String
+  content_not_ends_with?: String
+  author?: UserWhereInput
+  post?: PostWhereInput
+}
+
+export interface TagCreateInput {
+  text: String
+}
+
+export interface TagWhereInput {
+  AND?: TagWhereInput[] | TagWhereInput
+  OR?: TagWhereInput[] | TagWhereInput
+  NOT?: TagWhereInput[] | TagWhereInput
+  id?: ID_Input
+  id_not?: ID_Input
+  id_in?: ID_Input[] | ID_Input
+  id_not_in?: ID_Input[] | ID_Input
+  id_lt?: ID_Input
+  id_lte?: ID_Input
+  id_gt?: ID_Input
+  id_gte?: ID_Input
+  id_contains?: ID_Input
+  id_not_contains?: ID_Input
+  id_starts_with?: ID_Input
+  id_not_starts_with?: ID_Input
+  id_ends_with?: ID_Input
+  id_not_ends_with?: ID_Input
+  text?: String
+  text_not?: String
+  text_in?: String[] | String
+  text_not_in?: String[] | String
+  text_lt?: String
+  text_lte?: String
+  text_gt?: String
+  text_gte?: String
+  text_contains?: String
+  text_not_contains?: String
+  text_starts_with?: String
+  text_not_starts_with?: String
+  text_ends_with?: String
+  text_not_ends_with?: String
+}
+
 export interface CommentCreateManyWithoutPostInput {
   create?: CommentCreateWithoutPostInput[] | CommentCreateWithoutPostInput
   connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput
 }
 
-export interface MessageUpdateWithWhereUniqueWithoutToInput {
-  where: MessageWhereUniqueInput
-  data: MessageUpdateWithoutToDataInput
+export interface FileSubscriptionWhereInput {
+  AND?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
+  OR?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
+  NOT?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: FileWhereInput
 }
 
 export interface CommentCreateWithoutPostInput {
   content?: String
   author: UserCreateOneInput
-}
-
-export interface UserUpdatepermissionsInput {
-  set?: PERMISSION[] | PERMISSION
-}
-
-export interface UserCreateOneInput {
-  create?: UserCreateInput
-  connect?: UserWhereUniqueInput
-}
-
-export interface NotificationSubscriptionWhereInput {
-  AND?: NotificationSubscriptionWhereInput[] | NotificationSubscriptionWhereInput
-  OR?: NotificationSubscriptionWhereInput[] | NotificationSubscriptionWhereInput
-  NOT?: NotificationSubscriptionWhereInput[] | NotificationSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: NotificationWhereInput
-}
-
-export interface MessageCreateManyWithoutFromInput {
-  create?: MessageCreateWithoutFromInput[] | MessageCreateWithoutFromInput
-  connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-}
-
-export interface DirectorySubscriptionWhereInput {
-  AND?: DirectorySubscriptionWhereInput[] | DirectorySubscriptionWhereInput
-  OR?: DirectorySubscriptionWhereInput[] | DirectorySubscriptionWhereInput
-  NOT?: DirectorySubscriptionWhereInput[] | DirectorySubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: DirectoryWhereInput
-}
-
-export interface MessageCreateWithoutFromInput {
-  deliveredAt: DateTime
-  readAt?: DateTime
-  to: UserCreateOneWithoutReceivedMessagesInput
 }
 
 export interface DirectoryWhereInput {
@@ -3791,9 +4819,557 @@ export interface DirectoryWhereInput {
   children_none?: FileWhereInput
 }
 
+export interface UserCreateOneInput {
+  create?: UserCreateInput
+  connect?: UserWhereUniqueInput
+}
+
+export interface TagSubscriptionWhereInput {
+  AND?: TagSubscriptionWhereInput[] | TagSubscriptionWhereInput
+  OR?: TagSubscriptionWhereInput[] | TagSubscriptionWhereInput
+  NOT?: TagSubscriptionWhereInput[] | TagSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: TagWhereInput
+}
+
+export interface MessageCreateManyWithoutFromInput {
+  create?: MessageCreateWithoutFromInput[] | MessageCreateWithoutFromInput
+  connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+}
+
+export interface PostSubscriptionWhereInput {
+  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
+  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
+  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: PostWhereInput
+}
+
+export interface MessageCreateWithoutFromInput {
+  deliveredAt: DateTime
+  readAt?: DateTime
+  to: UserCreateOneWithoutReceivedMessagesInput
+}
+
+export interface AccessTokenSubscriptionWhereInput {
+  AND?: AccessTokenSubscriptionWhereInput[] | AccessTokenSubscriptionWhereInput
+  OR?: AccessTokenSubscriptionWhereInput[] | AccessTokenSubscriptionWhereInput
+  NOT?: AccessTokenSubscriptionWhereInput[] | AccessTokenSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: AccessTokenWhereInput
+}
+
 export interface UserCreateOneWithoutReceivedMessagesInput {
   create?: UserCreateWithoutReceivedMessagesInput
   connect?: UserWhereUniqueInput
+}
+
+export interface UserSubscriptionWhereInput {
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: UserWhereInput
+}
+
+export interface UserCreateWithoutReceivedMessagesInput {
+  email: String
+  password: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserCreatepermissionsInput
+  githubProfile?: GithubProfileCreateOneWithoutProfileOwnerInput
+  posts?: PostCreateManyWithoutAuthorInput
+  sentMessages?: MessageCreateManyWithoutFromInput
+  notifications?: NotificationCreateManyWithoutUserInput
+}
+
+export interface UserUpsertWithoutNotificationsInput {
+  update: UserUpdateWithoutNotificationsDataInput
+  create: UserCreateWithoutNotificationsInput
+}
+
+export interface NotificationCreateManyWithoutUserInput {
+  create?: NotificationCreateWithoutUserInput[] | NotificationCreateWithoutUserInput
+  connect?: NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+}
+
+export interface UserWhereUniqueInput {
+  id?: ID_Input
+  email?: String
+}
+
+export interface NotificationCreateWithoutUserInput {
+  type?: NOTIFICATION_TYPE
+  link: String
+  readDate?: DateTime
+}
+
+export interface AccessTokenWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface MessageCreateManyWithoutToInput {
+  create?: MessageCreateWithoutToInput[] | MessageCreateWithoutToInput
+  connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+}
+
+export interface TagWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface MessageCreateWithoutToInput {
+  deliveredAt: DateTime
+  readAt?: DateTime
+  from: UserCreateOneWithoutSentMessagesInput
+}
+
+export interface FileWhereUniqueInput {
+  id?: ID_Input
+  uuid?: String
+  s3Url?: String
+}
+
+export interface UserCreateOneWithoutSentMessagesInput {
+  create?: UserCreateWithoutSentMessagesInput
+  connect?: UserWhereUniqueInput
+}
+
+export interface MessageWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface UserCreateWithoutSentMessagesInput {
+  email: String
+  password: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserCreatepermissionsInput
+  githubProfile?: GithubProfileCreateOneWithoutProfileOwnerInput
+  posts?: PostCreateManyWithoutAuthorInput
+  receivedMessages?: MessageCreateManyWithoutToInput
+  notifications?: NotificationCreateManyWithoutUserInput
+}
+
+export interface UserUpdateOneWithoutNotificationsInput {
+  create?: UserCreateWithoutNotificationsInput
+  connect?: UserWhereUniqueInput
+  delete?: Boolean
+  update?: UserUpdateWithoutNotificationsDataInput
+  upsert?: UserUpsertWithoutNotificationsInput
+}
+
+export interface GithubProfileCreateInput {
+  login: String
+  githubUserId: Int
+  node_id: String
+  name?: String
+  bio?: String
+  website?: String
+  githubEmail: String
+  profilePhoto?: String
+  profileOwner?: UserCreateOneWithoutGithubProfileInput
+  accessTokens?: AccessTokenCreateManyInput
+}
+
+export interface MessageUpdateInput {
+  deliveredAt?: DateTime
+  readAt?: DateTime
+  from?: UserUpdateOneWithoutSentMessagesInput
+  to?: UserUpdateOneWithoutReceivedMessagesInput
+}
+
+export interface UserCreateOneWithoutGithubProfileInput {
+  create?: UserCreateWithoutGithubProfileInput
+  connect?: UserWhereUniqueInput
+}
+
+export interface FileUpdateWithoutParentDataInput {
+  name?: String
+  type?: FILE_TYPE
+  data?: String
+  isDirty?: Boolean
+  isTransient?: Boolean
+  bufferType?: FILE_TYPE
+  description?: String
+  uuid?: String
+  contentType?: String
+  s3Url?: String
+  size?: Int
+}
+
+export interface UserCreateWithoutGithubProfileInput {
+  email: String
+  password: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserCreatepermissionsInput
+  posts?: PostCreateManyWithoutAuthorInput
+  sentMessages?: MessageCreateManyWithoutFromInput
+  receivedMessages?: MessageCreateManyWithoutToInput
+  notifications?: NotificationCreateManyWithoutUserInput
+}
+
+export interface FileUpdateManyWithoutParentInput {
+  create?: FileCreateWithoutParentInput[] | FileCreateWithoutParentInput
+  connect?: FileWhereUniqueInput[] | FileWhereUniqueInput
+  disconnect?: FileWhereUniqueInput[] | FileWhereUniqueInput
+  delete?: FileWhereUniqueInput[] | FileWhereUniqueInput
+  update?: FileUpdateWithWhereUniqueWithoutParentInput[] | FileUpdateWithWhereUniqueWithoutParentInput
+  upsert?: FileUpsertWithWhereUniqueWithoutParentInput[] | FileUpsertWithWhereUniqueWithoutParentInput
+}
+
+export interface PostCreateInput {
+  visibility?: VISIBILITY
+  views?: Int
+  author: UserCreateOneWithoutPostsInput
+  content: FileCreateOneInput
+  tags?: TagCreateManyInput
+  comments?: CommentCreateManyWithoutPostInput
+}
+
+export interface FileUpdateInput {
+  name?: String
+  type?: FILE_TYPE
+  data?: String
+  isDirty?: Boolean
+  isTransient?: Boolean
+  bufferType?: FILE_TYPE
+  description?: String
+  uuid?: String
+  contentType?: String
+  s3Url?: String
+  size?: Int
+  parent?: DirectoryUpdateOneWithoutChildrenInput
+}
+
+export interface UserCreateOneWithoutPostsInput {
+  create?: UserCreateWithoutPostsInput
+  connect?: UserWhereUniqueInput
+}
+
+export interface PostUpdateWithoutCommentsDataInput {
+  visibility?: VISIBILITY
+  views?: Int
+  author?: UserUpdateOneWithoutPostsInput
+  content?: FileUpdateOneInput
+  tags?: TagUpdateManyInput
+}
+
+export interface UserCreateWithoutPostsInput {
+  email: String
+  password: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserCreatepermissionsInput
+  githubProfile?: GithubProfileCreateOneWithoutProfileOwnerInput
+  sentMessages?: MessageCreateManyWithoutFromInput
+  receivedMessages?: MessageCreateManyWithoutToInput
+  notifications?: NotificationCreateManyWithoutUserInput
+}
+
+export interface CommentUpdateInput {
+  content?: String
+  author?: UserUpdateOneInput
+  post?: PostUpdateOneWithoutCommentsInput
+}
+
+export interface CommentCreateInput {
+  content?: String
+  author: UserCreateOneInput
+  post: PostCreateOneWithoutCommentsInput
+}
+
+export interface UserUpsertWithoutPostsInput {
+  update: UserUpdateWithoutPostsDataInput
+  create: UserCreateWithoutPostsInput
+}
+
+export interface MessageUpdateWithWhereUniqueWithoutToInput {
+  where: MessageWhereUniqueInput
+  data: MessageUpdateWithoutToDataInput
+}
+
+export interface UserUpdateOneWithoutPostsInput {
+  create?: UserCreateWithoutPostsInput
+  connect?: UserWhereUniqueInput
+  delete?: Boolean
+  update?: UserUpdateWithoutPostsDataInput
+  upsert?: UserUpsertWithoutPostsInput
+}
+
+export interface PostCreateWithoutCommentsInput {
+  visibility?: VISIBILITY
+  views?: Int
+  author: UserCreateOneWithoutPostsInput
+  content: FileCreateOneInput
+  tags?: TagCreateManyInput
+}
+
+export interface AccessTokenUpdateInput {
+  token?: String
+  scopes?: AccessTokenUpdatescopesInput
+}
+
+export interface DirectoryCreateInput {
+  name?: String
+  isOpen?: Boolean
+  children?: FileCreateManyWithoutParentInput
+}
+
+export interface UserUpdateWithoutGithubProfileDataInput {
+  email?: String
+  password?: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserUpdatepermissionsInput
+  posts?: PostUpdateManyWithoutAuthorInput
+  sentMessages?: MessageUpdateManyWithoutFromInput
+  receivedMessages?: MessageUpdateManyWithoutToInput
+  notifications?: NotificationUpdateManyWithoutUserInput
+}
+
+export interface FileCreateManyWithoutParentInput {
+  create?: FileCreateWithoutParentInput[] | FileCreateWithoutParentInput
+  connect?: FileWhereUniqueInput[] | FileWhereUniqueInput
+}
+
+export interface GithubProfileUpdateInput {
+  login?: String
+  githubUserId?: Int
+  node_id?: String
+  name?: String
+  bio?: String
+  website?: String
+  githubEmail?: String
+  profilePhoto?: String
+  profileOwner?: UserUpdateOneWithoutGithubProfileInput
+  accessTokens?: AccessTokenUpdateManyInput
+}
+
+export interface FileCreateWithoutParentInput {
+  name: String
+  type?: FILE_TYPE
+  data?: String
+  isDirty?: Boolean
+  isTransient?: Boolean
+  bufferType?: FILE_TYPE
+  description?: String
+  uuid?: String
+  contentType?: String
+  s3Url?: String
+  size?: Int
+}
+
+export interface CommentUpsertWithWhereUniqueWithoutPostInput {
+  where: CommentWhereUniqueInput
+  update: CommentUpdateWithoutPostDataInput
+  create: CommentCreateWithoutPostInput
+}
+
+export interface MessageCreateInput {
+  deliveredAt: DateTime
+  readAt?: DateTime
+  from: UserCreateOneWithoutSentMessagesInput
+  to: UserCreateOneWithoutReceivedMessagesInput
+}
+
+export interface MessageUpsertWithWhereUniqueWithoutToInput {
+  where: MessageWhereUniqueInput
+  update: MessageUpdateWithoutToDataInput
+  create: MessageCreateWithoutToInput
+}
+
+export interface NotificationCreateInput {
+  type?: NOTIFICATION_TYPE
+  link: String
+  readDate?: DateTime
+  user: UserCreateOneWithoutNotificationsInput
+}
+
+export interface UserUpdateWithoutSentMessagesDataInput {
+  email?: String
+  password?: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserUpdatepermissionsInput
+  githubProfile?: GithubProfileUpdateOneWithoutProfileOwnerInput
+  posts?: PostUpdateManyWithoutAuthorInput
+  receivedMessages?: MessageUpdateManyWithoutToInput
+  notifications?: NotificationUpdateManyWithoutUserInput
+}
+
+export interface UserCreateOneWithoutNotificationsInput {
+  create?: UserCreateWithoutNotificationsInput
+  connect?: UserWhereUniqueInput
+}
+
+export interface MessageUpdateWithoutToDataInput {
+  deliveredAt?: DateTime
+  readAt?: DateTime
+  from?: UserUpdateOneWithoutSentMessagesInput
+}
+
+export interface MessageWhereInput {
+  AND?: MessageWhereInput[] | MessageWhereInput
+  OR?: MessageWhereInput[] | MessageWhereInput
+  NOT?: MessageWhereInput[] | MessageWhereInput
+  id?: ID_Input
+  id_not?: ID_Input
+  id_in?: ID_Input[] | ID_Input
+  id_not_in?: ID_Input[] | ID_Input
+  id_lt?: ID_Input
+  id_lte?: ID_Input
+  id_gt?: ID_Input
+  id_gte?: ID_Input
+  id_contains?: ID_Input
+  id_not_contains?: ID_Input
+  id_starts_with?: ID_Input
+  id_not_starts_with?: ID_Input
+  id_ends_with?: ID_Input
+  id_not_ends_with?: ID_Input
+  createdAt?: DateTime
+  createdAt_not?: DateTime
+  createdAt_in?: DateTime[] | DateTime
+  createdAt_not_in?: DateTime[] | DateTime
+  createdAt_lt?: DateTime
+  createdAt_lte?: DateTime
+  createdAt_gt?: DateTime
+  createdAt_gte?: DateTime
+  deliveredAt?: DateTime
+  deliveredAt_not?: DateTime
+  deliveredAt_in?: DateTime[] | DateTime
+  deliveredAt_not_in?: DateTime[] | DateTime
+  deliveredAt_lt?: DateTime
+  deliveredAt_lte?: DateTime
+  deliveredAt_gt?: DateTime
+  deliveredAt_gte?: DateTime
+  readAt?: DateTime
+  readAt_not?: DateTime
+  readAt_in?: DateTime[] | DateTime
+  readAt_not_in?: DateTime[] | DateTime
+  readAt_lt?: DateTime
+  readAt_lte?: DateTime
+  readAt_gt?: DateTime
+  readAt_gte?: DateTime
+  from?: UserWhereInput
+  to?: UserWhereInput
+}
+
+export interface UserCreatepermissionsInput {
+  set?: PERMISSION[] | PERMISSION
+}
+
+export interface GithubProfileCreateWithoutProfileOwnerInput {
+  login: String
+  githubUserId: Int
+  node_id: String
+  name?: String
+  bio?: String
+  website?: String
+  githubEmail: String
+  profilePhoto?: String
+  accessTokens?: AccessTokenCreateManyInput
+}
+
+export interface AccessTokenCreateInput {
+  token: String
+  scopes?: AccessTokenCreatescopesInput
+}
+
+export interface UserUpdatepermissionsInput {
+  set?: PERMISSION[] | PERMISSION
+}
+
+export interface PostCreateManyWithoutAuthorInput {
+  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput
+}
+
+export interface GithubProfileUpdateOneWithoutProfileOwnerInput {
+  create?: GithubProfileCreateWithoutProfileOwnerInput
+  connect?: GithubProfileWhereUniqueInput
+  disconnect?: Boolean
+  delete?: Boolean
+  update?: GithubProfileUpdateWithoutProfileOwnerDataInput
+  upsert?: GithubProfileUpsertWithoutProfileOwnerInput
+}
+
+export interface FileCreateOneInput {
+  create?: FileCreateInput
+  connect?: FileWhereUniqueInput
+}
+
+export interface GithubProfileUpdateWithoutProfileOwnerDataInput {
+  login?: String
+  githubUserId?: Int
+  node_id?: String
+  name?: String
+  bio?: String
+  website?: String
+  githubEmail?: String
+  profilePhoto?: String
+  accessTokens?: AccessTokenUpdateManyInput
+}
+
+export interface NotificationSubscriptionWhereInput {
+  AND?: NotificationSubscriptionWhereInput[] | NotificationSubscriptionWhereInput
+  OR?: NotificationSubscriptionWhereInput[] | NotificationSubscriptionWhereInput
+  NOT?: NotificationSubscriptionWhereInput[] | NotificationSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: NotificationWhereInput
+}
+
+export interface AccessTokenUpdateManyInput {
+  create?: AccessTokenCreateInput[] | AccessTokenCreateInput
+  connect?: AccessTokenWhereUniqueInput[] | AccessTokenWhereUniqueInput
+  disconnect?: AccessTokenWhereUniqueInput[] | AccessTokenWhereUniqueInput
+  delete?: AccessTokenWhereUniqueInput[] | AccessTokenWhereUniqueInput
+  update?: AccessTokenUpdateWithWhereUniqueNestedInput[] | AccessTokenUpdateWithWhereUniqueNestedInput
+  upsert?: AccessTokenUpsertWithWhereUniqueNestedInput[] | AccessTokenUpsertWithWhereUniqueNestedInput
+}
+
+export interface DirectorySubscriptionWhereInput {
+  AND?: DirectorySubscriptionWhereInput[] | DirectorySubscriptionWhereInput
+  OR?: DirectorySubscriptionWhereInput[] | DirectorySubscriptionWhereInput
+  NOT?: DirectorySubscriptionWhereInput[] | DirectorySubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: DirectoryWhereInput
+}
+
+export interface AccessTokenUpdateWithWhereUniqueNestedInput {
+  where: AccessTokenWhereUniqueInput
+  data: AccessTokenUpdateDataInput
 }
 
 export interface FileWhereInput {
@@ -3937,318 +5513,15 @@ export interface FileWhereInput {
   parent?: DirectoryWhereInput
 }
 
-export interface UserCreateWithoutReceivedMessagesInput {
-  email: String
-  password: String
-  name?: String
-  resetToken?: String
-  resetTokenExpiry?: String
-  connectedWithGithub?: Boolean
-  emailConfirmed?: Boolean
-  permissions?: UserCreatepermissionsInput
-  posts?: PostCreateManyWithoutAuthorInput
-  sentMessages?: MessageCreateManyWithoutFromInput
-  notifications?: NotificationCreateManyWithoutUserInput
+export interface AccessTokenUpdateDataInput {
+  token?: String
+  scopes?: AccessTokenUpdatescopesInput
 }
 
-export interface TagSubscriptionWhereInput {
-  AND?: TagSubscriptionWhereInput[] | TagSubscriptionWhereInput
-  OR?: TagSubscriptionWhereInput[] | TagSubscriptionWhereInput
-  NOT?: TagSubscriptionWhereInput[] | TagSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: TagWhereInput
-}
-
-export interface NotificationCreateManyWithoutUserInput {
-  create?: NotificationCreateWithoutUserInput[] | NotificationCreateWithoutUserInput
-  connect?: NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
-}
-
-export interface PostSubscriptionWhereInput {
-  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
-  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
-  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: PostWhereInput
-}
-
-export interface NotificationCreateWithoutUserInput {
-  type?: NOTIFICATION_TYPE
-  link: String
-  readDate?: DateTime
-}
-
-export interface UserUpsertWithoutNotificationsInput {
-  update: UserUpdateWithoutNotificationsDataInput
-  create: UserCreateWithoutNotificationsInput
-}
-
-export interface MessageCreateManyWithoutToInput {
-  create?: MessageCreateWithoutToInput[] | MessageCreateWithoutToInput
-  connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-}
-
-export interface UserWhereUniqueInput {
-  id?: ID_Input
-  email?: String
-}
-
-export interface MessageCreateWithoutToInput {
-  deliveredAt: DateTime
-  readAt?: DateTime
-  from: UserCreateOneWithoutSentMessagesInput
-}
-
-export interface TagWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface UserCreateOneWithoutSentMessagesInput {
-  create?: UserCreateWithoutSentMessagesInput
-  connect?: UserWhereUniqueInput
-}
-
-export interface FileWhereUniqueInput {
-  id?: ID_Input
-  uuid?: String
-  s3Url?: String
-}
-
-export interface UserCreateWithoutSentMessagesInput {
-  email: String
-  password: String
-  name?: String
-  resetToken?: String
-  resetTokenExpiry?: String
-  connectedWithGithub?: Boolean
-  emailConfirmed?: Boolean
-  permissions?: UserCreatepermissionsInput
-  posts?: PostCreateManyWithoutAuthorInput
-  receivedMessages?: MessageCreateManyWithoutToInput
-  notifications?: NotificationCreateManyWithoutUserInput
-}
-
-export interface MessageWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface PostCreateInput {
-  visibility?: VISIBILITY
-  views?: Int
-  author: UserCreateOneWithoutPostsInput
-  content: FileCreateOneInput
-  tags?: TagCreateManyInput
-  comments?: CommentCreateManyWithoutPostInput
-}
-
-export interface UserUpdateOneWithoutNotificationsInput {
-  create?: UserCreateWithoutNotificationsInput
-  connect?: UserWhereUniqueInput
-  delete?: Boolean
-  update?: UserUpdateWithoutNotificationsDataInput
-  upsert?: UserUpsertWithoutNotificationsInput
-}
-
-export interface UserCreateOneWithoutPostsInput {
-  create?: UserCreateWithoutPostsInput
-  connect?: UserWhereUniqueInput
-}
-
-export interface MessageUpdateInput {
-  deliveredAt?: DateTime
-  readAt?: DateTime
-  from?: UserUpdateOneWithoutSentMessagesInput
-  to?: UserUpdateOneWithoutReceivedMessagesInput
-}
-
-export interface UserCreateWithoutPostsInput {
-  email: String
-  password: String
-  name?: String
-  resetToken?: String
-  resetTokenExpiry?: String
-  connectedWithGithub?: Boolean
-  emailConfirmed?: Boolean
-  permissions?: UserCreatepermissionsInput
-  sentMessages?: MessageCreateManyWithoutFromInput
-  receivedMessages?: MessageCreateManyWithoutToInput
-  notifications?: NotificationCreateManyWithoutUserInput
-}
-
-export interface FileUpdateWithoutParentDataInput {
-  name?: String
-  type?: FILE_TYPE
-  data?: String
-  isDirty?: Boolean
-  isTransient?: Boolean
-  bufferType?: FILE_TYPE
-  description?: String
-  uuid?: String
-  contentType?: String
-  s3Url?: String
-  size?: Int
-}
-
-export interface CommentCreateInput {
-  content?: String
-  author: UserCreateOneInput
-  post: PostCreateOneWithoutCommentsInput
-}
-
-export interface FileUpdateManyWithoutParentInput {
-  create?: FileCreateWithoutParentInput[] | FileCreateWithoutParentInput
-  connect?: FileWhereUniqueInput[] | FileWhereUniqueInput
-  disconnect?: FileWhereUniqueInput[] | FileWhereUniqueInput
-  delete?: FileWhereUniqueInput[] | FileWhereUniqueInput
-  update?: FileUpdateWithWhereUniqueWithoutParentInput[] | FileUpdateWithWhereUniqueWithoutParentInput
-  upsert?: FileUpsertWithWhereUniqueWithoutParentInput[] | FileUpsertWithWhereUniqueWithoutParentInput
-}
-
-export interface PostCreateOneWithoutCommentsInput {
-  create?: PostCreateWithoutCommentsInput
-  connect?: PostWhereUniqueInput
-}
-
-export interface FileUpdateInput {
-  name?: String
-  type?: FILE_TYPE
-  data?: String
-  isDirty?: Boolean
-  isTransient?: Boolean
-  bufferType?: FILE_TYPE
-  description?: String
-  uuid?: String
-  contentType?: String
-  s3Url?: String
-  size?: Int
-  parent?: DirectoryUpdateOneWithoutChildrenInput
-}
-
-export interface MessageUpdateWithoutToDataInput {
-  deliveredAt?: DateTime
-  readAt?: DateTime
-  from?: UserUpdateOneWithoutSentMessagesInput
-}
-
-export interface PostUpdateWithoutCommentsDataInput {
-  visibility?: VISIBILITY
-  views?: Int
-  author?: UserUpdateOneWithoutPostsInput
-  content?: FileUpdateOneInput
-  tags?: TagUpdateManyInput
-}
-
-export interface DirectoryCreateInput {
-  name?: String
-  isOpen?: Boolean
-  children?: FileCreateManyWithoutParentInput
-}
-
-export interface CommentUpdateInput {
-  content?: String
-  author?: UserUpdateOneInput
-  post?: PostUpdateOneWithoutCommentsInput
-}
-
-export interface FileCreateManyWithoutParentInput {
-  create?: FileCreateWithoutParentInput[] | FileCreateWithoutParentInput
-  connect?: FileWhereUniqueInput[] | FileWhereUniqueInput
-}
-
-export interface UserUpsertWithoutPostsInput {
-  update: UserUpdateWithoutPostsDataInput
-  create: UserCreateWithoutPostsInput
-}
-
-export interface FileCreateWithoutParentInput {
-  name: String
-  type?: FILE_TYPE
-  data?: String
-  isDirty?: Boolean
-  isTransient?: Boolean
-  bufferType?: FILE_TYPE
-  description?: String
-  uuid?: String
-  contentType?: String
-  s3Url?: String
-  size?: Int
-}
-
-export interface UserUpdateOneWithoutPostsInput {
-  create?: UserCreateWithoutPostsInput
-  connect?: UserWhereUniqueInput
-  delete?: Boolean
-  update?: UserUpdateWithoutPostsDataInput
-  upsert?: UserUpsertWithoutPostsInput
-}
-
-export interface MessageCreateInput {
-  deliveredAt: DateTime
-  readAt?: DateTime
-  from: UserCreateOneWithoutSentMessagesInput
-  to: UserCreateOneWithoutReceivedMessagesInput
-}
-
-export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput
-  update: PostUpdateWithoutAuthorDataInput
-  create: PostCreateWithoutAuthorInput
-}
-
-export interface NotificationCreateInput {
-  type?: NOTIFICATION_TYPE
-  link: String
-  readDate?: DateTime
-  user: UserCreateOneWithoutNotificationsInput
-}
-
-export interface UserUpsertNestedInput {
-  update: UserUpdateDataInput
-  create: UserCreateInput
-}
-
-export interface UserCreateOneWithoutNotificationsInput {
-  create?: UserCreateWithoutNotificationsInput
-  connect?: UserWhereUniqueInput
-}
-
-export interface UserUpsertWithoutSentMessagesInput {
-  update: UserUpdateWithoutSentMessagesDataInput
-  create: UserCreateWithoutSentMessagesInput
-}
-
-export interface UserCreateWithoutNotificationsInput {
-  email: String
-  password: String
-  name?: String
-  resetToken?: String
-  resetTokenExpiry?: String
-  connectedWithGithub?: Boolean
-  emailConfirmed?: Boolean
-  permissions?: UserCreatepermissionsInput
-  posts?: PostCreateManyWithoutAuthorInput
-  sentMessages?: MessageCreateManyWithoutFromInput
-  receivedMessages?: MessageCreateManyWithoutToInput
-}
-
-export interface UserUpdateOneWithoutSentMessagesInput {
-  create?: UserCreateWithoutSentMessagesInput
-  connect?: UserWhereUniqueInput
-  delete?: Boolean
-  update?: UserUpdateWithoutSentMessagesDataInput
-  upsert?: UserUpsertWithoutSentMessagesInput
-}
-
-export interface MessageWhereInput {
-  AND?: MessageWhereInput[] | MessageWhereInput
-  OR?: MessageWhereInput[] | MessageWhereInput
-  NOT?: MessageWhereInput[] | MessageWhereInput
+export interface AccessTokenWhereInput {
+  AND?: AccessTokenWhereInput[] | AccessTokenWhereInput
+  OR?: AccessTokenWhereInput[] | AccessTokenWhereInput
+  NOT?: AccessTokenWhereInput[] | AccessTokenWhereInput
   id?: ID_Input
   id_not?: ID_Input
   id_in?: ID_Input[] | ID_Input
@@ -4263,6 +5536,20 @@ export interface MessageWhereInput {
   id_not_starts_with?: ID_Input
   id_ends_with?: ID_Input
   id_not_ends_with?: ID_Input
+  token?: String
+  token_not?: String
+  token_in?: String[] | String
+  token_not_in?: String[] | String
+  token_lt?: String
+  token_lte?: String
+  token_gt?: String
+  token_gte?: String
+  token_contains?: String
+  token_not_contains?: String
+  token_starts_with?: String
+  token_not_starts_with?: String
+  token_ends_with?: String
+  token_not_ends_with?: String
   createdAt?: DateTime
   createdAt_not?: DateTime
   createdAt_in?: DateTime[] | DateTime
@@ -4271,51 +5558,171 @@ export interface MessageWhereInput {
   createdAt_lte?: DateTime
   createdAt_gt?: DateTime
   createdAt_gte?: DateTime
-  deliveredAt?: DateTime
-  deliveredAt_not?: DateTime
-  deliveredAt_in?: DateTime[] | DateTime
-  deliveredAt_not_in?: DateTime[] | DateTime
-  deliveredAt_lt?: DateTime
-  deliveredAt_lte?: DateTime
-  deliveredAt_gt?: DateTime
-  deliveredAt_gte?: DateTime
-  readAt?: DateTime
-  readAt_not?: DateTime
-  readAt_in?: DateTime[] | DateTime
-  readAt_not_in?: DateTime[] | DateTime
-  readAt_lt?: DateTime
-  readAt_lte?: DateTime
-  readAt_gt?: DateTime
-  readAt_gte?: DateTime
-  from?: UserWhereInput
-  to?: UserWhereInput
+  updatedAt?: DateTime
+  updatedAt_not?: DateTime
+  updatedAt_in?: DateTime[] | DateTime
+  updatedAt_not_in?: DateTime[] | DateTime
+  updatedAt_lt?: DateTime
+  updatedAt_lte?: DateTime
+  updatedAt_gt?: DateTime
+  updatedAt_gte?: DateTime
 }
 
-export interface UserCreatepermissionsInput {
-  set?: PERMISSION[] | PERMISSION
+export interface AccessTokenUpdatescopesInput {
+  set?: String[] | String
 }
 
-export interface PostCreateWithoutAuthorInput {
-  visibility?: VISIBILITY
-  views?: Int
-  content: FileCreateOneInput
-  tags?: TagCreateManyInput
-  comments?: CommentCreateManyWithoutPostInput
+export interface GithubProfileWhereInput {
+  AND?: GithubProfileWhereInput[] | GithubProfileWhereInput
+  OR?: GithubProfileWhereInput[] | GithubProfileWhereInput
+  NOT?: GithubProfileWhereInput[] | GithubProfileWhereInput
+  login?: String
+  login_not?: String
+  login_in?: String[] | String
+  login_not_in?: String[] | String
+  login_lt?: String
+  login_lte?: String
+  login_gt?: String
+  login_gte?: String
+  login_contains?: String
+  login_not_contains?: String
+  login_starts_with?: String
+  login_not_starts_with?: String
+  login_ends_with?: String
+  login_not_ends_with?: String
+  githubUserId?: Int
+  githubUserId_not?: Int
+  githubUserId_in?: Int[] | Int
+  githubUserId_not_in?: Int[] | Int
+  githubUserId_lt?: Int
+  githubUserId_lte?: Int
+  githubUserId_gt?: Int
+  githubUserId_gte?: Int
+  node_id?: String
+  node_id_not?: String
+  node_id_in?: String[] | String
+  node_id_not_in?: String[] | String
+  node_id_lt?: String
+  node_id_lte?: String
+  node_id_gt?: String
+  node_id_gte?: String
+  node_id_contains?: String
+  node_id_not_contains?: String
+  node_id_starts_with?: String
+  node_id_not_starts_with?: String
+  node_id_ends_with?: String
+  node_id_not_ends_with?: String
+  name?: String
+  name_not?: String
+  name_in?: String[] | String
+  name_not_in?: String[] | String
+  name_lt?: String
+  name_lte?: String
+  name_gt?: String
+  name_gte?: String
+  name_contains?: String
+  name_not_contains?: String
+  name_starts_with?: String
+  name_not_starts_with?: String
+  name_ends_with?: String
+  name_not_ends_with?: String
+  bio?: String
+  bio_not?: String
+  bio_in?: String[] | String
+  bio_not_in?: String[] | String
+  bio_lt?: String
+  bio_lte?: String
+  bio_gt?: String
+  bio_gte?: String
+  bio_contains?: String
+  bio_not_contains?: String
+  bio_starts_with?: String
+  bio_not_starts_with?: String
+  bio_ends_with?: String
+  bio_not_ends_with?: String
+  website?: String
+  website_not?: String
+  website_in?: String[] | String
+  website_not_in?: String[] | String
+  website_lt?: String
+  website_lte?: String
+  website_gt?: String
+  website_gte?: String
+  website_contains?: String
+  website_not_contains?: String
+  website_starts_with?: String
+  website_not_starts_with?: String
+  website_ends_with?: String
+  website_not_ends_with?: String
+  githubEmail?: String
+  githubEmail_not?: String
+  githubEmail_in?: String[] | String
+  githubEmail_not_in?: String[] | String
+  githubEmail_lt?: String
+  githubEmail_lte?: String
+  githubEmail_gt?: String
+  githubEmail_gte?: String
+  githubEmail_contains?: String
+  githubEmail_not_contains?: String
+  githubEmail_starts_with?: String
+  githubEmail_not_starts_with?: String
+  githubEmail_ends_with?: String
+  githubEmail_not_ends_with?: String
+  profilePhoto?: String
+  profilePhoto_not?: String
+  profilePhoto_in?: String[] | String
+  profilePhoto_not_in?: String[] | String
+  profilePhoto_lt?: String
+  profilePhoto_lte?: String
+  profilePhoto_gt?: String
+  profilePhoto_gte?: String
+  profilePhoto_contains?: String
+  profilePhoto_not_contains?: String
+  profilePhoto_starts_with?: String
+  profilePhoto_not_starts_with?: String
+  profilePhoto_ends_with?: String
+  profilePhoto_not_ends_with?: String
+  createdAt?: DateTime
+  createdAt_not?: DateTime
+  createdAt_in?: DateTime[] | DateTime
+  createdAt_not_in?: DateTime[] | DateTime
+  createdAt_lt?: DateTime
+  createdAt_lte?: DateTime
+  createdAt_gt?: DateTime
+  createdAt_gte?: DateTime
+  updatedAt?: DateTime
+  updatedAt_not?: DateTime
+  updatedAt_in?: DateTime[] | DateTime
+  updatedAt_not_in?: DateTime[] | DateTime
+  updatedAt_lt?: DateTime
+  updatedAt_lte?: DateTime
+  updatedAt_gt?: DateTime
+  updatedAt_gte?: DateTime
+  profileOwner?: UserWhereInput
+  accessTokens_every?: AccessTokenWhereInput
+  accessTokens_some?: AccessTokenWhereInput
+  accessTokens_none?: AccessTokenWhereInput
 }
 
-export interface FileCreateInput {
-  name: String
-  type?: FILE_TYPE
-  data?: String
-  isDirty?: Boolean
-  isTransient?: Boolean
-  bufferType?: FILE_TYPE
-  description?: String
-  uuid?: String
-  contentType?: String
-  s3Url?: String
-  size?: Int
-  parent?: DirectoryCreateOneWithoutChildrenInput
+export interface AccessTokenUpsertWithWhereUniqueNestedInput {
+  where: AccessTokenWhereUniqueInput
+  update: AccessTokenUpdateDataInput
+  create: AccessTokenCreateInput
+}
+
+export interface GithubProfileWhereUniqueInput {
+  login?: String
+  githubUserId?: Int
+  githubEmail?: String
+}
+
+export interface GithubProfileUpsertWithoutProfileOwnerInput {
+  update: GithubProfileUpdateWithoutProfileOwnerDataInput
+  create: GithubProfileCreateWithoutProfileOwnerInput
+}
+
+export interface CommentWhereUniqueInput {
+  id?: ID_Input
 }
 
 export interface PostUpdateManyWithoutAuthorInput {
@@ -4327,9 +5734,8 @@ export interface PostUpdateManyWithoutAuthorInput {
   upsert?: PostUpsertWithWhereUniqueWithoutAuthorInput[] | PostUpsertWithWhereUniqueWithoutAuthorInput
 }
 
-export interface DirectoryCreateWithoutChildrenInput {
-  name?: String
-  isOpen?: Boolean
+export interface NotificationWhereUniqueInput {
+  id?: ID_Input
 }
 
 export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
@@ -4337,8 +5743,10 @@ export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
   data: PostUpdateWithoutAuthorDataInput
 }
 
-export interface TagCreateInput {
-  text: String
+export interface FileUpsertWithWhereUniqueWithoutParentInput {
+  where: FileWhereUniqueInput
+  update: FileUpdateWithoutParentDataInput
+  create: FileCreateWithoutParentInput
 }
 
 export interface PostUpdateWithoutAuthorDataInput {
@@ -4349,15 +5757,10 @@ export interface PostUpdateWithoutAuthorDataInput {
   comments?: CommentUpdateManyWithoutPostInput
 }
 
-export interface MessageSubscriptionWhereInput {
-  AND?: MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput
-  OR?: MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput
-  NOT?: MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: MessageWhereInput
+export interface DirectoryUpdateInput {
+  name?: String
+  isOpen?: Boolean
+  children?: FileUpdateManyWithoutParentInput
 }
 
 export interface FileUpdateOneInput {
@@ -4368,15 +5771,12 @@ export interface FileUpdateOneInput {
   upsert?: FileUpsertNestedInput
 }
 
-export interface FileSubscriptionWhereInput {
-  AND?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
-  OR?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
-  NOT?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: FileWhereInput
+export interface PostUpdateOneWithoutCommentsInput {
+  create?: PostCreateWithoutCommentsInput
+  connect?: PostWhereUniqueInput
+  delete?: Boolean
+  update?: PostUpdateWithoutCommentsDataInput
+  upsert?: PostUpsertWithoutCommentsInput
 }
 
 export interface FileUpdateDataInput {
@@ -4392,6 +5792,123 @@ export interface FileUpdateDataInput {
   s3Url?: String
   size?: Int
   parent?: DirectoryUpdateOneWithoutChildrenInput
+}
+
+export interface UserUpdateWithoutPostsDataInput {
+  email?: String
+  password?: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserUpdatepermissionsInput
+  githubProfile?: GithubProfileUpdateOneWithoutProfileOwnerInput
+  sentMessages?: MessageUpdateManyWithoutFromInput
+  receivedMessages?: MessageUpdateManyWithoutToInput
+  notifications?: NotificationUpdateManyWithoutUserInput
+}
+
+export interface DirectoryUpdateOneWithoutChildrenInput {
+  create?: DirectoryCreateWithoutChildrenInput
+  connect?: DirectoryWhereUniqueInput
+  disconnect?: Boolean
+  delete?: Boolean
+  update?: DirectoryUpdateWithoutChildrenDataInput
+  upsert?: DirectoryUpsertWithoutChildrenInput
+}
+
+export interface UserUpsertWithoutGithubProfileInput {
+  update: UserUpdateWithoutGithubProfileDataInput
+  create: UserCreateWithoutGithubProfileInput
+}
+
+export interface DirectoryUpdateWithoutChildrenDataInput {
+  name?: String
+  isOpen?: Boolean
+}
+
+export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput
+  update: PostUpdateWithoutAuthorDataInput
+  create: PostCreateWithoutAuthorInput
+}
+
+export interface DirectoryUpsertWithoutChildrenInput {
+  update: DirectoryUpdateWithoutChildrenDataInput
+  create: DirectoryCreateWithoutChildrenInput
+}
+
+export interface UserUpsertWithoutSentMessagesInput {
+  update: UserUpdateWithoutSentMessagesDataInput
+  create: UserCreateWithoutSentMessagesInput
+}
+
+export interface FileUpsertNestedInput {
+  update: FileUpdateDataInput
+  create: FileCreateInput
+}
+
+export interface UserCreateInput {
+  email: String
+  password: String
+  name?: String
+  resetToken?: String
+  resetTokenExpiry?: String
+  emailConfirmed?: Boolean
+  permissions?: UserCreatepermissionsInput
+  githubProfile?: GithubProfileCreateOneWithoutProfileOwnerInput
+  posts?: PostCreateManyWithoutAuthorInput
+  sentMessages?: MessageCreateManyWithoutFromInput
+  receivedMessages?: MessageCreateManyWithoutToInput
+  notifications?: NotificationCreateManyWithoutUserInput
+}
+
+export interface TagUpdateManyInput {
+  create?: TagCreateInput[] | TagCreateInput
+  connect?: TagWhereUniqueInput[] | TagWhereUniqueInput
+  disconnect?: TagWhereUniqueInput[] | TagWhereUniqueInput
+  delete?: TagWhereUniqueInput[] | TagWhereUniqueInput
+  update?: TagUpdateWithWhereUniqueNestedInput[] | TagUpdateWithWhereUniqueNestedInput
+  upsert?: TagUpsertWithWhereUniqueNestedInput[] | TagUpsertWithWhereUniqueNestedInput
+}
+
+export interface AccessTokenCreateManyInput {
+  create?: AccessTokenCreateInput[] | AccessTokenCreateInput
+  connect?: AccessTokenWhereUniqueInput[] | AccessTokenWhereUniqueInput
+}
+
+export interface TagUpdateWithWhereUniqueNestedInput {
+  where: TagWhereUniqueInput
+  data: TagUpdateDataInput
+}
+
+export interface PostCreateWithoutAuthorInput {
+  visibility?: VISIBILITY
+  views?: Int
+  content: FileCreateOneInput
+  tags?: TagCreateManyInput
+  comments?: CommentCreateManyWithoutPostInput
+}
+
+export interface TagUpdateDataInput {
+  text?: String
+}
+
+export interface MessageSubscriptionWhereInput {
+  AND?: MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput
+  OR?: MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput
+  NOT?: MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: MessageWhereInput
+}
+
+export interface TagUpsertWithWhereUniqueNestedInput {
+  where: TagWhereUniqueInput
+  update: TagUpdateDataInput
+  create: TagCreateInput
 }
 
 export interface PostWhereInput {
@@ -4450,116 +5967,6 @@ export interface PostWhereInput {
   comments_none?: CommentWhereInput
 }
 
-export interface DirectoryUpdateOneWithoutChildrenInput {
-  create?: DirectoryCreateWithoutChildrenInput
-  connect?: DirectoryWhereUniqueInput
-  disconnect?: Boolean
-  delete?: Boolean
-  update?: DirectoryUpdateWithoutChildrenDataInput
-  upsert?: DirectoryUpsertWithoutChildrenInput
-}
-
-export interface UserUpdateWithoutNotificationsDataInput {
-  email?: String
-  password?: String
-  name?: String
-  resetToken?: String
-  resetTokenExpiry?: String
-  connectedWithGithub?: Boolean
-  emailConfirmed?: Boolean
-  permissions?: UserUpdatepermissionsInput
-  posts?: PostUpdateManyWithoutAuthorInput
-  sentMessages?: MessageUpdateManyWithoutFromInput
-  receivedMessages?: MessageUpdateManyWithoutToInput
-}
-
-export interface DirectoryUpdateWithoutChildrenDataInput {
-  name?: String
-  isOpen?: Boolean
-}
-
-export interface CommentWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface DirectoryUpsertWithoutChildrenInput {
-  update: DirectoryUpdateWithoutChildrenDataInput
-  create: DirectoryCreateWithoutChildrenInput
-}
-
-export interface NotificationWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface FileUpsertNestedInput {
-  update: FileUpdateDataInput
-  create: FileCreateInput
-}
-
-export interface FileUpsertWithWhereUniqueWithoutParentInput {
-  where: FileWhereUniqueInput
-  update: FileUpdateWithoutParentDataInput
-  create: FileCreateWithoutParentInput
-}
-
-export interface TagUpdateManyInput {
-  create?: TagCreateInput[] | TagCreateInput
-  connect?: TagWhereUniqueInput[] | TagWhereUniqueInput
-  disconnect?: TagWhereUniqueInput[] | TagWhereUniqueInput
-  delete?: TagWhereUniqueInput[] | TagWhereUniqueInput
-  update?: TagUpdateWithWhereUniqueNestedInput[] | TagUpdateWithWhereUniqueNestedInput
-  upsert?: TagUpsertWithWhereUniqueNestedInput[] | TagUpsertWithWhereUniqueNestedInput
-}
-
-export interface DirectoryUpdateInput {
-  name?: String
-  isOpen?: Boolean
-  children?: FileUpdateManyWithoutParentInput
-}
-
-export interface TagUpdateWithWhereUniqueNestedInput {
-  where: TagWhereUniqueInput
-  data: TagUpdateDataInput
-}
-
-export interface PostUpdateOneWithoutCommentsInput {
-  create?: PostCreateWithoutCommentsInput
-  connect?: PostWhereUniqueInput
-  delete?: Boolean
-  update?: PostUpdateWithoutCommentsDataInput
-  upsert?: PostUpsertWithoutCommentsInput
-}
-
-export interface TagUpdateDataInput {
-  text?: String
-}
-
-export interface UserUpdateWithoutPostsDataInput {
-  email?: String
-  password?: String
-  name?: String
-  resetToken?: String
-  resetTokenExpiry?: String
-  connectedWithGithub?: Boolean
-  emailConfirmed?: Boolean
-  permissions?: UserUpdatepermissionsInput
-  sentMessages?: MessageUpdateManyWithoutFromInput
-  receivedMessages?: MessageUpdateManyWithoutToInput
-  notifications?: NotificationUpdateManyWithoutUserInput
-}
-
-export interface TagUpsertWithWhereUniqueNestedInput {
-  where: TagWhereUniqueInput
-  update: TagUpdateDataInput
-  create: TagCreateInput
-}
-
-export interface CommentUpsertWithWhereUniqueWithoutPostInput {
-  where: CommentWhereUniqueInput
-  update: CommentUpdateWithoutPostDataInput
-  create: CommentCreateWithoutPostInput
-}
-
 export interface CommentUpdateManyWithoutPostInput {
   create?: CommentCreateWithoutPostInput[] | CommentCreateWithoutPostInput
   connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput
@@ -4569,18 +5976,18 @@ export interface CommentUpdateManyWithoutPostInput {
   upsert?: CommentUpsertWithWhereUniqueWithoutPostInput[] | CommentUpsertWithWhereUniqueWithoutPostInput
 }
 
-export interface UserUpdateWithoutSentMessagesDataInput {
+export interface UserUpdateWithoutNotificationsDataInput {
   email?: String
   password?: String
   name?: String
   resetToken?: String
   resetTokenExpiry?: String
-  connectedWithGithub?: Boolean
   emailConfirmed?: Boolean
   permissions?: UserUpdatepermissionsInput
+  githubProfile?: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts?: PostUpdateManyWithoutAuthorInput
+  sentMessages?: MessageUpdateManyWithoutFromInput
   receivedMessages?: MessageUpdateManyWithoutToInput
-  notifications?: NotificationUpdateManyWithoutUserInput
 }
 
 export interface CommentUpdateWithWhereUniqueWithoutPostInput {
@@ -4588,9 +5995,8 @@ export interface CommentUpdateWithWhereUniqueWithoutPostInput {
   data: CommentUpdateWithoutPostDataInput
 }
 
-export interface PostCreateManyWithoutAuthorInput {
-  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput
+export interface DirectoryWhereUniqueInput {
+  id?: ID_Input
 }
 
 export interface CommentUpdateWithoutPostDataInput {
@@ -4598,9 +6004,9 @@ export interface CommentUpdateWithoutPostDataInput {
   author?: UserUpdateOneInput
 }
 
-export interface DirectoryCreateOneWithoutChildrenInput {
-  create?: DirectoryCreateWithoutChildrenInput
-  connect?: DirectoryWhereUniqueInput
+export interface FileUpdateWithWhereUniqueWithoutParentInput {
+  where: FileWhereUniqueInput
+  data: FileUpdateWithoutParentDataInput
 }
 
 export interface UserUpdateOneInput {
@@ -4611,56 +6017,8 @@ export interface UserUpdateOneInput {
   upsert?: UserUpsertNestedInput
 }
 
-export interface CommentWhereInput {
-  AND?: CommentWhereInput[] | CommentWhereInput
-  OR?: CommentWhereInput[] | CommentWhereInput
-  NOT?: CommentWhereInput[] | CommentWhereInput
-  id?: ID_Input
-  id_not?: ID_Input
-  id_in?: ID_Input[] | ID_Input
-  id_not_in?: ID_Input[] | ID_Input
-  id_lt?: ID_Input
-  id_lte?: ID_Input
-  id_gt?: ID_Input
-  id_gte?: ID_Input
-  id_contains?: ID_Input
-  id_not_contains?: ID_Input
-  id_starts_with?: ID_Input
-  id_not_starts_with?: ID_Input
-  id_ends_with?: ID_Input
-  id_not_ends_with?: ID_Input
-  createdAt?: DateTime
-  createdAt_not?: DateTime
-  createdAt_in?: DateTime[] | DateTime
-  createdAt_not_in?: DateTime[] | DateTime
-  createdAt_lt?: DateTime
-  createdAt_lte?: DateTime
-  createdAt_gt?: DateTime
-  createdAt_gte?: DateTime
-  updatedAt?: DateTime
-  updatedAt_not?: DateTime
-  updatedAt_in?: DateTime[] | DateTime
-  updatedAt_not_in?: DateTime[] | DateTime
-  updatedAt_lt?: DateTime
-  updatedAt_lte?: DateTime
-  updatedAt_gt?: DateTime
-  updatedAt_gte?: DateTime
-  content?: String
-  content_not?: String
-  content_in?: String[] | String
-  content_not_in?: String[] | String
-  content_lt?: String
-  content_lte?: String
-  content_gt?: String
-  content_gte?: String
-  content_contains?: String
-  content_not_contains?: String
-  content_starts_with?: String
-  content_not_starts_with?: String
-  content_ends_with?: String
-  content_not_ends_with?: String
-  author?: UserWhereInput
-  post?: PostWhereInput
+export interface TagUpdateInput {
+  text?: String
 }
 
 export interface UserUpdateDataInput {
@@ -4669,13 +6027,54 @@ export interface UserUpdateDataInput {
   name?: String
   resetToken?: String
   resetTokenExpiry?: String
-  connectedWithGithub?: Boolean
   emailConfirmed?: Boolean
   permissions?: UserUpdatepermissionsInput
+  githubProfile?: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts?: PostUpdateManyWithoutAuthorInput
   sentMessages?: MessageUpdateManyWithoutFromInput
   receivedMessages?: MessageUpdateManyWithoutToInput
   notifications?: NotificationUpdateManyWithoutUserInput
+}
+
+export interface UserUpdateOneWithoutGithubProfileInput {
+  create?: UserCreateWithoutGithubProfileInput
+  connect?: UserWhereUniqueInput
+  disconnect?: Boolean
+  delete?: Boolean
+  update?: UserUpdateWithoutGithubProfileDataInput
+  upsert?: UserUpsertWithoutGithubProfileInput
+}
+
+export interface MessageUpdateManyWithoutFromInput {
+  create?: MessageCreateWithoutFromInput[] | MessageCreateWithoutFromInput
+  connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+  disconnect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+  delete?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
+  update?: MessageUpdateWithWhereUniqueWithoutFromInput[] | MessageUpdateWithWhereUniqueWithoutFromInput
+  upsert?: MessageUpsertWithWhereUniqueWithoutFromInput[] | MessageUpsertWithWhereUniqueWithoutFromInput
+}
+
+export interface UserUpdateOneWithoutSentMessagesInput {
+  create?: UserCreateWithoutSentMessagesInput
+  connect?: UserWhereUniqueInput
+  delete?: Boolean
+  update?: UserUpdateWithoutSentMessagesDataInput
+  upsert?: UserUpsertWithoutSentMessagesInput
+}
+
+export interface MessageUpdateWithWhereUniqueWithoutFromInput {
+  where: MessageWhereUniqueInput
+  data: MessageUpdateWithoutFromDataInput
+}
+
+export interface AccessTokenCreatescopesInput {
+  set?: String[] | String
+}
+
+export interface MessageUpdateWithoutFromDataInput {
+  deliveredAt?: DateTime
+  readAt?: DateTime
+  to?: UserUpdateOneWithoutReceivedMessagesInput
 }
 
 export interface CommentSubscriptionWhereInput {
@@ -4689,42 +6088,6 @@ export interface CommentSubscriptionWhereInput {
   node?: CommentWhereInput
 }
 
-export interface MessageUpdateManyWithoutFromInput {
-  create?: MessageCreateWithoutFromInput[] | MessageCreateWithoutFromInput
-  connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-  disconnect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-  delete?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-  update?: MessageUpdateWithWhereUniqueWithoutFromInput[] | MessageUpdateWithWhereUniqueWithoutFromInput
-  upsert?: MessageUpsertWithWhereUniqueWithoutFromInput[] | MessageUpsertWithWhereUniqueWithoutFromInput
-}
-
-export interface PostWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface MessageUpdateWithWhereUniqueWithoutFromInput {
-  where: MessageWhereUniqueInput
-  data: MessageUpdateWithoutFromDataInput
-}
-
-export interface NotificationUpdateInput {
-  type?: NOTIFICATION_TYPE
-  link?: String
-  readDate?: DateTime
-  user?: UserUpdateOneWithoutNotificationsInput
-}
-
-export interface MessageUpdateWithoutFromDataInput {
-  deliveredAt?: DateTime
-  readAt?: DateTime
-  to?: UserUpdateOneWithoutReceivedMessagesInput
-}
-
-export interface PostUpsertWithoutCommentsInput {
-  update: PostUpdateWithoutCommentsDataInput
-  create: PostCreateWithoutCommentsInput
-}
-
 export interface UserUpdateOneWithoutReceivedMessagesInput {
   create?: UserCreateWithoutReceivedMessagesInput
   connect?: UserWhereUniqueInput
@@ -4733,13 +6096,8 @@ export interface UserUpdateOneWithoutReceivedMessagesInput {
   upsert?: UserUpsertWithoutReceivedMessagesInput
 }
 
-export interface PostUpdateInput {
-  visibility?: VISIBILITY
-  views?: Int
-  author?: UserUpdateOneWithoutPostsInput
-  content?: FileUpdateOneInput
-  tags?: TagUpdateManyInput
-  comments?: CommentUpdateManyWithoutPostInput
+export interface PostWhereUniqueInput {
+  id?: ID_Input
 }
 
 export interface UserUpdateWithoutReceivedMessagesDataInput {
@@ -4748,27 +6106,17 @@ export interface UserUpdateWithoutReceivedMessagesDataInput {
   name?: String
   resetToken?: String
   resetTokenExpiry?: String
-  connectedWithGithub?: Boolean
   emailConfirmed?: Boolean
   permissions?: UserUpdatepermissionsInput
+  githubProfile?: GithubProfileUpdateOneWithoutProfileOwnerInput
   posts?: PostUpdateManyWithoutAuthorInput
   sentMessages?: MessageUpdateManyWithoutFromInput
   notifications?: NotificationUpdateManyWithoutUserInput
 }
 
-export interface UserCreateInput {
-  email: String
-  password: String
-  name?: String
-  resetToken?: String
-  resetTokenExpiry?: String
-  connectedWithGithub?: Boolean
-  emailConfirmed?: Boolean
-  permissions?: UserCreatepermissionsInput
-  posts?: PostCreateManyWithoutAuthorInput
-  sentMessages?: MessageCreateManyWithoutFromInput
-  receivedMessages?: MessageCreateManyWithoutToInput
-  notifications?: NotificationCreateManyWithoutUserInput
+export interface PostUpsertWithoutCommentsInput {
+  update: PostUpdateWithoutCommentsDataInput
+  create: PostCreateWithoutCommentsInput
 }
 
 export interface NotificationUpdateManyWithoutUserInput {
@@ -4780,9 +6128,9 @@ export interface NotificationUpdateManyWithoutUserInput {
   upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput[] | NotificationUpsertWithWhereUniqueWithoutUserInput
 }
 
-export interface TagCreateManyInput {
-  create?: TagCreateInput[] | TagCreateInput
-  connect?: TagWhereUniqueInput[] | TagWhereUniqueInput
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput
+  create: UserCreateInput
 }
 
 export interface NotificationUpdateWithWhereUniqueWithoutUserInput {
@@ -4790,35 +6138,19 @@ export interface NotificationUpdateWithWhereUniqueWithoutUserInput {
   data: NotificationUpdateWithoutUserDataInput
 }
 
-export interface UserSubscriptionWhereInput {
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: UserWhereInput
-}
-
-export interface NotificationUpdateWithoutUserDataInput {
-  type?: NOTIFICATION_TYPE
-  link?: String
-  readDate?: DateTime
-}
-
-export interface FileUpdateWithWhereUniqueWithoutParentInput {
-  where: FileWhereUniqueInput
-  data: FileUpdateWithoutParentDataInput
-}
-
-export interface MessageUpdateManyWithoutToInput {
-  create?: MessageCreateWithoutToInput[] | MessageCreateWithoutToInput
-  connect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-  disconnect?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-  delete?: MessageWhereUniqueInput[] | MessageWhereUniqueInput
-  update?: MessageUpdateWithWhereUniqueWithoutToInput[] | MessageUpdateWithWhereUniqueWithoutToInput
-  upsert?: MessageUpsertWithWhereUniqueWithoutToInput[] | MessageUpsertWithWhereUniqueWithoutToInput
+export interface FileCreateInput {
+  name: String
+  type?: FILE_TYPE
+  data?: String
+  isDirty?: Boolean
+  isTransient?: Boolean
+  bufferType?: FILE_TYPE
+  description?: String
+  uuid?: String
+  contentType?: String
+  s3Url?: String
+  size?: Int
+  parent?: DirectoryCreateOneWithoutChildrenInput
 }
 
 export interface MessageUpsertWithWhereUniqueWithoutFromInput {
@@ -4838,57 +6170,42 @@ export interface NotificationUpsertWithWhereUniqueWithoutUserInput {
   create: NotificationCreateWithoutUserInput
 }
 
-export interface TagUpdateInput {
-  text?: String
+export interface NotificationUpdateWithoutUserDataInput {
+  type?: NOTIFICATION_TYPE
+  link?: String
+  readDate?: DateTime
 }
 
-export interface DirectoryWhereUniqueInput {
-  id?: ID_Input
+export interface GithubProfileSubscriptionWhereInput {
+  AND?: GithubProfileSubscriptionWhereInput[] | GithubProfileSubscriptionWhereInput
+  OR?: GithubProfileSubscriptionWhereInput[] | GithubProfileSubscriptionWhereInput
+  NOT?: GithubProfileSubscriptionWhereInput[] | GithubProfileSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: GithubProfileWhereInput
 }
 
-export interface TagWhereInput {
-  AND?: TagWhereInput[] | TagWhereInput
-  OR?: TagWhereInput[] | TagWhereInput
-  NOT?: TagWhereInput[] | TagWhereInput
-  id?: ID_Input
-  id_not?: ID_Input
-  id_in?: ID_Input[] | ID_Input
-  id_not_in?: ID_Input[] | ID_Input
-  id_lt?: ID_Input
-  id_lte?: ID_Input
-  id_gt?: ID_Input
-  id_gte?: ID_Input
-  id_contains?: ID_Input
-  id_not_contains?: ID_Input
-  id_starts_with?: ID_Input
-  id_not_starts_with?: ID_Input
-  id_ends_with?: ID_Input
-  id_not_ends_with?: ID_Input
-  text?: String
-  text_not?: String
-  text_in?: String[] | String
-  text_not_in?: String[] | String
-  text_lt?: String
-  text_lte?: String
-  text_gt?: String
-  text_gte?: String
-  text_contains?: String
-  text_not_contains?: String
-  text_starts_with?: String
-  text_not_starts_with?: String
-  text_ends_with?: String
-  text_not_ends_with?: String
+export interface GithubProfileCreateOneWithoutProfileOwnerInput {
+  create?: GithubProfileCreateWithoutProfileOwnerInput
+  connect?: GithubProfileWhereUniqueInput
 }
 
-export interface FileCreateOneInput {
-  create?: FileCreateInput
-  connect?: FileWhereUniqueInput
+export interface PostUpdateInput {
+  visibility?: VISIBILITY
+  views?: Int
+  author?: UserUpdateOneWithoutPostsInput
+  content?: FileUpdateOneInput
+  tags?: TagUpdateManyInput
+  comments?: CommentUpdateManyWithoutPostInput
 }
 
-export interface MessageUpsertWithWhereUniqueWithoutToInput {
-  where: MessageWhereUniqueInput
-  update: MessageUpdateWithoutToDataInput
-  create: MessageCreateWithoutToInput
+export interface NotificationUpdateInput {
+  type?: NOTIFICATION_TYPE
+  link?: String
+  readDate?: DateTime
+  user?: UserUpdateOneWithoutNotificationsInput
 }
 
 /*
@@ -4907,13 +6224,29 @@ export interface NotificationPreviousValues {
   readDate?: DateTime
 }
 
-export interface Notification extends Node {
+/*
+ * A connection to a list of items.
+
+ */
+export interface UserConnection {
+  pageInfo: PageInfo
+  edges: UserEdge[]
+  aggregate: AggregateUser
+}
+
+export interface AccessToken extends Node {
   id: ID_Output
+  scopes?: String[]
+  token: String
   createdAt: DateTime
-  type?: NOTIFICATION_TYPE
-  user: User
-  link: String
-  readDate?: DateTime
+  updatedAt: DateTime
+}
+
+export interface NotificationSubscriptionPayload {
+  mutation: MutationType
+  node?: Notification
+  updatedFields?: String[]
+  previousValues?: NotificationPreviousValues
 }
 
 export interface User extends Node {
@@ -4921,52 +6254,21 @@ export interface User extends Node {
   email: String
   password: String
   name?: String
+  githubProfile?: GithubProfile
   posts?: Post[]
-  resetToken?: String
-  resetTokenExpiry?: String
-  permissions?: PERMISSION[]
-  connectedWithGithub: Boolean
   sentMessages?: Message[]
   receivedMessages?: Message[]
   notifications?: Notification[]
+  resetToken?: String
+  resetTokenExpiry?: String
+  permissions?: PERMISSION[]
   emailConfirmed: Boolean
   createdAt: DateTime
   updatedAt: DateTime
 }
 
-export interface BatchPayload {
-  count: Long
-}
-
-/*
- * An edge in a connection.
-
- */
-export interface NotificationEdge {
-  node: Notification
-  cursor: String
-}
-
 export interface AggregateNotification {
   count: Int
-}
-
-export interface File extends Node {
-  id: ID_Output
-  name: String
-  type: FILE_TYPE
-  data: String
-  parent?: Directory
-  isDirty: Boolean
-  isTransient: Boolean
-  bufferType?: FILE_TYPE
-  description?: String
-  uuid?: String
-  contentType?: String
-  s3Url?: String
-  size?: Int
-  createdAt: DateTime
-  updatedAt: DateTime
 }
 
 /*
@@ -4979,8 +6281,8 @@ export interface NotificationConnection {
   aggregate: AggregateNotification
 }
 
-export interface AggregateMessage {
-  count: Int
+export interface BatchPayload {
+  count: Long
 }
 
 /*
@@ -4992,20 +6294,32 @@ export interface MessageEdge {
   cursor: String
 }
 
+export interface GithubProfile {
+  profileOwner?: User
+  login: String
+  githubUserId: Int
+  node_id: String
+  name?: String
+  bio?: String
+  website?: String
+  githubEmail: String
+  profilePhoto?: String
+  accessTokens?: AccessToken[]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
 export interface AggregateDirectory {
   count: Int
 }
 
-export interface Post extends Node {
+export interface Notification extends Node {
   id: ID_Output
-  author: User
-  visibility?: VISIBILITY
-  content: File
-  tags?: Tag[]
-  views?: Int
-  comments?: Comment[]
   createdAt: DateTime
-  updatedAt: DateTime
+  type?: NOTIFICATION_TYPE
+  user: User
+  link: String
+  readDate?: DateTime
 }
 
 /*
@@ -5053,7 +6367,6 @@ export interface UserPreviousValues {
   resetToken?: String
   resetTokenExpiry?: String
   permissions?: PERMISSION[]
-  connectedWithGithub: Boolean
   emailConfirmed: Boolean
   createdAt: DateTime
   updatedAt: DateTime
@@ -5069,13 +6382,11 @@ export interface CommentConnection {
   aggregate: AggregateComment
 }
 
-export interface Message extends Node {
-  id: ID_Output
-  createdAt: DateTime
-  from: User
-  to: User
-  deliveredAt: DateTime
-  readAt?: DateTime
+export interface MessageSubscriptionPayload {
+  mutation: MutationType
+  node?: Message
+  updatedFields?: String[]
+  previousValues?: MessagePreviousValues
 }
 
 /*
@@ -5087,21 +6398,26 @@ export interface TagEdge {
   cursor: String
 }
 
-export interface PostSubscriptionPayload {
+export interface GithubProfileSubscriptionPayload {
   mutation: MutationType
-  node?: Post
+  node?: GithubProfile
   updatedFields?: String[]
-  previousValues?: PostPreviousValues
+  previousValues?: GithubProfilePreviousValues
 }
 
 export interface AggregatePost {
   count: Int
 }
 
-export interface PostPreviousValues {
-  id: ID_Output
-  visibility?: VISIBILITY
-  views?: Int
+export interface GithubProfilePreviousValues {
+  login: String
+  githubUserId: Int
+  node_id: String
+  name?: String
+  bio?: String
+  website?: String
+  githubEmail: String
+  profilePhoto?: String
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -5116,11 +6432,60 @@ export interface PostConnection {
   aggregate: AggregatePost
 }
 
-export interface MessageSubscriptionPayload {
+export interface Message extends Node {
+  id: ID_Output
+  createdAt: DateTime
+  from: User
+  to: User
+  deliveredAt: DateTime
+  readAt?: DateTime
+}
+
+/*
+ * An edge in a connection.
+
+ */
+export interface AccessTokenEdge {
+  node: AccessToken
+  cursor: String
+}
+
+export interface AccessTokenSubscriptionPayload {
   mutation: MutationType
-  node?: Message
+  node?: AccessToken
   updatedFields?: String[]
-  previousValues?: MessagePreviousValues
+  previousValues?: AccessTokenPreviousValues
+}
+
+export interface AggregateGithubProfile {
+  count: Int
+}
+
+export interface AccessTokenPreviousValues {
+  id: ID_Output
+  scopes?: String[]
+  token: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+/*
+ * A connection to a list of items.
+
+ */
+export interface GithubProfileConnection {
+  pageInfo: PageInfo
+  edges: GithubProfileEdge[]
+  aggregate: AggregateGithubProfile
+}
+
+export interface Comment extends Node {
+  id: ID_Output
+  createdAt: DateTime
+  updatedAt: DateTime
+  author: User
+  content?: String
+  post: Post
 }
 
 /*
@@ -5132,26 +6497,28 @@ export interface UserEdge {
   cursor: String
 }
 
-export interface TagSubscriptionPayload {
+export interface PostSubscriptionPayload {
   mutation: MutationType
-  node?: Tag
+  node?: Post
   updatedFields?: String[]
-  previousValues?: TagPreviousValues
+  previousValues?: PostPreviousValues
 }
 
 /*
- * A connection to a list of items.
+ * An edge in a connection.
 
  */
-export interface UserConnection {
-  pageInfo: PageInfo
-  edges: UserEdge[]
-  aggregate: AggregateUser
+export interface NotificationEdge {
+  node: Notification
+  cursor: String
 }
 
-export interface TagPreviousValues {
+export interface PostPreviousValues {
   id: ID_Output
-  text: String
+  visibility?: VISIBILITY
+  views?: Int
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 /*
@@ -5164,16 +6531,56 @@ export interface MessageConnection {
   aggregate: AggregateMessage
 }
 
-export interface Comment extends Node {
+export interface Tag extends Node {
   id: ID_Output
-  createdAt: DateTime
-  updatedAt: DateTime
-  author: User
-  content?: String
-  post: Post
+  text: String
 }
 
 export interface AggregateFile {
+  count: Int
+}
+
+export interface TagSubscriptionPayload {
+  mutation: MutationType
+  node?: Tag
+  updatedFields?: String[]
+  previousValues?: TagPreviousValues
+}
+
+/*
+ * An edge in a connection.
+
+ */
+export interface CommentEdge {
+  node: Comment
+  cursor: String
+}
+
+export interface TagPreviousValues {
+  id: ID_Output
+  text: String
+}
+
+/*
+ * A connection to a list of items.
+
+ */
+export interface TagConnection {
+  pageInfo: PageInfo
+  edges: TagEdge[]
+  aggregate: AggregateTag
+}
+
+export interface Directory extends Node {
+  id: ID_Output
+  name?: String
+  children?: File[]
+  isOpen: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+export interface AggregateAccessToken {
   count: Int
 }
 
@@ -5188,8 +6595,8 @@ export interface CommentSubscriptionPayload {
  * An edge in a connection.
 
  */
-export interface CommentEdge {
-  node: Comment
+export interface GithubProfileEdge {
+  node: GithubProfile
   cursor: String
 }
 
@@ -5201,22 +6608,41 @@ export interface CommentPreviousValues {
 }
 
 /*
- * A connection to a list of items.
+ * Information about pagination in a connection.
 
  */
-export interface TagConnection {
-  pageInfo: PageInfo
-  edges: TagEdge[]
-  aggregate: AggregateTag
+export interface PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor?: String
+  endCursor?: String
 }
 
-export interface Tag extends Node {
+export interface File extends Node {
   id: ID_Output
-  text: String
+  name: String
+  type: FILE_TYPE
+  data: String
+  parent?: Directory
+  isDirty: Boolean
+  isTransient: Boolean
+  bufferType?: FILE_TYPE
+  description?: String
+  uuid?: String
+  contentType?: String
+  s3Url?: String
+  size?: Int
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
-export interface AggregateUser {
-  count: Int
+/*
+ * An edge in a connection.
+
+ */
+export interface DirectoryEdge {
+  node: Directory
+  cursor: String
 }
 
 export interface FileSubscriptionPayload {
@@ -5226,21 +6652,18 @@ export interface FileSubscriptionPayload {
   previousValues?: FilePreviousValues
 }
 
-export interface NotificationSubscriptionPayload {
-  mutation: MutationType
-  node?: Notification
-  updatedFields?: String[]
-  previousValues?: NotificationPreviousValues
+export interface AggregateTag {
+  count: Int
 }
 
 /*
  * A connection to a list of items.
 
  */
-export interface FileConnection {
+export interface AccessTokenConnection {
   pageInfo: PageInfo
-  edges: FileEdge[]
-  aggregate: AggregateFile
+  edges: AccessTokenEdge[]
+  aggregate: AggregateAccessToken
 }
 
 export interface DirectoryPreviousValues {
@@ -5258,11 +6681,14 @@ export interface DirectorySubscriptionPayload {
   previousValues?: DirectoryPreviousValues
 }
 
-export interface Directory extends Node {
+export interface Post extends Node {
   id: ID_Output
-  name?: String
-  children?: File[]
-  isOpen: Boolean
+  author: User
+  visibility?: VISIBILITY
+  content: File
+  tags?: Tag[]
+  views?: Int
+  comments?: Comment[]
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -5284,28 +6710,8 @@ export interface FilePreviousValues {
   updatedAt: DateTime
 }
 
-export interface AggregateTag {
+export interface AggregateUser {
   count: Int
-}
-
-/*
- * An edge in a connection.
-
- */
-export interface DirectoryEdge {
-  node: Directory
-  cursor: String
-}
-
-/*
- * Information about pagination in a connection.
-
- */
-export interface PageInfo {
-  hasNextPage: Boolean
-  hasPreviousPage: Boolean
-  startCursor?: String
-  endCursor?: String
 }
 
 /*
@@ -5318,10 +6724,20 @@ export interface PostEdge {
 }
 
 /*
-The `Long` scalar type represents non-fractional signed whole numeric values.
-Long can represent values between -(2^63) and 2^63 - 1.
-*/
-export type Long = string
+ * A connection to a list of items.
+
+ */
+export interface FileConnection {
+  pageInfo: PageInfo
+  edges: FileEdge[]
+  aggregate: AggregateFile
+}
+
+export interface AggregateMessage {
+  count: Int
+}
+
+export type DateTime = Date | string
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -5334,7 +6750,11 @@ The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean
 
-export type DateTime = Date | string
+/*
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+*/
+export type Long = string
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.

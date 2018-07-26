@@ -1,19 +1,22 @@
 # graphql-api-server
 
-* [graphql-api-server](#graphql-api-server)
-  * [Overview](#overview)
-  * [Features](#features)
-  * [Docs](#docs)
-    * [Repo Structure](#repo-structure)
-    * [Deployment](#deployment)
-    * [Authentication Flows](#authentication-flows)
-      * [Create Account](#create-account)
-      * [Login](#login)
-      * [Logout](#logout)
-      * [Reset PW](#reset-pw)
-    * [Implementation Notes](#implementation-notes)
-      * [Security](#security)
-    * [Getting Started](#getting-started)
+- [graphql-api-server](#graphql-api-server)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [Docs](#docs)
+    - [Workflows](#workflows)
+      - [Local Development](#local-development)
+      - [Production Deployment](#production-deployment)
+    - [Repo Structure](#repo-structure)
+    - [Deployment](#deployment)
+    - [Authentication Flows](#authentication-flows)
+      - [Create Account](#create-account)
+      - [Login](#login)
+      - [Logout](#logout)
+      - [Reset PW](#reset-pw)
+    - [Implementation Notes](#implementation-notes)
+      - [Security](#security)
+    - [Getting Started](#getting-started)
 
 ## Overview
 
@@ -32,6 +35,12 @@
 * [ ] `CloudWatch` metrics for `prisma` service
 
 ## Docs
+
+### Workflows
+
+#### Local Development
+
+#### Production Deployment
 
 ### Repo Structure
 

@@ -2,6 +2,10 @@ import { createError } from 'apollo-errors'
 
 const errors = {
   auth: {
+    unauthenticated: {
+      message: 'You are not authenticated.',
+      code: 401
+    },
     emailInUse: {
       message: 'The email address you entered is already in use.',
       code: 100
@@ -34,6 +38,11 @@ const errors = {
     code: 200
   }
 }
+
+export const UnauthenticatedError = createError('Unauthenticated', {
+  message: errors.auth.unauthenticated.message,
+  data: { code: errors.auth.unauthenticated.code }
+})
 
 export const EmailInUseError = createError('EmailInUse', {
   message: errors.auth.emailInUse.message,

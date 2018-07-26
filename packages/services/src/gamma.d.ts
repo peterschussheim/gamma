@@ -5,7 +5,7 @@ import { Redis } from 'ioredis'
 export interface PrismaBindingOptions {
   PRISMA_ENDPOINT: string
   PRISMA_SECRET: string
-  PRISMA_DEBUG?: boolean
+  PRISMA_DEBUG?: string | boolean
 }
 
 export interface Cors {
@@ -24,6 +24,7 @@ export interface Context {
   session: Session
   req: any
   res: any
+  next: any
   url: string
 }
 
