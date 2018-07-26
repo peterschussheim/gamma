@@ -3,20 +3,19 @@ import { Router } from 'express'
 import * as morgan from 'morgan'
 import * as jwt from 'jsonwebtoken'
 import * as passport from 'passport'
+import * as bodyParser from 'body-parser'
+import * as cookieParser from 'cookie-parser'
 
 import views from './views'
 import useragent from './useragent'
 import cors from './cors'
 import session from './session'
-import auth from './auth'
 
 const middlewares = Router()
 
 if (process.env.NODE_ENV === 'development' && !process.env.test) {
   const raven = require('./raven').default
   middlewares.use(raven)
-  const logging = require('./logging')
-  middlewares.use(logging)
 }
 
 if (
@@ -42,7 +41,9 @@ middlewares.use((req, res, next) => {
       const { userId } = jwt.verify(token, process.env.APP_SECRET) as {
         userId: string
       }
-      if (userId) req.headers.cookie = userId
+      if (userId) {
+        req.headers.cookie = userId
+      }
     } catch (err) {}
   }
   next()
@@ -51,10 +52,11 @@ middlewares.use((req, res, next) => {
 middlewares.use(morgan('dev'))
 middlewares.use(cors)
 middlewares.options('*', cors)
+middlewares.use(cookieParser(process.env.SESSION_SECRET))
+middlewares.use(bodyParser.urlencoded({ extended: true }))
 middlewares.use(session)
 middlewares.use(passport.initialize())
 middlewares.use(passport.session())
-middlewares.use(auth)
 middlewares.use(useragent)
 middlewares.use(views)
 

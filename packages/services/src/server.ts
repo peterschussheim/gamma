@@ -3,23 +3,22 @@ debug('Server starting...')
 debug('logging with debug enabled!')
 import * as compression from 'compression'
 import { GraphQLServer, PubSub } from 'graphql-yoga'
-import * as passport from 'passport'
 
 import { resolvers } from './resolvers'
 import { redis } from './redis'
 import middlewares from './middlewares'
 import { securityMiddleware } from './middlewares/security'
 import confirmEmail from './controllers/confirmEmail'
-import { init as initPassport } from './github/githubLogin'
-
-const pubsub = new PubSub()
+import { init as initPassport } from './initAuth'
+import authRoutes from './routes/auth'
+import getUser from './middlewares/getUser'
 
 export default function startServer(databaseInstance) {
+  const pubsub = new PubSub()
   const context = ({ request, response }) => ({
     req: request,
     res: response,
     db: databaseInstance,
-    url: request.protocol + '://' + request.get('host'),
     pubsub,
     redis
   })
@@ -37,30 +36,18 @@ export default function startServer(databaseInstance) {
   securityMiddleware(server.express)
   server.express.use(compression())
   server.express.use(middlewares)
-  server.express.use('/', (req, res) => {
-    res.redirect(
-      process.env.NODE_ENV === 'production'
-        ? 'https://gamma.app'
-        : 'http://localhost:3000'
-    )
-  })
-  server.express.get(
-    '/login/github',
-    passport.authenticate('github', { scope: ['user'] }) // TODO: make dynamic
+  server.express.use('/auth', authRoutes)
+  server.express.post(server.options.endpoint, (req, res, next) =>
+    getUser(req, res, next, databaseInstance)
   )
 
-  server.express.get(
-    '/login/github/callback',
-    passport.authenticate('github', { failureRedirect: '/' }),
-    (req, res) => res.redirect('/')
-  )
-
-  server.express.get('/logout', (req, res) => {
-    req.logout()
-    // TODO: Need to update code for clearing all user sessions and
-    // clearing one session
-    res.redirect('/')
-  })
+  // server.express.use('/', (req, res) => {
+  //   res.redirect(
+  //     process.env.NODE_ENV === 'production'
+  //       ? 'https://gamma.app'
+  //       : 'http://localhost:3000'
+  //   )
+  // })
 
   server.express.get(
     '/confirm/:id',

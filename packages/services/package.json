@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "dotenv cross-env NODE_ENV=production cross-env DEBUG=*,-express-session*,-body-parser:*,-express:* node dist",
-    "dev:verbose": "cross-env NODE_ENV=development cross-env PRISMA_DEBUG=true cross-env DEBUG=*,-snapdragon:*,-nodemon*, nodemon -r dotenv/config --watch src -e ts,js,graphql -x ts-node src/index.ts",
+    "dev:verbose": "cross-env NODE_ENV=development cross-env PRISMA_DEBUG=true cross-env DEBUG=*,-body-parser:*,-express:*,-snapdragon:*,-nodemon*, nodemon -r dotenv/config --watch src -e ts,js,graphql -x ts-node src/index.ts",
     "dev": "cross-env NODE_ENV=development cross-env DEBUG=*,-body-parser:*,-express:*,-snapdragon:*,-nodemon*, nodemon -r dotenv/config --watch src -e ts,js,graphql -x ts-node src/index.ts",
     "build": "rimraf ./dist && tsc && copyfiles -u 1 src/**/*.graphql dist",
     "playground": "graphql playground",
@@ -83,7 +83,7 @@
     "morgan": "1.9.0",
     "multiparty": "4.1.4",
     "node-uuid": "1.4.8",
-    "now-env": "3.0.4",
+    "now-env": "3.1.0",
     "passport": "0.4.0",
     "passport-github2": "0.1.11",
     "prisma-binding": "2.0.2",

@@ -1,15 +1,15 @@
 const debug = require('debug')('entrypoint')
+const util = require('util')
 import { formatError } from 'apollo-errors'
-import { AddressInfo } from 'net'
 import { Options } from 'graphql-yoga'
-
 import { defaultPrismaOptions, initDatabase } from './db'
 import startServer from './server'
 import Raven from './shared/raven'
 
-const PORT = parseInt(process.env.PORT, 10) || 4000
+const PORT = process.env.PORT || 4000
+const HOST = process.env.HOST || 'localhost'
+const NODE_ENV = process.env.NODE_ENV || 'development'
 
-// TODO: https://github.com/apollographql/subscriptions-transport-ws#constructorurl-options-websocketimpl
 const options: Options = {
   port: PORT,
   cors: {
@@ -18,19 +18,31 @@ const options: Options = {
       process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
         ? [
             'https://gamma.app',
-            /gamma-(\w|-)+\.now\.sh/g,
+            /gamma-(\w|-)+\.app/g,
             /gamma\.app/,
-            /services-(\w|-)+\.now\.sh/g,
-            // REMOVE ASAP
-            /localhost/
+            /ui\.gamma\.app/g
           ]
-        : [/localhost/],
+        : [/localhost/, /github\.com/],
     preflightContinue: true
   },
-  endpoint: '/graphql',
-  subscriptions: '/subscriptions',
+  endpoint: '/api',
+  subscriptions: {
+    path: '/subscriptions',
+    onDisconnect: rawSocket => {
+      const userId = rawSocket.upgradeReq.session
+    },
+    onConnect: (connectionParams, rawSocket, context) => {
+      // debug(`onConnect WS Context: ${util.inspect(context)}`)
+      const userId = rawSocket.upgradeReq.session
+      // debug(`onConnect WS Raw Socket: ${util.inspect(rawSocket)}`)
+      return userId
+    }
+  },
   playground: process.env.NODE_ENV === 'production' ? false : '/playground',
-  formatError
+  formatError,
+  bodyParserOptions: {
+    type: '*/*'
+  }
 }
 
 /**
@@ -49,10 +61,10 @@ const prisma = initDatabase(defaultPrismaOptions)
 startServer(prisma)
   .start(options)
   .then(http => {
-    const { port } = http.address() as AddressInfo
-    debug(`Server running on http://localhost:${port}`)
-    debug(`GraphQL uri http://localhost:${port}${options.endpoint}`)
-    debug(`Subscriptions uri ws://localhost:${port}${options.subscriptions}`)
+    debug(`NODE_ENV: ${NODE_ENV}`)
+    debug(`Server running on http://localhost:${PORT}`)
+    debug(`GraphQL uri http://localhost:${PORT}${options.endpoint}`)
+    debug(`Subscriptions uri ws://${HOST}:${PORT}/subscriptions`)
   })
   .catch(err => {
     debug(`ERROR CAUGHT index.ts: ${err}`)

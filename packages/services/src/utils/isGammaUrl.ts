@@ -1,6 +1,7 @@
 import { URL } from 'url'
 import { RELATIVE_URL } from './regexps'
-const IS_PROD = process.env.NODE_ENV === 'production'
+
+const IS_PROD = !process.env.FORCE_DEV && process.env.NODE_ENV === 'production'
 
 /**
  * Verify a given URL string is a a gamma.app URL
@@ -19,7 +20,7 @@ export default url => {
       return true
     }
   } catch (err) {
-    console.error(`Invalid URL ("${url}") passed. Full error:`)
+    console.error(`Invalid URL ("${url}") passed. Error stack:`)
     console.error(err)
   }
   return false

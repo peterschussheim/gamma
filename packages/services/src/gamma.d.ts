@@ -24,6 +24,7 @@ export interface Context {
   session: Session
   req: any
   res: any
+  next: any
   url: string
 }
 
