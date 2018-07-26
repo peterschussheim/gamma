@@ -1,6 +1,0 @@
-{
-  "name": "gamma-production",
-  "type": "npm",
-  "forwardNpm": true,
-  "alias": ["gamma.app"]
-}

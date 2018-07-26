@@ -1,6 +1,0 @@
-{
-  "name": "gamma-staging",
-  "type": "npm",
-  "forwardNpm": true,
-  "alias": ["staging-ui.gamma.app"]
-}
