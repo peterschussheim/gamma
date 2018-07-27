@@ -6,9 +6,9 @@ const createQueue = require('./create-queue');
 const Raven = require('shared/raven');
 import toobusy from '../middlewares/toobusy';
 
-type QueueMap = {
-  [name: string]: (job: Object) =>?Promise<any>,
-};
+// type QueueMap = {
+//   [name: string]: (job: Object) =>?Promise<any>,
+// };
 
 // Helper function to sum properties of an array of objects
 // e.g. [{ completed: 6 }, { completed: 2 }] => 8
@@ -16,12 +16,10 @@ const sumArr = (input: Array<Object>, prop: string) => {
   return input.reduce((sum, item) => sum + item[prop], 0);
 };
 
-const createWorker = (queueMap: QueueMap, queueOptions?: Object = {}) => {
+const createWorker = (queueMap, queueOptions = {}) => {
   // We add one error listener per queue, so we have to set the max listeners
   // to whatever it is set to + the amount of queues passed in
-  // $FlowIssue
   EventEmitter.defaultMaxListeners =
-    // $FlowIssue
     Object.keys(queueMap).length + EventEmitter.defaultMaxListeners;
   // Start processing the queues
   const queues = Object.keys(queueMap).map(name => {

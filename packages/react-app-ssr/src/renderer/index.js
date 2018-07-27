@@ -2,7 +2,7 @@ const debug = require('debug')('renderer')
 import 'raf/polyfill'
 debug('Renderer starting...')
 debug('logging with debug enabled')
-require('isomorphic-fetch')
+require('cross-fetch')
 import fs from 'fs'
 import express from 'express'
 import Loadable from 'react-loadable'

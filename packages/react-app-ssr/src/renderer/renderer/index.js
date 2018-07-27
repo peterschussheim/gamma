@@ -9,11 +9,12 @@ import {
   IntrospectionFragmentMatcher
 } from 'apollo-cache-inmemory'
 import { StaticRouter } from 'react-router'
-import { Provider } from 'react-redux'
 import { HelmetProvider } from 'react-helmet-async'
 import Loadable from 'react-loadable'
 import { getBundles } from 'react-loadable/webpack'
+
 import Raven from 'shared/raven'
+
 import introspectionQueryResultData from 'shared/graphql/schema.json'
 import stats from '../../build/react-loadable.json'
 
@@ -24,7 +25,6 @@ import createCacheStream from '../create-cache-stream'
 // Browser shim has to come before any client imports
 import './browser-shim'
 const Routes = require('../../src/routes').default
-import { initStore } from '../../src/store'
 
 const IS_PROD = process.env.NODE_ENV === 'production'
 const FORCE_DEV = process.env.FORCE_DEV
@@ -61,41 +61,21 @@ const renderer = (req, res) => {
     link: httpLink,
     cache
   })
-  // Define the initial redux state
-  const { t } = req.query
 
-  const initialReduxState = {
-    users: {
-      currentUser: req.user ? req.user : null
-    },
-    dashboardFeed: {
-      activeThread: t ? t : '',
-      mountedWithActiveThread: t ? t : '',
-      search: {
-        isOpen: false
-      }
-    }
-  }
-  // Create the Redux store
-  const store = initStore(initialReduxState)
   let modules = []
   const report = moduleName => {
     modules.push(moduleName)
   }
   let routerContext = {}
   let helmetContext = {}
-  // Initialise the styled-components stylesheet and wrap the app with it
-  const sheet = new ServerStyleSheet()
-  const frontend = sheet.collectStyles(
+
+  const frontend = (
     <Loadable.Capture report={report}>
       <ApolloProvider client={client}>
         <HelmetProvider context={helmetContext}>
-          <Provider store={store}>
-            <StaticRouter location={req.url} context={routerContext}>
-              {/* $FlowIssue */}
-              <Routes currentUser={req.user} />
-            </StaticRouter>
-          </Provider>
+          <StaticRouter location={req.url} context={routerContext}>
+            <Routes currentUser={req.user} />
+          </StaticRouter>
         </HelmetProvider>
       </ApolloProvider>
     </Loadable.Capture>
@@ -114,7 +94,6 @@ const renderer = (req, res) => {
 
       res.status(200)
 
-      const state = store.getState()
       const data = client.extract()
       const { helmet } = helmetContext
       debug('write header')
@@ -133,9 +112,7 @@ const renderer = (req, res) => {
         })
       )
 
-      const stream = sheet.interleaveWithNodeStream(
-        renderToNodeStream(frontend)
-      )
+      const stream = renderToNodeStream(frontend)
 
       stream.pipe(
         response,
@@ -151,7 +128,6 @@ const renderer = (req, res) => {
       stream.on('end', () =>
         response.end(
           getFooter({
-            state,
             data,
             bundles
           })
