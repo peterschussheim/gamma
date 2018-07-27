@@ -97,10 +97,6 @@ passport.deserializeUser((id, done) => {
 app.use(passport.initialize())
 app.use(passport.session())
 
-// This needs to come after passport otherwise we'll always redirect logged-in users
-import threadParamRedirect from 'shared/middlewares/thread-param'
-app.use(threadParamRedirect)
-
 // Static files
 // This route handles the case where our ServiceWorker requests main.asdf123.js, but
 // we've deployed a new version of the app so the filename changed to main.dfyt975.js
@@ -111,7 +107,7 @@ try {
   )
 } catch (err) {
   // In development that folder might not exist, so ignore errors here
-  console.error(err)
+  debug.error(err)
 }
 app.use(
   express.static(path.resolve(__dirname, '..', 'build'), {
@@ -154,22 +150,22 @@ import renderer from './renderer'
 app.get('*', renderer)
 
 process.on('unhandledRejection', async err => {
-  console.error('Unhandled rejection', err)
+  debug.error('Unhandled rejection', err)
   try {
     await new Promise(res => Raven.captureException(err, res))
   } catch (err) {
-    console.error('Raven error', err)
+    debug.error('Raven error', err)
   } finally {
     process.exit(1)
   }
 })
 
 process.on('uncaughtException', async err => {
-  console.error('Uncaught exception', err)
+  debug.error('Uncaught exception', err)
   try {
     await new Promise(res => Raven.captureException(err, res))
   } catch (err) {
-    console.error('Raven error', err)
+    debug.error('Raven error', err)
   } finally {
     process.exit(1)
   }
