@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import session from './session'
 
-const corsInstance = cors({
+export const corsInstance = cors({
   credentials: true,
   origin:
     process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
@@ -27,8 +27,8 @@ const middlewares = Router()
 middlewares.use(morgan('dev'))
 middlewares.use(corsInstance)
 middlewares.options('*', corsInstance)
-middlewares.use(cookieParser(process.env.SESSION_SECRET))
-middlewares.use(bodyParser.urlencoded({ extended: true }))
+// middlewares.use(cookieParser(process.env.SESSION_SECRET))
+// middlewares.use(bodyParser.urlencoded({ extended: true }))
 middlewares.use(session)
 
 export default middlewares
