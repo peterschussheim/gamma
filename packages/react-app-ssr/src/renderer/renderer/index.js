@@ -18,7 +18,6 @@ import Raven from 'shared/raven'
 import introspectionQueryResultData from 'shared/graphql/schema.json'
 import stats from '../../build/react-loadable.json'
 
-import getSharedApolloClientOptions from 'shared/graphql/apollo-client-options'
 import { getFooter, getHeader } from './html-template'
 import createCacheStream from '../create-cache-stream'
 
@@ -51,8 +50,7 @@ const renderer = (req, res) => {
   const cache = new InMemoryCache({
     fragmentMatcher: new IntrospectionFragmentMatcher({
       introspectionQueryResultData
-    }),
-    ...getSharedApolloClientOptions()
+    })
   })
 
   // Create an Apollo Client with a local network interface
