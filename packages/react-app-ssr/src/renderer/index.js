@@ -8,10 +8,11 @@ import express from 'express'
 import Loadable from 'react-loadable'
 import path from 'path'
 import { getUser } from 'api/models/user'
-import Raven from 'shared/raven'
-import toobusy from 'shared/middlewares/toobusy'
-import addSecurityMiddleware from 'shared/middlewares/security'
-
+// import Raven from 'shared/raven'
+// import toobusy from 'shared/middlewares/toobusy'
+import { securityMiddleware } from './securityMiddleware'
+import { corsInstance } from './middlewares'
+import session from '../session'
 // Big thanks to spectrum.chat team for this ssr architecture! :)
 
 const PORT = process.env.PORT || 3006
@@ -19,21 +20,20 @@ const PORT = process.env.PORT || 3006
 const app = express()
 
 app.set('trust proxy', true)
-app.use(toobusy)
-addSecurityMiddleware(app)
+// app.use(toobusy)
+securityMiddleware(app)
 
-if (process.env.NODE_ENV === 'development') {
-  const logging = require('shared/middlewares/logging')
-  app.use(logging)
-}
+// if (process.env.NODE_ENV === 'development') {
+//   const logging = require('shared/middlewares/logging')
+//   app.use(logging)
+// }
 
-if (process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV) {
-  const raven = require('shared/middlewares/raven').default
-  app.use(raven)
-}
+// if (process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV) {
+//   const raven = require('shared/middlewares/raven').default
+//   app.use(raven)
+// }
 
-import cors from 'shared/middlewares/cors'
-app.use(cors)
+app.use(corsInstance)
 
 // Redirect requests to /api and /auth to the production API
 // This allows deploy previews to work, as this route would only be called
@@ -55,7 +55,7 @@ app.use('/auth', (req, res) => {
   )
 })
 
-app.use('/websocket', (req, res) => {
+app.use('/subscriptions', (req, res) => {
   const redirectUrl = `${req.baseUrl}${req.path}`
   res.redirect(
     req.method === 'POST' || req.xhr ? 307 : 301,
@@ -72,12 +72,11 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 import cookieParser from 'cookie-parser'
-app.use(cookieParser())
+app.use(cookieParser(process.env.SESSION_SECRET))
 
 import bodyParser from 'body-parser'
 app.use(bodyParser.json())
 
-import session from 'shared/middlewares/session'
 app.use(session)
 
 import passport from 'passport'
@@ -143,8 +142,9 @@ if (process.env.NODE_ENV === 'development') {
   )
 }
 
-import cache from './cache'
-app.use(cache)
+// Cache is disabled for now
+// import cache from './cache'
+// app.use(cache)
 
 import renderer from './renderer'
 app.get('*', renderer)
