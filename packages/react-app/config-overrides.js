@@ -7,7 +7,7 @@ const fs = require('fs')
 const path = require('path')
 const WriteFilePlugin = require('write-file-webpack-plugin')
 const { ReactLoadablePlugin } = require('react-loadable/webpack')
-const OfflinePlugin = require('offline-plugin')
+// const OfflinePlugin = require('offline-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const BundleBuddyWebpackPlugin = require('bundle-buddy-webpack-plugin')
 
