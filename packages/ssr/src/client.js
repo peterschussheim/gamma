@@ -12,7 +12,7 @@ import {
   queryOrMutationLink,
   subscriptionLink,
   requestLink
-} from './links'
+} from 'shared/graphql/links'
 
 import { Layout } from './routes/layout'
 

@@ -4,18 +4,13 @@ import { renderToNodeStream } from 'react-dom/server'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
 import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
-import {
-  InMemoryCache,
-  IntrospectionFragmentMatcher
-} from 'apollo-cache-inmemory'
+import { InMemoryCache } from 'apollo-cache-inmemory'
 import { StaticRouter } from 'react-router'
 import { HelmetProvider } from 'react-helmet-async'
 import Loadable from 'react-loadable'
 import { getBundles } from 'react-loadable/webpack'
 
 import Raven from 'shared/raven'
-
-import introspectionQueryResultData from 'shared/graphql/schema.json'
 import stats from '../../build/react-loadable.json'
 
 import { getFooter, getHeader } from './html-template'
@@ -35,7 +30,7 @@ const renderer = (req, res) => {
 
   debug(`server-side render ${req.url}`)
   debug(`querying API at https://${req.hostname}/api`)
-  // HTTP Link for queries and mutations including file uploads
+
   const httpLink = createHttpLink({
     uri:
       IS_PROD && !FORCE_DEV
@@ -47,11 +42,7 @@ const renderer = (req, res) => {
     }
   })
 
-  const cache = new InMemoryCache({
-    fragmentMatcher: new IntrospectionFragmentMatcher({
-      introspectionQueryResultData
-    })
-  })
+  const cache = new InMemoryCache({})
 
   // Create an Apollo Client with a local network interface
   const client = new ApolloClient({

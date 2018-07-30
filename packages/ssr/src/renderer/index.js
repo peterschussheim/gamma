@@ -7,13 +7,39 @@ import fs from 'fs'
 import express from 'express'
 import Loadable from 'react-loadable'
 import path from 'path'
-import { getUser } from 'api/models/user'
+import cookieParser from 'cookie-parser'
+import bodyParser from 'body-parser'
+import passport from 'passport'
+
 import Raven from 'shared/raven'
 import toobusy from 'shared/middlewares/toobusy'
 import { securityMiddleware } from 'shared/middlewares/securityMiddleware'
 import cors from 'shared/middlewares/cors'
 import session from 'shared/middlewares/session'
+
 // Big thanks to spectrum.chat team for this ssr architecture! :)
+
+import { Prisma } from 'prisma-binding'
+const { PRISMA_ENDPOINT, PRISMA_SECRET, PRISMA_DEBUG } = process.env
+const prismaOptions = {
+  PRISMA_ENDPOINT,
+  PRISMA_SECRET,
+  PRISMA_DEBUG
+}
+
+/**
+ * Returns a newly constructed `Prisma` instance which can access
+ * the underlying database as needed.
+ */
+const prisma = new Prisma({
+  endpoint: prismaOptions.PRISMA_ENDPOINT,
+  secret: prismaOptions.PRISMA_SECRET,
+  debug: Boolean(DEBUG)
+})
+
+const getUser = async id => {
+  return prisma.query.user({ where: { id } }, info)
+}
 
 const PORT = process.env.PORT || 3006
 
@@ -71,15 +97,10 @@ if (process.env.NODE_ENV === 'development') {
   })
 }
 
-import cookieParser from 'cookie-parser'
 app.use(cookieParser(process.env.SESSION_SECRET))
-
-import bodyParser from 'body-parser'
 app.use(bodyParser.json())
-
 app.use(session)
 
-import passport from 'passport'
 passport.serializeUser((user, done) => {
   done(null, user.id)
 })
