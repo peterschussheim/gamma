@@ -2,9 +2,13 @@
   "name": "gamma",
   "version": "0.0.0",
   "private": true,
-  "author":
-    "Peter Schussheim <peter@schussheim.com> (https://peterschussheim.com/)",
+  "author": "Peter Schussheim <peter@schussheim.com> (https://peterschussheim.com/)",
   "license": "MIT",
+  "bolt": {
+    "workspaces": [
+      "packages/*"
+    ]
+  },
   "repository": {
     "url": "https://github.com/peterschussheim/gamma"
   },
