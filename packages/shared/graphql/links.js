@@ -1,8 +1,8 @@
-import { ApolloLink } from 'apollo-link'
-import { HttpLink } from 'apollo-link-http'
-import { WebSocketLink } from 'apollo-link-ws'
-import { onError } from 'apollo-link-error'
-import { getMainDefinition } from 'apollo-utilities'
+import { ApolloLink } from "apollo-link";
+import { HttpLink } from "apollo-link-http";
+import { WebSocketLink } from "apollo-link-ws";
+import { onError } from "apollo-link-error";
+import { getMainDefinition } from "apollo-utilities";
 
 export const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -10,9 +10,9 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
       console.log(
         `[GraphQL error]: Message: ${message}, Location: ${location}, Path: ${path}`
       )
-    )
-  if (networkError) console.log(`[Network error]: ${networkError}`)
-})
+    );
+  if (networkError) console.log(`[Network error]: ${networkError}`);
+});
 
 export const subscriptionLink = (config = {}) =>
   new WebSocketLink({
@@ -20,20 +20,20 @@ export const subscriptionLink = (config = {}) =>
       reconnect: true
     },
     ...config
-  })
+  });
 
 export const queryOrMutationLink = (config = {}) =>
   new HttpLink({
     ...config,
-    credentials: 'include'
-  })
+    credentials: "include"
+  });
 
 export const requestLink = ({ queryOrMutationLink, subscriptionLink }) =>
   ApolloLink.split(
     ({ query }) => {
-      const { kind, operation } = getMainDefinition(query)
-      return kind === 'OperationDefinition' && operation === 'subscription'
+      const { kind, operation } = getMainDefinition(query);
+      return kind === "OperationDefinition" && operation === "subscription";
     },
     subscriptionLink,
     queryOrMutationLink
-  )
+  );

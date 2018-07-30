@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 export const REGISTER = gql`
   mutation(
@@ -21,7 +21,7 @@ export const REGISTER = gql`
       token
     }
   }
-`
+`;
 
 export const LOGIN = gql`
   mutation($email: String!, $password: String!) {
@@ -32,7 +32,7 @@ export const LOGIN = gql`
       token
     }
   }
-`
+`;
 
 export const LOGOUT = gql`
   mutation {
@@ -40,7 +40,7 @@ export const LOGOUT = gql`
       success
     }
   }
-`
+`;
 
 export const VIEWER = gql`
   {
@@ -69,4 +69,4 @@ export const VIEWER = gql`
       }
     }
   }
-`
+`;

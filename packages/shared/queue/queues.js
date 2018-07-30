@@ -1,9 +1,9 @@
 // @flow
 // NOTE: This file needs to be CommonJS (require/module.exports) instead of ES modules
 // so that import { queueName } from 'queues' works!
-const createQueue = require('shared/bull/create-queue.js');
-import type { Queues } from './types';
-const EventEmitter = require('events');
+const createQueue = require("shared/bull/create-queue.js");
+import type { Queues } from "./types";
+const EventEmitter = require("events");
 import {
   PROCESS_STRIPE_SUBSCRIPTION_WEBHOOK_EVENT,
   PROCESS_STRIPE_SOURCE_WEBHOOK_EVENT,
@@ -28,8 +28,8 @@ import {
   PROCESS_STRIPE_COMMUNITY_OSS_STATUS_DISABLED,
   PROCESS_STRIPE_PAYMENT_SUCCEEDED,
   PROCESS_STRIPE_PAYMENT_FAILED,
-  PROCESS_STRIPE_CARD_EXPIRING_WARNING,
-} from 'pluto/queues/constants';
+  PROCESS_STRIPE_CARD_EXPIRING_WARNING
+} from "pluto/queues/constants";
 
 import {
   SEND_COMMUNITY_PAYMENT_SUCCEEDED_EMAIL,
@@ -51,8 +51,8 @@ import {
   SEND_ADMINISTRATOR_EMAIL_VALIDATION_EMAIL,
   SEND_EMAIL_VALIDATION_EMAIL,
   SEND_NEW_COMMUNITY_WELCOME_EMAIL,
-  SEND_NEW_USER_WELCOME_EMAIL,
-} from 'hermes/queues/constants';
+  SEND_NEW_USER_WELCOME_EMAIL
+} from "hermes/queues/constants";
 
 import {
   MENTION_NOTIFICATION,
@@ -75,15 +75,15 @@ import {
   MESSAGE_NOTIFICATION,
   SEND_PUSH_NOTIFICATIONS,
   SLACK_IMPORT,
-  SEND_SLACK_INVITIATIONS,
-} from 'athena/queues/constants';
+  SEND_SLACK_INVITIATIONS
+} from "athena/queues/constants";
 
 import {
   TRACK_ANALYTICS,
-  IDENTIFY_ANALYTICS,
-} from 'analytics/queues/constants';
+  IDENTIFY_ANALYTICS
+} from "analytics/queues/constants";
 
-import { PROCESS_REPUTATION_EVENT } from 'mercury/constants';
+import { PROCESS_REPUTATION_EVENT } from "mercury/constants";
 
 // Normalize our (inconsistent) queue names to a set of JS compatible names
 exports.QUEUE_NAMES = {
@@ -100,7 +100,7 @@ exports.QUEUE_NAMES = {
   sendPrivateCommunityRequestQueue: PRIVATE_COMMUNITY_REQUEST_SENT,
   sendPrivateCommunityRequestApprovedQueue: PRIVATE_COMMUNITY_REQUEST_APPROVED,
   sendPrivateChannelInviteNotificationQueue:
-    'private channel invite notification',
+    "private channel invite notification",
   sendCommunityInviteNotificationQueue: COMMUNITY_INVITE_NOTIFICATION,
   sendChannelNotificationQueue: CHANNEL_NOTIFICATION,
   sendDirectMessageNotificationQueue: DIRECT_MESSAGE_NOTIFICATION,
@@ -119,7 +119,7 @@ exports.QUEUE_NAMES = {
   sendCommunityPaymentFailedEmailQueue: SEND_COMMUNITY_PAYMENT_FAILED_EMAIL,
   sendCommunityCardExpiringWarningEmailQueue: SEND_COMMUNITY_CARD_EXPIRING_WARNING_EMAIL,
   sendNewMessageEmailQueue: SEND_NEW_MESSAGE_EMAIL,
-  bufferNewMessageEmailQueue: 'buffer new message email queue',
+  bufferNewMessageEmailQueue: "buffer new message email queue",
   sendNewDirectMessageEmailQueue: SEND_NEW_DIRECT_MESSAGE_EMAIL,
   sendNewMentionMessageEmailQueue: SEND_NEW_MENTION_MESSAGE_EMAIL,
   sendNewMentionThreadEmailQueue: SEND_NEW_MENTION_THREAD_EMAIL,
@@ -167,7 +167,7 @@ exports.QUEUE_NAMES = {
   _adminProcessToxicThreadQueue: PROCESS_ADMIN_TOXIC_THREAD,
   _adminProcessSlackImportQueue: SEND_ADMIN_SLACK_IMPORT_PROCESSED_EMAIL,
   _adminSendToxicContentEmailQueue: SEND_ADMIN_TOXIC_MESSAGE_EMAIL,
-  _adminProcessUserSpammingThreadsQueue: SEND_ADMIN_USER_SPAMMING_THREADS_NOTIFICATION_EMAIL,
+  _adminProcessUserSpammingThreadsQueue: SEND_ADMIN_USER_SPAMMING_THREADS_NOTIFICATION_EMAIL
 };
 
 // We add one error listener per queue, so we have to set the max listeners

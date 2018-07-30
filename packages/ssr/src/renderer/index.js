@@ -8,11 +8,11 @@ import express from 'express'
 import Loadable from 'react-loadable'
 import path from 'path'
 import { getUser } from 'api/models/user'
-// import Raven from 'shared/raven'
-// import toobusy from 'shared/middlewares/toobusy'
-import { securityMiddleware } from './securityMiddleware'
-import { corsInstance } from './middlewares'
-import session from '../session'
+import Raven from 'shared/raven'
+import toobusy from 'shared/middlewares/toobusy'
+import { securityMiddleware } from 'shared/middlewares/securityMiddleware'
+import cors from 'shared/middlewares/cors'
+import session from 'shared/middlewares/session'
 // Big thanks to spectrum.chat team for this ssr architecture! :)
 
 const PORT = process.env.PORT || 3006
@@ -20,20 +20,20 @@ const PORT = process.env.PORT || 3006
 const app = express()
 
 app.set('trust proxy', true)
-// app.use(toobusy)
+app.use(toobusy)
 securityMiddleware(app)
 
-// if (process.env.NODE_ENV === 'development') {
-//   const logging = require('shared/middlewares/logging')
-//   app.use(logging)
-// }
+if (process.env.NODE_ENV === 'development') {
+  const logging = require('shared/middlewares/logging')
+  app.use(logging)
+}
 
-// if (process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV) {
-//   const raven = require('shared/middlewares/raven').default
-//   app.use(raven)
-// }
+if (process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV) {
+  const raven = require('shared/middlewares/raven').default
+  app.use(raven)
+}
 
-app.use(corsInstance)
+app.use(cors)
 
 // Redirect requests to /api and /auth to the production API
 // This allows deploy previews to work, as this route would only be called

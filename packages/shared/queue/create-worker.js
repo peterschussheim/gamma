@@ -1,10 +1,10 @@
 // Create a worker with bull and start a small webserver which responds with
 // health information
-const http = require('http');
-const EventEmitter = require('events');
-const createQueue = require('./create-queue');
-const Raven = require('shared/raven');
-import toobusy from '../middlewares/toobusy';
+const http = require("http");
+const EventEmitter = require("events");
+const createQueue = require("./create-queue");
+const Raven = require("shared/raven");
+import toobusy from "../middlewares/toobusy";
 
 // type QueueMap = {
 //   [name: string]: (job: Object) =>?Promise<any>,
@@ -31,15 +31,15 @@ const createWorker = (queueMap, queueOptions = {}) => {
   // Return the job count when requesting anything via HTTP
   return http.createServer((req, res) => {
     toobusy(req, res, () => {
-      res.setHeader('Content-Type', 'application/json');
+      res.setHeader("Content-Type", "application/json");
       // Summarize the data across all the queues
       Promise.all(queues.map(queue => queue.getJobCounts())).then(jobCounts => {
         const data = {
-          waiting: sumArr(jobCounts, 'waiting'),
-          active: sumArr(jobCounts, 'active'),
-          completed: sumArr(jobCounts, 'completed'),
-          failed: sumArr(jobCounts, 'failed'),
-          delayed: sumArr(jobCounts, 'delayed'),
+          waiting: sumArr(jobCounts, "waiting"),
+          active: sumArr(jobCounts, "active"),
+          completed: sumArr(jobCounts, "completed"),
+          failed: sumArr(jobCounts, "failed"),
+          delayed: sumArr(jobCounts, "delayed")
         };
 
         res.end(JSON.stringify(data, null, 2));
