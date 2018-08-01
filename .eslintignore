@@ -50,6 +50,7 @@ typings/
 
 now-secrets.json
 lib
+dist
 dump.rdb
 debug
 
