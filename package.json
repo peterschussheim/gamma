@@ -32,10 +32,24 @@
     "test": "npm run jest -- --runInBand --watch",
     "test:ci": "npm run jest -- --forceExit --outputFile test-results.json --json --maxWorkers=2",
     "lint": "eslint .",
-    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "lint:staged": "lint-staged",
+    "precise-commits": "precise-commits",
+    "precommit": "npm run precise-commits",
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "webpack-defaults": "webpack-defaults",
     "eject": "react-scripts eject"
+  },
+  "pre-commit": "lint-staged",
+  "lint-staged": {
+    "*.@(json|md|ts)": [
+      "yarn prettier --write",
+      "git add"
+    ],
+    "*.@(js)": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
   },
   "dependencies": {
     "apollo-cache-inmemory": "1.2.2",
@@ -85,7 +99,9 @@
     "eslint-plugin-jsx-a11y": "6.1.1",
     "eslint-plugin-prettier": "2.6.0",
     "eslint-plugin-react": "7.10.0",
+    "husky": "0.14.3",
     "lint-staged": "7.2.0",
+    "precise-commits": "1.0.2",
     "prettier": "1.13.5",
     "prop-types": "15.6.1",
     "raw-loader": "0.5.1",
@@ -97,17 +113,5 @@
     "sw-precache-webpack-plugin": "0.11.5",
     "webpack-bundle-analyzer": "2.13.1",
     "write-file-webpack-plugin": "4.3.2"
-  },
-  "pre-commit": "lint-staged",
-  "lint-staged": {
-    "*.@(json|md|ts)": [
-      "yarn prettier --write",
-      "git add"
-    ],
-    "*.@(js)": [
-      "prettier --write",
-      "eslint --fix",
-      "git add"
-    ]
   }
 }
