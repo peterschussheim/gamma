@@ -1,8 +1,4 @@
-const debug = require('debug')('renderer')
 import 'raf/polyfill'
-debug('Renderer starting...')
-debug('logging with debug enabled')
-require('cross-fetch')
 import fs from 'fs'
 import express from 'express'
 import Loadable from 'react-loadable'
@@ -20,6 +16,16 @@ import session from 'shared/middlewares/session'
 // Big thanks to spectrum.chat team for this ssr architecture! :)
 
 import { Prisma } from 'prisma-binding'
+
+// Cache is disabled for now
+// import cache from './cache'
+// app.use(cache)
+
+import renderer from './renderer'
+const debug = require('debug')('renderer')
+debug('Renderer starting...')
+debug('logging with debug enabled')
+require('cross-fetch')
 const { PRISMA_ENDPOINT, PRISMA_SECRET, PRISMA_DEBUG } = process.env
 const prismaOptions = {
   PRISMA_ENDPOINT,
@@ -162,12 +168,6 @@ if (process.env.NODE_ENV === 'development') {
     express.static(path.resolve(__dirname, '..', 'public'), { index: false })
   )
 }
-
-// Cache is disabled for now
-// import cache from './cache'
-// app.use(cache)
-
-import renderer from './renderer'
 app.get('*', renderer)
 
 process.on('unhandledRejection', async err => {

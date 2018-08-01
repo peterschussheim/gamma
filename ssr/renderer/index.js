@@ -1,4 +1,3 @@
-const debug = require('debug')('renderer:index')
 import React from 'react'
 import { renderToNodeStream } from 'react-dom/server'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
@@ -18,6 +17,7 @@ import createCacheStream from '../create-cache-stream'
 
 // Browser shim has to come before any client imports
 import './browser-shim'
+const debug = require('debug')('renderer:index')
 const Routes = require('../../src/routes').default
 
 const IS_PROD = process.env.NODE_ENV === 'production'

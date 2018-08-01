@@ -1,6 +1,6 @@
-const debug = require('debug')('renderer:create-cache-stream')
 import { Transform } from 'stream'
 import redis from './redis'
+const debug = require('debug')('renderer:create-cache-stream')
 
 const createCacheStream = key => {
   debug('create cache stream for', key)
