@@ -34,6 +34,7 @@
     "@types/passport": "0.4.5",
     "@types/redis": "2.8.6",
     "@types/request-promise": "4.1.41",
+    "@types/sparkpost": "2.1.4",
     "@types/useragent": "2.1.1",
     "copyfiles": "2.0.0",
     "cross-env": "5.1.6",
