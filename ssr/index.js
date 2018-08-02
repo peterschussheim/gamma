@@ -1,3 +1,7 @@
+const debug = require('debug')('renderer')
+debug('Renderer starting...')
+debug('logging with debug enabled')
+require('cross-fetch')
 import 'raf/polyfill'
 import fs from 'fs'
 import express from 'express'
@@ -6,26 +10,21 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import passport from 'passport'
+import { Prisma } from 'prisma-binding'
 
 import Raven from 'shared/raven'
 import toobusy from 'shared/middlewares/toobusy'
 import { securityMiddleware } from 'shared/middlewares/securityMiddleware'
 import cors from 'shared/middlewares/cors'
 import session from 'shared/middlewares/session'
+import renderer from './renderer'
 
 // Big thanks to spectrum.chat team for this ssr architecture! :)
-
-import { Prisma } from 'prisma-binding'
 
 // Cache is disabled for now
 // import cache from './cache'
 // app.use(cache)
 
-import renderer from './renderer'
-const debug = require('debug')('renderer')
-debug('Renderer starting...')
-debug('logging with debug enabled')
-require('cross-fetch')
 const { PRISMA_ENDPOINT, PRISMA_SECRET, PRISMA_DEBUG } = process.env
 const prismaOptions = {
   PRISMA_ENDPOINT,
