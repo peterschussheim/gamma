@@ -1,18 +1,18 @@
 projects:
   app:
-    schemaPath: packages/services/src/schema.graphql
+    schemaPath: api/src/schema.graphql
     includes: ["**/*.graphql"]
     extensions:
       endpoints:
         default: http://localhost:4000/api
         subscription: ws://localhost:4000/subscriptions
   database:
-    schemaPath: packages/services/src/generated/prisma.graphql
+    schemaPath: api/src/generated/prisma.graphql
     includes: ["**/*.graphql"]
     extensions:
-      prisma: packages/services/database/prisma.yml
+      prisma: api/database/prisma.yml
       codegen:
         - generator: prisma-binding
           language: typescript
           output:
-            binding: packages/services/src/generated/prisma.ts
+            binding: api/src/generated/prisma.ts
