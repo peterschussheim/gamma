@@ -4,7 +4,7 @@ import { formatError } from 'apollo-errors'
 import { Options } from 'graphql-yoga'
 import { defaultPrismaOptions, initDatabase } from './db'
 import startServer from './server'
-import Raven from './shared/raven'
+import Raven from '../../shared/raven'
 
 const PORT = process.env.PORT || 4000
 const HOST = process.env.HOST || 'localhost'

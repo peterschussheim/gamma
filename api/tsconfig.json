@@ -6,6 +6,11 @@
     "module": "commonjs",
     "sourceMap": true,
     "noImplicitReturns": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["*", "../shared/*"]
+    },
     "rootDir": "src",
     "outDir": "dist",
     "lib": ["esnext", "dom"]
