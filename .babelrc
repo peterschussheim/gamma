@@ -1,5 +1,6 @@
 {
   "presets": [
+    "@peterschussheim/backpack-core/babel",
     [
       "env",
       {

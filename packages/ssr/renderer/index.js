@@ -9,7 +9,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import Loadable from 'react-loadable'
 import { getBundles } from 'react-loadable/webpack'
 
-import Raven from 'shared/raven'
+import Raven from '../../shared/raven'
 import stats from '../../build/react-loadable.json'
 
 import { getFooter, getHeader } from './html-template'

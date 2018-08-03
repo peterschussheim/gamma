@@ -1,9 +1,8 @@
-import session from 'express-session'
-import connectRedis from 'connect-redis'
-import { redisInstance } from './redis'
-import { REDIS_SESSION_PREFIX } from './constants'
 const debug = require('debug')('middlewares:session')
 debug('Initializing connect-redis session store')
+import session from 'express-session'
+import connectRedis from 'connect-redis'
+import { redisInstance, REDIS_SESSION_PREFIX } from '../redis'
 const RedisStore = connectRedis(session)
 
 if (!process.env.SESSION_SECRET && !process.env.TEST_DB) {

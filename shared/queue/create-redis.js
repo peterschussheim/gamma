@@ -1,4 +1,3 @@
-// @flow
 import Redis from 'ioredis'
 
 const config =
@@ -10,7 +9,7 @@ const config =
       }
     : undefined // Use the local instance of Redis in development by not passing any connection string
 
-export default (extraConfig?: Object) =>
+export default extraConfig =>
   new Redis({
     ...config,
     ...extraConfig

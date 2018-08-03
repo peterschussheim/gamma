@@ -12,11 +12,11 @@ import bodyParser from 'body-parser'
 import passport from 'passport'
 import { Prisma } from 'prisma-binding'
 
-import Raven from 'shared/raven'
-import toobusy from 'shared/middlewares/toobusy'
-import { securityMiddleware } from 'shared/middlewares/securityMiddleware'
-import cors from 'shared/middlewares/cors'
-import session from 'shared/middlewares/session'
+import Raven from '../shared/raven'
+import toobusy from '../shared/middlewares/toobusy'
+import { securityMiddleware } from '../shared/middlewares/securityMiddleware'
+import cors from '../shared/middlewares/cors'
+import session from '../shared/middlewares/session'
 import renderer from './renderer'
 
 // Big thanks to spectrum.chat team for this ssr architecture! :)
@@ -55,12 +55,12 @@ app.use(toobusy)
 securityMiddleware(app)
 
 if (process.env.NODE_ENV === 'development') {
-  const logging = require('shared/middlewares/logging')
+  const logging = require('../shared/middlewares/logging')
   app.use(logging)
 }
 
 if (process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV) {
-  const raven = require('shared/middlewares/raven').default
+  const raven = require('../shared/middlewares/raven').default
   app.use(raven)
 }
 
