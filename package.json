@@ -7,12 +7,12 @@
   "repository": {
     "url": "https://github.com/peterschussheim/gamma"
   },
-  "workspaces": ["shared", "api", "packages/*"],
+  "workspaces": ["packages/*"],
   "scripts": {
     "start": "cross-env NODE_ENV=production node build-ssr/main.js",
     "start:api": "cross-env NODE_ENV=production node build-api/main.js",
     "dev:web": "cross-env NODE_PATH=./ react-app-rewired start",
-    "dev:api": "cd api && yarn dev",
+    "dev:api": "cd packages/api && yarn dev",
     "dev:ssr": "cross-env NODE_PATH=./ cross-env NODE_ENV=development cross-env DEBUG=build*,ssr*,shared:middlewares* cross-env DIR=ssr backpack",
     "build": "npm run build:web && npm run build:ssr",
     "prebuild:api": "rimraf build-api",
