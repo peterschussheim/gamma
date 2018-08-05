@@ -13,10 +13,10 @@ import passport from 'passport'
 import { Prisma } from 'prisma-binding'
 
 import Raven from 'shared/raven'
-import toobusy from '/shared/middlewares/toobusy'
-import { securityMiddleware } from '../shared/middlewares/securityMiddleware'
-import cors from '../shared/middlewares/cors'
-import session from '../shared/middlewares/session'
+import toobusy from 'shared/middlewares/toobusy'
+import { securityMiddleware } from 'shared/middlewares/securityMiddleware'
+import cors from 'shared/middlewares/cors'
+import session from 'shared/middlewares/session'
 import renderer from './renderer'
 
 // Big thanks to spectrum.chat team for this ssr architecture! :)

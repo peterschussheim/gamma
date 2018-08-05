@@ -9,8 +9,8 @@ import { HelmetProvider } from 'react-helmet-async'
 import Loadable from 'react-loadable'
 import { getBundles } from 'react-loadable/webpack'
 
-import Raven from '../../shared/raven'
-import stats from '../../build/react-loadable.json'
+import Raven from 'shared/raven'
+import stats from '../../../build/react-loadable.json'
 
 import { getFooter, getHeader } from './html-template'
 import createCacheStream from '../create-cache-stream'
@@ -18,7 +18,7 @@ import createCacheStream from '../create-cache-stream'
 // Browser shim has to come before any client imports
 import './browser-shim'
 const debug = require('debug')('renderer:index')
-const Routes = require('../../src/routes').default
+const Routes = require('../../../src/routes').default
 
 const IS_PROD = process.env.NODE_ENV === 'production'
 const FORCE_DEV = process.env.FORCE_DEV

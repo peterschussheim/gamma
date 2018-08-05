@@ -1,1 +1,4 @@
-- use webpack https://github.com/webpack/webpack/blob/master/examples/multi-compiler/README.md example
+☐ use webpack https://github.com/webpack/webpack/blob/master/examples/multi-compiler/README.md example
+☐ in root package.json, change all `build:xxx` scripts:
+  ☐ remove references to `backpack`
+☐ 

@@ -15,12 +15,7 @@ import {
   subscriptionLink,
   queryOrMutationLink
 } from './config/links'
-console.log(`${BACKEND_API_ENDPOINT}, ${BACKEND_WS_ENDPOINT}`)
-console.log(
-  `${process.env.REACT_APP_BACKEND_API_ENDPOINT}, ${
-    process.env.REACT_APP_BACKEND_WS_ENDPOINT
-  }`
-)
+
 const links = [
   errorLink,
   requestLink({
@@ -39,6 +34,7 @@ const client = new ApolloClient({
 const AppWithApollo = () => (
   <ApolloProvider client={client}>
     <App />
+    <div>hi</div>
   </ApolloProvider>
 )
 

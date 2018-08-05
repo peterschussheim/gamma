@@ -7,22 +7,13 @@
   "repository": {
     "url": "https://github.com/peterschussheim/gamma"
   },
-  "workspaces": {
-   "packages": ["packages/*"],
-    "nohoist": [
-      "web/react-scripts",
-      "style-guide/react-scripts",
-      "monaco-editor/react-scripts-ts"
-    ]
-  },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "reset-modules": "rm -rf node_modules/ yarn.lock packages/*/node_modules",
-    "reset-yarn": "yarn cache clean",
-    "reset-cache": "yarn reset-yarn",
-    "reset": "yarn reset-modules && yarn reset-cache",
     "start": "cross-env NODE_ENV=production node build-ssr/main.js",
     "start:api": "cross-env NODE_ENV=production node build-api/main.js",
-    "dev:web": "cross-env NODE_PATH=./ && cd packages/web && react-scripts start",
+    "dev:web": "cross-env NODE_PATH=./ react-scripts start",
     "dev:api": "cd packages/api && yarn dev",
     "dev:ssr": "cross-env NODE_PATH=./ cross-env NODE_ENV=development cross-env DEBUG=build*,ssr*,shared:middlewares* cross-env DIR=packages/ssr backpack",
     "build": "npm run build:web && npm run build:ssr",
@@ -32,9 +23,9 @@
     "prebuild:ssr": "rimraf build-ssr",
     "build:ssr": "cross-env NODE_PATH=./ cross-env DIR=ssr backpack build",
     "postbuild:ssr": "cp now.json build-ssr/now.json",
-    "build:web": "cross-env NODE_PATH=./ && cd packages/web && react-scripts build",
+    "build:web": "cross-env NODE_PATH=./ react-scripts build",
     "deploy": "now && now alias",
-    "changelog": "lerna-changelog",
+    "clean": "rm -rf node_modules && rm -rf yarn.lock",
     "jest": "jest",
     "test": "npm run jest -- --runInBand --watch",
     "test:ci": "npm run jest -- --forceExit --outputFile test-results.json --json --maxWorkers=2",
@@ -43,7 +34,9 @@
     "precise-commits": "precise-commits",
     "precommit": "npm run precise-commits",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
-    "webpack-defaults": "webpack-defaults"
+    "webpack-defaults": "webpack-defaults",
+    "eject": "react-scripts eject",
+    "deprecated-dev:api": "cross-env NODE_PATH=./ cross-env NODE_ENV=development cross-env DEBUG=build*,api*,shared:middlewares* cross-env DIR=api backpack"
   },
   "pre-commit": "lint-staged",
   "lint-staged": {
@@ -55,9 +48,6 @@
       "prettier --write",
       "eslint --fix",
       "git add"
-    ],
-    "yarn.lock": [
-      "git rm --cached"
     ]
   },
   "devDependencies": {
@@ -91,9 +81,52 @@
     "prop-types": "15.6.1",
     "raven": "2.6.3",
     "raw-loader": "0.5.1",
+    "react-hot-loader": "4.3.4",
+    "react-scripts": "1.1.4",
     "rimraf": "2.6.2",
     "sw-precache-webpack-plugin": "0.11.5",
     "webpack-bundle-analyzer": "2.13.1",
     "write-file-webpack-plugin": "4.3.2"
+  },
+  "dependencies": {
+    "apollo-cache-inmemory": "1.2.2",
+    "apollo-client": "2.3.2",
+    "apollo-link": "1.2.2",
+    "apollo-link-error": "1.1.0",
+    "apollo-link-http": "1.5.4",
+    "apollo-link-persisted-queries": "0.2.1",
+    "apollo-link-state": "0.4.1",
+    "apollo-link-ws": "1.0.8",
+    "apollo-utilities": "1.0.13",
+    "common-tags": "1.8.0",
+    "connect-redis": "3.3.3",
+    "cookie-parser": "1.4.3",
+    "cors": "2.8.4",
+    "cross-env": "5.2.0",
+    "cross-fetch": "2.2.2",
+    "css": "2.2.3",
+    "css.escape": "1.5.1",
+    "emotion": "9.2.3",
+    "express": "4.16.3",
+    "express-session": "1.15.6",
+    "graphql": "0.13.2",
+    "graphql-tag": "2.9.2",
+    "helmet": "3.13.0",
+    "hiredis": "0.5.0",
+    "hpp": "0.2.2",
+    "ioredis": "3.2.2",
+    "offline-plugin": "5.0.5",
+    "passport": "0.4.0",
+    "prisma-binding": "2.1.3",
+    "react": "^16.4.0",
+    "react-apollo": "2.1.4",
+    "react-dom": "^16.4.0",
+    "react-emotion": "9.2.3",
+    "react-error-boundary": "1.2.3",
+    "react-helmet-async": "0.1.0-alpha",
+    "react-loadable": "5.4.0",
+    "react-router-dom": "4.3.1",
+    "subscriptions-transport-ws": "0.9.9",
+    "toobusy-js": "0.5.1"
   }
 }

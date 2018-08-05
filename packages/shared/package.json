@@ -2,5 +2,6 @@
   "name": "shared",
   "version": "0.0.0",
   "description": "Cross-project utilities, configs and wrappers to be shared",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }
