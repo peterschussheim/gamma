@@ -8,7 +8,9 @@
     "url": "https://github.com/peterschussheim/gamma"
   },
   "workspaces": {
-   "packages": ["packages/*"],
+    "packages": [
+      "packages/*"
+    ],
     "nohoist": [
       "web/react-scripts",
       "style-guide/react-scripts",
