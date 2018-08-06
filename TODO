@@ -1,0 +1,6 @@
+Remove backpack:
+☐ in root package.json, change all `build:xxx` scripts:
+  ☐ remove references to `backpack`
+☐ setup `webpack` config:
+  ☐ https://github.com/webpack/webpack/blob/master/examples/multi-compiler/README.md
+  ☐ must ignore any package with `react-scripts` as a dependency
