@@ -6,7 +6,7 @@ import { redisInstance, REDIS_SESSION_PREFIX } from '../redis'
 import config from '../config'
 const { SESSION_SECRET } = config
 const RedisStore = connectRedis(session)
-
+debug(`${SESSION_SECRET}`)
 if (!SESSION_SECRET) {
   throw new Error(
     '[middlewares:session] You have to provide the SESSION_SECRET environment variable.'
