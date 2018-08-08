@@ -8,6 +8,8 @@
     - [Modifying a package's dependencies](#modifying-a-packages-dependencies)
     - [Clear local caches](#clear-local-caches)
   - [`yarn workspaces` `nohoist` option](#yarn-workspaces-nohoist-option)
+  - [`lerna`](#lerna)
+    - [Root `package.json`](#root-packagejson)
 
 ## Workflows
 Unless otherwise noted, all commands are expected to be issued from project root.
@@ -41,6 +43,7 @@ Executing this command will:
 1. remove root `node_modules`, `yarn.lock` and the `node_modules` directory of each package
 2. `yarn cache clean`
 
+
 ## `yarn workspaces` `nohoist` option
 
 The following snippet is from the excellent example repo [yarn-nohoist] demonstrating common scenarios, their problems and solutions to fix them.
@@ -69,5 +72,24 @@ Below is the yarn workspaces configure from the package.json under the **project
 3. this tells yarn not to hoist react-scripts under workspace react-cipher. This is to bypass create-react-app problem under monorepo project as of today (1/31/2018).
 4. this tells yarn not to hoist cipher-core for any workspace referencing it. Both react-ciper and RNCipher depends on cipher-core. yarn will create a symlink to the actual cipher-core under each package's node_modules.
 5. (lines 5-8)these tell yarn not to hoist any module and their dependencies with name "vm-borwserify" or prefixed with "react-native-" under RNCipher workspace. These modules are react-native adapted node modules, which will be bundled by react-native's bundler metro.
+
+
+## `lerna`
+
+`lerna` is a tool that helps manage multi-package repositories.  It is different from `yarn workspaces` in that `lerna` is focused on linking together packages and running common tasks across all or a select set of packages.
+
+### Root `package.json`
+
+This manages `devDependencies` and repo-wide scripts.  For example, we can define the following script in our root `package.json`:
+
+```json
+{
+  "scripts": {
+    "build": "lerna run build"
+  }
+}
+```
+
+Executing this script will instruct `lerna` to inspect all packages under our `lerna.json` config, and if a `build` script exists in each package, run it.
 
 [yarn-nohoist]: https://github.com/connectdotz/yarn-nohoist-examples.git
