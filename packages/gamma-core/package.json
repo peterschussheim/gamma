@@ -1,6 +1,7 @@
 {
   "name": "gamma-core",
   "version": "0.0.1",
+  "private": true,
   "description": "Core utilities used for developing and building gamma.app.",
   "author": "Peter Schussheim <peter@schussheim.com> (https://peterschussheim.com/)",
   "license": "MIT",
