@@ -12,40 +12,42 @@
       "packages/*"
     ],
     "nohoist": [
-      "web/react-scripts",
+      "**/react-scripts",
       "style-guide/react-scripts",
       "monaco-editor/react-scripts-ts"
     ]
+  },
+  "engines": {
+    "node": ">=9.11.1",
+    "yarn": ">=1.4.2"
   },
   "scripts": {
     "reset-modules": "rm -rf node_modules/ yarn.lock packages/*/node_modules",
     "reset-yarn": "yarn cache clean",
     "reset-cache": "yarn reset-yarn",
     "reset": "yarn reset-modules && yarn reset-cache",
-    "start": "cross-env NODE_ENV=production node build-ssr/main.js",
-    "start:api": "cross-env NODE_ENV=production node build-api/main.js",
-    "dev:web": "cross-env NODE_PATH=./ && cd packages/web && react-scripts start",
-    "dev:api": "cd packages/api && yarn dev",
-    "dev:ssr": "cross-env NODE_PATH=./ cross-env NODE_ENV=development cross-env DEBUG=build*,ssr*,shared:middlewares* cross-env DIR=packages/ssr backpack",
-    "build": "npm run build:web && npm run build:ssr",
-    "prebuild:api": "rimraf build-api",
-    "build:api": "cross-env NODE_PATH=./ cross-env DIR=api backpack build",
+    "start:lerna-shared": "lerna run start --scope={shared}",
+    "start:shared": "yarn workspace shared start",
+    "start:api": "yarn workspace api dev",
+    "start:ssr": "yarn workspace ssr start",
+    "start:web": "yarn workspace web start",
+    "build": "lerna build",
+    "clean": "lerna clean --yes",
     "postbuild:api": "cp api/package.json build-api/package.json && cp now.json build-api/now.json",
-    "prebuild:ssr": "rimraf build-ssr",
-    "build:ssr": "cross-env NODE_PATH=./ cross-env DIR=ssr backpack build",
     "postbuild:ssr": "cp now.json build-ssr/now.json",
-    "build:web": "cross-env NODE_PATH=./ && cd packages/web && react-scripts build",
     "deploy": "now && now alias",
+    "bootstrap": "lerna bootstrap",
+    "ls": "lerna ls",
     "changelog": "lerna-changelog",
+    "release": "lerna publish",
     "jest": "jest",
     "test": "npm run jest -- --runInBand --watch",
     "test:ci": "npm run jest -- --forceExit --outputFile test-results.json --json --maxWorkers=2",
-    "lint": "eslint .",
+    "lint": "eslint packages",
     "lint:staged": "lint-staged",
     "precise-commits": "precise-commits",
     "precommit": "npm run precise-commits",
-    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
-    "webpack-defaults": "webpack-defaults"
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check"
   },
   "pre-commit": "lint-staged",
   "lint-staged": {
@@ -63,18 +65,6 @@
     ]
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.6",
-    "babel-jest": "^22.4.4",
-    "babel-plugin-import-inspector": "^2.0.0",
-    "babel-plugin-inline-import-graphql-ast": "^2.0.4",
-    "babel-plugin-syntax-async-generators": "^6.13.0",
-    "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "babel-plugin-transform-async-generator-functions": "^6.24.1",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "bundle-buddy-webpack-plugin": "0.3.0",
     "eslint": "^4.1.1",
     "eslint-config-prettier": "2.9.0",
     "eslint-config-react-app": "^2.1.0",
@@ -90,12 +80,13 @@
     "lint-staged": "7.2.0",
     "precise-commits": "1.0.2",
     "prettier": "1.13.5",
-    "prop-types": "15.6.1",
-    "raven": "2.6.3",
-    "raw-loader": "0.5.1",
     "rimraf": "2.6.2",
-    "sw-precache-webpack-plugin": "0.11.5",
-    "webpack-bundle-analyzer": "2.13.1",
-    "write-file-webpack-plugin": "4.3.2"
+    "shared": "0.0.0",
+    "babel-preset-gamma": "0.0.1",
+    "babel-core": "6.25.0",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.3",
+    "babel-jest": "20.0.3",
+    "babel-loader": "7.1.4"
   }
 }

@@ -37,3 +37,11 @@ export const requestLink = ({ queryOrMutationLink, subscriptionLink }) =>
     subscriptionLink,
     queryOrMutationLink
   )
+
+export const clearApolloStore = () => {
+  try {
+    client.resetStore()
+  } catch (e) {
+    debug(`Error clearing apollo store: ${e}`)
+  }
+}

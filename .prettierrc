@@ -1,6 +1,7 @@
 {
   "semi": false,
   "singleQuote": true,
+  "trailingComma": "none",
   "overrides": [
     {
       "files": "src/**/*.css",

@@ -1,3 +1,4 @@
+// require('dotenv').config()
 const debug = require('debug')('renderer')
 debug('Renderer starting...')
 debug('logging with debug enabled')

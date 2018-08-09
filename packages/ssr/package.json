@@ -1,10 +1,21 @@
 {
   "name": "ssr",
   "version": "0.0.0",
+  "private": true,
   "description": "Server side rendering service",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "gamma start",
+    "build": "gamma build",
+    "test": "gamma test --env=jsdom",
+    "start:prod": "NODE_ENV=production node build/server.js"
+  },
   "dependencies": {
+    "shared": "0.0.0",
+    "gamma-core": "0.0.1"
+  },
+  "devDependencies": {
     "shared": "0.0.0"
   }
 }
