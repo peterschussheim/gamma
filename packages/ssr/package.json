@@ -13,5 +13,8 @@
   "dependencies": {
     "shared": "0.0.0",
     "gamma-core": "0.0.1"
+  },
+  "devDependencies": {
+    "shared": "0.0.0"
   }
 }
