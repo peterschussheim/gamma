@@ -1,5 +1,6 @@
 {
   "presets": [
+    "babel-preset-gamma",
     [
       "env",
       {
@@ -19,10 +20,6 @@
     "transform-flow-strip-types",
     "transform-object-rest-spread",
     "babel-plugin-transform-react-jsx",
-    "syntax-dynamic-import",
-    "syntax-async-generators",
-    "transform-async-generator-functions",
-    "react-loadable/babel",
-    "babel-plugin-inline-import-graphql-ast"
+    "react-loadable/babel"
   ]
 }
