@@ -53,7 +53,7 @@ module.exports = {
   testsSetup: resolveApp('src/setupTests.js'),
   appBabelRc: resolveApp('.babelrc'),
   appEslintRc: resolveApp('.eslintrc'),
-  appRazzleConfig: resolveApp('razzle.config.js'),
+  appGammaConfig: resolveApp('gamma.config.js'),
   nodePaths: nodePaths,
   ownPath: resolveOwn('.'),
   ownNodeModules: resolveOwn('node_modules'),
