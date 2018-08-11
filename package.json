@@ -13,7 +13,7 @@
     ],
     "nohoist": [
       "**/react-scripts",
-      "style-guide/react-scripts",
+      "style-guide/react-app-rewired",
       "monaco-editor/react-scripts-ts"
     ]
   },
@@ -22,21 +22,24 @@
     "yarn": ">=1.4.2"
   },
   "scripts": {
+    "bootstrap": "lerna bootstrap --loglevel=info",
+    "start:shared": "yarn workspace shared start",
+    "start:api": "yarn workspace api dev",
+    "start:ssr": "yarn workspace ssr start",
+    "prebuild": "yarn clean:build",
+    "build": "lerna exec --stream --parallel -- yarn build",
+    "build:ssr": "yarn workspace ssr build",
+    "start:web": "yarn workspace web start",
     "reset-modules": "rm -rf node_modules/ yarn.lock packages/*/node_modules",
     "reset-yarn": "yarn cache clean",
     "reset-cache": "yarn reset-yarn",
     "reset": "yarn reset-modules && yarn reset-cache",
-    "start:lerna-shared": "lerna run start --scope={shared}",
-    "start:shared": "yarn workspace shared start",
-    "start:api": "yarn workspace api dev",
-    "start:ssr": "yarn workspace ssr start",
-    "start:web": "yarn workspace web start",
-    "build": "lerna build",
     "clean": "lerna clean --yes",
+    "clean:build": "rm -rf ./packages/*/build",
+    "clean:logs": "rm -rf ./packages/*/*.log *.log",
     "postbuild:api": "cp api/package.json build-api/package.json && cp now.json build-api/now.json",
     "postbuild:ssr": "cp now.json build-ssr/now.json",
     "deploy": "now && now alias",
-    "bootstrap": "lerna bootstrap",
     "ls": "lerna ls",
     "changelog": "lerna-changelog",
     "release": "lerna publish",
@@ -65,6 +68,12 @@
     ]
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "6.25.0",
+    "babel-eslint": "^8.2.3",
+    "babel-jest": "20.0.3",
+    "babel-loader": "7.1.4",
+    "babel-preset-gamma": "0.0.1",
     "eslint": "^4.1.1",
     "eslint-config-prettier": "2.9.0",
     "eslint-config-react-app": "^2.1.0",
@@ -81,12 +90,6 @@
     "precise-commits": "1.0.2",
     "prettier": "1.13.5",
     "rimraf": "2.6.2",
-    "shared": "0.0.0",
-    "babel-preset-gamma": "0.0.1",
-    "babel-core": "6.25.0",
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.2.3",
-    "babel-jest": "20.0.3",
-    "babel-loader": "7.1.4"
+    "shared": "0.0.0"
   }
 }
