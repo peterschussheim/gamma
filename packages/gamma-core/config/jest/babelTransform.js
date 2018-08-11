@@ -8,7 +8,7 @@ const hasBabelRc = fs.existsSync(paths.appBabelRc);
 
 const config = {
   presets: !hasBabelRc && [require.resolve('babel-preset-gamma')],
-  babelrc: !!hasBabelRc,
-};
+  babelrc: !!hasBabelRc
+}
 
 module.exports = babelJest.createTransformer(config);
