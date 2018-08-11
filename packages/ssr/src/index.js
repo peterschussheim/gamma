@@ -1,4 +1,3 @@
-// require('dotenv').config()
 const debug = require('debug')('renderer')
 debug('Renderer starting...')
 debug('logging with debug enabled')
@@ -13,11 +12,11 @@ import bodyParser from 'body-parser'
 import passport from 'passport'
 import { Prisma } from 'prisma-binding'
 
-import Raven from 'shared/raven'
-import toobusy from 'shared/middlewares/toobusy'
-import { securityMiddleware } from 'shared/middlewares/securityMiddleware'
-import cors from 'shared/middlewares/cors'
-import session from 'shared/middlewares/session'
+import Raven from 'shared'
+import toobusy from 'shared'
+import { securityMiddleware } from 'shared'
+import cors from 'shared'
+import session from 'shared'
 import renderer from './renderer'
 
 // Big thanks to spectrum.chat team for this ssr architecture! :)

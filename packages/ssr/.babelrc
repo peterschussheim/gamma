@@ -1,12 +1,4 @@
 {
-  "plugins": [
-    [
-      "module-resolver",
-      {
-        "alias": {
-          "shared": "../shared/build"
-        }
-      }
-    ]
-  ]
+  "presets": ["babel-preset-gamma"],
+  "plugins": ["react-loadable/babel"]
 }
