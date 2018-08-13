@@ -1,4 +1,4 @@
-require('now-env')
+require('dotenv').config()
 
 const {
   NODE_ENV,
@@ -19,8 +19,8 @@ const {
   APP_SECRET,
   MAILSLURP_KEY
 } = process.env
-console.log(SENTRY_DSN_SERVER)
-export default {
+
+const config = {
   NODE_ENV: NODE_ENV || 'development',
   PORT: Number(PORT) || 3000,
   STATSD_HOST: STATSD_HOST || 'localhost',
@@ -39,3 +39,5 @@ export default {
   APP_SECRET,
   MAILSLURP_KEY
 }
+
+export default config

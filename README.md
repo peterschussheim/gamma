@@ -22,6 +22,15 @@ project
 │   └── index.js
 ```
 
+
+## Conventions used in this project
+
+### `npm` scripts
+
+- `start:xxx` starts a **development** server for the package specified after the colon
+- `build:xxx` generates a production build for the package specified after the colon
+- `test` uses `lerna` to run tests in any package with a `tests` script
+
 ## services aliases
 
 ![](docs/path-aliases.png)

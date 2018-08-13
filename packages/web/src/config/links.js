@@ -4,8 +4,6 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { onError } from 'apollo-link-error'
 import { getMainDefinition } from 'apollo-utilities'
 
-import { BACKEND_WS_ENDPOINT } from './index'
-
 export const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.map(({ message, location, path }) =>
@@ -18,7 +16,6 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 export const subscriptionLink = (config = {}) =>
   new WebSocketLink({
-    uri: BACKEND_WS_ENDPOINT,
     options: {
       reconnect: true
     },

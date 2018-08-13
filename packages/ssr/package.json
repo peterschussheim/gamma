@@ -1,10 +1,22 @@
 {
   "name": "ssr",
   "version": "0.0.0",
+  "private": true,
   "description": "Server side rendering service",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "build": "rm -rf ./build && webpack --config webpack.config.js",
+    "start": "webpack --config webpack.config.js -w"
+  },
   "dependencies": {
+    "react-loadable": "5.5.0",
     "shared": "0.0.0"
+  },
+  "devDependencies": {
+    "shared": "0.0.0",
+    "webpack": "4.16.5",
+    "webpack-cli": "3.1.0",
+    "webpackbar": "2.6.1"
   }
 }

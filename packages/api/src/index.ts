@@ -4,7 +4,6 @@ import { formatError } from 'apollo-errors'
 import { Options } from 'graphql-yoga'
 import { defaultPrismaOptions, initDatabase } from './db'
 import startServer from './server'
-import Raven from '../../shared/raven'
 
 const PORT = process.env.PORT || 4000
 const HOST = process.env.HOST || 'localhost'
@@ -71,24 +70,24 @@ startServer(prisma)
     process.exit(1)
   })
 
-process.on('unhandledRejection', async err => {
-  debug('Unhandled rejection', err)
-  try {
-    await new Promise(resolve => Raven.captureException(err, resolve))
-  } catch (err) {
-    debug('Raven error', err)
-  } finally {
-    process.exit(1)
-  }
-})
+// process.on('unhandledRejection', async err => {
+//   debug('Unhandled rejection', err)
+//   try {
+//     await new Promise(resolve => Raven.captureException(err, resolve))
+//   } catch (err) {
+//     debug('Raven error', err)
+//   } finally {
+//     process.exit(1)
+//   }
+// })
 
-process.on('uncaughtException', async err => {
-  console.error('Uncaught exception', err)
-  try {
-    await new Promise(resolve => Raven.captureException(err, resolve))
-  } catch (err) {
-    console.error('Raven error', err)
-  } finally {
-    process.exit(1)
-  }
-})
+// process.on('uncaughtException', async err => {
+//   console.error('Uncaught exception', err)
+//   try {
+//     await new Promise(resolve => Raven.captureException(err, resolve))
+//   } catch (err) {
+//     console.error('Raven error', err)
+//   } finally {
+//     process.exit(1)
+//   }
+// })

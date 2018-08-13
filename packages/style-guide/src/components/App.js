@@ -85,7 +85,7 @@ class App extends React.Component {
           label="Responsive Typography"
           component={<ResponsiveTypography />}
         />
-        <StyleGuideLayout
+        {/* <StyleGuideLayout
           label="FadeIn"
           component={
             <FadeIn className="fade-demo">
@@ -99,7 +99,7 @@ class App extends React.Component {
               </Button>
             </FadeIn>
           }
-        />
+        /> */}
         <StyleGuideLayout
           label="Truncated Text"
           component={
