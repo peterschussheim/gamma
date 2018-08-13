@@ -1,3 +1,16 @@
 {
-  "presets": ["babel-preset-gamma", "env"]
+  "presets": [
+    "babel-preset-gamma",
+    [
+      "env",
+      {
+        "targets": {
+          "node": true,
+          "browsers": ["last 2 versions"]
+        },
+        "useBuiltIns": true,
+        "debug": true
+      }
+    ]
+  ]
 }

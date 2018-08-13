@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "dotenv": "6.0.0",
-    "raven": "2.6.3"
+    "raven": "2.6.3",
+    "raven-js": "3.26.4"
   }
 }
