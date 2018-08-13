@@ -36,11 +36,17 @@ module.exports = {
       }
     ]
   },
+  resolve: {
+    alias: {
+      stats: path.resolve(__dirname, '../web/build/react-loadable.json')
+    }
+  },
   devtool: 'source-map',
   plugins: [
-    new ReactLoadablePlugin({
-      filename: path.resolve(__dirname, 'build', 'react-loadable.json')
-    }),
+    // new ReactLoadablePlugin({
+    //   filename: './build/react-loadable.json'
+    //   // filename: path.resolve(__dirname, 'build', 'react-loadable.json')
+    // }),
     new WebpackBar({
       color: '#c065f4',
       name: 'server'

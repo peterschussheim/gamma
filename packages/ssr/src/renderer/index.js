@@ -9,8 +9,8 @@ import { HelmetProvider } from 'react-helmet-async'
 import Loadable from 'react-loadable'
 import { getBundles } from 'react-loadable/webpack'
 
-import Raven from 'shared'
-import stats from '../build/react-loadable.json'
+// import Raven from 'shared'
+import stats from 'stats'
 
 import { getFooter, getHeader } from './html-template'
 import createCacheStream from '../create-cache-stream'
@@ -18,7 +18,7 @@ import createCacheStream from '../create-cache-stream'
 // Browser shim has to come before any client imports
 import './browser-shim'
 const debug = require('debug')('renderer:index')
-const Routes = require('../../../src/routes').default
+const Routes = require('../../../web/src/routes').default
 
 const IS_PROD = process.env.NODE_ENV === 'production'
 const FORCE_DEV = process.env.FORCE_DEV
@@ -35,7 +35,7 @@ const renderer = (req, res) => {
     uri:
       IS_PROD && !FORCE_DEV
         ? `https://${req.hostname}/api`
-        : 'http://localhost:3001/api',
+        : 'http://localhost:4000/api',
     credentials: 'include',
     headers: {
       cookie: req.headers.cookie

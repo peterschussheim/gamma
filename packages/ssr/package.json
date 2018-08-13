@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "rm -rf ./build && webpack --config webpack.config.js",
-    "start": "yarn build && node ./build/bundle-ssr.js"
+    "start": "webpack --config webpack.config.js -w"
   },
   "dependencies": {
     "react-loadable": "5.5.0",

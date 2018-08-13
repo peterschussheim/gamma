@@ -55,12 +55,12 @@ app.use(toobusy)
 securityMiddleware(app)
 
 if (process.env.NODE_ENV === 'development') {
-  const logging = require('../shared/middlewares/logging')
+  const logging = require('shared')
   app.use(logging)
 }
 
 if (process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV) {
-  const raven = require('../shared/middlewares/raven').default
+  const raven = require('shared').default
   app.use(raven)
 }
 
