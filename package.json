@@ -12,8 +12,8 @@
       "packages/*"
     ],
     "nohoist": [
-      "**/react-scripts",
-      "style-guide/react-app-rewired",
+      "web/react-scripts",
+      "web/react-app-rewired",
       "monaco-editor/react-scripts-ts"
     ]
   },
@@ -23,13 +23,14 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --loglevel=info",
+    "start:web": "yarn workspace web start",
     "start:shared": "yarn workspace shared start",
     "start:api": "yarn workspace api dev",
     "start:ssr": "yarn workspace ssr start",
+    "start:style-guide": "yarn workspace style-guide start",
     "prebuild": "yarn clean:build",
     "build": "lerna exec --stream --parallel -- yarn build",
     "build:ssr": "yarn workspace ssr build",
-    "start:web": "yarn workspace web start",
     "reset-modules": "rm -rf node_modules/ yarn.lock packages/*/node_modules",
     "reset-yarn": "yarn cache clean",
     "reset-cache": "yarn reset-yarn",
