@@ -8,16 +8,15 @@
     "url": "https://github.com/peterschussheim/gamma"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
     "deploy": "now && now alias",
     "clean": "rm -rf node_modules && rm -rf yarn.lock",
-    "jest": "jest",
-    "test": "npm run jest -- --runInBand --watch",
+    "test": "yarn run jest -- --runInBand --watch",
     "lint": "eslint .",
     "lint:staged": "lint-staged",
     "precise-commits": "precise-commits",
-    "precommit": "npm run precise-commits",
+    "precommit": "yarn run precise-commits",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "webpack-defaults": "webpack-defaults",
     "eject": "react-scripts eject"
@@ -35,6 +34,7 @@
     ]
   },
   "devDependencies": {
+    "cross-env": "5.2.0",
     "eslint": "^4.1.1",
     "eslint-config-prettier": "2.9.0",
     "eslint-config-react-app": "^2.1.0",
@@ -46,14 +46,14 @@
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-react": "^7.10.0",
     "husky": "0.14.3",
-    "cross-env": "5.2.0",
     "lerna": "^3.0.0-rc.0",
     "lint-staged": "7.2.0",
     "precise-commits": "1.0.2",
     "prettier": "1.13.5",
     "prop-types": "15.6.1",
-    "raven": "2.6.3",
-    "react-scripts": "1.1.4"
+    "react-app-rewire-hot-loader": "1.0.1",
+    "react-app-rewired": "1.5.2",
+    "write-file-webpack-plugin": "4.3.2"
   },
   "dependencies": {
     "apollo-cache-inmemory": "1.2.2",
@@ -80,14 +80,17 @@
     "hpp": "0.2.2",
     "passport": "0.4.0",
     "prisma-binding": "2.1.3",
+    "raven-js": "3.26.4",
     "react": "^16.4.0",
     "react-apollo": "2.1.4",
     "react-dom": "^16.4.0",
     "react-emotion": "9.2.3",
     "react-error-boundary": "1.2.3",
     "react-helmet-async": "0.1.0-alpha",
-    "react-loadable": "5.4.0",
+    "react-hot-loader": "4.3.4",
+    "react-loadable": "5.5.0",
     "react-router-dom": "4.3.1",
+    "react-scripts": "1.1.4",
     "subscriptions-transport-ws": "0.9.9",
     "toobusy-js": "0.5.1"
   }
