@@ -1,5 +1,5 @@
 import { Transform } from 'stream'
-import redis from './redis'
+// import redis from './redis'
 const debug = require('debug')('renderer:create-cache-stream')
 
 const createCacheStream = key => {
@@ -13,7 +13,7 @@ const createCacheStream = key => {
     flush(cb) {
       if (!process.env.DISABLE_CACHE) {
         debug('stream ended, caching result to redis')
-        redis.set(key, Buffer.concat(buffer), 'ex', 3600)
+        // redis.set(key, Buffer.concat(buffer), 'ex', 3600)
       }
       cb()
     }

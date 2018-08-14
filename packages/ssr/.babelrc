@@ -1,4 +1,9 @@
 {
-  "presets": ["babel-preset-gamma"],
-  "plugins": ["react-loadable/babel"]
+  "presets": ["env", "react"],
+  "plugins": [
+    "dynamic-import-node",
+    "transform-class-properties",
+    "transform-runtime",
+    "react-loadable/babel"
+  ]
 }

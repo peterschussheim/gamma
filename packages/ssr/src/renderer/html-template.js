@@ -1,3 +1,4 @@
+const debug = require('debug')('ssr:html-template')
 import fs from 'fs'
 import path from 'path'
 import { html } from 'common-tags'
@@ -5,11 +6,13 @@ import serialize from 'serialize-javascript'
 
 // Match main.asdf123.js in production mode or bundle.js in dev mode
 const mainBundleRegex = /(main|bundle)\.(?:.*\.)?js$/
-
 let bundles
 try {
-  bundles = fs.readdirSync(path.join(__dirname, '../../build/static/js'))
+  bundles = fs.readdirSync(
+    path.resolve(__dirname, '..', '..', 'packages', 'web', 'build/static/js')
+  )
 } catch (err) {
+  debug(err)
   throw new Error(
     'You didn\'t run "yarn run dev:web" or "yarn run build:web" before starting the rendering service.\nPlease wait until either of them completes before starting the rendering service.'
   )
@@ -18,6 +21,7 @@ try {
 // Get the main bundle filename
 const mainBundle = bundles.find(bundle => mainBundleRegex.test(bundle))
 if (!mainBundle) {
+  debug(err)
   throw new Error(
     'You didn\'t run "yarn run dev:web" or "yarn run build:web" before starting the rendering service.\nPlease wait until either of them completes before starting the rendering service.'
   )

@@ -23,7 +23,7 @@ const Routes = require('../../../web/src/routes').default
 const IS_PROD = process.env.NODE_ENV === 'production'
 const FORCE_DEV = process.env.FORCE_DEV
 
-if (!IS_PROD || FORCE_DEV) debug('Querying API at localhost:3001/api')
+if (!IS_PROD || FORCE_DEV) debug('Querying API at localhost:4001/api')
 
 const renderer = (req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8')

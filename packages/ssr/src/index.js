@@ -1,7 +1,7 @@
-const debug = require('debug')('renderer')
+const debug = require('debug')('renderer-express-app')
 debug('Renderer starting...')
 debug('logging with debug enabled')
-require('cross-fetch')
+// require('cross-fetch')
 import 'raf/polyfill'
 import fs from 'fs'
 import express from 'express'
@@ -10,16 +10,14 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import passport from 'passport'
-import { Prisma } from 'prisma-binding'
-
+// import { Prisma } from '../../api/src/generated/prisma'
+// const Prisma = require.resolve(__dirname, '../../api/src/generated/prisma')
 import Raven from 'shared'
 import toobusy from 'shared'
 import { securityMiddleware } from 'shared'
 import cors from 'shared'
 import session from 'shared'
 import renderer from './renderer'
-
-// Big thanks to spectrum.chat team for this ssr architecture! :)
 
 // Cache is disabled for now
 // import cache from './cache'
@@ -39,7 +37,7 @@ const prismaOptions = {
 const prisma = new Prisma({
   endpoint: prismaOptions.PRISMA_ENDPOINT,
   secret: prismaOptions.PRISMA_SECRET,
-  debug: Boolean(DEBUG)
+  debug: Boolean(PRISMA_DEBUG)
 })
 
 const getUser = async id => {
