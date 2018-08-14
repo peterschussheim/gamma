@@ -1,6 +1,5 @@
 require('dotenv').config({ path: '../' })
 const debug = require('debug')('shared:raven')
-// import config from '../config'
 const { NODE_ENV, FORCE_DEV, SENTRY_DSN_SERVER } = process.env
 
 let Raven

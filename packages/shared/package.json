@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "build/index.js",
   "files": [
-    "dist"
+    "build"
   ],
   "scripts": {
     "start": "cross-env NODE_ENV=development babel src -d build -s -w",
