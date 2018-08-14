@@ -30,6 +30,7 @@
     "start:style-guide": "yarn workspace style-guide start",
     "prebuild": "yarn clean:build",
     "build": "lerna exec --stream --parallel -- yarn build",
+    "build:shared": "yarn workspace shared build",
     "build:ssr": "yarn workspace ssr build",
     "reset-modules": "rm -rf node_modules/ yarn.lock packages/*/node_modules",
     "reset-yarn": "yarn cache clean",
