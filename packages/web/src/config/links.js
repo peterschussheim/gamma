@@ -38,9 +38,9 @@ export const requestLink = ({ queryOrMutationLink, subscriptionLink }) =>
     queryOrMutationLink
   )
 
-export const clearApolloStore = () => {
+export const clearApolloStore = apolloClient => {
   try {
-    client.resetStore()
+    apolloClient.resetStore()
   } catch (e) {
     debug(`Error clearing apollo store: ${e}`)
   }

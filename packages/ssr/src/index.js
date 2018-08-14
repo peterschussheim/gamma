@@ -12,11 +12,11 @@ import bodyParser from 'body-parser'
 import passport from 'passport'
 // import { Prisma } from '../../api/src/generated/prisma'
 // const Prisma = require.resolve(__dirname, '../../api/src/generated/prisma')
-import Raven from 'shared'
-import toobusy from 'shared'
-import { securityMiddleware } from 'shared'
-import cors from 'shared'
-import session from 'shared'
+import Raven from '@peterschussheim/shared'
+import toobusy from '@peterschussheim/shared'
+import { securityMiddleware } from '@peterschussheim/shared'
+import cors from '@peterschussheim/shared'
+import session from '@peterschussheim/shared'
 import renderer from './renderer'
 
 // Cache is disabled for now
