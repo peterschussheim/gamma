@@ -1,0 +1,4 @@
+{
+  "presets": ["babel-preset-gamma"],
+  "plugins": ["react-loadable/babel"]
+}

@@ -24,12 +24,14 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --loglevel=info",
     "start:web": "yarn workspace web start",
-    "start:shared": "yarn workspace shared start",
+    "start:web:inspect": "yarn workspace web start:inspect",
+    "start:shared": "yarn workspace @peterschussheim/shared start",
     "start:api": "yarn workspace api dev",
     "start:ssr": "yarn workspace ssr start",
     "start:style-guide": "yarn workspace style-guide start",
     "prebuild": "yarn clean:build",
     "build": "lerna exec --stream --parallel -- yarn build",
+    "build:shared": "yarn workspace @peterschussheim/shared build",
     "build:ssr": "yarn workspace ssr build",
     "reset-modules": "rm -rf node_modules/ yarn.lock packages/*/node_modules",
     "reset-yarn": "yarn cache clean",
@@ -38,8 +40,8 @@
     "clean": "lerna clean --yes",
     "clean:build": "rm -rf ./packages/*/build",
     "clean:logs": "rm -rf ./packages/*/*.log *.log",
-    "postbuild:api": "cp api/package.json build-api/package.json && cp now.json build-api/now.json",
-    "postbuild:ssr": "cp now.json build-ssr/now.json",
+    "xpostbuild:api": "cp api/package.json build-api/package.json && cp now.json build-api/now.json",
+    "xpostbuild:ssr": "cp now.json build-ssr/now.json",
     "deploy": "now && now alias",
     "ls": "lerna ls",
     "changelog": "lerna-changelog",
@@ -90,7 +92,6 @@
     "lint-staged": "7.2.0",
     "precise-commits": "1.0.2",
     "prettier": "1.13.5",
-    "rimraf": "2.6.2",
-    "shared": "0.0.0"
+    "rimraf": "2.6.2"
   }
 }

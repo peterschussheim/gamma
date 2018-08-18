@@ -8,8 +8,9 @@
     "url": "https://github.com/peterschussheim/gamma"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "start": "gamma start",
+    "start:inspect": "gamma start --inspect-brk=127.0.0.1:9229",
+    "build": "gamma build",
     "deploy": "now && now alias",
     "clean": "rm -rf node_modules && rm -rf yarn.lock",
     "test": "yarn run jest -- --runInBand --watch",
@@ -74,13 +75,13 @@
     "emotion": "9.2.3",
     "express": "4.16.3",
     "express-session": "1.15.6",
+    "gamma-core": "0.0.1",
     "graphql": "0.13.2",
     "graphql-tag": "2.9.2",
     "helmet": "3.13.0",
     "hpp": "0.2.2",
     "passport": "0.4.0",
     "prisma-binding": "2.1.3",
-    "raven-js": "3.26.4",
     "react": "^16.4.0",
     "react-apollo": "2.1.4",
     "react-dom": "^16.4.0",
@@ -92,6 +93,7 @@
     "react-router-dom": "4.3.1",
     "react-scripts": "1.1.4",
     "subscriptions-transport-ws": "0.9.9",
-    "toobusy-js": "0.5.1"
+    "toobusy-js": "0.5.1",
+    "ws": "6.0.0"
   }
 }

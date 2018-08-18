@@ -1,3 +1,4 @@
+const debug = require('debug')('renderer:index')
 import React from 'react'
 import { renderToNodeStream } from 'react-dom/server'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
@@ -17,13 +18,20 @@ import createCacheStream from '../create-cache-stream'
 
 // Browser shim has to come before any client imports
 import './browser-shim'
-const debug = require('debug')('renderer:index')
-const Routes = require('../../../web/src/routes').default
+const Routes = require('../../src/routes').default
 
 const IS_PROD = process.env.NODE_ENV === 'production'
 const FORCE_DEV = process.env.FORCE_DEV
 
 if (!IS_PROD || FORCE_DEV) debug('Querying API at localhost:4001/api')
+
+export const clearApolloStore = apolloClient => {
+  try {
+    apolloClient.resetStore()
+  } catch (e) {
+    debug(`Error clearing apollo store: ${e}`)
+  }
+}
 
 const renderer = (req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8')

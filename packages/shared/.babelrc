@@ -9,7 +9,7 @@
           "browsers": ["last 2 versions"]
         },
         "useBuiltIns": true,
-        "debug": true
+        "debug": false
       }
     ]
   ]

@@ -1,12 +1,12 @@
 {
-  "name": "shared",
-  "version": "0.0.0",
+  "name": "@peterschussheim/shared",
+  "version": "0.0.1",
   "private": true,
   "description": "Cross-project utilities, configs and wrappers to be shared",
   "license": "MIT",
   "main": "build/index.js",
   "files": [
-    "dist"
+    "build"
   ],
   "scripts": {
     "start": "cross-env NODE_ENV=development babel src -d build -s -w",

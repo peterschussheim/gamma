@@ -1,9 +1,7 @@
-export { Raven } from './raven'
-export {
-  errorLink,
-  queryOrMutationLink,
-  requestLink,
-  subscriptionLink
-} from './graphql/links'
-import config from './config'
-export default config
+module.exports = {
+  config: require('./config'),
+  history: require('./history'),
+  raven: require('./raven'),
+  redis: require('./redis'),
+  middlewares: require('./middlewares')
+}

@@ -1,5 +1,6 @@
 import React from 'react'
 import { hydrate } from 'react-dom'
+import Loadable from 'react-loadable'
 import { BrowserRouter } from 'react-router-dom'
 
 import ApolloClient from 'apollo-client'
@@ -12,7 +13,7 @@ import {
   queryOrMutationLink,
   subscriptionLink,
   requestLink
-} from 'shared/graphql/links'
+} from './config/links'
 
 import { Layout } from './routes/layout'
 
@@ -40,11 +41,19 @@ const client = new ApolloClient({
   cache: new InMemoryCache().restore(window.__APOLLO_STATE__)
 })
 
-hydrate(
-  <ApolloProvider client={client}>
-    <BrowserRouter>
-      <Layout />
-    </BrowserRouter>
-  </ApolloProvider>,
-  document.getElementById('root')
-)
+window.main = () => {
+  Loadable.preloadReady().then(() => {
+    hydrate(
+      <ApolloProvider client={client}>
+        <BrowserRouter>
+          <Layout />
+        </BrowserRouter>
+      </ApolloProvider>,
+      document.getElementById('root')
+    )
+  })
+}
+
+if (module.hot) {
+  module.hot.accept()
+}
