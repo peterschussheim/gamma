@@ -24,6 +24,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --loglevel=info",
     "start:web": "yarn workspace web start",
+    "start:web:inspect": "yarn workspace web start:inspect",
     "start:shared": "yarn workspace @peterschussheim/shared start",
     "start:api": "yarn workspace api dev",
     "start:ssr": "yarn workspace ssr start",

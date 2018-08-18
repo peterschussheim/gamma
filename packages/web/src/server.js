@@ -1,111 +1,107 @@
-// const debug = require('debug')('ssr:server')
-// const util = require('util')
-// import Express from 'express'
-// import path from 'path'
-// import proxy from 'http-proxy-middleware'
+import React from 'react'
+import Loadable from 'react-loadable'
+import { getBundles } from 'react-loadable/webpack'
+import { StaticRouter } from 'react-router-dom'
+import express from 'express'
+import { renderToString } from 'react-dom/server'
+import 'cross-fetch/polyfill'
+import { ApolloClient } from 'apollo-client'
+import { createHttpLink } from 'apollo-link-http'
+import { ApolloLink } from 'apollo-link'
+import { ApolloProvider, getDataFromTree } from 'react-apollo'
+import { InMemoryCache } from 'apollo-cache-inmemory'
 
-// import React from 'react'
-// import { renderToString } from 'react-dom/server'
-// import { StaticRouter } from 'react-router'
+import '../server/renderer/browser-shim'
+import stats from '../build/react-loadable.json'
+import { Layout } from './routes/layout'
+const assets = require(process.env.GAMMA_ASSETS_MANIFEST)
 
-// import ApolloClient from 'apollo-client'
-// import { ApolloProvider, renderToStringWithData } from 'react-apollo'
-// import { InMemoryCache } from 'apollo-cache-inmemory'
-// import { ApolloLink } from 'apollo-link'
-// import fetch from 'cross-fetch'
+const NODE_ENV = process.env.NODE_ENV || 'development'
 
-// import { securityMiddleware } from 'shared/middlewares/securityMiddleware'
-// import session from 'shared/middlewares/session'
+const IS_PROD = process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
+const API_URI = IS_PROD ? '/api' : 'http://localhost:4000/api'
+const WS_URI = IS_PROD
+  ? `wss://${window.location.host}/subscriptions`
+  : 'ws://localhost:4000/subscriptions'
 
-// import {
-//   errorLink,
-//   subscriptionLink,
-//   requestLink,
-//   queryOrMutationLink
-// } from './links'
-// import { Html } from './routes/html'
-// import { Layout } from './routes/layout'
+const server = express()
+server
+  .disable('x-powered-by')
+  .use(express.static(process.env.GAMMA_PUBLIC_DIR))
+  .get('/*', (req, res) => {
+    const context = {}
+    const modules = []
 
-// let PORT = 3000
-// if (process.env.PORT) {
-//   PORT = parseInt(process.env.PORT, 10)
-// }
+    const httpLink = createHttpLink({
+      uri:
+        IS_PROD && !FORCE_DEV
+          ? `https://${req.hostname}/api`
+          : 'http://localhost:3001/api',
+      credentials: 'include',
+      headers: {
+        cookie: req.headers.cookie
+      }
+    })
 
-// const NODE_ENV = process.env.NODE_ENV || 'development'
+    const client = new ApolloClient({
+      ssrMode: true,
+      link: httpLink,
+      cache: new InMemoryCache().restore(window.__APOLLO_STATE__)
+    })
 
-// const API_HOST =
-//   NODE_ENV !== 'production'
-//     ? 'http://localhost:4000/api'
-//     : 'https://api.gamma.app'
+    const markup = renderToString(
+      <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+        <ApolloProvider client={client}>
+          <StaticRouter context={context} location={req.url}>
+            <Layout />
+          </StaticRouter>
+        </ApolloProvider>
+      </Loadable.Capture>
+    )
 
-// const app = new Express()
-// app.set('trust proxy', true)
-// securityMiddleware(app)
-// app.use(session)
+    if (context.url) {
+      res.redirect(context.url)
+    } else {
+      const bundles = getBundles(stats, modules)
+      const chunks = bundles.filter(bundle => bundle.file.endsWith('.js'))
 
-// const apiProxy = proxy({ target: API_HOST, changeOrigin: true })
-// app.use('/api', apiProxy)
-// // app.use('/graphql', apiProxy)
-// app.use('/auth/login', apiProxy)
-// app.use('/auth/logout', apiProxy)
+      res.status(200).send(
+        `<!doctype html>
+<html lang="">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charSet='utf-8' />
+    <title>Welcome to gamma</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    ${
+      assets.client.css
+        ? `<link rel="stylesheet" href="${assets.client.css}">`
+        : ''
+    }
+  </head>
+  <body>
+    <div id="root">${markup}</div>
+    ${
+      process.env.NODE_ENV === 'production'
+        ? `<script src="${assets.client.js}"></script>`
+        : `<script src="${assets.client.js}" crossorigin></script>`
+    }
+    ${chunks
+      .map(
+        chunk =>
+          process.env.NODE_ENV === 'production'
+            ? `<script src="/${chunk.file}"></script>`
+            : `<script src="http://${process.env.HOST}:${parseInt(
+                process.env.PORT,
+                10
+              ) + 1}/${chunk.file}"></script>`
+      )
+      .join('\n')}
+    <script>window.main();</script>
+  </body>
+</html>`
+      )
+    }
+  })
 
-// if (process.env.NODE_ENV === 'production') {
-//   /**
-//    * If production, serve JavaScript from server FS
-//    */
-//   app.use('/static', Express.static(path.join(process.cwd(), 'build/client')))
-// } else {
-//   /**
-//    * In developement, proxy webpack dev server
-//    */
-//   app.use(
-//     '/static',
-//     proxy({ target: 'http://localhost:3020', pathRewrite: { '^/static': '' } })
-//   )
-// }
-
-// app.use((req, res, next) => {
-//   // debug(util.inspect(req.session))
-//   const client = new ApolloClient({
-//     ssrMode: true,
-//     link: ApolloLink.from([
-//       errorLink,
-//       queryOrMutationLink({
-//         fetch,
-//         uri: `${API_HOST}`,
-//         credentials: 'include',
-//         headers: {
-//           cookie: req.headers.cookie
-//         }
-//       })
-//     ]),
-//     cache: new InMemoryCache()
-//   })
-
-//   const context = {}
-
-//   const component = (
-//     <ApolloProvider client={client}>
-//       <StaticRouter location={req.url} context={context}>
-//         <Layout user={req.user} />
-//       </StaticRouter>
-//     </ApolloProvider>
-//   )
-
-//   renderToStringWithData(component)
-//     .then(content => {
-//       res.status(200)
-//       const html = <Html content={content} client={client} />
-//       res.send(`<!doctype html>\n${renderToString(html)}`)
-//       res.end()
-//     })
-//     .catch(e => {
-//       console.error('RENDERING ERROR:', e)
-//       res.status(500)
-//       res.end(`An error occurred:\n\n${e.stack}`)
-//     })
-// })
-
-// app.listen(PORT, () =>
-//   console.log(`App Server is now running on http://localhost:${PORT}`)
-// )
+export default server

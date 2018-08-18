@@ -1,50 +1,23 @@
-import React from 'react'
-import { hydrate } from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
+import http from 'http'
+import Loadable from 'react-loadable'
+import app from './server'
 
-import ApolloClient from 'apollo-client'
-import { ApolloProvider, getDataFromTree } from 'react-apollo'
-import { ApolloLink } from 'apollo-link'
-import { InMemoryCache } from 'apollo-cache-inmemory'
+const server = http.createServer(app)
 
-import {
-  errorLink,
-  queryOrMutationLink,
-  subscriptionLink,
-  requestLink
-} from './config/links'
+let currentApp = app
 
-import { Layout } from './routes/layout'
-
-const NODE_ENV = process.env.NODE_ENV || 'development'
-
-const IS_PROD = process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
-const API_URI = IS_PROD ? '/api' : 'http://localhost:4000/api'
-const WS_URI = IS_PROD
-  ? `wss://${window.location.host}/subscriptions`
-  : 'ws://localhost:4000/subscriptions'
-
-const links = [
-  errorLink,
-  requestLink({
-    queryOrMutationLink: queryOrMutationLink({
-      uri: API_URI
-    }),
-    subscriptionLink: subscriptionLink({ uri: WS_URI })
-  })
-]
-
-const client = new ApolloClient({
-  ssrForceFetchDelay: 100,
-  link: ApolloLink.from(links),
-  cache: new InMemoryCache().restore(window.__APOLLO_STATE__)
+Loadable.preloadAll().then(() => {
+  server.listen(process.env.PORT || 3000)
 })
 
-hydrate(
-  <ApolloProvider client={client}>
-    <BrowserRouter>
-      <Layout />
-    </BrowserRouter>
-  </ApolloProvider>,
-  document.getElementById('root')
-)
+if (module.hot) {
+  console.log('✅  Server-side HMR Enabled!')
+
+  module.hot.accept('./server', () => {
+    console.log('🔁  HMR Reloading `./server`...')
+    server.removeListener('request', currentApp)
+    const newApp = require('./server').default
+    server.on('request', newApp)
+    currentApp = newApp
+  })
+}

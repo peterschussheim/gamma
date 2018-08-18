@@ -1,3 +1,4 @@
+// TODO: remove all 'react-app-rewired' shit
 const debug = require('debug')('build:config-overrides')
 const webpack = require('webpack')
 const { injectBabelPlugin } = require('react-app-rewired')
