@@ -1,4 +1,3 @@
-/* @flow */
 import rp from 'request-promise'
 import DataLoader from 'dataloader'
 
