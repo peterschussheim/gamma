@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'react-emotion'
 
+import Spinner from './styles'
+
 const LoadingContainer = styled('div')({
   display: 'flex',
   flex: 'auto',
@@ -12,6 +14,6 @@ const LoadingContainer = styled('div')({
 
 export const Loading = ({ size, color }) => (
   <LoadingContainer>
-    {/* <Spinner size={size} color={color} /> */}
+    <Spinner size={size} color={color} />
   </LoadingContainer>
 )
