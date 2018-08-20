@@ -28,7 +28,6 @@
     "start:shared": "yarn workspace @peterschussheim/shared start",
     "start:api": "yarn workspace api dev",
     "start:ssr": "yarn workspace ssr start",
-    "start:style-guide": "yarn workspace style-guide start",
     "prebuild": "yarn clean:build",
     "build": "lerna exec --stream --parallel -- yarn build",
     "build:shared": "yarn workspace @peterschussheim/shared build",
