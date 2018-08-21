@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import NavbarLink from './navbarlink'
-import Profile from '../routes/profile'
+import Profile from '../views/profile'
 
 const Navbar = () => (
   <nav>
