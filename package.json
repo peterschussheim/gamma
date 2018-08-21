@@ -13,7 +13,6 @@
     ],
     "nohoist": [
       "web/react-scripts",
-      "web/react-app-rewired",
       "monaco-editor/react-scripts-ts"
     ]
   },

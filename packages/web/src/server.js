@@ -1,23 +1,24 @@
 import React from 'react'
 import Loadable from 'react-loadable'
 import { getBundles } from 'react-loadable/webpack'
-import { StaticRouter } from 'react-router-dom'
+import { StaticRouter } from 'react-router'
 import express from 'express'
 import { renderToString } from 'react-dom/server'
 import 'cross-fetch/polyfill'
+import Helmet, { HelmetProvider } from 'react-helmet-async'
 import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { ApolloLink } from 'apollo-link'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
-import '../server/renderer/browser-shim'
-import stats from '../build/react-loadable.json'
-import { Layout } from './routes/layout'
+const stats = require('../build/react-loadable.json')
 const assets = require(process.env.GAMMA_ASSETS_MANIFEST)
 
-const NODE_ENV = process.env.NODE_ENV || 'development'
+import '../server/renderer/browser-shim'
+import Routes from './routes'
 
+const NODE_ENV = process.env.NODE_ENV || 'development'
 const IS_PROD = process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
 const API_URI = IS_PROD ? '/api' : 'http://localhost:4000/api'
 const WS_URI = IS_PROD
@@ -34,7 +35,7 @@ server
 
     const httpLink = createHttpLink({
       uri:
-        IS_PROD && !FORCE_DEV
+        IS_PROD && !process.env.FORCE_DEV
           ? `https://${req.hostname}/api`
           : 'http://localhost:3001/api',
       credentials: 'include',
@@ -51,11 +52,13 @@ server
 
     const markup = renderToString(
       <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-        <ApolloProvider client={client}>
-          <StaticRouter context={context} location={req.url}>
-            <Layout />
-          </StaticRouter>
-        </ApolloProvider>
+        <HelmetProvider>
+          <ApolloProvider client={client}>
+            <StaticRouter context={context} location={req.url}>
+              <Routes currentUser={req.user} />
+            </StaticRouter>
+          </ApolloProvider>
+        </HelmetProvider>
       </Loadable.Capture>
     )
 

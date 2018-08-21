@@ -3,7 +3,6 @@ import { Link, withRouter } from 'react-router-dom'
 import { Query } from 'react-apollo'
 import Logout from '../components/logout'
 import { VIEWER } from '../queries'
-import auth from '../utils/auth'
 
 class Profile extends React.Component {
   render() {
