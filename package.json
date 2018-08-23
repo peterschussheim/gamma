@@ -12,7 +12,6 @@
       "packages/*"
     ],
     "nohoist": [
-      "web/react-scripts",
       "monaco-editor/react-scripts-ts"
     ]
   },
@@ -25,10 +24,10 @@
     "start:api": "yarn workspace api dev",
     "start:web": "yarn workspace web start",
     "start:web:inspect": "yarn workspace web start:inspect",
-    "start:shared": "yarn workspace @peterschussheim/shared start",
+    "start:shared": "yarn workspace shared start",
     "prebuild": "yarn clean:build",
     "build": "lerna exec --stream --parallel -- yarn build",
-    "build:shared": "yarn workspace @peterschussheim/shared build",
+    "build:shared": "yarn workspace shared build",
     "reset-modules": "rm -rf node_modules/ yarn.lock packages/*/node_modules",
     "reset-yarn": "yarn cache clean",
     "reset-cache": "yarn reset-yarn",
