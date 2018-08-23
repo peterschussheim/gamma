@@ -3,5 +3,5 @@ module.exports = {
   history: require('./history'),
   raven: require('./raven'),
   redis: require('./redis'),
-  middlewares: require('./middlewares')
+  middlewares: require('/middlewares')
 }
