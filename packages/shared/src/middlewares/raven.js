@@ -1,3 +1,3 @@
-import Raven from 'shared/raven'
+import Raven from '../raven'
 
 export default Raven.requestHandler()
