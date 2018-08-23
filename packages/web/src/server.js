@@ -11,8 +11,7 @@ import { createHttpLink } from 'apollo-link-http'
 import { ApolloLink } from 'apollo-link'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-
-const stats = require('../build/react-loadable.json')
+const stats = require('build/react-loadable.json')
 const assets = require(process.env.GAMMA_ASSETS_MANIFEST)
 
 import '../server/renderer/browser-shim'
@@ -25,8 +24,8 @@ const WS_URI = IS_PROD
   ? `wss://${window.location.host}/subscriptions`
   : 'ws://localhost:4000/subscriptions'
 
-const server = express()
-server
+const app = express()
+app
   .disable('x-powered-by')
   .use(express.static(process.env.GAMMA_PUBLIC_DIR))
   .get('/*', (req, res) => {
@@ -55,7 +54,7 @@ server
         <HelmetProvider>
           <ApolloProvider client={client}>
             <StaticRouter context={context} location={req.url}>
-              <Routes currentUser={req.user} />
+              <Routes />
             </StaticRouter>
           </ApolloProvider>
         </HelmetProvider>
@@ -107,4 +106,4 @@ server
     }
   })
 
-export default server
+export default app

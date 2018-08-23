@@ -14,6 +14,14 @@ module.exports = {
       }
     }
 
+    // if (target === 'server') {
+    //   config.node = {
+    //     fs: 'empty',
+    //     module: 'empty'
+    //   }
+    //   return config
+    // }
+
     return config
   }
 }

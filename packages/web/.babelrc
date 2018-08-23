@@ -1,4 +1,18 @@
 {
-  "presets": ["babel-preset-gamma"],
-  "plugins": ["react-loadable/babel"]
+  "presets": [
+    "babel-preset-gamma",
+    ["env", { "targets": { "node": "current" } }]
+  ],
+  "plugins": [
+    "react-loadable/babel",
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "build": "./build/"
+        }
+      }
+    ]
+  ]
 }

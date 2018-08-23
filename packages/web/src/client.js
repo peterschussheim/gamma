@@ -46,7 +46,7 @@ const App = () => {
     <HelmetProvider>
       <ApolloProvider client={client}>
         <Router history={history}>
-          <Routes currentUser={null} />
+          <Routes />
         </Router>
       </ApolloProvider>
     </HelmetProvider>
