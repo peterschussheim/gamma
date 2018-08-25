@@ -9,6 +9,7 @@
   },
   "scripts": {
     "start": "gamma start",
+    "start:verbose": "DEBUG=*,-babel*,-eslint*,-express:* gamma start",
     "start:inspect": "gamma start --inspect-brk=127.0.0.1:9229",
     "build": "gamma build",
     "deploy": "now && now alias",
