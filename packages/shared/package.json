@@ -4,10 +4,6 @@
   "private": true,
   "description": "Cross-project utilities, configs and wrappers to be shared",
   "license": "MIT",
-  "main": "dist/index.js",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "start": "cross-env NODE_ENV=development babel src -d dist -s -w --copy-files",
     "build": "cross-env NODE_ENV=production babel src -d dist --copy-files",

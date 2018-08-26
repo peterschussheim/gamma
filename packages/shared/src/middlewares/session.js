@@ -1,4 +1,4 @@
-const debug = require('debug')('middlewares:session')
+const debug = require('debug')('shared:middlewares:session')
 debug('Initializing connect-redis session store')
 import session from 'express-session'
 import connectRedis from 'connect-redis'
