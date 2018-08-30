@@ -32,14 +32,11 @@ export const getHeader = ({ metaTags }) => {
           <div id="root">`
 }
 
-export const getFooter = ({ state, data, bundles, chunks }) => {
+export const getFooter = ({ state, data, chunks }) => {
   return html`</div>
-      <script defer="defer" src="https://cdn.ravenjs.com/3.14.0/raven.min.js" crossorigin="anonymous"></script>
-      <script defer="defer" src="/install-raven.js"></script>
       <script>window.__SERVER_STATE__=${serialize(state)}</script>
       <script>window.__DATA__=${serialize(data)}</script>
       <script defer="defer" type="text/javascript" src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.find,Symbol.iterator"></script>
-      <script type="text/javascript" src="/static/js/bootstrap.js"></script>
       ${
         process.env.NODE_ENV === 'production'
           ? `<script src="${assets.client.js}"></script>`
@@ -55,13 +52,7 @@ export const getFooter = ({ state, data, bundles, chunks }) => {
                   10
                 ) + 1}/${chunk.file}"></script>`
         )
-        .join('\n')}  
-      ${bundles.map(src => createScriptTag({ src }))}
-      ${createScriptTag({
-        src: `/public/static/js/${bundles.find(bundle =>
-          mainBundleRegex.test(bundle)
-        )}`
-      })}
+        .join('\n')}
       <script>window.main();</script>
     </body>
     </html>
