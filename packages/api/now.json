@@ -2,7 +2,6 @@
   "name": "api",
   "alias": ["api.gamma.app"],
   "env": {
-    "NODE_ENV": "production",
     "SENTRY_DSN_SERVER": "@sentry-dsn-server",
     "GITHUB_CLIENT_ID_PROD": "@github-client-id-prod",
     "GITHUB_CLIENT_SECRET_PROD": "@github-client-secret-prod",
