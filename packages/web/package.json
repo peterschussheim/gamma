@@ -58,15 +58,16 @@
     "react-hot-loader": "4.3.4"
   },
   "dependencies": {
-    "shared": "0.0.1",
     "apollo-cache-inmemory": "1.2.2",
     "apollo-client": "2.3.2",
     "apollo-link": "1.2.2",
     "apollo-link-error": "1.1.0",
     "apollo-link-http": "1.5.4",
     "apollo-link-persisted-queries": "0.2.1",
+    "apollo-link-retry": "2.2.4",
     "apollo-link-state": "0.4.1",
     "apollo-link-ws": "1.0.8",
+    "apollo-upload-client": "8.1.0",
     "apollo-utilities": "1.0.13",
     "babel-plugin-emotion": "9.2.6",
     "common-tags": "1.8.0",
@@ -93,7 +94,7 @@
     "react-helmet-async": "0.1.0-alpha",
     "react-loadable": "5.5.0",
     "react-router-dom": "4.3.1",
-    "subscriptions-transport-ws": "0.9.9",
+    "shared": "0.0.1",
     "toobusy-js": "0.5.1",
     "ws": "6.0.0"
   }
