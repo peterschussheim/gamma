@@ -20,5 +20,7 @@
     "PRISMA_MANAGEMENT_API_SECRET": "@prisma-management-api-secret",
     "MAILSLURP_KEY": "@mailslurp-key"
   },
-  "type": "docker"
+  "features": {
+    "cloud": "v2"
+  }
 }
