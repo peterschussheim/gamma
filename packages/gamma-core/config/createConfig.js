@@ -399,7 +399,7 @@ module.exports = (
         ].filter(Boolean)
       }
 
-      // Configure our client bundles output. Not the public path is to 3001.
+      // Configure our client bundles output. Note the public path is to 3001.
       config.output = {
         path: paths.appBuildPublic,
         publicPath: `http://${dotenv.raw.HOST}:${devServerPort}/`,

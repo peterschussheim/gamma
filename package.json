@@ -12,8 +12,6 @@
       "packages/*"
     ],
     "nohoist": [
-      "web/react-scripts",
-      "web/react-app-rewired",
       "monaco-editor/react-scripts-ts"
     ]
   },
@@ -23,16 +21,15 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --loglevel=info",
-    "start:web": "yarn workspace web start",
-    "start:web:inspect": "yarn workspace web start:inspect",
-    "start:shared": "yarn workspace @peterschussheim/shared start",
     "start:api": "yarn workspace api dev",
-    "start:ssr": "yarn workspace ssr start",
-    "start:style-guide": "yarn workspace style-guide start",
+    "start:web": "yarn workspace web start",
+    "start:web:v": "yarn workspace web start:verbose",
+    "start:web:i": "yarn workspace web start:inspect",
+    "start:shared": "yarn workspace shared start",
     "prebuild": "yarn clean:build",
     "build": "lerna exec --stream --parallel -- yarn build",
-    "build:shared": "yarn workspace @peterschussheim/shared build",
-    "build:ssr": "yarn workspace ssr build",
+    "build:web": "yarn workspace web build",
+    "build:shared": "yarn workspace shared build",
     "reset-modules": "rm -rf node_modules/ yarn.lock packages/*/node_modules",
     "reset-yarn": "yarn cache clean",
     "reset-cache": "yarn reset-yarn",
@@ -41,7 +38,6 @@
     "clean:build": "rm -rf ./packages/*/build",
     "clean:logs": "rm -rf ./packages/*/*.log *.log",
     "xpostbuild:api": "cp api/package.json build-api/package.json && cp now.json build-api/now.json",
-    "xpostbuild:ssr": "cp now.json build-ssr/now.json",
     "deploy": "now && now alias",
     "ls": "lerna ls",
     "changelog": "lerna-changelog",
@@ -71,16 +67,9 @@
     ]
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "6.25.0",
-    "babel-eslint": "^8.2.3",
-    "babel-jest": "20.0.3",
-    "babel-loader": "7.1.4",
-    "babel-preset-gamma": "0.0.1",
     "eslint": "^4.1.1",
     "eslint-config-prettier": "2.9.0",
     "eslint-config-react-app": "^2.1.0",
-    "eslint-plugin-flowtype": "^2.49.3",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jest": "^21.6.1",
     "eslint-plugin-jsx-a11y": "^5.1.1",

@@ -1,13 +1,12 @@
-const debug = require('debug')('middlewares:session')
+const debug = require('debug')('shared:middlewares:session')
 debug('Initializing connect-redis session store')
 import session from 'express-session'
 import connectRedis from 'connect-redis'
 import { redisInstance, REDIS_SESSION_PREFIX } from '../redis'
-import config from '../config'
-const { SESSION_SECRET } = config
+
 const RedisStore = connectRedis(session)
-debug(`${SESSION_SECRET}`)
-if (!SESSION_SECRET) {
+
+if (!process.env.SESSION_SECRET) {
   throw new Error(
     '[middlewares:session] You have to provide the SESSION_SECRET environment variable.'
   )
@@ -19,7 +18,7 @@ export default session({
     prefix: REDIS_SESSION_PREFIX
   }),
   name: 'session',
-  secret: SESSION_SECRET,
+  secret: process.env.SESSION_SECRET,
   resave: false, // connect-redis implements 'touch' command, rendering 'resave' option unnecessary
   saveUninitialized: false,
   cookie: {

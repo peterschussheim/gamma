@@ -1,23 +1,21 @@
 {
-  "name": "@peterschussheim/shared",
+  "name": "shared",
   "version": "0.0.1",
   "private": true,
   "description": "Cross-project utilities, configs and wrappers to be shared",
   "license": "MIT",
-  "main": "build/index.js",
-  "files": [
-    "build"
-  ],
   "scripts": {
-    "start": "cross-env NODE_ENV=development babel src -d build -s -w",
-    "build": "cross-env NODE_ENV=production babel src -d build",
-    "clean": "rimraf build"
+    "start": "cross-env NODE_ENV=development babel src -d dist -s -w --copy-files",
+    "build": "cross-env NODE_ENV=production babel src -d dist --copy-files",
+    "clean": "rimraf dist"
   },
   "devDependencies": {
+    "babel-cli": "6.26.0",
     "babel-plugin-module-resolver": "3.1.1",
     "babel-preset-gamma": "0.0.1"
   },
   "dependencies": {
+    "babel-plugin-inline-dotenv": "1.1.2",
     "dotenv": "6.0.0",
     "raven": "2.6.3",
     "raven-js": "3.26.4"

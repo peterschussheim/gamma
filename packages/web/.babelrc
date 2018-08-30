@@ -1,4 +1,15 @@
 {
-  "presets": ["babel-preset-gamma"],
-  "plugins": ["react-loadable/babel"]
+  "presets": [
+    "babel-preset-gamma",
+    [
+      "env",
+      {
+        "targets": {
+          "node": "current",
+          "browsers": ["last 2 versions"]
+        }
+      }
+    ]
+  ],
+  "plugins": ["react-loadable/babel", "transform-class-properties"]
 }

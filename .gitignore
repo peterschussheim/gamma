@@ -64,5 +64,5 @@ package-lock.json
 .DS_Store
 gh-profile.json
 build
-build-api
-build-ssr
+TODO
+dist

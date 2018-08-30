@@ -1,7 +1,7 @@
 const { ReactLoadablePlugin } = require('react-loadable/webpack')
 
 module.exports = {
-  modify: (config, { target }) => {
+  modify: (config, { target }, webpack) => {
     if (target === 'web') {
       return {
         ...config,
@@ -13,6 +13,8 @@ module.exports = {
         ]
       }
     }
+
+    config.resolve.modules.symlinks = true
 
     return config
   }

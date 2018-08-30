@@ -28,9 +28,9 @@ function main() {
   let gamma = {}
 
   // Check for gamma.config.js file
-  if (fs.existsSync(paths.appgammaConfig)) {
+  if (fs.existsSync(paths.appGammaConfig)) {
     try {
-      gamma = require(paths.appgammaConfig)
+      gamma = require(paths.appGammaConfig)
     } catch (e) {
       clearConsole()
       logger.error('Invalid gamma.config.js file.', e)

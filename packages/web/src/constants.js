@@ -12,13 +12,16 @@ export const USER_SESSION_ID_PREFIX_TEST = 'tusid:'
 export const FORGOT_PW_PREFIX_TEST = 'tforgotpw:'
 export const HIT_COUNTER_PREFIX_TEST = 'thcount:'
 
-export const IS_PROD = process.env.NODE_ENV === 'production'
-export const SERVER_URL = IS_PROD
-  ? // In production we want to redirect to /whatever
-    ``
-  : // In development redirect to localhost:3001/whatever
-    'http://localhost:3001'
+/**
+ * The following exports are used to construct new apollo-client instances
+ * on each request.
+ */
 
-export const CLIENT_URL = IS_PROD
-  ? `${window.location.protocol}//${window.location.host}`
-  : 'http://localhost:3000'
+export const IS_PROD =
+  process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
+export const API_URI = IS_PROD
+  ? `https://${process.env.NOW_URL}/api`
+  : 'http://localhost:4000/api'
+export const WS_URI = IS_PROD
+  ? `wss://${window.location.host}/subscriptions`
+  : 'ws://localhost:4000/subscriptions'
