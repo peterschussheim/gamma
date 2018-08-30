@@ -9,7 +9,7 @@ class Profile extends React.Component {
     const { match, location, history } = this.props
 
     return (
-      <Query query={VIEWER} fetchPolicy="network-only">
+      <Query query={VIEWER} ssr={false}>
         {({ client, loading, error, data }) => {
           if (loading) {
             return <p>Loading...</p>
