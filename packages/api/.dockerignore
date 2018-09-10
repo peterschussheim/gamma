@@ -1,6 +1,0 @@
-# All files are ignored, except for the ones starting with !.
-# *
-# !dist
-# !./package.json
-# !./package.json
-node_modules
