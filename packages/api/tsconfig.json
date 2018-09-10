@@ -7,12 +7,10 @@
     "sourceMap": true,
     "noImplicitReturns": true,
     "allowJs": true,
-    "baseUrl": ".",
-    "paths": {
-      "*": ["*", "../shared/*"]
-    },
     "rootDir": "src",
     "outDir": "dist",
+    "allowSyntheticDefaultImports": true,
     "lib": ["esnext", "dom"]
-  }
+  },
+  "exclude": ["node_modules"]
 }
