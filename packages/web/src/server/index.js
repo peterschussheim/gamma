@@ -12,11 +12,11 @@ import passport from 'passport'
 // import { Prisma } from '../../api/src/generated/prisma'
 // console.log(path.resolve(__dirname, '..', '..', 'api/src/generated'))
 // const Prisma = require.resolve(__dirname, '..', '..', 'api/src/generated')
-// import Raven from '../../../shared/src/index'
+import Raven from 'shared/src/raven'
 import toobusy from 'shared/src/middlewares/toobusy'
 import { securityMiddleware } from 'shared/src/middlewares/securityMiddleware'
 import cors from 'shared/src/middlewares/cors'
-import session from 'shared/src/middlewares/session'
+import session from '../middlewares/session'
 import renderer from './renderer'
 
 // Cache is disabled for now
@@ -57,10 +57,10 @@ if (process.env.NODE_ENV === 'development') {
   app.use(logging)
 }
 
-if (process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV) {
-  const raven = require('shared/src/index').default
-  app.use(raven)
-}
+// if (process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV) {
+//   const raven = require('shared/src/index').default
+//   app.use(raven)
+// }
 app.use(cors)
 
 // Redirect requests to /api and /auth to the production API
