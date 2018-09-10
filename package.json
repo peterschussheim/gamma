@@ -12,7 +12,8 @@
       "packages/*"
     ],
     "nohoist": [
-      "monaco-editor/react-scripts-ts"
+      "**/prop-types",
+      "**/prop-types/**"
     ]
   },
   "engines": {
@@ -21,13 +22,16 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --loglevel=info",
+    "inspect-prod": "yarn workspace web inspect-prod",
+    "run:api": "yarn workspace api start",
+    "run:web": "yarn workspace web start:prod",
     "start:api": "yarn workspace api dev",
     "start:web": "yarn workspace web start",
     "start:web:v": "yarn workspace web start:verbose",
     "start:web:i": "yarn workspace web start:inspect",
     "start:shared": "yarn workspace shared start",
     "prebuild": "yarn clean:build",
-    "build": "lerna exec --stream --parallel -- yarn build",
+    "build:api": "yarn workspace api build",
     "build:web": "yarn workspace web build",
     "build:shared": "yarn workspace shared build",
     "reset-modules": "rm -rf node_modules/ yarn.lock packages/*/node_modules",
