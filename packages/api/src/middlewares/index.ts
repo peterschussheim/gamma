@@ -1,6 +1,5 @@
 const debug = require('debug')('api:routes:middlewares')
 import { Router } from 'express'
-import * as morgan from 'morgan'
 import * as jwt from 'jsonwebtoken'
 import * as passport from 'passport'
 import * as bodyParser from 'body-parser'
@@ -49,7 +48,6 @@ middlewares.use((req, res, next) => {
   next()
 })
 
-middlewares.use(morgan('dev'))
 middlewares.use(cors)
 middlewares.options('*', cors)
 middlewares.use(cookieParser(process.env.SESSION_SECRET))
