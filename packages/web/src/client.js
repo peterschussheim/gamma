@@ -5,22 +5,20 @@ import { Router } from 'react-router'
 import { HelmetProvider } from 'react-helmet-async'
 import { ApolloProvider } from 'react-apollo'
 
-import Routes from './hot-routes'
+import Routes from './routes'
 import { history } from './utils/history'
 import { API_URI, WS_URI, IS_PROD } from './constants'
 import { client } from './config/apollo'
-console.log(`[CLIENT] apollo ssr enabled: ${client.ssrMode}`)
-const App = () => {
-  return (
-    <ApolloProvider client={client}>
-      <HelmetProvider>
-        <Router history={history}>
-          <Routes />
-        </Router>
-      </HelmetProvider>
-    </ApolloProvider>
-  )
-}
+
+const App = () => (
+  <ApolloProvider client={client}>
+    <HelmetProvider>
+      <Router history={history}>
+        <Routes />
+      </Router>
+    </HelmetProvider>
+  </ApolloProvider>
+)
 
 window.main = () => {
   Loadable.preloadReady()
