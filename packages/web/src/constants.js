@@ -19,9 +19,7 @@ export const HIT_COUNTER_PREFIX_TEST = 'thcount:'
 
 export const IS_PROD =
   process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
-export const API_URI = IS_PROD
-  ? `https://${process.env.NOW_URL}/api`
-  : 'http://localhost:4000/api'
+export const API_URI = IS_PROD ? `/api` : 'http://localhost:4000/api'
 export const WS_URI = IS_PROD
   ? `wss://${window.location.host}/subscriptions`
   : 'ws://localhost:4000/subscriptions'
