@@ -7,6 +7,7 @@ import { StaticRouter } from 'react-router'
 import { HelmetProvider } from 'react-helmet-async'
 import Loadable from 'react-loadable'
 import { getBundles } from 'react-loadable/webpack'
+import { renderStylesToNodeStream } from 'emotion-server'
 import 'cross-fetch/polyfill'
 import util from 'util'
 import Raven from 'shared/src/raven'
@@ -17,6 +18,7 @@ import { getFooter, getHeader } from './html-template'
 const assets = require(process.env.GAMMA_ASSETS_MANIFEST)
 // import createCacheStream from '../create-cache-stream'
 import Routes from '../../routes'
+const stats = require('../../../build/react-loadable.json')
 
 import { API_URI } from '../../constants'
 import { client } from '../../config/apollo'
@@ -29,14 +31,11 @@ const renderer = (req, res) => {
   debug(`Rendering service querying API at ${API_URI}`)
 
   let modules = []
-  const report = moduleName => {
-    modules.push(moduleName)
-  }
   let routerContext = {}
   let helmetContext = {}
 
   const frontend = (
-    <Loadable.Capture report={report}>
+    <Loadable.Capture report={moduleName => modules.push(moduleName)}>
       <ApolloProvider client={client}>
         <HelmetProvider context={helmetContext}>
           <StaticRouter location={req.url} context={routerContext}>
@@ -81,12 +80,8 @@ const renderer = (req, res) => {
 
       const stream = renderToNodeStream(frontend)
 
-      stream.pipe(
-        response,
-        { end: false }
-      )
+      stream.pipe(response, { end: false })
 
-      const stats = require('../../../build/react-loadable.json')
       const bundles = getBundles(stats, modules)
       const chunks = bundles.filter(bundle => bundle.file.endsWith('.js'))
 
