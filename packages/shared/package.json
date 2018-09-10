@@ -11,11 +11,11 @@
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
+    "babel-plugin-inline-dotenv": "1.1.2",
     "babel-plugin-module-resolver": "3.1.1",
     "babel-preset-gamma": "0.0.1"
   },
   "dependencies": {
-    "babel-plugin-inline-dotenv": "1.1.2",
     "dotenv": "6.0.0",
     "raven": "2.6.3",
     "raven-js": "3.26.4"
