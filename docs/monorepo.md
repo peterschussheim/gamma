@@ -93,3 +93,6 @@ This manages `devDependencies` and repo-wide scripts.  For example, we can defin
 Executing this script will instruct `lerna` to inspect all packages under our `lerna.json` config, and if a `build` script exists in each package, run it.
 
 [yarn-nohoist]: https://github.com/connectdotz/yarn-nohoist-examples.git
+[babel-monorepo-design-docs]: https://github.com/babel/babel/blob/master/doc/design/monorepo.md
+[Why we dropped Lerna from PouchDB]: https://gist.github.com/nolanlawson/457cdb309c9ec5b39f0d420266a9faa4
+[alle]: https://github.com/boennemann/alle
