@@ -1,19 +1,19 @@
-FROM mhart/alpine-node:10
+FROM mhart/alpine-node:10 as base
 LABEL name "gamma-api-prod"
-WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --production
-
-# Copy over node_modules and anything else to the smaller base image
-FROM mhart/alpine-node:10
-WORKDIR /app
-COPY --from=0 /app .
+WORKDIR /usr/src
 COPY . .
 
-ARG DEBUG
-ENV DEBUG ${DEBUG:-*,-body-parser:*,-express:*,-snapdragon:*
-ARG NODE_ENV
-ENV NODE_ENV ${NODE_ENV:-production
-EXPOSE 4000
+RUN yarn
+RUN yarn build
+RUN yarn --production
 
-CMD ["node", "-r", "now-env", "./dist/index.js"]
+# Copy over node_modules and anything else to the smaller base image
+FROM mhart/alpine-node:base-10
+WORKDIR /usr/src
+ENV NODE_ENV="production"
+ENV DEBUG="*,-express-session*,-body-parser:*,-express:*"
+COPY --from=base /usr/src .
+
+EXPOSE 4000
+CMD ["node", "-r", "dotenv/config", "dist"]
+
