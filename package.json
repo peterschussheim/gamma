@@ -21,11 +21,10 @@
     "yarn": ">=1.4.2"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap --loglevel=info",
     "inspect-prod": "yarn workspace web inspect-prod",
     "run:api": "yarn workspace api start",
     "run:web": "yarn workspace web start:prod",
-    "start:api": "yarn workspace api dev",
+    "start:api": "yarn workspace api dev:verbose",
     "start:web": "yarn workspace web start",
     "start:web:v": "yarn workspace web start:verbose",
     "start:web:i": "yarn workspace web start:inspect",
@@ -38,14 +37,10 @@
     "reset-yarn": "yarn cache clean",
     "reset-cache": "yarn reset-yarn",
     "reset": "yarn reset-modules && yarn reset-cache",
-    "clean": "lerna clean --yes",
     "clean:build": "rm -rf ./packages/*/build",
     "clean:logs": "rm -rf ./packages/*/*.log *.log",
     "xpostbuild:api": "cp api/package.json build-api/package.json && cp now.json build-api/now.json",
     "deploy": "now && now alias",
-    "ls": "lerna ls",
-    "changelog": "lerna-changelog",
-    "release": "lerna publish",
     "jest": "jest",
     "test": "yarn run jest -- --runInBand --watch",
     "test:ci": "yarn run jest -- --forceExit --outputFile test-results.json --json --maxWorkers=2",
@@ -69,8 +64,5 @@
     "yarn.lock": [
       "git rm --cached"
     ]
-  },
-  "devDependencies": {
-    "lerna": "^3.0.0-rc.0"
   }
 }
