@@ -9,7 +9,7 @@
     "start": "dotenv DEBUG=*,-express-session*,-body-parser:*,-express:* node dist",
     "dev:verbose": "cross-env NODE_ENV=development cross-env PRISMA_DEBUG=true cross-env DEBUG=*,-body-parser:*,-express:*,-snapdragon:*,-nodemon*, nodemon -r dotenv/config --watch src -e ts,js,graphql -x ts-node src/index.ts",
     "dev": "cross-env NODE_ENV=development cross-env DEBUG=*,-body-parser:*,-express:*,-snapdragon:*,-nodemon*, nodemon -r dotenv/config --watch src -e ts,js,graphql -x ts-node src/index.ts",
-    "build": "rm -rf ./dist && tsc && copyfiles -u 1 src/**/*.graphql dist",
+    "build": "rm -rf ./dist && tsc && copyfiles -u 1 \"./src/**/*.graphql\" dist",
     "playground": "graphql playground",
     "deploy": "DEBUG=* prisma deploy -e .env",
     "get-remote-schema": "graphql get-schema --project database",
