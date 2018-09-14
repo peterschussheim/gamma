@@ -19,7 +19,8 @@ const options: Options = {
             'https://gamma.app',
             /gamma-(\w|-)+\.app/g,
             /gamma\.app/,
-            /ui\.gamma\.app/g
+            /ui\.gamma\.app/g,
+            /api\.gamma\.app/g
           ]
         : [/localhost/, /github\.com/],
     preflightContinue: true
@@ -37,7 +38,7 @@ const options: Options = {
       return userId
     }
   },
-  playground: process.env.NODE_ENV === 'production' ? false : '/playground',
+  playground: '/playground',
   formatError,
   bodyParserOptions: {
     type: '*/*'
