@@ -1,11 +1,6 @@
-# All files are ignored, except for the ones starting with !.
-# *
-# !./package.json
-# !./packages/api/package.json
-# !./packages/shared/package.json
-# !./lerna.json
-
 node_modules
 packages/**/node_modules
 packages/**/dist
+packages/**/build
 yarn-error.log
+.ds*
