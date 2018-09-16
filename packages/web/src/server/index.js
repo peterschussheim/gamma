@@ -47,7 +47,7 @@ import renderer from './renderer'
 // const PORT = process.env.PORT || 3001
 
 const app = express()
-
+app.use(express.static(process.env.GAMMA_PUBLIC_DIR))
 app.set('trust proxy', true)
 app.use(toobusy)
 securityMiddleware(app)
@@ -75,21 +75,21 @@ app.use('/api', (req, res) => {
   )
 })
 
-app.use('/auth', (req, res) => {
-  const redirectUrl = `${req.baseUrl}${req.path}`
-  res.redirect(
-    req.method === 'POST' || req.xhr ? 307 : 301,
-    `https://gamma.app${redirectUrl}`
-  )
-})
+// app.use('/auth', (req, res) => {
+//   const redirectUrl = `${req.baseUrl}${req.path}`
+//   res.redirect(
+//     req.method === 'POST' || req.xhr ? 307 : 301,
+//     `https://gamma.app${redirectUrl}`
+//   )
+// })
 
-app.use('/subscriptions', (req, res) => {
-  const redirectUrl = `${req.baseUrl}${req.path}`
-  res.redirect(
-    req.method === 'POST' || req.xhr ? 307 : 301,
-    `https://gamma.app${redirectUrl}`
-  )
-})
+// app.use('/subscriptions', (req, res) => {
+//   const redirectUrl = `${req.baseUrl}${req.path}`
+//   res.redirect(
+//     req.method === 'POST' || req.xhr ? 307 : 301,
+//     `https://gamma.app${redirectUrl}`
+//   )
+// })
 
 // In development the Webpack HMR server requests /sockjs-node constantly,
 // so let's patch that through to it!
@@ -122,48 +122,51 @@ app.use(session)
 // Static files
 // This route handles the case where our ServiceWorker requests main.asdf123.js, but
 // we've deployed a new version of the app so the filename changed to main.dfyt975.js
-// let jsFiles
-// try {
-//   jsFiles = fs.readdirSync(
-//     path.resolve(__dirname, '..', 'build', 'public', 'static', 'js')
-//   )
-// } catch (err) {
-//   // In development that folder might not exist, so ignore errors here
-//   debug(`build/static/js not found: ${err}`)
-// }
-// app.use(
-//   express.static(path.resolve(__dirname, '..', 'build'), {
-//     index: false,
-//     setHeaders: (res, path) => {
-//       // Don't cache the serviceworker in the browser
-//       if (path.indexOf('sw.js')) {
-//         res.setHeader('Cache-Control', 'no-store')
-//         return
-//       }
-//     }
-//   })
-// )
-// app.get('/static/js/:name', (req, res, next) => {
-//   if (!req.params.name) return next()
-//   const existingFile = jsFiles.find(file => file.startsWith(req.params.name))
-//   if (existingFile)
-//     return res.sendFile(
-//       path.resolve(
-//         __dirname,
-//         '..',
-//         'build',
-//         'public',
-//         'static',
-//         'js',
-//         req.params.name
-//       )
-//     )
-//   const match = req.params.name.match(/(\w+?)\.(\w+?\.)?js/i)
-//   if (!match) return next()
-//   const actualFilename = jsFiles.find(file => file.startsWith(match[1]))
-//   if (!actualFilename) return next()
-//   res.redirect(`/static/js/${actualFilename}`)
-// })
+let jsFiles
+try {
+  jsFiles = fs.readdirSync(
+    path.resolve(__dirname, '..', 'build', 'public', 'static', 'js')
+  )
+} catch (err) {
+  // In development that folder might not exist, so ignore errors here
+  debug(`build/static/js not found: ${err}`)
+}
+debug(`jsFiles: ${jsFiles}`)
+app.use(
+  express.static(path.resolve(__dirname, '..', 'build'), {
+    index: false,
+    setHeaders: (res, path) => {
+      // Don't cache the serviceworker in the browser
+      if (path.indexOf('sw.js')) {
+        res.setHeader('Cache-Control', 'no-store')
+        return
+      }
+    }
+  })
+)
+app.get('/static/js/:name', (req, res, next) => {
+  if (!req.params.name) return next()
+  const existingFile = jsFiles.find(file => file.startsWith(req.params.name))
+  if (existingFile) {
+    debug(`existingFile found: ${existingFile}`)
+    return res.sendFile(
+      path.resolve(
+        __dirname,
+        '..',
+        'build',
+        'public',
+        'static',
+        'js',
+        req.params.name
+      )
+    )
+  }
+  const match = req.params.name.match(/(\w+?)\.(\w+?\.)?js/i)
+  if (!match) return next()
+  const actualFilename = jsFiles.find(file => file.startsWith(match[1]))
+  if (!actualFilename) return next()
+  res.redirect(`/static/js/${actualFilename}`)
+})
 
 // In dev the static files from the root public folder aren't moved to the
 // build folder by create-react-app, so we just tell Express to serve those too
@@ -174,8 +177,7 @@ app.use(session)
 //     })
 //   )
 // }
-app.use(express.static(process.env.GAMMA_PUBLIC_DIR))
-app.get('*/', renderer)
+app.get('/*', renderer)
 
 process.on('unhandledRejection', async err => {
   debug('Unhandled rejection', err)

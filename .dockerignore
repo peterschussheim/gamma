@@ -3,4 +3,6 @@ packages/**/node_modules
 packages/**/dist
 packages/**/build
 yarn-error.log
-.ds*
+.DS_Store
+.vscode
+docs

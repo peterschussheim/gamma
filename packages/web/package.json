@@ -53,7 +53,6 @@
     "eslint-plugin-prettier": "2.6.0",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-react": "^7.10.0",
-    "friendly-errors-webpack-plugin": "1.7.0",
     "gamma-core": "0.0.1",
     "husky": "0.14.3",
     "lint-staged": "7.2.0",
@@ -86,7 +85,6 @@
     "emotion-server": "9.2.8",
     "express": "4.16.3",
     "express-session": "1.15.6",
-    "graphql": "0.13.2",
     "graphql-tag": "2.9.2",
     "helmet": "3.13.0",
     "hiredis": "0.5.0",
@@ -105,6 +103,7 @@
     "react-loadable": "5.5.0",
     "react-router-dom": "4.3.1",
     "shared": "0.0.1",
+    "subscriptions-transport-ws": "^0.9.0",
     "toobusy-js": "0.5.1",
     "ws": "6.0.0"
   }

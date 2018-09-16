@@ -7,10 +7,9 @@ WORKDIR /usr/src
 FROM gamma-base AS dependencies
 COPY package.json ./
 # Install ALL deps (dev & prod)
-RUN yarn --frozen-lockfile
+RUN yarn --frozen-lockfile --no-cache
 
 # --- Build Container ---
-# copy all code to workspaces dir (except 'api')
 FROM dependencies AS gamma-build
 WORKDIR /usr/src
 COPY /packages/shared/ /usr/src/packages/shared
@@ -34,4 +33,5 @@ RUN yarn --production
 WORKDIR /usr/src/web
 ENV NODE_ENV="production"
 ENV DEBUG="*,-babel*,-eslint*,-express:*,-compression*"
+EXPOSE 3000
 CMD ["node", "-r", "dotenv/config", "build/server.js"]

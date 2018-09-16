@@ -1,5 +1,5 @@
 /* eslint-disable import/first */
-const debug = require('debug')('web:renderer:handler')
+const debug = require('debug')('web:renderer:middleware')
 import React from 'react'
 import { renderToNodeStream } from 'react-dom/server'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
@@ -14,7 +14,8 @@ import Raven from 'shared/src/raven'
 
 // Browser shim has to come before any client imports
 import './browser-shim'
-import { getFooter, getHeader } from './html-template'
+import template from './html-template'
+// import { getFooter, getHeader } from './html-template'
 const assets = require(process.env.GAMMA_ASSETS_MANIFEST)
 // import createCacheStream from '../create-cache-stream'
 import Routes from '../../routes'
@@ -69,32 +70,53 @@ const renderer = (req, res) => {
       //   response.pipe(res)
       // }
 
-      response.write(
-        getHeader({
-          metaTags:
-            helmet.title.toString() +
-            helmet.meta.toString() +
-            helmet.link.toString()
-        })
-      )
+      const bundles = getBundles(stats, modules)
+      const scripts = bundles
+        .filter(bundle => bundle.file.endsWith('.js'))
+        .map(bundle => bundle.file)
+        .filter((bundle, pos, self) => self.indexOf(bundle) == pos)
+      const staticBuild =
+        process.env.NODE_ENV === 'production' ? '/' : 'http://localhost:3001/'
+      debug('scripts used:', util.inspect(scripts))
+      debug('static path:', util.inspect(staticBuild))
+      debug('Full path to scripts:', util.inspect(`${staticBuild}${scripts}`))
+
+      const { header, footer } = template({
+        helmet,
+        data,
+        assets,
+        scripts,
+        staticBuild
+      })
+
+      response.write(header)
+      // response.write(
+      //   getHeader({
+      //     metaTags:
+      //       helmet.title.toString() +
+      //       helmet.meta.toString() +
+      //       helmet.link.toString()
+      //   })
+      // )
 
       const stream = renderToNodeStream(frontend)
 
-      stream.pipe(response, { end: false })
-
-      const bundles = getBundles(stats, modules)
-      const chunks = bundles.filter(bundle => bundle.file.endsWith('.js'))
-
-      debug('chunks used:', util.inspect(chunks))
-
-      stream.on('end', () =>
-        response.end(
-          getFooter({
-            data,
-            chunks
-          })
-        )
+      stream.pipe(
+        response,
+        { end: false }
       )
+
+      // stream.on('end', () =>
+      //   response.end(
+      //     getFooter({
+      //       assets,
+      //       data,
+      //       scripts,
+      //       staticBuild
+      //     })
+      //   )
+      // )
+      stream.on('end', () => response.end(footer))
     })
     .catch(err => {
       console.error(err)

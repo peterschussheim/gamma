@@ -10,18 +10,15 @@
   "workspaces": {
     "packages": [
       "packages/*"
-    ],
-    "nohoist": [
-      "**/debug",
-      "**/debug/**"
     ]
   },
+  "nohoist": [
+    "**/debug",
+    "**/debug/**"
+  ],
   "engines": {
     "node": ">=9.11.1",
-    "yarn": ">=1.4.2"
-  },
-  "installConfig": {
-    "pnp": true 
+    "yarn": ">=1.9.4"
   },
   "resolutions": {
     "graphql": "^0.13.0"
@@ -45,7 +42,8 @@
     "reset": "yarn reset-modules && yarn reset-cache",
     "clean:build": "rm -rf ./packages/*/build",
     "clean:logs": "rm -rf ./packages/*/*.log *.log",
-    "deploy:web": "now --local-config=now.ui.json && now --local-config=now.ui.json alias",
+    "deploy:api": "cd packages/api && now -d -A now.api.json && now -A now.api.json alias",
+    "deploy:web": "now -A now.ui.json && now -A now.ui.json alias",
     "jest": "jest",
     "test": "yarn run jest -- --runInBand --watch",
     "test:ci": "yarn run jest -- --forceExit --outputFile test-results.json --json --maxWorkers=2",

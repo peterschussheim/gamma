@@ -4,10 +4,9 @@
     "strict": false,
     "moduleResolution": "node",
     "module": "commonjs",
-    "sourceMap": true,
+    "sourceMap": false,
     "noImplicitReturns": true,
     "allowJs": true,
-    "rootDir": "src",
     "outDir": "dist",
     "allowSyntheticDefaultImports": true,
     "lib": ["esnext", "dom"]
