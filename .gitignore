@@ -66,3 +66,5 @@ gh-profile.json
 build
 TODO
 dist
+
+.yarn_mirror
