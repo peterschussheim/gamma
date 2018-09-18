@@ -8,10 +8,7 @@
     "url": "https://github.com/peterschussheim/gamma"
   },
   "scripts": {
-    "docker-run": "docker run web",
-    "docker-build": "docker build -t web -f Dockerfile .",
     "start:prod": "NODE_ENV=production DEBUG=*,-babel*,-eslint*,-express:*,-compression* node build/server.js",
-    "now-start": "yarn start:prod",
     "inspect-prod": "NODE_ENV=production node --inspect-brk build/server.js",
     "start": "gamma start",
     "start:verbose": "DEBUG=*,-babel*,-eslint*,-express:*,-compression* gamma start",
