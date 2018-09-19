@@ -17,11 +17,11 @@ const options: Options = {
       process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
         ? [
             'https://gamma.app',
-            /gamma-(\w|-)+\.app/g,
-            /gamma\.app/,
-            /ui\.gamma\.app/g,
-            /api\.gamma\.app/g
-          ]
+            /\.gamma\.app$/,
+            process.env.NOW_URL,
+            'https://zeit.co',
+            /(\.|https:\/\/)zeit\.sh$/
+          ].filter(Boolean)
         : [/localhost/, /github\.com/],
     preflightContinue: true
   },
