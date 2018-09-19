@@ -39,7 +39,7 @@
     "reset": "yarn reset-modules && yarn reset-cache",
     "clean:build": "rm -rf ./packages/*/build",
     "clean:logs": "rm -rf ./packages/*/*.log *.log",
-    "deploy:api": "cd packages/api && now -d -A now.api.json && now -A now.api.json alias",
+    "deploy:api": "cd packages/api && now -A now.api.json && now -A now.api.json alias",
     "deploy:web": "now -A now.ui.json && now -A now.ui.json alias",
     "jest": "jest",
     "test": "yarn run jest -- --runInBand --watch",
