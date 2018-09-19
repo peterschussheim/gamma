@@ -102,7 +102,7 @@
     "react-loadable": "5.5.0",
     "react-router-dom": "4.3.1",
     "shared": "0.0.1",
-    "subscriptions-transport-ws": "0.9.14",
+    "subscriptions-transport-ws": "0.9.8",
     "toobusy-js": "0.5.1",
     "ws": "6.0.0"
   }
