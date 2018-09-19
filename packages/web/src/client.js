@@ -10,15 +10,17 @@ import { history } from './utils/history'
 import { API_URI, WS_URI, IS_PROD } from './constants'
 import { client } from './config/apollo'
 
-const App = () => (
-  <ApolloProvider client={client}>
-    <HelmetProvider>
-      <Router history={history}>
-        <Routes />
-      </Router>
-    </HelmetProvider>
-  </ApolloProvider>
-)
+const App = () => {
+  return (
+    <ApolloProvider client={client}>
+      <HelmetProvider>
+        <Router history={history}>
+          <Routes />
+        </Router>
+      </HelmetProvider>
+    </ApolloProvider>
+  )
+}
 
 window.main = () => {
   Loadable.preloadReady()
