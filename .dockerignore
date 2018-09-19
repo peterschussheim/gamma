@@ -1,4 +1,7 @@
+*.md
+.yarn_mirror
 node_modules
+packages/api
 packages/**/node_modules
 packages/**/dist
 packages/**/build
