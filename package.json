@@ -20,6 +20,9 @@
     "node": ">=9.11.1",
     "yarn": ">=1.9.4"
   },
+  "resolutions": {
+    "graphql": "0.13.2"
+  },
   "scripts": {
     "inspect-prod": "yarn workspace web inspect-prod",
     "run:api": "yarn workspace api start",
