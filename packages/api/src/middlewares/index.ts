@@ -13,15 +13,13 @@ import session from './session'
 const middlewares = Router()
 
 if (process.env.NODE_ENV === 'development' && !process.env.test) {
+  const logging = require('./logging')
+  middlewares.use(logging)
   const raven = require('./raven').default
   middlewares.use(raven)
 }
 
-if (
-  process.env.NODE_ENV === 'production' &&
-  !process.env.FORCE_DEV &&
-  !process.env.test
-) {
+if (process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV) {
   const raven = require('./raven').default
   middlewares.use(raven)
 }
@@ -51,7 +49,7 @@ middlewares.use((req, res, next) => {
 middlewares.use(cors)
 middlewares.options('*', cors)
 middlewares.use(cookieParser(process.env.SESSION_SECRET))
-middlewares.use(bodyParser.urlencoded({ extended: true }))
+middlewares.use(bodyParser.json())
 middlewares.use(session)
 middlewares.use(passport.initialize())
 middlewares.use(passport.session())
