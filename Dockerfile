@@ -1,37 +1,25 @@
+# --- web ---
 # --- Base Container ---
-FROM mhart/alpine-node:10 AS gamma-base
-# Create dir for app
+FROM mhart/alpine-node:10 AS base
 WORKDIR /usr/src
-
-# --- Dependencies ---
-FROM gamma-base AS dependencies
-COPY package.json ./
-# Install ALL deps (dev & prod)
-RUN yarn --frozen-lockfile --no-cache
-
-# --- Build Container ---
-FROM dependencies AS gamma-build
-WORKDIR /usr/src
-COPY /packages/shared/ /usr/src/packages/shared
-COPY /packages/babel-preset-gamma/ /usr/src/packages/babel-preset-gamma
-COPY /packages/gamma-core/ /usr/src/packages/gamma-core
-COPY /packages/web/ /usr/src/packages/web
-# Install build-env dependencies
+# Copy all sources except `packages/api` (seperate dockerfile)
+COPY . ./
 RUN apk add --no-cache make gcc g++ python
-RUN yarn --frozen-lockfile --no-cache --production
+RUN yarn --frozen-lockfile --no-cache
 RUN yarn build:web
 
+# --- Install dependencies for production ---
+FROM base AS production-dependencies
+RUN yarn --frozen-lockfile --no-cache --production 
+
 # --- Release for production ---
-FROM mhart/alpine-node:10 AS release
+FROM mhart/alpine-node:base-10 AS release
 WORKDIR /usr/src
-COPY --from=gamma-build /usr/src/packages/web/ /usr/src/web
-COPY --from=gamma-build /usr/src/packages/shared/ /usr/src/shared
-COPY --from=gamma-build /usr/src/packages/babel-preset-gamma/ /usr/src/babel-preset-gamma
-# Install production-only dependencies
-RUN yarn --production
-# COPY --from=gamma-build /usr/src/packages/web ./
-WORKDIR /usr/src/web
+COPY --from=base /usr/src/packages/web/build ./web/build
+COPY --from=base /usr/src/packages/web/.env ./.env
+COPY --from=production-dependencies /usr/src/node_modules ./node_modules
+COPY --from=production-dependencies /usr/src/packages/web/node_modules ./web/node_modules
 ENV NODE_ENV="production"
 ENV DEBUG="*,-babel*,-eslint*,-express:*,-compression*"
 EXPOSE 3000
-CMD ["node", "-r", "dotenv/config", "build/server.js"]
+CMD ["node", "-r", "dotenv/config", "./web/build/server.js"]
