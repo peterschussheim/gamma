@@ -1,9 +1,8 @@
 {
   "name": "api",
   "alias": ["api.gamma.app"],
+  "type": "docker",
   "env": {
-    "NODE_ENV": "production",
-    "HOST": "0.0.0.0",
     "SENTRY_DSN_SERVER": "@sentry-dsn-server",
     "GITHUB_CLIENT_ID_PROD": "@github-client-id-prod",
     "GITHUB_CLIENT_SECRET_PROD": "@github-client-secret-prod",
@@ -20,5 +19,7 @@
     "PRISMA_MANAGEMENT_API_SECRET": "@prisma-management-api-secret",
     "MAILSLURP_KEY": "@mailslurp-key"
   },
-  "type": "docker"
+  "features": {
+    "cloud": "v2"
+  }
 }

@@ -3,6 +3,5 @@ module.exports = {
   logging: require('./logging'),
   raven: require('./raven'),
   securityMiddleware: require('./securityMiddleware'),
-  session: require('./session'),
   toobusy: require('./toobusy')
 }

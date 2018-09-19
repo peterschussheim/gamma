@@ -4,15 +4,12 @@
     "strict": false,
     "moduleResolution": "node",
     "module": "commonjs",
-    "sourceMap": true,
+    "sourceMap": false,
     "noImplicitReturns": true,
     "allowJs": true,
-    "baseUrl": ".",
-    "paths": {
-      "*": ["*", "../shared/*"]
-    },
-    "rootDir": "src",
     "outDir": "dist",
+    "allowSyntheticDefaultImports": true,
     "lib": ["esnext", "dom"]
-  }
+  },
+  "exclude": ["node_modules"]
 }

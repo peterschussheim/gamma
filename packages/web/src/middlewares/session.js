@@ -1,8 +1,9 @@
+/* eslint-disable import/first */
 const debug = require('debug')('shared:middlewares:session')
 debug('Initializing connect-redis session store')
 import session from 'express-session'
 import connectRedis from 'connect-redis'
-import { redisInstance, REDIS_SESSION_PREFIX } from '../redis'
+import { redis, REDIS_SESSION_PREFIX } from '../redis'
 
 const RedisStore = connectRedis(session)
 
@@ -14,7 +15,7 @@ if (!process.env.SESSION_SECRET) {
 
 export default session({
   store: new RedisStore({
-    client: redisInstance,
+    client: redis,
     prefix: REDIS_SESSION_PREFIX
   }),
   name: 'session',

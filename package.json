@@ -10,38 +10,40 @@
   "workspaces": {
     "packages": [
       "packages/*"
-    ],
-    "nohoist": [
-      "monaco-editor/react-scripts-ts"
     ]
   },
+  "nohoist": [
+    "**/debug",
+    "**/debug/**"
+  ],
   "engines": {
     "node": ">=9.11.1",
-    "yarn": ">=1.4.2"
+    "yarn": ">=1.9.4"
+  },
+  "resolutions": {
+    "graphql": "0.13.2"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap --loglevel=info",
-    "start:api": "yarn workspace api dev",
+    "inspect-prod": "yarn workspace web inspect-prod",
+    "run:api": "yarn workspace api start",
+    "run:web": "yarn workspace web start:prod",
+    "start:api": "yarn workspace api dev:verbose",
     "start:web": "yarn workspace web start",
     "start:web:v": "yarn workspace web start:verbose",
     "start:web:i": "yarn workspace web start:inspect",
     "start:shared": "yarn workspace shared start",
     "prebuild": "yarn clean:build",
-    "build": "lerna exec --stream --parallel -- yarn build",
+    "build:api": "yarn workspace api build",
     "build:web": "yarn workspace web build",
     "build:shared": "yarn workspace shared build",
     "reset-modules": "rm -rf node_modules/ yarn.lock packages/*/node_modules",
     "reset-yarn": "yarn cache clean",
     "reset-cache": "yarn reset-yarn",
     "reset": "yarn reset-modules && yarn reset-cache",
-    "clean": "lerna clean --yes",
     "clean:build": "rm -rf ./packages/*/build",
     "clean:logs": "rm -rf ./packages/*/*.log *.log",
-    "xpostbuild:api": "cp api/package.json build-api/package.json && cp now.json build-api/now.json",
-    "deploy": "now && now alias",
-    "ls": "lerna ls",
-    "changelog": "lerna-changelog",
-    "release": "lerna publish",
+    "deploy:api": "cd packages/api && now -A now.api.json && now -A now.api.json alias",
+    "deploy:web": "now -A now.ui.json && now -A now.ui.json alias",
     "jest": "jest",
     "test": "yarn run jest -- --runInBand --watch",
     "test:ci": "yarn run jest -- --forceExit --outputFile test-results.json --json --maxWorkers=2",
@@ -65,22 +67,5 @@
     "yarn.lock": [
       "git rm --cached"
     ]
-  },
-  "devDependencies": {
-    "eslint": "^4.1.1",
-    "eslint-config-prettier": "2.9.0",
-    "eslint-config-react-app": "^2.1.0",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-jest": "^21.6.1",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-prettier": "2.6.0",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-react": "^7.10.0",
-    "husky": "0.14.3",
-    "lerna": "^3.0.0-rc.0",
-    "lint-staged": "7.2.0",
-    "precise-commits": "1.0.2",
-    "prettier": "1.13.5",
-    "rimraf": "2.6.2"
   }
 }

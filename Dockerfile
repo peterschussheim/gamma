@@ -1,12 +1,25 @@
-FROM mhart/alpine-node:10
-# set /usr/src to store all files needed to complete build step
+# --- web ---
+# --- Base Container ---
+FROM mhart/alpine-node:10 AS base
 WORKDIR /usr/src
-# We first add only the files required for installing deps
-# If package.json or yarn.lock don't change, no need to re-install later
-COPY yarn.lock package.json ./
-# install deps
-RUN yarn
-# copy all source files
-COPY . .
-# execute yarn build script and move the resulting '/build' artifact to '/public'
-RUN yarn build && mv build /public
+# Copy all sources except `packages/api` (seperate dockerfile)
+COPY . ./
+RUN apk add --no-cache make gcc g++ python
+RUN yarn --frozen-lockfile --no-cache
+RUN yarn build:web
+
+# --- Install dependencies for production ---
+FROM base AS production-dependencies
+RUN yarn --frozen-lockfile --no-cache --production 
+
+# --- Release for production ---
+FROM mhart/alpine-node:base-10 AS release
+WORKDIR /usr/src
+COPY --from=base /usr/src/packages/web/build ./web/build
+COPY --from=base /usr/src/packages/web/.env ./.env
+COPY --from=production-dependencies /usr/src/node_modules ./node_modules
+COPY --from=production-dependencies /usr/src/packages/web/node_modules ./web/node_modules
+ENV NODE_ENV="production"
+ENV DEBUG="*,-babel*,-eslint*,-express:*,-compression*"
+EXPOSE 3000
+CMD ["node", "-r", "dotenv/config", "./web/build/server.js"]

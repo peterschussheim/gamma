@@ -72,7 +72,7 @@ function build(previousFileSizes) {
   // Check if gamma.config.js exists
   let gamma = {}
   try {
-    gamma = require(paths.appgammaConfig)
+    gamma = require(paths.appGammaConfig)
     /* eslint-disable no-empty */
   } catch (e) {}
   /* eslint-enable */

@@ -78,7 +78,7 @@ export const createClient = options => {
     link,
     // eslint-disable-next-line
     cache: window.__DATA__ ? cache.restore(window.__DATA__) : cache,
-    // ssrForceFetchDelay: 100,
+    ssrForceFetchDelay: 100,
     ssrMode: process.browser ? false : true,
     queryDeduplication: true
   })

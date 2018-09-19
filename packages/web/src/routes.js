@@ -14,7 +14,7 @@ import ConfirmEmail from './views/confirmEmail'
 const Loading = () => <div>Loading...</div>
 
 const Home = Loadable({
-  loader: () => import('./views/home' /* webpackChunkName: "Home" */),
+  loader: () => import('./views/home'),
   loading: Loading
 })
 
