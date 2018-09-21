@@ -24,6 +24,7 @@
     "graphql": "0.13.2"
   },
   "scripts": {
+    "cypress:open": "cypress open",
     "inspect-prod": "yarn workspace web inspect-prod",
     "run:api": "yarn workspace api start",
     "run:web": "yarn workspace web start:prod",
@@ -67,5 +68,8 @@
     "yarn.lock": [
       "git rm --cached"
     ]
+  },
+  "devDependencies": {
+    "cypress": "3.1.0"
   }
 }
