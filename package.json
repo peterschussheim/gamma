@@ -24,6 +24,7 @@
     "graphql": "0.13.2"
   },
   "scripts": {
+    "cypress:run": "cypress run",
     "cypress:open": "cypress open",
     "inspect-prod": "yarn workspace web inspect-prod",
     "run:api": "yarn workspace api start",
