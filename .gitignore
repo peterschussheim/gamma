@@ -68,3 +68,5 @@ TODO
 dist
 
 .yarn_mirror
+cypress/videos
+cypress/screenshots
