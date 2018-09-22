@@ -1,8 +1,98 @@
 version: 2
 jobs:
-  build:
+  build-dependecies:
     docker:
       - image: circleci/node:10
+    working_directory: ~/gamma
     steps:
-      - checkout # check out the code in the project directory
-      - run: echo "hello world" # run the `echo` command
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-dependency-cache-{{ .Branch }}
+            - v1-dependency-cache
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - save_cache:
+          key: v1-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+            - packages/web/node_modules
+            - packages/api/node_modules
+            - packages/shared/node_modules
+            - packages/gamma-core/node_modules
+            - packages/babel-preset-gamma/node_modules
+      - run:
+          name: Build
+          command: yarn build:deps # TODO: map this command to relevant step in dockerfiles
+      - save_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/gamma
+
+build-prod:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/gamma
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Build api
+          command: yarn build:api
+      - run:
+          name: Build web
+          command: yarn build:web
+      - save_cache:
+          key: v1-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ./web
+
+  test-integrations:
+    docker:
+      - image: circleci/node:10
+      # - image: cypress ??????
+    working_directory: ~/gamma
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Start Test Server
+          command: yarn start:test
+          background: true
+      - run:
+          # Add cypress commands
+          background: true
+      - run:
+          name: Test Integrations
+          command: |
+            sleep 15
+            # yarn test:integrations --ci --testResultsProcessor="jest-junit"
+          environment:
+            JEST_JUNIT_OUTPUT: '/tmp/test-results/js-test-results.xml'
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: packages/app/integration-tests/tests/__image_snapshots__/__diff_output__
+          destination: image_snapshot_diff
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build-dependencies
+      - test-e2e:
+          requires:
+            - build-dependencies
+      - lint:
+          requires:
+            - build-dependencies
+      - build-prod:
+          requires:
+            - build-dependencies
+      - create-docker-image:
+          requires:
+            - build-prod
+            - lint
+            - test-e2e
