@@ -75,9 +75,7 @@
     ]
   },
   "devDependencies": {
-    "cypress": "3.1.0"
-  },
-  "dependencies": {
+    "cypress": "3.1.0",
     "cypress-testing-library": "2.2.1",
     "is-ci": "1.2.1",
     "start-server-and-test": "1.7.1",
