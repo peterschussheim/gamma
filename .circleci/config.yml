@@ -24,8 +24,11 @@ jobs:
             - packages/gamma-core/node_modules
             - packages/babel-preset-gamma/node_modules
       - run:
-          name: Build
-          command: yarn build:deps # TODO: map this command to relevant step in dockerfiles
+          name: Build 'api'
+          command: yarn build:api
+      - run:
+          name: Build 'web'
+          command: yarn build:web
       - save_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
