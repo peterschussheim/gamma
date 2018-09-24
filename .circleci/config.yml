@@ -40,6 +40,8 @@ jobs:
     docker:
       - image: circleci/node:10
     working_directory: ~/gamma
+    environment:
+      CI: false
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
@@ -53,6 +55,8 @@ jobs:
           key: v1-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ./web
+            - ./api
+            - ./shared
 
   lint:
     docker:
