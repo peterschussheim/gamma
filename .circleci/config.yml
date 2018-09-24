@@ -4,6 +4,8 @@ jobs:
     docker:
       - image: circleci/node:10
     working_directory: ~/gamma
+    environment:
+      CI: false
     steps:
       - checkout
       - restore_cache:
@@ -28,7 +30,7 @@ jobs:
           command: yarn build:api
       - run:
           name: Build 'web'
-          command: yarn build:web
+          command: CI=false yarn build:web
       - save_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
