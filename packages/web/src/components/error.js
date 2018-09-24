@@ -12,7 +12,9 @@ export default function RenderError({ error }) {
       <pre>
         <em>STACK: </em>
       </pre>
-      {error.stack.split('\n').map((line, i) => <pre key={i}>{line}</pre>)}
+      {error.stack.split('\n').map((line, i) => (
+        <pre key={i}>{line}</pre>
+      ))}
     </React.Fragment>
   )
 }
