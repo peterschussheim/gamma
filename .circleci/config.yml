@@ -71,28 +71,23 @@ jobs:
 
   test-e2e:
     docker:
-      - image: circleci/node:10
-      # - image: cypress ??????
+      - image: cypress/base:10
+        environment:
+          TERM: xterm
     working_directory: ~/gamma
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
-          name: Start Test Server
-          command: yarn start:test
-          background: true
-      - run:
-          # Add cypress commands
-          background: true
-      - run:
-          name: E2E tests
-          command: |
-            sleep 15
-            # yarn test:e2e --ci --testResultsProcessor="jest-junit"
-          environment:
-            JEST_JUNIT_OUTPUT: '/tmp/test-results/js-test-results.xml'
+          name: Start e2e-tests
+          command: yarn test:e2e
+          background: false
       - store_test_results:
-          path: /tmp/test-results
+          path: results
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
       - store_artifacts:
           path: test-e2e/tests/__image_snapshots__/__diff_output__
           destination: image_snapshot_diff
