@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build-dependecies:
+  build-dependencies:
     docker:
       - image: circleci/node:10
     working_directory: ~/gamma
