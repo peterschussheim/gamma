@@ -31,7 +31,7 @@
     "test:e2e": "is-ci \"test:e2e:run\" \"test:e2e:dev\"",
     "test:e2e:run": "start-server-and-test start http://localhost:3000 cy:run",
     "test:e2e:dev": "start-server-and-test start http://localhost:3000 cy:open",
-    "cy:run": "cypress run --spec cypress/integration/e2e-tests.js",
+    "cy:run": "$(yarn bin)/cypress run --spec cypress/integration/e2e-tests.js",
     "cy:open": "cypress open",
     "inspect-prod": "yarn workspace web inspect-prod",
     "run:api": "yarn workspace api start",
