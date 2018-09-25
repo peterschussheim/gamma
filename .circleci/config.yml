@@ -19,7 +19,8 @@ jobs:
       - save_cache:
           key: v2-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
-            -/.cache
+            - ~/gamma
+            - ~/.cache
             # - node_modules
             # - packages/web/node_modules
             # - packages/api/node_modules
@@ -35,7 +36,7 @@ jobs:
       - save_cache:
           key: v2-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            # - ~/gamma
+            - ~/gamma
             - ~/.cache
 
   build-prod:
