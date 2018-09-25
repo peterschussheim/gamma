@@ -15,7 +15,7 @@ jobs:
             - v1-dependency-cache
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: yarn install --frozen-lockfile
       - save_cache:
           key: v1-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
@@ -81,7 +81,7 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Start e2e-tests
-          command: yarn test:e2e
+          command: test $CYPRESS_RECORD_KEY && yarn run test:e2e -- --record || yarn run test:e2e
           background: false
       - save_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
