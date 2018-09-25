@@ -72,6 +72,7 @@ jobs:
   test-e2e:
     docker:
       - image: circleci/node:10
+      - image: cypress/base:8
         environment:
           TERM: xterm
     working_directory: ~/gamma
