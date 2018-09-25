@@ -35,6 +35,7 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/gamma
+            - ~/.cache
 
   build-prod:
     docker:
