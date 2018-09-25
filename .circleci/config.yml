@@ -83,6 +83,10 @@ jobs:
           name: Start e2e-tests
           command: yarn test:e2e
           background: false
+      - save_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/.cache
       - store_test_results:
           path: results
       - store_artifacts:
