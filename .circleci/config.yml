@@ -10,14 +10,14 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v3-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v3-dependency-cache-{{ .Branch }}
-            - v3-dependency-cache
+            - v4-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v4-dependency-cache-{{ .Branch }}
+            - v4-dependency-cache
       - run:
           name: Install Dependencies
           command: yarn install --frozen-lockfile
       - save_cache:
-          key: v3-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v4-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/gamma
             - ~/.cache
@@ -34,10 +34,15 @@ jobs:
           name: Build 'web'
           command: CI=false yarn build:web
       - save_cache:
-          key: v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v4-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/gamma
             - ~/.cache
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - gamma
+            - .cache/Cypress
 
   build-prod:
     docker:
@@ -47,7 +52,7 @@ jobs:
       CI: false
     steps:
       - restore_cache:
-          key: v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v4-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Build api
           command: yarn build:api
@@ -55,7 +60,7 @@ jobs:
           name: Build web
           command: yarn build:web
       - save_cache:
-          key: v3-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: v4-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ./web
             - ./api
@@ -67,7 +72,7 @@ jobs:
     working_directory: ~/gamma
     steps:
       - restore_cache:
-          key: v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v4-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Lint
           command: yarn lint
@@ -80,16 +85,21 @@ jobs:
           TERM: xterm
     working_directory: ~/gamma
     steps:
+      - attach_workspace:
+          at: ~/
       - restore_cache:
-          key: v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v4-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
-          name: Start e2e-tests
-          command: test $CYPRESS_RECORD_KEY && yarn run test:e2e -- --record || yarn run test:e2e
-          background: false
+          name: Verify Cypress is installed
+          command: yarn cy:verify
       - save_cache:
-          key: v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v4-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/.cache
+      - run:
+          name: Start e2e-tests
+          command: yarn run test:e2e -- --record
+          background: false
       - store_test_results:
           path: results
       - store_artifacts:
