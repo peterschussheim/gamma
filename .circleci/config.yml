@@ -10,14 +10,14 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v4-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v4-dependency-cache-{{ .Branch }}
-            - v4-dependency-cache
+            - v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v5-dependency-cache-{{ .Branch }}
+            - v5-dependency-cache
       - run:
           name: Install Dependencies
           command: yarn install --frozen-lockfile
       - save_cache:
-          key: v4-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/gamma
             - ~/.cache
@@ -28,7 +28,7 @@ jobs:
           name: Build 'web'
           command: CI=false yarn build:web
       - save_cache:
-          key: v4-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/gamma
             - ~/.cache
@@ -46,7 +46,7 @@ jobs:
       CI: false
     steps:
       - restore_cache:
-          key: v4-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Build api
           command: yarn build:api
@@ -54,7 +54,7 @@ jobs:
           name: Build web
           command: yarn build:web
       - save_cache:
-          key: v4-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: v5-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ./web
             - ./api
@@ -66,14 +66,14 @@ jobs:
     working_directory: ~/gamma
     steps:
       - restore_cache:
-          key: v4-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Lint
           command: yarn lint
 
   test-e2e:
     docker:
-      - image: circleci/node:10
+      #   - image: circleci/node:10
       - image: cypress/base:8
         environment:
           TERM: xterm
@@ -83,13 +83,12 @@ jobs:
           at: ~/
       - restore_cache:
           keys:
-            - v4-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v4-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Verify Cypress is installed
           command: yarn cy:verify
       - save_cache:
-          key: v4-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache
       - run:
