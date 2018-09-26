@@ -21,12 +21,6 @@ jobs:
           paths:
             - ~/gamma
             - ~/.cache
-            # - node_modules
-            # - packages/web/node_modules
-            # - packages/api/node_modules
-            # - packages/shared/node_modules
-            # - packages/gamma-core/node_modules
-            # - packages/babel-preset-gamma/node_modules
       - run:
           name: Build 'api'
           command: yarn build:api
@@ -88,7 +82,9 @@ jobs:
       - attach_workspace:
           at: ~/
       - restore_cache:
-          key: v4-repo-{{ .Environment.CIRCLE_SHA1 }}
+          keys:
+            - v4-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v4-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Verify Cypress is installed
           command: yarn cy:verify
