@@ -2,9 +2,16 @@ endpoint: ${env:PRISMA_ENDPOINT}
 
 datamodel: datamodel.graphql
 
-# The secret is used to generate JTWs which allow us to authenticate 
+# TODO: figure out how to use the following variables to use a testing stage
+# when running tests (local and CI).
+
+# the cluster and stage the service is deployed to
+# stage: ${env:PRISMA_STAGE}
+# cluster: ${env:PRISMA_CLUSTER}
+
+# The secret is used to generate JTWs which allow us to authenticate
 # against your Prisma service. You can use the `prisma token` command from the CLI
-# to generate a JWT based on the secret. When using the `prisma-binding` package, 
+# to generate a JWT based on the secret. When using the `prisma-binding` package,
 # you don't need to generate the JWTs manually as the library is doing that for you
 # (this is why you're passing it to the `Prisma` constructor).
 secret: ${env:PRISMA_SECRET}

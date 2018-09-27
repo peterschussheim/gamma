@@ -1,0 +1,144 @@
+version: 2
+jobs:
+  build-dependencies:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/gamma
+    environment:
+      CI: false
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v5-dependency-cache-{{ .Branch }}
+            - v5-dependency-cache
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/gamma
+            - ~/.cache
+      - run:
+          name: Build 'api'
+          command: yarn build:api
+      - run:
+          name: Build 'web'
+          command: CI=false yarn build:web
+      - save_cache:
+          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/gamma
+            - ~/.cache
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - gamma
+            - .cache/Cypress
+
+  build-prod:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/gamma
+    environment:
+      CI: false
+    steps:
+      - restore_cache:
+          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Build api
+          command: yarn build:api
+      - run:
+          name: Build web
+          command: yarn build:web
+      - save_cache:
+          key: v5-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ./web
+            - ./api
+            - ./shared
+
+  lint:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/gamma
+    steps:
+      - restore_cache:
+          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Lint
+          command: yarn lint
+
+  test-e2e:
+    docker:
+      #   - image: circleci/node:10
+      - image: cypress/base:8
+        environment:
+          TERM: xterm
+    working_directory: ~/gamma
+    steps:
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          keys:
+            - v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: Verify Cypress is installed
+          command: yarn cy:verify
+      - save_cache:
+          key: v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache
+      - run:
+          name: Start e2e-tests
+          command: yarn run test:e2e
+          background: false
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+
+  create-docker-image:
+    machine: true
+    working_directory: ~/gamma
+    steps:
+      - checkout
+      - restore_cache:
+          key: v5-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Docker Sign In
+          command: '[ -n "$DOCKER_USER" ] && echo $DOCKER_PWD | docker login -u $DOCKER_USER --password-stdin || true'
+      - run:
+          name: Create api image
+          command: '[ -n "$DOCKER_USER" ] && docker build -t gamma/api:${CIRCLE_SHA1:0:7} . || true'
+      - run:
+          name: Create web image
+          command: '[ -n "$DOCKER_USER" ] && docker build -t gamma/web:${CIRCLE_SHA1:0:7} . || true'
+      - deploy:
+          name: Push api image
+          command: '[ -n "$DOCKER_USER" ] && docker push gamma/api:${CIRCLE_SHA1:0:7} || true'
+      - deploy:
+          name: Push web image
+          command: '[ -n "$DOCKER_USER" ] && docker push gamma/web:${CIRCLE_SHA1:0:7} || true'
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build-dependencies
+      - test-e2e:
+          requires:
+            - build-dependencies
+      - lint:
+          requires:
+            - build-dependencies
+      - build-prod:
+          requires:
+            - build-dependencies
+      - create-docker-image:
+          requires:
+            - build-prod
+            - lint
+            - test-e2e

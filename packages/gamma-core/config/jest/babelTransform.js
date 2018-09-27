@@ -1,14 +1,12 @@
-'use strict';
+const babelJest = require('babel-jest')
+const paths = require('../paths')
+const fs = require('fs-extra')
 
-const babelJest = require('babel-jest');
-const paths = require('../paths');
-const fs = require('fs-extra');
-
-const hasBabelRc = fs.existsSync(paths.appBabelRc);
+const hasBabelRc = fs.existsSync(paths.appBabelRc)
 
 const config = {
   presets: !hasBabelRc && [require.resolve('babel-preset-gamma')],
   babelrc: !!hasBabelRc
 }
 
-module.exports = babelJest.createTransformer(config);
+module.exports = babelJest.createTransformer(config)

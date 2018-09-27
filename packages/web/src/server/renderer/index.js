@@ -74,7 +74,7 @@ const renderer = (req, res) => {
       const scripts = bundles
         .filter(bundle => bundle.file.endsWith('.js'))
         .map(bundle => bundle.file)
-        .filter((bundle, pos, self) => self.indexOf(bundle) == pos)
+        .filter((bundle, pos, self) => self.indexOf(bundle) === pos)
       const staticBuild =
         process.env.NODE_ENV === 'production' ? '/' : 'http://localhost:3001/'
       debug('scripts used:', util.inspect(scripts))

@@ -24,9 +24,21 @@
     "graphql": "0.13.2"
   },
   "scripts": {
+    "test": "is-ci \"test:coverage\" \"test:watch\"",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch",
+    "test:e2e": "is-ci \"test:e2e:run\" \"test:e2e:dev\"",
+    "test:e2e:run": "start-server-and-test start http://localhost:3000 cy:run",
+    "test:e2e:dev": "start-server-and-test start http://localhost:3000 cy:open",
+    "cy:verify": "cypress verify",
+    "cy:version": "cypress version",
+    "cy:run": "cypress run --record --spec cypress/integration/e2e-tests.js",
+    "cy:open": "cypress open",
     "inspect-prod": "yarn workspace web inspect-prod",
     "run:api": "yarn workspace api start",
     "run:web": "yarn workspace web start:prod",
+    "start": "concurrently -p \"[{name}]\" -n \"API,WEB\" \"yarn start:api\" \"yarn start:web\"",
     "start:api": "yarn workspace api dev:verbose",
     "start:web": "yarn workspace web start",
     "start:web:v": "yarn workspace web start:verbose",
@@ -44,9 +56,6 @@
     "clean:logs": "rm -rf ./packages/*/*.log *.log",
     "deploy:api": "cd packages/api && now -A now.api.json && now -A now.api.json alias",
     "deploy:web": "now -A now.ui.json && now -A now.ui.json alias",
-    "jest": "jest",
-    "test": "yarn run jest -- --runInBand --watch",
-    "test:ci": "yarn run jest -- --forceExit --outputFile test-results.json --json --maxWorkers=2",
     "lint": "eslint packages",
     "lint:staged": "lint-staged",
     "precise-commits": "precise-commits",
@@ -67,5 +76,13 @@
     "yarn.lock": [
       "git rm --cached"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "4.0.1",
+    "cypress": "3.1.0",
+    "cypress-testing-library": "2.2.1",
+    "is-ci-cli": "1.1.1",
+    "start-server-and-test": "1.7.1",
+    "test-data-bot": "0.6.0"
   }
 }
