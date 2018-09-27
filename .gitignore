@@ -38,5 +38,6 @@ build
 TODO
 dist
 
-cypress/videos
-cypress/screenshots
+.yarn_mirror
+cypress/screenshots/
+cypress/videos/
