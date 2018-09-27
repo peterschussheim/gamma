@@ -93,17 +93,35 @@ jobs:
             - ~/.cache
       - run:
           name: Start e2e-tests
-          command: yarn run test:e2e -- --record
+          command: yarn run test:e2e
           background: false
-      - store_test_results:
-          path: results
       - store_artifacts:
           path: cypress/videos
       - store_artifacts:
           path: cypress/screenshots
-      - store_artifacts:
-          path: test-e2e/tests/__image_snapshots__/__diff_output__
-          destination: image_snapshot_diff
+
+  create-docker-image:
+    machine: true
+    working_directory: ~/gamma
+    steps:
+      - checkout
+      - restore_cache:
+          key: v5-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Docker Sign In
+          command: '[ -n "$DOCKER_USER" ] && echo $DOCKER_PWD | docker login -u $DOCKER_USER --password-stdin || true'
+      - run:
+          name: Create api image
+          command: '[ -n "$DOCKER_USER" ] && docker build -t gamma/api:${CIRCLE_SHA1:0:7} . || true'
+      - run:
+          name: Create web image
+          command: '[ -n "$DOCKER_USER" ] && docker build -t gamma/web:${CIRCLE_SHA1:0:7} . || true'
+      - deploy:
+          name: Push api image
+          command: '[ -n "$DOCKER_USER" ] && docker push gamma/api:${CIRCLE_SHA1:0:7} || true'
+      - deploy:
+          name: Push web image
+          command: '[ -n "$DOCKER_USER" ] && docker push gamma/web:${CIRCLE_SHA1:0:7} || true'
 
 workflows:
   version: 2
