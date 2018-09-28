@@ -137,8 +137,8 @@ workflows:
       - build-prod:
           requires:
             - build-dependencies
-      - create-docker-image:
-          requires:
-            - build-prod
-            - lint
-            - test-e2e
+    #   - create-docker-image:
+    #       requires:
+    #         - build-prod
+    #         - lint
+    #         - test-e2e
