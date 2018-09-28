@@ -93,7 +93,7 @@ jobs:
             - ~/.cache
       - run:
           name: Start e2e-tests
-          command: yarn run test:e2e
+          command: yarn run test:e2e -- --record || yarn run test:e2e
           background: false
       - store_artifacts:
           path: cypress/videos
