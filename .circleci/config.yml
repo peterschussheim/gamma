@@ -84,6 +84,7 @@ jobs:
       - restore_cache:
           keys:
             - v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v5-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Verify Cypress is installed
           command: yarn cy:verify
@@ -93,7 +94,8 @@ jobs:
             - ~/.cache
       - run:
           name: Start e2e-tests
-          command: yarn run test:e2e
+          # workaround for 'is-ci-cli' issue with env variable `CI=false`
+          command: yarn cy:run || yarn run test:e2e
           background: false
       - store_artifacts:
           path: cypress/videos
@@ -137,8 +139,8 @@ workflows:
       - build-prod:
           requires:
             - build-dependencies
-      - create-docker-image:
-          requires:
-            - build-prod
-            - lint
-            - test-e2e
+    #   - create-docker-image:
+    #       requires:
+    #         - build-prod
+    #         - lint
+    #         - test-e2e
