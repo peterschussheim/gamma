@@ -1,27 +1,17 @@
 # gamma
 
-## Overview
+- [gamma](#gamma)
+  - [Overview](#overview)
+    - [Repo Structure](#repo-structure)
+  - [Conventions used in this project](#conventions-used-in-this-project)
+    - [`npm` scripts](#npm-scripts)
+  - [services aliases](#services-aliases)
 
-Reference application demonstrating best practices with a few opinions thrown into the mix.
+## Overview
 
 ### Repo Structure
 
-`gamma` is structured as a monorepo for convenience and is organized as follows:
-
-```
-project
-├── package.json
-├── services
-│   ├── package.json
-│   └── index.js
-└── react-app
-|   ├── package.json
-|   └── index.js
-├── style-guide
-│   ├── package.json
-│   └── index.js
-```
-
+`gamma` is structured as a monorepo for convenience and uses `yarn workspaces` to improve developer experience.
 
 ## Conventions used in this project
 
@@ -29,7 +19,6 @@ project
 
 - `start:xxx` starts a **development** server for the package specified after the colon
 - `build:xxx` generates a production build for the package specified after the colon
-- `test` uses `lerna` to run tests in any package with a `tests` script
 
 ## services aliases
 
