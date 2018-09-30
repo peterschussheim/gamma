@@ -38,28 +38,6 @@ jobs:
             - gamma
             - .cache/Cypress
 
-  build-prod:
-    docker:
-      - image: circleci/node:10
-    working_directory: ~/gamma
-    environment:
-      CI: false
-    steps:
-      - restore_cache:
-          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - run:
-          name: Build api
-          command: yarn build:api
-      - run:
-          name: Build web
-          command: yarn build:web
-      - save_cache:
-          key: v5-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - ./web
-            - ./api
-            - ./shared
-
   lint:
     docker:
       - image: circleci/node:10
@@ -73,7 +51,6 @@ jobs:
 
   test-e2e:
     docker:
-      #   - image: circleci/node:10
       - image: cypress/base:8
         environment:
           TERM: xterm
@@ -102,6 +79,28 @@ jobs:
       - store_artifacts:
           path: cypress/screenshots
 
+  build-prod:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/gamma
+    environment:
+      CI: false
+    steps:
+      - restore_cache:
+          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Build api
+          command: yarn build:api
+      - run:
+          name: Build web
+          command: yarn build:web
+      - save_cache:
+          key: v5-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ./web
+            - ./api
+            - ./shared
+
   create-docker-image:
     machine: true
     working_directory: ~/gamma
@@ -113,17 +112,20 @@ jobs:
           name: Docker Sign In
           command: '[ -n "$DOCKER_USER" ] && echo $DOCKER_PWD | docker login -u $DOCKER_USER --password-stdin || true'
       - run:
-          name: Create api image
-          command: '[ -n "$DOCKER_USER" ] && docker build -t gamma/api:${CIRCLE_SHA1:0:7} . || true'
-      - run:
           name: Create web image
-          command: '[ -n "$DOCKER_USER" ] && docker build -t gamma/web:${CIRCLE_SHA1:0:7} . || true'
-      - deploy:
-          name: Push api image
-          command: '[ -n "$DOCKER_USER" ] && docker push gamma/api:${CIRCLE_SHA1:0:7} || true'
+          command: |
+            '[ -n "$DOCKER_USER" ] && docker build -t gamma/web:${CIRCLE_SHA1:0:7} -f ./Dockerfile . || true'
+      - run:
+          name: Create api image
+          command: |
+            cd packages/api
+            '[ -n "$DOCKER_USER" ] && docker build -t gamma/api:${CIRCLE_SHA1:0:7} -f ./Dockerfile  . || true'
       - deploy:
           name: Push web image
           command: '[ -n "$DOCKER_USER" ] && docker push gamma/web:${CIRCLE_SHA1:0:7} || true'
+      - deploy:
+          name: Push api image
+          command: '[ -n "$DOCKER_USER" ] && docker push gamma/api:${CIRCLE_SHA1:0:7} || true'
 
 workflows:
   version: 2
@@ -139,8 +141,8 @@ workflows:
       - build-prod:
           requires:
             - build-dependencies
-    #   - create-docker-image:
-    #       requires:
-    #         - build-prod
-    #         - lint
-    #         - test-e2e
+      - create-docker-image:
+          requires:
+            - build-prod
+            - lint
+            - test-e2e
