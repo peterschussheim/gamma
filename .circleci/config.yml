@@ -113,12 +113,12 @@ jobs:
           command: '[ -n "$DOCKER_USER" ] && echo $DOCKER_PWD | docker login -u $DOCKER_USER --password-stdin || true'
       - run:
           name: Create web image
-          command: '[ -n "$DOCKER_USER" ] && docker build -t gamma/web:${CIRCLE_SHA1:0:7} -f ./Dockerfile . || true'
+          command: '[ -n "$DOCKER_USER" ] && docker build -t gamma/web:${CIRCLE_SHA1:0:7} -f "Dockerfile" . || true'
       - run:
           name: Create api image
           command: |
             cd packages/api
-            '[ -n "$DOCKER_USER" ] && docker build -t gamma/api:${CIRCLE_SHA1:0:7} -f ./Dockerfile  . || true'
+            '[ -n "$DOCKER_USER" ] && docker build -t gamma/api:${CIRCLE_SHA1:0:7} -f "Dockerfile" . || true'
       - deploy:
           name: Push web image
           command: '[ -n "$DOCKER_USER" ] && docker push gamma/web:${CIRCLE_SHA1:0:7} || true'
