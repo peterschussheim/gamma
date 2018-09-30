@@ -116,9 +116,8 @@ jobs:
           command: '[ -n "$DOCKER_USER" ] && docker build -t gamma/web:${CIRCLE_SHA1:0:7} -f "Dockerfile" . || true'
       - run:
           name: Create api image
-          command: |
-            cd packages/api
-            '[ -n "$DOCKER_USER" ] && docker build -t gamma/api:${CIRCLE_SHA1:0:7} -f "Dockerfile" . || true'
+          working_directory: ~/gamma/packages/api
+          command: '[ -n "$DOCKER_USER" ] && docker build -t gamma/api:${CIRCLE_SHA1:0:7} -f "Dockerfile" . || true'
       - deploy:
           name: Push web image
           command: '[ -n "$DOCKER_USER" ] && docker push gamma/web:${CIRCLE_SHA1:0:7} || true'
@@ -131,15 +130,17 @@ workflows:
   build-and-test:
     jobs:
       - build-dependencies
-      - test-e2e:
-          requires:
-            - build-dependencies
       - lint:
           requires:
             - build-dependencies
+      - test-e2e:
+          requires:
+            - build-dependencies
+            - lint
       - build-prod:
           requires:
             - build-dependencies
+            - lint
       - create-docker-image:
           requires:
             - build-prod
