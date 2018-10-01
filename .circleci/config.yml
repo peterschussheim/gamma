@@ -109,21 +109,33 @@ jobs:
       - restore_cache:
           key: v5-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
+          name: Parameterize ENV variables
+          command: |
+            echo 'export API_TAG=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
+            echo 'export WEB_TAG=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
+            echo 'export API_IMAGE=api' >> $BASH_ENV 
+            echo 'export WEB_IMAGE=web' >> $BASH_ENV
+      - run:
           name: Docker Sign In
-          command: '[ -n "$DOCKER_USER" ] && echo $DOCKER_PWD | docker login -u $DOCKER_USER --password-stdin || true'
+          command: |
+            echo $DOCKER_PWD | docker login -u $DOCKER_USER --password-stdin
       - run:
           name: Create web image
-          command: '[ -n "$DOCKER_USER" ] && docker build -t gammaprod/web:${CIRCLE_SHA1:0:7} -f "Dockerfile" . || true'
+          command: |
+            docker build -t gammaprod/${WEB_IMAGE}:${WEB_TAG} -f "Dockerfile" .
       - run:
           name: Create api image
           working_directory: ~/gamma/packages/api
-          command: '[ -n "$DOCKER_USER" ] && docker build -t gammaprod/api:${CIRCLE_SHA1:0:7} -f "Dockerfile" . || true'
+          command: |
+            docker build -t gammaprod/${API_IMAGE}:${API_TAG} -f "Dockerfile" .
       - deploy:
           name: Push web image
-          command: '[ -n "$DOCKER_USER" ] && docker push gammaprod/web:${CIRCLE_SHA1:0:7} || true'
+          command: |
+            docker push gammaprod/${WEB_IMAGE}:${WEB_TAG}
       - deploy:
           name: Push api image
-          command: '[ -n "$DOCKER_USER" ] && docker push gammaprod/api:${CIRCLE_SHA1:0:7} || true'
+          command: |
+            docker push gammaprod/${API_IMAGE}:${API_TAG}
 
 workflows:
   version: 2
