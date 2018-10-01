@@ -17,7 +17,7 @@
     "**/debug/**"
   ],
   "engines": {
-    "node": ">=9.11.1",
+    "node": ">=10",
     "yarn": ">=1.9.4"
   },
   "resolutions": {

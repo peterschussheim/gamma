@@ -1,5 +1,5 @@
 import Redis from 'ioredis'
-require('dotenv').config()
+require('now-env')
 
 const logger = require('debug')('shared:redis')
 logger(`Connecting to Redis instance at: ${process.env.REDISLABS_URI}`)

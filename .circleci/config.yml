@@ -38,28 +38,6 @@ jobs:
             - gamma
             - .cache/Cypress
 
-  build-prod:
-    docker:
-      - image: circleci/node:10
-    working_directory: ~/gamma
-    environment:
-      CI: false
-    steps:
-      - restore_cache:
-          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - run:
-          name: Build api
-          command: yarn build:api
-      - run:
-          name: Build web
-          command: yarn build:web
-      - save_cache:
-          key: v5-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - ./web
-            - ./api
-            - ./shared
-
   lint:
     docker:
       - image: circleci/node:10
@@ -73,7 +51,6 @@ jobs:
 
   test-e2e:
     docker:
-      #   - image: circleci/node:10
       - image: cypress/base:8
         environment:
           TERM: xterm
@@ -102,6 +79,28 @@ jobs:
       - store_artifacts:
           path: cypress/screenshots
 
+  build-prod:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/gamma
+    environment:
+      CI: false
+    steps:
+      - restore_cache:
+          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Build api
+          command: yarn build:api
+      - run:
+          name: Build web
+          command: yarn build:web
+      - save_cache:
+          key: v5-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ./web
+            - ./api
+            - ./shared
+
   create-docker-image:
     machine: true
     working_directory: ~/gamma
@@ -110,37 +109,55 @@ jobs:
       - restore_cache:
           key: v5-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
-          name: Docker Sign In
-          command: '[ -n "$DOCKER_USER" ] && echo $DOCKER_PWD | docker login -u $DOCKER_USER --password-stdin || true'
+          name: Parameterize ENV variables
+          command: |
+            echo 'export API_TAG=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
+            echo 'export WEB_TAG=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
+            echo 'export API_IMAGE=api' >> $BASH_ENV 
+            echo 'export WEB_IMAGE=web' >> $BASH_ENV
       - run:
-          name: Create api image
-          command: '[ -n "$DOCKER_USER" ] && docker build -t gamma/api:${CIRCLE_SHA1:0:7} . || true'
+          name: Docker Sign In
+          command: |
+            echo $DOCKER_PWD | docker login -u $DOCKER_USER --password-stdin
       - run:
           name: Create web image
-          command: '[ -n "$DOCKER_USER" ] && docker build -t gamma/web:${CIRCLE_SHA1:0:7} . || true'
-      - deploy:
-          name: Push api image
-          command: '[ -n "$DOCKER_USER" ] && docker push gamma/api:${CIRCLE_SHA1:0:7} || true'
+          command: |
+            docker build -t gammaprod/${WEB_IMAGE}:${WEB_TAG} -f "Dockerfile" .
+      - run:
+          name: Create api image
+          working_directory: ~/gamma/packages/api
+          command: |
+            docker build -t gammaprod/${API_IMAGE}:${API_TAG} -f "Dockerfile" .
       - deploy:
           name: Push web image
-          command: '[ -n "$DOCKER_USER" ] && docker push gamma/web:${CIRCLE_SHA1:0:7} || true'
+          command: |
+            docker push gammaprod/${WEB_IMAGE}:${WEB_TAG}
+      - deploy:
+          name: Push api image
+          command: |
+            docker push gammaprod/${API_IMAGE}:${API_TAG}
 
 workflows:
   version: 2
   build-and-test:
     jobs:
       - build-dependencies
-      - test-e2e:
-          requires:
-            - build-dependencies
       - lint:
           requires:
             - build-dependencies
+      - test-e2e:
+          requires:
+            - build-dependencies
+            - lint
       - build-prod:
           requires:
             - build-dependencies
-    #   - create-docker-image:
-    #       requires:
-    #         - build-prod
-    #         - lint
-    #         - test-e2e
+            - lint
+      - create-docker-image:
+          requires:
+            - build-prod
+            - lint
+            - test-e2e
+          filters:
+            branches:
+              only: master
