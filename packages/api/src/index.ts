@@ -1,4 +1,5 @@
 const debug = require('debug')('entrypoint')
+require('now-env')
 const util = require('util')
 import { formatError } from 'apollo-errors'
 import { Options } from 'graphql-yoga'
