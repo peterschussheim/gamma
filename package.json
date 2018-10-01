@@ -17,8 +17,8 @@
     "**/debug/**"
   ],
   "engines": {
-    "node": ">=9.11.1",
-    "yarn": ">=1.9.4"
+    "node": ">=10",
+    "yarn": ">=1.10.1"
   },
   "resolutions": {
     "graphql": "0.13.2"
