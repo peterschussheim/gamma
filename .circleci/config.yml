@@ -146,3 +146,6 @@ workflows:
             - build-prod
             - lint
             - test-e2e
+          filters:
+            branches:
+              only: master
