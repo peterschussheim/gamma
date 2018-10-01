@@ -6,9 +6,9 @@
   "author": "Peter Schussheim <peter@schussheim.com> (https://peterschussheim.com/)",
   "license": "MIT",
   "scripts": {
-    "start": "DEBUG=*,-express-session*,-body-parser:*,-express:* node -r dotenv/config dist",
-    "dev:verbose": "cross-env NODE_ENV=development cross-env PRISMA_DEBUG=true cross-env DEBUG=*,-body-parser:*,-express:*,-snapdragon:*,-nodemon*, nodemon -r dotenv/config --watch src -e ts,js,graphql -x ts-node src/index.ts",
-    "dev": "cross-env NODE_ENV=development cross-env DEBUG=*,-body-parser:*,-express:*,-snapdragon:*,-nodemon*, nodemon -r dotenv/config --watch src -e ts,js,graphql -x ts-node src/index.ts",
+    "start": "DEBUG=*,-express-session*,-body-parser:*,-express:* node dist",
+    "dev:verbose": "cross-env NODE_ENV=development cross-env PRISMA_DEBUG=true cross-env DEBUG=*,-body-parser:*,-express:*,-snapdragon:*,-nodemon*, nodemon --watch src -e ts,js,graphql -x ts-node src/index.ts",
+    "dev": "cross-env NODE_ENV=development cross-env DEBUG=*,-body-parser:*,-express:*,-snapdragon:*,-nodemon*, nodemon --watch src -e ts,js,graphql -x ts-node src/index.ts",
     "build": "rm -rf ./dist && tsc && copyfiles -u 1 \"./src/**/*.graphql\" dist",
     "playground": "graphql playground",
     "deploy": "DEBUG=* prisma deploy -e .env",
@@ -18,7 +18,6 @@
     "lint": "eslint .",
     "precommit": "lint-staged",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
-    "test": "cross-env NODE_ENV=test cross-env dotenv -- jest",
     "type-check": "tsc --noEmit --pretty"
   },
   "devDependencies": {
@@ -64,8 +63,6 @@
     "cookie-parser": "1.4.3",
     "cors": "2.8.4",
     "debug": "4.0.0",
-    "dotenv": "5.0.1",
-    "dotenv-cli": "1.4.0",
     "express": "4.16.3",
     "express-session": "1.15.6",
     "graphql": "0.13.2",

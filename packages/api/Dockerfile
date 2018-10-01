@@ -14,4 +14,4 @@ COPY --from=base /usr/src .
 ENV NODE_ENV="production"
 ENV DEBUG="*,-express-session*,-body-parser:*,-express:*"
 
-CMD ["node", "-r", "dotenv/config", "dist"]
+CMD ["node", "dist"]
