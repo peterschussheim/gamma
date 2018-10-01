@@ -1,5 +1,4 @@
-require('dotenv').config()
-
+require('now-env')
 const {
   NODE_ENV,
   PORT,

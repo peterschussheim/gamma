@@ -1,5 +1,5 @@
 /* eslint-disable import/first */
-require('dotenv').config()
+require('now-env')
 const debug = require('debug')('web:entry')
 
 import http from 'http'
