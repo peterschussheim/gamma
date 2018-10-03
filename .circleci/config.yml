@@ -165,7 +165,7 @@ jobs:
       - run:
           name: Install now-cli
           command: |
-            sudo npm install now -g
+            sudo npm i -g --unsafe-perm now
       - run:
           name: Deploy web to now
           command: |
