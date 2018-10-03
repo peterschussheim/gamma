@@ -186,7 +186,55 @@ jobs:
 
 workflows:
   version: 2
-  build-and-test:
+  build-and-test-pr:
+    jobs:
+      - build-dependencies
+      - lint:
+          requires:
+            - build-dependencies
+          filters:
+            branches:
+              ignore: master
+      - test-e2e:
+          requires:
+            - build-dependencies
+            - lint
+          filters:
+            branches:
+              ignore: master
+      # - build-prod:
+      #     requires:
+      #       - build-dependencies
+      #       - lint
+      #     filters:
+      #       branches:
+      #         ignore: master
+      # - create-docker-image:
+      #     requires:
+      #       - build-prod
+      #     filters:
+      #       branches:
+      #         only: master
+      # - generate-latest-dockerfiles:
+      #     requires:
+      #       - create-docker-image
+      #     filters:
+      #       branches:
+      #         ignore: master
+      # - hold:
+      #     type: approval
+      #     requires:
+      #       - generate-latest-dockerfiles
+      #     filters:
+      #       branches:
+      #         ignore: master
+      # - deploy-to-now-staging:
+      #     requires:
+      #       - hold
+      #     filters:
+      #       branches:
+      #         ignore: master
+  build-and-test-master:
     jobs:
       - build-dependencies
       - lint:
@@ -203,8 +251,6 @@ workflows:
       - create-docker-image:
           requires:
             - build-prod
-            - lint
-            - test-e2e
           filters:
             branches:
               only: master
@@ -221,7 +267,7 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy-to-now-production:
+      - deploy-to-now-prod:
           requires:
             - hold
           filters:
