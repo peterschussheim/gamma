@@ -135,6 +135,23 @@ jobs:
           name: Push api image
           command: |
             docker push gammaprod/${API_IMAGE}:${TAG}
+
+  deploy-to-now-prod:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/gamma
+    steps:
+      - checkout
+      - run:
+          name: Install now-cli
+          command: |
+            sudo npm i -g --unsafe-perm now
+      - run:
+          name: Parameterize ENV variables
+          command: |
+            echo 'export TAG=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
+            echo 'export API_IMAGE=api' >> $BASH_ENV 
+            echo 'export WEB_IMAGE=web' >> $BASH_ENV
       - run:
           name: Generate 'latest' web image to be deployed to production
           command: |
@@ -144,21 +161,6 @@ jobs:
           command: |
             cd packages/api
             /home/circleci/gamma/update.sh ${API_IMAGE} ${TAG}
-
-  deploy-to-now-prod:
-    docker:
-      - image: circleci/node:10
-    working_directory: ~/gamma
-    steps:
-      - checkout
-      - run:
-          command: |
-            ls -ag
-            ls -ag packages/api
-      - run:
-          name: Install now-cli
-          command: |
-            sudo npm i -g --unsafe-perm now
       - run:
           name: Deploy web to now
           command: |
