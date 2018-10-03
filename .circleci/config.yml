@@ -168,7 +168,7 @@ jobs:
       - run:
           name: Install now-cli
           command: |
-            yarn add now
+            npm install now --no-save
       - save_cache:
           key: v5-now-cli
           paths:
