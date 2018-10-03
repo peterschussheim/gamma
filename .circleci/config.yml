@@ -164,12 +164,11 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            v5-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
             v5-now-cli
       - run:
           name: Install now-cli
           command: |
-            yarn global add now
+            yarn add now
       - save_cache:
           key: v5-now-cli
           paths:
@@ -198,7 +197,6 @@ workflows:
       - test-e2e:
           requires:
             - build-dependencies
-            - lint
           filters:
             branches:
               ignore: master
@@ -234,20 +232,31 @@ workflows:
       #     filters:
       #       branches:
       #         ignore: master
-  build-and-test-master:
+  build-test-push-deploy-master:
     jobs:
-      - build-dependencies
+      - build-dependencies:
+          filters:
+            branches:
+              only: master
       - lint:
           requires:
             - build-dependencies
+          filters:
+            branches:
+              only: master
       - test-e2e:
           requires:
             - build-dependencies
             - lint
+          filters:
+            branches:
+              only: master
       - build-prod:
           requires:
-            - build-dependencies
-            - lint
+            - test-e2e
+          filters:
+            branches:
+              only: master
       - create-docker-image:
           requires:
             - build-prod
