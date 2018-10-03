@@ -232,7 +232,7 @@ workflows:
       #     filters:
       #       branches:
       #         ignore: master
-  build-and-test-master:
+  build-test-push-deploy-master:
     jobs:
       - build-dependencies:
           filters:
