@@ -203,8 +203,6 @@ workflows:
       - create-docker-image:
           requires:
             - build-prod
-            - lint
-            - test-e2e
           filters:
             branches:
               only: master
@@ -221,7 +219,7 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy-to-now-production:
+      - deploy-to-now-prod:
           requires:
             - hold
           filters:
