@@ -37,13 +37,11 @@
 
 set -Eeuo pipefail
 
-# Map script variables to CircleCI env variables or shell
-# BASE_IMAGE=$
-# TAG=$CIRCLE_SHA1
 BASE_IMAGE=${1?Error: BASE_IMAGE not given}
 TAG=${2-:Error: TAG not given}
 IMAGE_VERSION=$BASE_IMAGE:$TAG
 
-sed 's/%%IMAGE_VERSION%%/'"$IMAGE_VERSION"'/ w Dockerfile.latest' <./Dockerfile.template
+# sed '1 /'FROM "$IMAGE_VERSION"'/ i\ w Dockerfile'
 
+echo "FROM gammaprod/$IMAGE_VERSION" >> Dockerfile
 echo Done

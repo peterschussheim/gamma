@@ -101,7 +101,7 @@ jobs:
             - ./api
             - ./shared
 
-  create-docker-image:
+  prepare-deployment-images:
     machine: true
     working_directory: ~/gamma
     steps:
@@ -127,26 +127,14 @@ jobs:
           working_directory: ~/gamma/packages/api
           command: |
             docker build -t gammaprod/${API_IMAGE}:${TAG} -f "Dockerfile.api" .
-      - deploy:
+      - run:
           name: Push web image
           command: |
             docker push gammaprod/${WEB_IMAGE}:${TAG}
-      - deploy:
+      - run:
           name: Push api image
           command: |
             docker push gammaprod/${API_IMAGE}:${TAG}
-
-  generate-latest-dockerfiles:
-    machine: true
-    working_directory: ~/gamma
-    steps:
-      - checkout
-      - run:
-          name: Ensure required environment variables are set
-          command: |
-            echo 'export TAG=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
-            echo 'export API_IMAGE=api' >> $BASH_ENV 
-            echo 'export WEB_IMAGE=web' >> $BASH_ENV
       - run:
           name: Generate 'latest' web image to be deployed to production
           command: |
@@ -154,7 +142,8 @@ jobs:
       - run:
           name: Generate 'latest' api image to be deployed to production
           command: |
-            ./update.sh ${API_IMAGE} ${TAG}
+            cd packages/api
+            ../../.update.sh ${API_IMAGE} ${TAG}
 
   deploy-to-now-prod:
     docker:
@@ -162,6 +151,10 @@ jobs:
     working_directory: ~/gamma
     steps:
       - checkout
+      - run:
+          command: |
+            ls -ag
+            ls -ag packages/api
       - run:
           name: Install now-cli
           command: |
@@ -253,28 +246,15 @@ workflows:
           filters:
             branches:
               only: master
-      - create-docker-image:
+      - prepare-deployment-images:
           requires:
             - build-prod
           filters:
             branches:
               only: master
-      - generate-latest-dockerfiles:
-          requires:
-            - create-docker-image
-          filters:
-            branches:
-              only: master
-      - hold:
-          type: approval
-          requires:
-            - generate-latest-dockerfiles
-          filters:
-            branches:
-              only: master
       - deploy-to-now-prod:
           requires:
-            - hold
+            - prepare-deployment-images
           filters:
             branches:
               only: master
