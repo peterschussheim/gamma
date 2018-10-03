@@ -169,15 +169,20 @@ jobs:
       - run:
           name: Install now-cli
           command: |
-            yarn add now
+            yarn global add now
       - save_cache:
           key: v5-now-cli
           paths:
             - ~/.cache
       - run:
-          name: Verify circle hash is in our environment
+          name: Deploy web to now
           command: |
-            echo 'export BUILD_HASH=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
+            now -t $NOW_TOKEN -A now.ui.json && now -t $NOW_TOKEN -A now.ui.json alias
+      - run:
+          name: Deploy api to now
+          command: |
+            cd packages/api
+            now -t $NOW_TOKEN -A now.api.json && now -t $NOW_TOKEN -A now.api.json alias
 
 workflows:
   version: 2
