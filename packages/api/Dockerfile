@@ -1,17 +1,2 @@
-FROM mhart/alpine-node:10 AS base
-LABEL name "api"
-WORKDIR /usr/src
-COPY . .
-
-RUN yarn
-RUN yarn build
-RUN yarn --production
-
-# Copy over node_modules and anything else to the smaller base image
-FROM mhart/alpine-node:base-10
-WORKDIR /usr/src
-COPY --from=base /usr/src .
-ENV NODE_ENV="production"
-ENV DEBUG="*,-express-session*,-body-parser:*,-express:*"
-
-CMD ["node", "dist"]
+# NEED to figure out how to inject CIRCLE_SHA1 into the image tag below
+FROM gammaprod/api
