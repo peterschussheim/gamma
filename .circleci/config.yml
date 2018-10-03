@@ -234,7 +234,10 @@ workflows:
       #         ignore: master
   build-and-test-master:
     jobs:
-      - build-dependencies
+      - build-dependencies:
+          filters:
+            branches:
+              only: master
       - lint:
           requires:
             - build-dependencies
