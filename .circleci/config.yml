@@ -111,8 +111,7 @@ jobs:
       - run:
           name: Parameterize ENV variables
           command: |
-            echo 'export API_TAG=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
-            echo 'export WEB_TAG=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
+            echo 'export TAG=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
             echo 'export API_IMAGE=api' >> $BASH_ENV 
             echo 'export WEB_IMAGE=web' >> $BASH_ENV
       - run:
@@ -122,20 +121,63 @@ jobs:
       - run:
           name: Create web image
           command: |
-            docker build -t gammaprod/${WEB_IMAGE}:${WEB_TAG} -f "Dockerfile" .
+            docker build -t gammaprod/${WEB_IMAGE}:${TAG} -f "Dockerfile.web" .
       - run:
           name: Create api image
           working_directory: ~/gamma/packages/api
           command: |
-            docker build -t gammaprod/${API_IMAGE}:${API_TAG} -f "Dockerfile" .
+            docker build -t gammaprod/${API_IMAGE}:${TAG} -f "Dockerfile.api" .
       - deploy:
           name: Push web image
           command: |
-            docker push gammaprod/${WEB_IMAGE}:${WEB_TAG}
+            docker push gammaprod/${WEB_IMAGE}:${TAG}
       - deploy:
           name: Push api image
           command: |
-            docker push gammaprod/${API_IMAGE}:${API_TAG}
+            docker push gammaprod/${API_IMAGE}:${TAG}
+
+  generate-latest-dockerfiles:
+    machine: true
+    working_directory: ~/gamma
+    steps:
+      - checkout
+      - run:
+          name: Ensure required environment variables are set
+          command: |
+            echo 'export TAG=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
+            echo 'export API_IMAGE=api' >> $BASH_ENV 
+            echo 'export WEB_IMAGE=web' >> $BASH_ENV
+      - run:
+          name: Generate 'latest' web image to be deployed to production
+          command: |
+            ./update.sh ${WEB_IMAGE} ${TAG}
+      - run:
+          name: Generate 'latest' api image to be deployed to production
+          command: |
+            ./update.sh ${API_IMAGE} ${TAG}
+
+  deploy-to-now-prod:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/gamma
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            v5-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+            v5-now-cli
+      - run:
+          name: Install now-cli
+          command: |
+            yarn add now
+      - save_cache:
+          key: v5-now-cli
+          paths:
+            - ~/.cache
+      - run:
+          name: Verify circle hash is in our environment
+          command: |
+            echo 'export BUILD_HASH=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
 
 workflows:
   version: 2
@@ -158,6 +200,25 @@ workflows:
             - build-prod
             - lint
             - test-e2e
+          filters:
+            branches:
+              only: master
+      - generate-latest-dockerfiles:
+          requires:
+            - create-docker-image
+          filters:
+            branches:
+              only: master
+      - hold:
+          type: approval
+          requires:
+            - generate-latest-dockerfiles
+          filters:
+            branches:
+              only: master
+      - deploy-to-now-production:
+          requires:
+            - hold
           filters:
             branches:
               only: master
