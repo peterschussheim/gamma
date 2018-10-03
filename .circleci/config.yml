@@ -162,17 +162,10 @@ jobs:
     working_directory: ~/gamma
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            v5-now-cli
       - run:
           name: Install now-cli
           command: |
-            npm install now --no-save
-      - save_cache:
-          key: v5-now-cli
-          paths:
-            - ~/.cache
+            sudo npm install now -g
       - run:
           name: Deploy web to now
           command: |
