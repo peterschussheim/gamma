@@ -11,7 +11,7 @@ jobs:
       - restore_cache:
           keys:
             - v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v5-dependency-cache-{{ .Branch }}
+            - v5-dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
             - v5-dependency-cache
       - run:
           name: Install Dependencies
@@ -28,7 +28,7 @@ jobs:
           name: Build 'web'
           command: CI=false yarn build:web
       - save_cache:
-          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}-{{ checksum "package.json" }}
           paths:
             - ~/gamma
             - ~/.cache
@@ -44,7 +44,7 @@ jobs:
     working_directory: ~/gamma
     steps:
       - restore_cache:
-          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}-{{ checksum "package.json" }}
       - run:
           name: Lint
           command: yarn lint
@@ -61,7 +61,7 @@ jobs:
       - restore_cache:
           keys:
             - v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v5-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - v5-repo-{{ .Environment.CIRCLE_SHA1 }}-{{ checksum "package.json" }}
       - run:
           name: Verify Cypress is installed
           command: yarn cy:verify
@@ -88,7 +88,7 @@ jobs:
       CI: false
     steps:
       - restore_cache:
-          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}-{{ checksum "package.json" }}
       - run:
           name: Build api
           command: yarn build:api
