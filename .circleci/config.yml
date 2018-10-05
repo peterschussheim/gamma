@@ -73,7 +73,7 @@ jobs:
           name: Start e2e-tests
           # workaround for 'is-ci-cli' issue with env variable `CI=false`
           command: |
-            yarn cy:run || cypress run --record --key $CYPRESS_RECORD_KEY --spec cypress/integration/e2e-tests.js
+            yarn test:e2e:run
           background: false
       - store_artifacts:
           path: cypress/videos
