@@ -44,7 +44,7 @@ jobs:
     working_directory: ~/gamma
     steps:
       - restore_cache:
-          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}-{{ checksum "package.json" }}
+          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Lint
           command: yarn lint
