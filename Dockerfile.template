@@ -1,2 +1,0 @@
-FROM gammaprod/%%IMAGE_VERSION%%
-
