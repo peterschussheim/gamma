@@ -65,14 +65,18 @@ app.use(cors)
 
 // Redirect requests to /api and /auth to the production API
 // This allows deploy previews to work, as this route would only be called
-// if there's no path alias in Now for renderer.gamma.app/api, which would only
+// if there's no path alias in Now for ui.gamma.app/api, which would only
 // happen on deploy previews
 app.use('/api', (req, res) => {
-  const redirectUrl = `${req.baseUrl}${req.path}`
-  res.redirect(
-    req.method === 'POST' || req.xhr ? 307 : 301,
-    `https://gamma.app${redirectUrl}`
-  )
+  if (process.env.STAGING) {
+    res.redirect(process.env.NOW_URL)
+  } else {
+    const redirectUrl = `${req.baseUrl}${req.path}`
+    res.redirect(
+      req.method === 'POST' || req.xhr ? 307 : 301,
+      `https://gamma.app${redirectUrl}`
+    )
+  }
 })
 
 // app.use('/auth', (req, res) => {
