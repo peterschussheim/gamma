@@ -165,12 +165,12 @@ jobs:
       - run:
           name: Deploy web to now
           command: |
-            now -t $NOW_TOKEN -A now.ui.json
+            now -t $NOW_TOKEN -A now.ui-staging.json
       - run:
           name: Deploy api to now
           command: |
             cd packages/api
-            now -t $NOW_TOKEN -A now.api.json
+            now -t $NOW_TOKEN -A now.api-staging.json
 
   prepare-prod-deployment-images:
     machine: true
