@@ -10,14 +10,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v5-dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
-            - v5-dependency-cache
+            - v6-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
           command: yarn install --frozen-lockfile
       - save_cache:
-          key: v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v6-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/gamma
             - ~/.cache
@@ -28,7 +26,7 @@ jobs:
           name: Build 'web'
           command: CI=false yarn build:web
       - save_cache:
-          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}-{{ checksum "package.json" }}
+          key: v6-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/gamma
             - ~/.cache
@@ -44,7 +42,7 @@ jobs:
     working_directory: ~/gamma
     steps:
       - restore_cache:
-          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v6-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Lint
           command: yarn lint
@@ -60,13 +58,13 @@ jobs:
           at: ~/
       - restore_cache:
           keys:
-            - v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ checksum "package.json" }}
-            - v5-repo-{{ .Environment.CIRCLE_SHA1 }}-{{ checksum "package.json" }}
+            - v6-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v6-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Verify Cypress is installed
           command: yarn cy:verify
       - save_cache:
-          key: v5-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v6-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache
       - run:
@@ -88,7 +86,7 @@ jobs:
       CI: false
     steps:
       - restore_cache:
-          key: v5-repo-{{ .Environment.CIRCLE_SHA1 }}-{{ checksum "package.json" }}
+          key: v6-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Build api
           command: yarn build:api
@@ -96,7 +94,7 @@ jobs:
           name: Build web
           command: yarn build:web
       - save_cache:
-          key: v5-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: v6-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ./web
             - ./api
@@ -108,7 +106,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v5-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: v6-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Parameterize ENV variables
           command: |
