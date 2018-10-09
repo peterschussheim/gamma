@@ -68,8 +68,9 @@ app.use(cors)
 // if there's no path alias in Now for ui.gamma.app/api, which would only
 // happen on deploy previews
 app.use('/api', (req, res) => {
-  if (process.env.STAGING) {
-    res.redirect(process.env.NOW_URL)
+  if (process.env.STAGING === true) {
+    debug(`Redirecting to: ${process.env.NOW_URL}${req.path}`)
+    res.redirect(`${process.env.NOW_URL}${req.path}`)
   } else {
     const redirectUrl = `${req.baseUrl}${req.path}`
     res.redirect(
