@@ -62,6 +62,7 @@ if (process.env.NODE_ENV === 'development') {
 //   app.use(raven)
 // }
 app.use(cors)
+app.options('*', cors)
 
 // Redirect requests to /api and /auth to the production API
 // This allows deploy previews to work, as this route would only be called
