@@ -68,18 +68,21 @@ app.options('*', cors)
 // This allows deploy previews to work, as this route would only be called
 // if there's no path alias in Now for ui.gamma.app/api, which would only
 // happen on deploy previews
-// app.use('/api', (req, res) => {
-//   if (process.env.STAGING === true) {
-//     debug(`Redirecting to: ${process.env.NOW_URL}${req.path}`)
-//     res.redirect(`${process.env.NOW_URL}${req.path}`)
-//   } else {
-//     const redirectUrl = `${req.baseUrl}${req.path}`
-//     res.redirect(
-//       req.method === 'POST' || req.xhr ? 307 : 301,
-//       `https://gamma.app${redirectUrl}`
-//     )
-//   }
-// })
+app.use('/api', (req, res) => {
+  debug(`staging api: ${process.env.API_STAGING_URL}`)
+  debug(`req.url: ${req.url}`)
+  debug(`req.method: ${req.method}`)
+  debug(`req.headers: ${req.headers}`)
+  debug(`req.baseUrl: ${req.baseUrl}`)
+  debug(`req.path: ${req.path}`)
+  const redirectUrl = `${req.baseUrl}${req.path}`
+  res.redirect(
+    req.method === 'POST' || req.xhr ? 307 : 301,
+    process.env.API_STAGING_URL !== null
+      ? `${process.env.API_STAGING_URL}${redirectUrl}`
+      : `https://gamma.app${redirectUrl}`
+  )
+})
 
 // app.use('/auth', (req, res) => {
 //   const redirectUrl = `${req.baseUrl}${req.path}`
@@ -97,8 +100,6 @@ app.options('*', cors)
 //   )
 // })
 
-// In development the Webpack HMR server requests /sockjs-node constantly,
-// so let's patch that through to it!
 if (process.env.NODE_ENV === 'development') {
   app.use('/sockjs-node', (req, res) => {
     res.redirect(301, `http://localhost:3000${req.path}`)
@@ -174,15 +175,6 @@ app.get('/static/js/:name', (req, res, next) => {
   res.redirect(`/static/js/${actualFilename}`)
 })
 
-// In dev the static files from the root public folder aren't moved to the
-// build folder by create-react-app, so we just tell Express to serve those too
-// if (process.env.NODE_ENV === 'development') {
-//   app.use(
-//     express.static(path.resolve(__dirname, '..', '..', 'public'), {
-//       index: false
-//     })
-//   )
-// }
 app.get('/*', renderer)
 
 process.on('unhandledRejection', async err => {
@@ -208,7 +200,3 @@ process.on('uncaughtException', async err => {
 })
 
 export default app
-// Loadable.preloadAll().then(() => {
-//   app.listen(PORT)
-//   debug(`Rendering service running at http://localhost:${PORT}`)
-// })
