@@ -154,23 +154,29 @@ jobs:
             echo 'export WEB_IMAGE=web' >> $BASH_ENV
             echo 'export DOCKER_HUB_ORG=gammastaging' >> $BASH_ENV
       - run:
-          name: Generate 'latest' web image to be deployed to staging
-          command: |
-            ./update.sh ${WEB_IMAGE} ${TAG} ${DOCKER_HUB_ORG}
-      - run:
-          name: Generate 'latest' api image to be deployed to staging
+          name: Generate 'latest' api dockerfile to be deployed to staging
           command: |
             cd packages/api
             /home/circleci/gamma/update.sh ${API_IMAGE} ${TAG} ${DOCKER_HUB_ORG}
       - run:
-          name: Deploy web to now
-          command: |
-            now -t $NOW_TOKEN -A now.ui-staging.json
-      - run:
           name: Deploy api to now
           command: |
             cd packages/api
-            now -t $NOW_TOKEN -A now.api-staging.json
+            now -t $NOW_TOKEN -A now.api-staging.json | xargs sh echo 'export API_STAGING_URL=$1' >> $BASH_ENV
+            echo $API_STAGING_URL
+      - run:
+          name: Generate config file for web staging deployments on 'now'
+          command: |
+            ./deploy-pr.sh web ${API_STAGING_URL}
+            cat ./now.ui-staging.json
+      - run:
+          name: Generate 'latest' web dockerfile to be deployed to staging
+          command: |
+            ./update.sh ${WEB_IMAGE} ${TAG} ${DOCKER_HUB_ORG}
+      - run:
+          name: Deploy web to now
+          command: |
+            now -t $NOW_TOKEN -A now.ui-staging.json
 
   prepare-prod-deployment-images:
     machine: true
@@ -245,7 +251,6 @@ jobs:
             now -t $NOW_TOKEN -A now.api.json && now -t $NOW_TOKEN -A now.api.json alias
 
 workflows:
-  version: 2
   build-test-push-deploy-pr:
     jobs:
       - build-dependencies:
