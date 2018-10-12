@@ -162,15 +162,14 @@ jobs:
           name: Deploy api to now
           command: |
             cd packages/api
-            API_STAGING_URL=$(now -t "$NOW_TOKEN" -A now.api-staging.json)
-            echo 'export API_STAGING_URL=${API_STAGING_URL}' >> $BASH_ENV
+            echo 'export API_STAGING_URL="$(now -t "$NOW_TOKEN" -A now.api-staging.json)"' >> $BASH_ENV
             echo $API_STAGING_URL
-      - run:
-          name: Generate config file for web staging deployments on 'now'
-          command: |
-            echo $API_STAGING_URL
-            ./deploy-pr.sh web ${API_STAGING_URL}
-            cat ./now.ui-staging.json
+            /home/circleci/gamma/deploy-pr.sh web ${API_STAGING_URL}
+            cat /home/circleci/gamma/now.ui-staging.json
+      # - run:
+      #     name: Generate config file for web staging deployments on 'now'
+      #     command: |
+      #       echo $API_STAGING_URL
       - run:
           name: Generate 'latest' web dockerfile to be deployed to staging
           command: |
