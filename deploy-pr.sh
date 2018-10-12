@@ -16,17 +16,13 @@
 # service.
 
 # USAGE:
-# ./deploy-pr.sh web https://api-staging-ppuljxtowq.now.sh/
-
-# Example deployment URL after success:
-# https://web-example-branch-4gg52c2-1.now.sh
-
+# ./deploy-pr.sh web ${API_STAGING_URL}
 
 set -Eeuo pipefail
 
 SERVICE_NAME=${1?Error: SERVICE_NAME not given}
 API_STAGING_URL=${2?Error: API_STAGING_URL not given}
-BRANCH_NAME=${CIRCLE_BRANCH};
+BRANCH_NAME=${CIRCLE_BRANCH}
 DEPLOYMENT_ID=$SERVICE_NAME-$BRANCH_NAME-${CIRCLE_SHA1:0:7}-${CIRCLE_BUILD_NUM}
 
 JSON=$(cat <<-EOF
