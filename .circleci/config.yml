@@ -162,7 +162,8 @@ jobs:
           name: Deploy api to now
           command: |
             cd packages/api
-            echo 'export API_STAGING_URL=$(now -t "$NOW_TOKEN" -A now.api-staging.json)' >> $BASH_ENV
+            API_STAGING_URL=$(now -t "$NOW_TOKEN" -A now.api-staging.json)
+            export API_STAGING_URL >> $BASH_ENV
             echo $API_STAGING_URL
       - run:
           name: Generate config file for web staging deployments on 'now'
