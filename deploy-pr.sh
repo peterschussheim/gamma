@@ -54,5 +54,6 @@ JSON=$(cat <<-EOF
 EOF
 )
 
-echo "$JSON" > ./now.ui-staging.json
+echo "$JSON" > /home/circleci/gamma/now.ui-staging.json
+# echo "$JSON" > ./now.ui-staging.json
 exit 0
