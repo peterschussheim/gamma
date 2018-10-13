@@ -69,12 +69,6 @@ app.options('*', cors)
 // if there's no path alias in Now for ui.gamma.app/api, which would only
 // happen on deploy previews
 app.use('/api', (req, res) => {
-  debug(`staging api: ${process.env.API_STAGING_URL}`)
-  debug(`req.url: ${req.url}`)
-  debug(`req.method: ${req.method}`)
-  debug(`req.headers: ${req.headers}`)
-  debug(`req.baseUrl: ${req.baseUrl}`)
-  debug(`req.path: ${req.path}`)
   const redirectUrl = `${req.baseUrl}${req.path}`
   res.redirect(
     req.method === 'POST' || req.xhr ? 307 : 301,
@@ -92,13 +86,15 @@ app.use('/api', (req, res) => {
 //   )
 // })
 
-// app.use('/subscriptions', (req, res) => {
-//   const redirectUrl = `${req.baseUrl}${req.path}`
-//   res.redirect(
-//     req.method === 'POST' || req.xhr ? 307 : 301,
-//     `https://gamma.app${redirectUrl}`
-//   )
-// })
+app.use('/subscriptions', (req, res) => {
+  const redirectUrl = `${req.baseUrl}${req.path}`
+  res.redirect(
+    req.method === 'POST' || req.xhr ? 307 : 301,
+    process.env.API_STAGING_URL !== null
+      ? `${process.env.API_STAGING_URL}${redirectUrl}`
+      : `https://gamma.app${redirectUrl}`
+  )
+})
 
 if (process.env.NODE_ENV === 'development') {
   app.use('/sockjs-node', (req, res) => {
