@@ -23,6 +23,15 @@ export const CLIENT_URL = IS_PROD
   ? `${window.location.protocol}//${window.location.host}`
   : 'http://localhost:3000'
 export const API_URI = IS_PROD ? `/api` : 'http://localhost:4000/api'
-export const WS_URI = IS_PROD
-  ? `wss://${window.location.host}/subscriptions`
-  : 'ws://localhost:4000/subscriptions'
+
+const IS_STAGING = process.env.API_STAGING_URL != null
+
+const STAGING_API_HOSTNAME = IS_STAGING
+  ? new URL(process.env.API_STAGING_URL).hostname
+  : null
+export const WS_URI =
+  IS_PROD && !IS_STAGING
+    ? `wss://${window.location.host}/subscriptions`
+    : IS_STAGING
+      ? `wss://${STAGING_API_HOSTNAME}/subscriptions`
+      : 'ws://localhost:4000/subscriptions'
