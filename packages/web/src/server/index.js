@@ -89,7 +89,6 @@ app.use('/api', (req, res) => {
 app.use('/subscriptions', (req, res) => {
   const redirectUrl = `${req.baseUrl}${req.path}`
   res.redirect(
-    req.method === 'POST' || req.xhr ? 307 : 301,
     process.env.API_STAGING_URL !== null
       ? `${process.env.API_STAGING_URL}${redirectUrl}`
       : `https://gamma.app${redirectUrl}`
