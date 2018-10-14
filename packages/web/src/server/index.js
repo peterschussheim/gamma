@@ -1,5 +1,5 @@
 /* eslint-disable import/first */
-const debug = require('debug')('web:renderer:index')
+const debug = require('debug')('web:renderer:app')
 debug('Renderer starting...')
 import 'raf/polyfill'
 import fs from 'fs'
@@ -86,17 +86,17 @@ app.use('/api', (req, res) => {
 //   )
 // })
 
-app.use('/subscriptions', (req, res) => {
-  const redirectUrl = `${req.baseUrl}${req.path}`
-  debug(`subscriptions endpoint hit, redirecting to: ${redirectUrl}`)
-  debug(`API_STAGING_URL: ${process.env.API_STAGING_URL}`)
-  res.redirect(
-    101,
-    process.env.API_STAGING_URL != null
-      ? `${process.env.API_STAGING_URL}${redirectUrl}`
-      : `https://gamma.app${redirectUrl}`
-  )
-})
+// app.use('/subscriptions', (req, res) => {
+//   const redirectUrl = `${req.baseUrl}${req.path}`
+//   debug(`API_STAGING_URL: ${process.env.API_STAGING_URL}`)
+//   debug(`redirecting to: ${process.env.API_STAGING_URL}${redirectUrl}`)
+//   res.redirect(
+//     101,
+//     process.env.API_STAGING_URL != null
+//       ? `${process.env.API_STAGING_URL}${redirectUrl}`
+//       : `https://gamma.app${redirectUrl}`
+//   )
+// })
 
 if (process.env.NODE_ENV === 'development') {
   app.use('/sockjs-node', (req, res) => {
