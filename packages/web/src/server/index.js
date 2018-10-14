@@ -88,7 +88,10 @@ app.use('/api', (req, res) => {
 
 app.use('/subscriptions', (req, res) => {
   const redirectUrl = `${req.baseUrl}${req.path}`
+  debug(`subscriptions endpoint hit, redirecting to: ${redirectUrl}`)
+  debug(`API_STAGING_URL: ${process.env.API_STAGING_URL}`)
   res.redirect(
+    101,
     process.env.API_STAGING_URL !== null
       ? `${process.env.API_STAGING_URL}${redirectUrl}`
       : `https://gamma.app${redirectUrl}`
