@@ -33,7 +33,7 @@ const options: Options = {
     onConnect: (connectionParams, rawSocket, context) => {
       // debug(`onConnect WS Context: ${util.inspect(context)}`)
       const userId = rawSocket.upgradeReq.session
-      // debug(`onConnect WS Raw Socket: ${util.inspect(rawSocket)}`)
+      debug(`onConnect WS Raw Socket: ${util.inspect(rawSocket.upgradeReq)}`)
       return userId
     }
   },
