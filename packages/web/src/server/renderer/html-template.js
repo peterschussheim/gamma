@@ -3,8 +3,8 @@
 // import fs from 'fs'
 // import path from 'path'
 // import { html } from 'common-tags'
-// import serialize from 'serialize-javascript'
-
+import serialize from 'serialize-javascript'
+import { runtimeConfig } from '../../config/isomorphicVariables'
 // // Match main.asdf123.js in production mode or bundle.js in dev mode
 // const mainBundleRegex = /(main|bundle)\.(?:.*\.)?js$/
 
@@ -70,6 +70,7 @@ export default ({ helmet, data, assets, scripts, staticBuild }) => {
       <body>
         <div id="root">`
   const footer = `</div>
+        <script>window.env = ${serialize(runtimeConfig)};</script>
         <script type="application/javascript">window.__DATA__=${JSON.stringify(
           data
         ).replace(/</g, '\\u003c')}</script>
