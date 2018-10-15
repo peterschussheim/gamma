@@ -18,6 +18,8 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 
+// TODO: move this function into the `createClient` function below
+// and dynamically config based on browser || node environment.
 export const wsLink = process.browser
   ? new WebSocketLink({
       uri: WS_URI,
