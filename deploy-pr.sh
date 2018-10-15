@@ -30,6 +30,7 @@ JSON=$(cat <<-EOF
   "name": "$DEPLOYMENT_ID",
   "type": "docker",
   "env": {
+    "STAGING": "true",
     "API_STAGING_URL": "$API_STAGING_URL",
     "SENTRY_DSN_SERVER": "@sentry-dsn-server",
     "GITHUB_CLIENT_ID_PROD": "@github-client-id-prod",
