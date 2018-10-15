@@ -3,8 +3,8 @@ require('now-env')
 const util = require('util')
 import { formatError } from 'apollo-errors'
 import { Options } from 'graphql-yoga'
-import { defaultPrismaOptions, initDatabase } from './db'
 import startServer from './server'
+import { defaultPrismaOptions, initDatabase } from './db'
 
 const PORT = process.env.PORT || 4000
 const HOST = process.env.HOST || 'localhost'
@@ -31,9 +31,7 @@ const options: Options = {
       const userId = rawSocket.upgradeReq.session
     },
     onConnect: (connectionParams, rawSocket, context) => {
-      // debug(`onConnect WS Context: ${util.inspect(context)}`)
       const userId = rawSocket.upgradeReq.session
-      debug(`onConnect WS Raw Socket: ${util.inspect(rawSocket.upgradeReq)}`)
       return userId
     }
   },
