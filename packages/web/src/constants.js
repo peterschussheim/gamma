@@ -1,3 +1,5 @@
+import { runtimeConfig } from './config/isomorphicVariables'
+
 export const REDIS_SESSION_PREFIX = 'sess:'
 export const USER_SESSION_ID_PREFIX = 'usid:'
 export const FORGOT_PW_PREFIX = 'forgotpw:'
@@ -21,7 +23,6 @@ export const IS_PROD =
   process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
 export const API_URI = IS_PROD ? `/api` : 'http://localhost:4000/api'
 
-import { runtimeConfig } from './config/isomorphicVariables'
 const { STAGING_WS_URI } = runtimeConfig
 export const WS_URI =
   IS_PROD && STAGING_WS_URI
