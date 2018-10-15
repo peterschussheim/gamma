@@ -45,17 +45,24 @@ export const createClient = options => {
     }
   })
 
-  const wsLink = process.browser
-    ? new WebSocketLink({
-        uri:
-          typeof STAGING_WS_URI === 'undefined' || null
-            ? WS_URI
-            : DEPLOY_PREVIEW_WS_URI,
-        options: {
-          reconnect: true
-        }
-      })
-    : null
+  let wsLink
+  if (process.env.STAGING === 'false' || window.env.STAGING === 'false') {
+    wsLink = process.browser
+      ? new WebSocketLink({
+          uri: WS_URI,
+          options: {
+            reconnect: true
+          }
+        })
+      : null
+  } else {
+    wsLink = new WebSocketLink({
+      uri: DEPLOY_PREVIEW_WS_URI,
+      options: {
+        reconnect: true
+      }
+    })
+  }
 
   const httpLink = retryLink.concat(
     createUploadLink({
