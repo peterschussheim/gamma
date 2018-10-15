@@ -1,4 +1,4 @@
-import { runtimeConfig } from './config/isomorphicVariables'
+import { runtimeConfig } from './isomorphicVariables'
 
 export const REDIS_SESSION_PREFIX = 'sess:'
 export const USER_SESSION_ID_PREFIX = 'usid:'
@@ -24,9 +24,7 @@ export const IS_PROD =
 export const API_URI = IS_PROD ? `/api` : 'http://localhost:4000/api'
 
 const { STAGING_WS_URI } = runtimeConfig
-export const WS_URI =
-  STAGING_WS_URI != null
-    ? `wss://${new URL(STAGING_WS_URI).host}/subscriptions`
-    : 'ws://localhost:4000/subscriptions'
-      ? `wss://${window.location.host}/subscriptions`
-      : 'ws://localhost:4000/subscriptions'
+console.log(STAGING_WS_URI)
+export const WS_URI = IS_PROD
+  ? `wss://${window.location.host}/subscriptions`
+  : 'ws://localhost:4000/subscriptions'

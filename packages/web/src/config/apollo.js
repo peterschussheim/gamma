@@ -6,7 +6,7 @@ import { split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import { onError } from 'apollo-link-error'
-import { IS_PROD, API_URI, WS_URI } from '../constants'
+import { API_URI, WS_URI } from '../constants'
 
 export const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -18,24 +18,12 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 
-// TODO: move this function into the `createClient` function below
-// and dynamically config based on browser || node environment.
-export const wsLink = process.browser
-  ? new WebSocketLink({
-      uri: WS_URI,
-      options: {
-        reconnect: true
-      }
-    })
-  : null
-
 // Use the exported client instance from below instead of using this factory!
 // Only use this factory if you need to create a new instance of the client
 // with the Authorization token, i.e. only use this factory on mobile
 export const createClient = options => {
   // TODO: properly implement cache/state restore
   const cache = new InMemoryCache()
-
   const retryLink = new RetryLink({
     attempts: (count, operation, error) => {
       const isMutation =
@@ -56,6 +44,15 @@ export const createClient = options => {
       return !!error && count < 6
     }
   })
+
+  const wsLink = process.browser
+    ? new WebSocketLink({
+        uri: WS_URI,
+        options: {
+          reconnect: true
+        }
+      })
+    : null
 
   const httpLink = retryLink.concat(
     createUploadLink({
