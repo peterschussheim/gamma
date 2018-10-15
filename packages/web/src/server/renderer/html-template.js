@@ -1,11 +1,10 @@
-// /* eslint-disable import/first */
+import serialize from 'serialize-javascript'
+import { runtimeConfig } from '../../isomorphicVariables'
 const debug = require('debug')('ssr:html-template')
 const { inspect } = require('util')
 // import fs from 'fs'
 // import path from 'path'
 // import { html } from 'common-tags'
-import serialize from 'serialize-javascript'
-import { runtimeConfig } from '../../isomorphicVariables'
 debug(`html-template: ${inspect(runtimeConfig, { depth: 5, colors: true })}`)
 // debug(`process.env: ${inspect(process.env, { depth: 5, colors: true })}`)
 // // Match main.asdf123.js in production mode or bundle.js in dev mode
