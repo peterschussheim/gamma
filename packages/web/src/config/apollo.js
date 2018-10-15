@@ -47,7 +47,10 @@ export const createClient = options => {
 
   const wsLink = process.browser
     ? new WebSocketLink({
-        uri: STAGING_WS_URI === null ? WS_URI : DEPLOY_PREVIEW_WS_URI,
+        uri:
+          typeof STAGING_WS_URI === 'undefined' || null
+            ? WS_URI
+            : DEPLOY_PREVIEW_WS_URI,
         options: {
           reconnect: true
         }
