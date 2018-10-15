@@ -12,8 +12,6 @@ import 'cross-fetch/polyfill'
 import util from 'util'
 import Raven from 'shared/src/raven'
 
-// Browser shim has to come before any client imports
-import './browser-shim'
 import template from './html-template'
 // import { getFooter, getHeader } from './html-template'
 const assets = require(process.env.GAMMA_ASSETS_MANIFEST)
