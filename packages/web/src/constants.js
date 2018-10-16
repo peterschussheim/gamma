@@ -25,11 +25,12 @@ export const API_URI = IS_PROD ? `/api` : 'http://localhost:4000/api'
 
 const { STAGING, STAGING_WS_URI } = runtimeConfig
 
-export const WS_URI = IS_PROD
-  ? STAGING
-  : `wss://${new URL(STAGING_WS_URI).hostname}/subscriptions`
-    ? 'ws://localhost:4000/subscriptions'
-    : `wss://${window.location.host}/subscriptions`
+export const WS_URI =
+  IS_PROD && STAGING
+    ? `wss://${new URL(STAGING_WS_URI).hostname}/subscriptions`
+    : !STAGING && !IS_PROD
+      ? 'ws://localhost:4000/subscriptions'
+      : `wss://${window.location.host}/subscriptions`
 
 console.log(`IS_PROD: ${IS_PROD}`)
 console.log(`STAGING: ${STAGING}`)
