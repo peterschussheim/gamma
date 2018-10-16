@@ -46,7 +46,7 @@ export const createClient = options => {
   })
 
   let wsLink
-  if (process.env.STAGING === 'false' || window.env.STAGING === 'false') {
+  if (typeof window.env === 'undefined') {
     wsLink = process.browser
       ? new WebSocketLink({
           uri: WS_URI,

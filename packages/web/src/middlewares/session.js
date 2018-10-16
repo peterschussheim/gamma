@@ -1,5 +1,5 @@
 /* eslint-disable import/first */
-const debug = require('debug')('shared:middlewares:session')
+const debug = require('debug')('web:middlewares:session')
 debug('Initializing connect-redis session store')
 import session from 'express-session'
 import connectRedis from 'connect-redis'
