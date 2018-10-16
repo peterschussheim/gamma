@@ -5,12 +5,12 @@ export const runtimeConfig =
         // `window.env` will be populated in the browser by the `web`
         // ssr service.
         STAGING: window.env.STAGING || false,
-        STAGING_WS_URI: window.env.API_STAGING_URL || null
+        API_STAGING_URL: window.env.API_STAGING_URL || null
       }
     : {
         // use this on with apollo-client instances in a node environment.
         // not yet in use, need to update how apollo-client instances
         // are constructed.
         STAGING: process.env.STAGING || false,
-        STAGING_WS_URI: process.env.API_STAGING_URL || null
+        API_STAGING_URL: process.env.API_STAGING_URL || null
       }

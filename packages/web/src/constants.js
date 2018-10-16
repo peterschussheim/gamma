@@ -23,11 +23,13 @@ export const IS_PROD =
   process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
 export const API_URI = IS_PROD ? `/api` : 'http://localhost:4000/api'
 
-const { STAGING, STAGING_WS_URI } = runtimeConfig
+const { STAGING, API_STAGING_URL } = runtimeConfig
 
+console.log(`API_STAGING_URL: ${API_STAGING_URL}`)
+console.log(`window.env: ${JSON.stringify(window.env)}`)
 export const WS_URI =
   IS_PROD && STAGING
-    ? `wss://${new URL(STAGING_WS_URI).hostname}/subscriptions`
+    ? `wss://${new URL(API_STAGING_URL).hostname}/subscriptions`
     : !STAGING && !IS_PROD
       ? 'ws://localhost:4000/subscriptions'
       : `wss://${window.location.host}/subscriptions`
