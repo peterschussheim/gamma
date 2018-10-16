@@ -10,9 +10,9 @@
   "scripts": {
     "start:prod": "NODE_ENV=production DEBUG=*,-babel*,-eslint*,-express:*,-compression* node build/server.js",
     "inspect-prod": "NODE_ENV=production node --inspect-brk build/server.js",
-    "start": "gamma start",
-    "start:verbose": "DEBUG=*,-babel*,-eslint*,-express:*,-compression* gamma start",
-    "start:inspect": "gamma start --inspect-brk=127.0.0.1:9229",
+    "start": "gamma start -r now-env",
+    "start:verbose": "DEBUG=*,-babel*,-eslint*,-express:*,-compression* gamma start -r now-env",
+    "start:inspect": "gamma start -r now-env --inspect-brk=127.0.0.1:9229",
     "build": "gamma build",
     "deploy": "now && now alias",
     "clean": "rm -rf node_modules && rm -rf yarn.lock",

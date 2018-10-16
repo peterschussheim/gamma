@@ -1,9 +1,8 @@
 {
-  "name": "ui",
-  "alias": ["ui.gamma.app"],
+  "name": "api-staging",
   "type": "docker",
   "env": {
-    "STAGING": "false",
+    "STAGING": "true",
     "SENTRY_DSN_SERVER": "@sentry-dsn-server",
     "GITHUB_CLIENT_ID_PROD": "@github-client-id-prod",
     "GITHUB_CLIENT_SECRET_PROD": "@github-client-secret-prod",

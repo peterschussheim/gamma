@@ -1,3 +1,5 @@
+import { runtimeConfig } from './isomorphicVariables'
+
 export const REDIS_SESSION_PREFIX = 'sess:'
 export const USER_SESSION_ID_PREFIX = 'usid:'
 export const FORGOT_PW_PREFIX = 'forgotpw:'
@@ -19,10 +21,19 @@ export const HIT_COUNTER_PREFIX_TEST = 'thcount:'
 
 export const IS_PROD =
   process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
-export const CLIENT_URL = IS_PROD
-  ? `${window.location.protocol}//${window.location.host}`
-  : 'http://localhost:3000'
 export const API_URI = IS_PROD ? `/api` : 'http://localhost:4000/api'
-export const WS_URI = IS_PROD
-  ? `wss://${window.location.host}/subscriptions`
-  : 'ws://localhost:4000/subscriptions'
+
+const { STAGING, API_STAGING_URL } = runtimeConfig
+
+console.log(`API_STAGING_URL: ${API_STAGING_URL}`)
+console.log(`window.env: ${JSON.stringify(window.env)}`)
+export const WS_URI =
+  IS_PROD && STAGING
+    ? `wss://${new URL(API_STAGING_URL).hostname}/subscriptions`
+    : !STAGING && !IS_PROD
+      ? 'ws://localhost:4000/subscriptions'
+      : `wss://${window.location.host}/subscriptions`
+
+console.log(`IS_PROD: ${IS_PROD}`)
+console.log(`STAGING: ${STAGING}`)
+console.log(`WS_URI: ${WS_URI}`)

@@ -1,5 +1,5 @@
 /* eslint-disable import/first */
-const debug = require('debug')('web:renderer:index')
+const debug = require('debug')('web:renderer:app')
 debug('Renderer starting...')
 import 'raf/polyfill'
 import fs from 'fs'
@@ -62,16 +62,19 @@ if (process.env.NODE_ENV === 'development') {
 //   app.use(raven)
 // }
 app.use(cors)
+app.options('*', cors)
 
 // Redirect requests to /api and /auth to the production API
 // This allows deploy previews to work, as this route would only be called
-// if there's no path alias in Now for renderer.gamma.app/api, which would only
+// if there's no path alias in Now for ui.gamma.app/api, which would only
 // happen on deploy previews
 app.use('/api', (req, res) => {
   const redirectUrl = `${req.baseUrl}${req.path}`
   res.redirect(
     req.method === 'POST' || req.xhr ? 307 : 301,
-    `https://gamma.app${redirectUrl}`
+    process.env.API_STAGING_URL !== null
+      ? `${process.env.API_STAGING_URL}${redirectUrl}`
+      : `https://gamma.app${redirectUrl}`
   )
 })
 
@@ -85,14 +88,16 @@ app.use('/api', (req, res) => {
 
 // app.use('/subscriptions', (req, res) => {
 //   const redirectUrl = `${req.baseUrl}${req.path}`
+//   debug(`API_STAGING_URL: ${process.env.API_STAGING_URL}`)
+//   debug(`redirecting to: ${process.env.API_STAGING_URL}${redirectUrl}`)
 //   res.redirect(
-//     req.method === 'POST' || req.xhr ? 307 : 301,
-//     `https://gamma.app${redirectUrl}`
+//     101,
+//     process.env.API_STAGING_URL != null
+//       ? `${process.env.API_STAGING_URL}${redirectUrl}`
+//       : `https://gamma.app${redirectUrl}`
 //   )
 // })
 
-// In development the Webpack HMR server requests /sockjs-node constantly,
-// so let's patch that through to it!
 if (process.env.NODE_ENV === 'development') {
   app.use('/sockjs-node', (req, res) => {
     res.redirect(301, `http://localhost:3000${req.path}`)
@@ -168,15 +173,6 @@ app.get('/static/js/:name', (req, res, next) => {
   res.redirect(`/static/js/${actualFilename}`)
 })
 
-// In dev the static files from the root public folder aren't moved to the
-// build folder by create-react-app, so we just tell Express to serve those too
-// if (process.env.NODE_ENV === 'development') {
-//   app.use(
-//     express.static(path.resolve(__dirname, '..', '..', 'public'), {
-//       index: false
-//     })
-//   )
-// }
 app.get('/*', renderer)
 
 process.on('unhandledRejection', async err => {
@@ -202,7 +198,3 @@ process.on('uncaughtException', async err => {
 })
 
 export default app
-// Loadable.preloadAll().then(() => {
-//   app.listen(PORT)
-//   debug(`Rendering service running at http://localhost:${PORT}`)
-// })

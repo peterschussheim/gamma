@@ -100,7 +100,7 @@ jobs:
             - ./api
             - ./shared
 
-  prepare-deployment-images:
+  prepare-pr-deployment-images:
     machine: true
     working_directory: ~/gamma
     steps:
@@ -113,6 +113,7 @@ jobs:
             echo 'export TAG=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
             echo 'export API_IMAGE=api' >> $BASH_ENV 
             echo 'export WEB_IMAGE=web' >> $BASH_ENV
+            echo 'export DOCKER_HUB_ORG=gammastaging' >> $BASH_ENV
       - run:
           name: Docker Sign In
           command: |
@@ -120,20 +121,100 @@ jobs:
       - run:
           name: Create web image
           command: |
-            docker build -t gammaprod/${WEB_IMAGE}:${TAG} -f "Dockerfile.web" .
+            docker build -t ${DOCKER_HUB_ORG}/${WEB_IMAGE}:${TAG} -f "Dockerfile.web" .
       - run:
           name: Create api image
           working_directory: ~/gamma/packages/api
           command: |
-            docker build -t gammaprod/${API_IMAGE}:${TAG} -f "Dockerfile.api" .
+            docker build -t ${DOCKER_HUB_ORG}/${API_IMAGE}:${TAG} -f "Dockerfile.api" .
       - run:
           name: Push web image
           command: |
-            docker push gammaprod/${WEB_IMAGE}:${TAG}
+            docker push ${DOCKER_HUB_ORG}/${WEB_IMAGE}:${TAG}
       - run:
           name: Push api image
           command: |
-            docker push gammaprod/${API_IMAGE}:${TAG}
+            docker push ${DOCKER_HUB_ORG}/${API_IMAGE}:${TAG}
+
+  deploy-to-now-pr-staging:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/gamma
+    steps:
+      - checkout
+      - run:
+          name: Install now-cli
+          command: |
+            sudo npm i -g --unsafe-perm now
+      - run:
+          name: Parameterize ENV variables
+          command: |
+            echo 'export TAG=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
+            echo 'export API_IMAGE=api' >> $BASH_ENV 
+            echo 'export WEB_IMAGE=web' >> $BASH_ENV
+            echo 'export DOCKER_HUB_ORG=gammastaging' >> $BASH_ENV
+      - run:
+          name: Generate 'latest' api dockerfile to be deployed to staging
+          command: |
+            cd packages/api
+            /home/circleci/gamma/update.sh ${API_IMAGE} ${TAG} ${DOCKER_HUB_ORG}
+      - run:
+          name: Deploy api to now
+          command: |
+            cd packages/api
+            echo export API_STAGING_URL="$(now -t "$NOW_TOKEN" -A now.api-staging.json)" >> "$BASH_ENV"
+            source $BASH_ENV
+            echo $API_STAGING_URL
+            /home/circleci/gamma/deploy-pr.sh web ${API_STAGING_URL}
+            cat /home/circleci/gamma/now.ui-staging.json
+      # - run:
+      #     name: Generate config file for web staging deployments on 'now'
+      #     command: |
+      #       echo $API_STAGING_URL
+      - run:
+          name: Generate 'latest' web dockerfile to be deployed to staging
+          command: |
+            ./update.sh ${WEB_IMAGE} ${TAG} ${DOCKER_HUB_ORG}
+      - run:
+          name: Deploy web to now
+          command: |
+            now -t $NOW_TOKEN -A now.ui-staging.json
+
+  prepare-prod-deployment-images:
+    machine: true
+    working_directory: ~/gamma
+    steps:
+      - checkout
+      - restore_cache:
+          key: v6-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Parameterize ENV variables
+          command: |
+            echo 'export TAG=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
+            echo 'export API_IMAGE=api' >> $BASH_ENV 
+            echo 'export WEB_IMAGE=web' >> $BASH_ENV
+            echo 'export DOCKER_HUB_ORG=gammaprod' >> $BASH_ENV
+      - run:
+          name: Docker Sign In
+          command: |
+            echo $DOCKER_PWD | docker login -u $DOCKER_USER --password-stdin
+      - run:
+          name: Create web image
+          command: |
+            docker build -t ${DOCKER_HUB_ORG}/${WEB_IMAGE}:${TAG} -f "Dockerfile.web" .
+      - run:
+          name: Create api image
+          working_directory: ~/gamma/packages/api
+          command: |
+            docker build -t ${DOCKER_HUB_ORG}/${API_IMAGE}:${TAG} -f "Dockerfile.api" .
+      - run:
+          name: Push web image
+          command: |
+            docker push ${DOCKER_HUB_ORG}/${WEB_IMAGE}:${TAG}
+      - run:
+          name: Push api image
+          command: |
+            docker push ${DOCKER_HUB_ORG}/${API_IMAGE}:${TAG}
 
   deploy-to-now-prod:
     docker:
@@ -151,28 +232,28 @@ jobs:
             echo 'export TAG=${CIRCLE_SHA1:0:7}' >> $BASH_ENV
             echo 'export API_IMAGE=api' >> $BASH_ENV 
             echo 'export WEB_IMAGE=web' >> $BASH_ENV
+            echo 'export DOCKER_HUB_ORG=gammaprod' >> $BASH_ENV
       - run:
           name: Generate 'latest' web image to be deployed to production
           command: |
-            ./update.sh ${WEB_IMAGE} ${TAG}
+            ./update.sh ${WEB_IMAGE} ${TAG} ${DOCKER_HUB_ORG}
       - run:
           name: Generate 'latest' api image to be deployed to production
           command: |
             cd packages/api
-            /home/circleci/gamma/update.sh ${API_IMAGE} ${TAG}
+            /home/circleci/gamma/update.sh ${API_IMAGE} ${TAG} ${DOCKER_HUB_ORG}
       - run:
-          name: Deploy web to now
+          name: Deploy web to now & alias
           command: |
             now -t $NOW_TOKEN -A now.ui.json && now -t $NOW_TOKEN -A now.ui.json alias
       - run:
-          name: Deploy api to now
+          name: Deploy api to now & alias
           command: |
             cd packages/api
             now -t $NOW_TOKEN -A now.api.json && now -t $NOW_TOKEN -A now.api.json alias
 
 workflows:
-  version: 2
-  build-and-test-pr:
+  build-test-push-deploy-pr:
     jobs:
       - build-dependencies:
           filters:
@@ -187,41 +268,29 @@ workflows:
       - test-e2e:
           requires:
             - build-dependencies
+            - lint
           filters:
             branches:
               ignore: master
-      # - build-prod:
-      #     requires:
-      #       - build-dependencies
-      #       - lint
-      #     filters:
-      #       branches:
-      #         ignore: master
-      # - create-docker-image:
-      #     requires:
-      #       - build-prod
-      #     filters:
-      #       branches:
-      #         only: master
-      # - generate-latest-dockerfiles:
-      #     requires:
-      #       - create-docker-image
-      #     filters:
-      #       branches:
-      #         ignore: master
-      # - hold:
-      #     type: approval
-      #     requires:
-      #       - generate-latest-dockerfiles
-      #     filters:
-      #       branches:
-      #         ignore: master
-      # - deploy-to-now-staging:
-      #     requires:
-      #       - hold
-      #     filters:
-      #       branches:
-      #         ignore: master
+      - build-prod:
+          requires:
+            - test-e2e
+          filters:
+            branches:
+              ignore: master
+      - prepare-pr-deployment-images:
+          requires:
+            - build-prod
+          filters:
+            branches:
+              ignore: master
+      - deploy-to-now-pr-staging:
+          requires:
+            - prepare-pr-deployment-images
+          filters:
+            branches:
+              ignore: master
+
   build-test-push-deploy-master:
     jobs:
       - build-dependencies:
@@ -247,7 +316,7 @@ workflows:
           filters:
             branches:
               only: master
-      - prepare-deployment-images:
+      - prepare-prod-deployment-images:
           requires:
             - build-prod
           filters:
@@ -255,7 +324,7 @@ workflows:
               only: master
       - deploy-to-now-prod:
           requires:
-            - prepare-deployment-images
+            - prepare-prod-deployment-images
           filters:
             branches:
               only: master

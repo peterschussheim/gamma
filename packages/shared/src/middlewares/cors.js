@@ -7,9 +7,7 @@ export default cors({
       ? [
           'https://gamma.app',
           /\.gamma\.app$/,
-          process.env.NOW_URL,
-          'https://zeit.co',
-          /(\.|https:\/\/)zeit\.sh$/
+          /(\.|https:\/\/)now\.sh$/
         ].filter(Boolean)
       : [/localhost/, /github\.com/],
   preflightContinue: true
