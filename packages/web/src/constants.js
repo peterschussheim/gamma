@@ -6,15 +6,6 @@ export const FORGOT_PW_PREFIX = 'forgotpw:'
 export const HIT_COUNTER_PREFIX = 'htcount:'
 
 /**
- * redis prefixes to be used when running tests, same as production prefixes
- * except we prefix with a `t`.
- */
-export const REDIS_SESSION_PREFIX_TEST = 'tsess:'
-export const USER_SESSION_ID_PREFIX_TEST = 'tusid:'
-export const FORGOT_PW_PREFIX_TEST = 'tforgotpw:'
-export const HIT_COUNTER_PREFIX_TEST = 'thcount:'
-
-/**
  * The following exports are used to construct new apollo-client instances
  * on each request.
  */
@@ -25,15 +16,9 @@ export const API_URI = IS_PROD ? `/api` : 'http://localhost:4000/api'
 
 const { STAGING, API_STAGING_URL } = runtimeConfig
 
-console.log(`API_STAGING_URL: ${API_STAGING_URL}`)
-console.log(`window.env: ${JSON.stringify(window.env)}`)
 export const WS_URI =
-  IS_PROD && STAGING
+  STAGING === 'true' && IS_PROD
     ? `wss://${new URL(API_STAGING_URL).hostname}/subscriptions`
-    : !STAGING && !IS_PROD
-      ? 'ws://localhost:4000/subscriptions'
-      : `wss://${window.location.host}/subscriptions`
-
-console.log(`IS_PROD: ${IS_PROD}`)
-console.log(`STAGING: ${STAGING}`)
-console.log(`WS_URI: ${WS_URI}`)
+    : STAGING === 'false'
+      ? `wss://${window.location.host}/subscriptions`
+      : 'ws://localhost:4000/subscriptions'
