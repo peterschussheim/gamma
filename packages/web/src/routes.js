@@ -1,9 +1,7 @@
 import React from 'react'
-import { Route, Switch, Redirect } from 'react-router'
+import { Route, Switch } from 'react-router'
 import Loadable from 'react-loadable'
 
-import signedOutFallback from './utils/signedOutFallback'
-import RenderError from './components/error'
 import Navbar from './components/navbar'
 import Login from './components/login'
 import Profile from './views/profile'

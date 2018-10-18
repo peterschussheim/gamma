@@ -6,8 +6,6 @@ import { VIEWER } from '../queries'
 
 class Profile extends React.Component {
   render() {
-    const { match, location, history } = this.props
-
     return (
       <Query query={VIEWER} ssr={false}>
         {({ client, loading, error, data }) => {
