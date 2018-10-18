@@ -1,10 +1,10 @@
 /// <reference types="Cypress" />
 
-describe('Login', () => {
+xdescribe('Logout', () => {
   beforeEach(() => {
     cy.visit('/')
   })
-  it('Visits /auth/login route', () => {
+  it(`Clears an authenticated users' session`, () => {
     cy.get('p > a').click()
     cy.get('#email-input')
       .type('peter@schussheim.com')
