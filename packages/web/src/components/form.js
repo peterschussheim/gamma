@@ -37,7 +37,6 @@ function Form({ children, ...props }) {
     >
       <StyledForm {...props}>
         <FieldContainer>{children}</FieldContainer>
-        <Button type="submit">Submit</Button>
       </StyledForm>
     </div>
   )
