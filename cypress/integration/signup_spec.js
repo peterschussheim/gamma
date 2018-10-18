@@ -1,10 +1,11 @@
 /// <reference types="Cypress" />
 
 xdescribe('Signup', function() {
+  beforeEach(() => {
+    cy.visit('/auth/login')
+  })
   it('Allows new users to signup', function() {
-    cy.visit('http://localhost:3000')
-    cy.wait(250)
-    cy.get('a > button')
+    cy.get('a > button').click()
     // enter email
     // enter pw
     // click login
