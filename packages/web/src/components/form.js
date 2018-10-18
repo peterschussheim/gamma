@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'react-emotion'
-import { Button } from './inputs'
 
 const labelSpace = 100
 const gridGap = 16
