@@ -4,6 +4,7 @@ import Loadable from 'react-loadable'
 
 import Navbar from './components/navbar'
 import Login from './components/login'
+import Signup from './components/signup'
 import Profile from './views/profile'
 import Editor from './views/editor'
 import NotFound from './views/notfound'
@@ -34,7 +35,7 @@ class Routes extends React.Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/auth/login" component={Login} />
-          {/* <Route exact path="/auth/signup" component={Signup} /> */}
+          <Route exact path="/auth/signup" component={Signup} />
           <Route exact path="/success" component={Home} />
           <Route exact path="/editor" component={Editor} />
           <Route path="/confirm/:id" component={ConfirmEmail} />
