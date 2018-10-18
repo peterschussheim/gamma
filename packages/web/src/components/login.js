@@ -8,8 +8,8 @@ import { LOGIN, VIEWER } from '../queries'
 
 class Login extends React.Component {
   initialState = {
-    email: 'peter@schussheim.com',
-    password: '12345',
+    email: '',
+    password: '',
     redirectToReferrer: false
   }
   state = this.initialState
@@ -66,7 +66,9 @@ class Login extends React.Component {
               autoComplete="current-password"
               aria-labelledby="password-input"
             />
-            <button type="submit">Login</button>
+            <button data-cy="login-button" type="submit">
+              Login
+            </button>
             <Link to="/signup">
               <button type="button">Signup</button>
             </Link>
