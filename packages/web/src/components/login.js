@@ -69,8 +69,10 @@ class Login extends React.Component {
             <button data-cy="login-button" type="submit">
               Login
             </button>
-            <Link to="/signup">
-              <button type="button">Signup</button>
+            <Link to="/auth/signup">
+              <button data-cy="signup-button" type="button">
+                Signup
+              </button>
             </Link>
           </Form>
         )}
