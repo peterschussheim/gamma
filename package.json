@@ -48,6 +48,7 @@
     "build:api": "yarn workspace api build",
     "build:web": "yarn workspace web build",
     "build:shared": "yarn workspace shared build",
+    "playground": "yarn workspace api playground",
     "reset-modules": "rm -rf node_modules/ yarn.lock packages/*/node_modules",
     "reset-yarn": "yarn cache clean",
     "reset-cache": "yarn reset-yarn",
