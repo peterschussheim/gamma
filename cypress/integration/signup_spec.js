@@ -8,6 +8,7 @@ xdescribe('Signup', function() {
     cy.get('a > button').click()
     // enter email
     // enter pw
-    // click login
+    // click register
+    // automatically update user 'emailConfirmed=true'
   })
 })
