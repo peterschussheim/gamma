@@ -1,18 +1,23 @@
+const debug = require('debug')('mutation:user')
+const util = require('util')
 import { Context } from '../../gamma'
 import { getUserIdFromSession } from '../../utils/getUserId'
-import { UserUpdateInput } from '../../generated/prisma'
 
 export const user = {
   updateUser(parent, args, ctx: Context, info) {
+    debug(`args: ${util.inspect(args)}`)
     const userId = getUserIdFromSession(ctx)
-    const data = {}
+    const data = {
+      emailConfirmed: args.emailConfirmed
+    }
 
-    return ctx.db.mutation.updateUser(
+    const updatedUser = ctx.db.mutation.updateUser(
       {
         where: { id: userId },
         data
       },
       info
     )
+    return updatedUser
   }
 }
