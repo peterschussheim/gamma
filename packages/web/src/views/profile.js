@@ -16,7 +16,7 @@ class Profile extends React.Component {
             if (data.viewer.me === null) {
               // TODO: if user is on '/auth/login', do NOT show auth button
               return (
-                <p>
+                <p data-cy="authenticate-link">
                   <Link to="/auth/login">Authenticate with PW</Link>
                 </p>
               )

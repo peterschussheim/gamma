@@ -13,9 +13,8 @@ describe('Login', () => {
       .type('12345')
       .should('have.value', '12345')
     cy.get('[data-cy="login-button"]').click()
-    // TODO: update components to use 'data-cy=xxx' tags then update below
-    cy.get('nav > :nth-child(1) > :nth-child(3)').should('be.visible')
-    cy.get('nav > :nth-child(1) > :nth-child(4)').should('be.visible')
-    cy.get('nav > :nth-child(1) > :nth-child(6)').should('be.visible')
+    cy.get('[data-cy="authenticate-link"]').should('be.visible')
+    cy.get('[data-cy="counter-sub"]').should('be.visible')
+    cy.get('[data-cy="logout-button"]').should('be.visible')
   })
 })
