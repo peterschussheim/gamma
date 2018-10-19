@@ -47,7 +47,7 @@ export const VIEWER = gql`
     viewer {
       me {
         id
-        email
+        emailConfirmed
       }
     }
   }
