@@ -5,6 +5,7 @@ import { extractFragmentReplacements } from 'prisma-binding'
 
 import { Query } from './Query'
 import { auth } from './Mutation/auth'
+import { user } from './Mutation/user'
 import { Subscription } from './Subscription'
 import { Viewer } from './Viewer'
 import { AuthPayload } from './AuthPayload'
@@ -12,7 +13,8 @@ import { AuthPayload } from './AuthPayload'
 export const resolvers = {
   Query,
   Mutation: {
-    ...auth
+    ...auth,
+    ...user
   },
   Subscription,
   Viewer,

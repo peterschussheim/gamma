@@ -84,7 +84,7 @@ export const auth = {
     // 3) Attach a key with userId === to the user's id in DB
     ctx.req.session.userId = user.id
     if (user.githubProfile) {
-      debug(`GITHUB:::::::::::::::::::${user.githubProfile.githubUserId}`)
+      debug(`GITHUB: ${user.githubProfile.githubUserId}`)
       ctx.req.session.githubId = user.githubProfile.githubUserId
     }
 
@@ -143,37 +143,5 @@ export const auth = {
       return { success: true }
     }
     return { success: false }
-  },
-
-  updateUser: async (parent, args, ctx: Context, info) => {
-    const userId = getUserIdFromSession(ctx)
-    const updatedUser = await ctx.db.mutation.updateUser(
-      {
-        data: args,
-        where: { id: userId }
-      },
-      info
-    )
-    return updatedUser
   }
-
-  // async updatePermissions(parent, args, ctx: Context, info) {
-  //   const userId = ctx.request.userId
-  //   const currentUser = await ctx.db.query.user({ where: { id: userId } }, info)
-  //   if (!currentUser) {
-  //     throw new Error('You Must be logged in to update permissions')
-  //   }
-  //   hasPermission(currentUser, ['ADMIN', 'PERMISSIONUPDATE'])
-  //   return ctx.db.mutation.updateUser(
-  //     {
-  //       data: {
-  //         permissions: {
-  //           set: args.permissions
-  //         }
-  //       },
-  //       where: { id: args.userId }
-  //     },
-  //     info
-  //   )
-  // }
 }
