@@ -40,12 +40,12 @@ jobs:
       - image: circleci/node:10
     working_directory: ~/gamma
     steps:
+      - attach_workspace:
+          at: ~/
       - restore_cache:
           keys: 
             - v6-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
             - v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
-      - attach_workspace:
-          at: ~/
       - run:
           name: Lint
           command: yarn lint
