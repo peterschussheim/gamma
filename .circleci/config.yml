@@ -27,7 +27,8 @@ jobs:
       - save_cache:
           key: v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
           paths:
-            - ~/.git
+            - .git
+            - gamma
       - persist_to_workspace:
           root: ~/
           paths:
@@ -86,6 +87,8 @@ jobs:
     environment:
       CI: false
     steps:
+      - attach_workspace:
+            at: ~/
       - restore_cache:
           key: v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
