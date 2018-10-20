@@ -69,9 +69,8 @@ jobs:
             - ~/.cache
       - run:
           name: Start e2e-tests
-          # workaround for 'is-ci-cli' issue with env variable `CI=false`
           command: |
-            yarn test:e2e:run
+            yarn test:e2e
           background: false
       - store_artifacts:
           path: cypress/videos
