@@ -41,7 +41,11 @@ jobs:
     working_directory: ~/gamma
     steps:
       - restore_cache:
-          key: v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
+          keys: 
+            - v6-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
+      - attach_workspace:
+          at: ~/
       - run:
           name: Lint
           command: yarn lint
