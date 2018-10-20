@@ -26,10 +26,9 @@ jobs:
           name: Build 'web'
           command: CI=false yarn build:web
       - save_cache:
-          key: v6-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
           paths:
-            - ~/gamma
-            - ~/.cache
+            - ~/.git
       - persist_to_workspace:
           root: ~/
           paths:
@@ -42,7 +41,7 @@ jobs:
     working_directory: ~/gamma
     steps:
       - restore_cache:
-          key: v6-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Lint
           command: yarn lint
@@ -59,7 +58,7 @@ jobs:
       - restore_cache:
           keys:
             - v6-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v6-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Verify Cypress is installed
           command: yarn cy:verify
@@ -85,7 +84,7 @@ jobs:
       CI: false
     steps:
       - restore_cache:
-          key: v6-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Build api
           command: yarn build:api
@@ -166,10 +165,6 @@ jobs:
             echo $API_STAGING_URL
             /home/circleci/gamma/deploy-pr.sh web ${API_STAGING_URL}
             cat /home/circleci/gamma/now.ui-staging.json
-      # - run:
-      #     name: Generate config file for web staging deployments on 'now'
-      #     command: |
-      #       echo $API_STAGING_URL
       - run:
           name: Generate 'latest' web dockerfile to be deployed to staging
           command: |
