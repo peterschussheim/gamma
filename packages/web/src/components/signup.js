@@ -1,16 +1,19 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { Input } from './inputs'
 import Form from './form'
 import RenderError from './error'
-import { LOGIN, VIEWER } from '../queries'
+import { REGISTER, VIEWER } from '../queries'
 
-class Login extends React.Component {
+class Signup extends React.Component {
   initialState = {
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
-    redirectToReferrer: false
+    redirectToReferrer: false,
+    error: null
   }
   state = this.initialState
 
@@ -19,9 +22,20 @@ class Login extends React.Component {
     this.setState({ [name]: value })
   }
 
+  // handleReset = () => {
+  //   this.setState
+  // }
+
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
-    const { email, password, redirectToReferrer } = this.state
+    const {
+      firstName,
+      lastName,
+      error,
+      email,
+      password,
+      redirectToReferrer
+    } = this.state
 
     if (redirectToReferrer) {
       return <Redirect to={from} />
@@ -29,19 +43,41 @@ class Login extends React.Component {
 
     return (
       <Mutation
-        mutation={LOGIN}
+        mutation={REGISTER}
         variables={this.state}
         refetchQueries={[{ query: VIEWER }]}
       >
-        {(login, { error }) => (
+        {(signup, { error }) => (
           <Form
             onSubmit={e => {
               e.preventDefault()
-              login()
+              signup()
               this.setState({ redirectToReferrer: true })
             }}
           >
             <RenderError error={error} />
+            <label style={{ justifySelf: 'right' }} htmlFor="firstName-input">
+              First Name
+            </label>
+            <Input
+              value={firstName}
+              onChange={this.handleChange}
+              id="firstName-input"
+              placeholder="First Name..."
+              name="firstName"
+              style={{ flex: 1 }}
+            />
+            <label style={{ justifySelf: 'right' }} htmlFor="lastName-input">
+              Last Name
+            </label>
+            <Input
+              value={lastName}
+              onChange={this.handleChange}
+              id="lastName-input"
+              placeholder="last Name..."
+              name="lastName"
+              style={{ flex: 1 }}
+            />
             <label style={{ justifySelf: 'right' }} htmlFor="email-input">
               email
             </label>
@@ -66,14 +102,12 @@ class Login extends React.Component {
               autoComplete="current-password"
               aria-labelledby="password-input"
             />
-            <button data-cy="login-button" type="submit">
-              Login
+            <button data-cy="signup-button" type="submit">
+              Signup
             </button>
-            <Link to="/auth/signup">
-              <button data-cy="signup-button" type="button">
-                Signup
-              </button>
-            </Link>
+            {this.state.error ? (
+              <div>There was an error. Please try again.</div>
+            ) : null}
           </Form>
         )}
       </Mutation>
@@ -81,4 +115,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login
+export default Signup

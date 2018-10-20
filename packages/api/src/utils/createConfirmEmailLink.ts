@@ -4,10 +4,10 @@ import { IS_PROD } from '../config'
 
 export const createConfirmEmailLink = async (userId: string, redis: Redis) => {
   const url = IS_PROD
-    ? 'https://api.gamma.app/confirm'
-    : 'http://localhost:4000/api/confirm'
+    ? 'https://gamma.app/confirm'
+    : 'http://localhost:4000/confirm'
   const confirmationID = v4()
   await redis.set(confirmationID, userId, 'ex', 60 * 60 * 24)
   // TODO: add a redirect
-  return `url/${confirmationID}`
+  return `${url}/${confirmationID}`
 }

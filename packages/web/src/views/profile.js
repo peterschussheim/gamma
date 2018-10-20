@@ -6,8 +6,6 @@ import { VIEWER } from '../queries'
 
 class Profile extends React.Component {
   render() {
-    const { match, location, history } = this.props
-
     return (
       <Query query={VIEWER} ssr={false}>
         {({ client, loading, error, data }) => {
@@ -18,7 +16,7 @@ class Profile extends React.Component {
             if (data.viewer.me === null) {
               // TODO: if user is on '/auth/login', do NOT show auth button
               return (
-                <p>
+                <p data-cy="authenticate-link">
                   <Link to="/auth/login">Authenticate with PW</Link>
                 </p>
               )

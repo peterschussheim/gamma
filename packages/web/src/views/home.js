@@ -13,7 +13,9 @@ const COUNTER_SUBSCRIPTION = gql`
 `
 const Counter = () => (
   <Subscription subscription={COUNTER_SUBSCRIPTION}>
-    {({ data, loading }) => <span>{!loading && data.counter.count}</span>}
+    {({ data, loading }) => (
+      <span data-cy="counter-sub">{!loading && data.counter.count}</span>
+    )}
   </Subscription>
 )
 

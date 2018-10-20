@@ -7,7 +7,6 @@ import { ApolloProvider } from 'react-apollo'
 
 import Routes from './routes'
 import { history } from './utils/history'
-import { API_URI, WS_URI, IS_PROD } from './constants'
 import { client } from './config/apollo'
 
 const App = () => {

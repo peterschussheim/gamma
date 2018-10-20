@@ -29,7 +29,7 @@ type Mutation {
   requestPasswordReset(email: String!): User
   # Completes the actual pw reset in db
   resetPassword(input: ResetPasswordInput): User!
-  updateUser(input: UserUpdateInput): User!
+  updateUser(emailConfirmed: Boolean!): User
   updatePermissions(permissions: [PERMISSION], userId: ID!): User!
   createPost(input: PostCreateInput): Post!
   updatePost(input: PostUpdateInput): Post!

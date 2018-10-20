@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'react-emotion'
-import { Button } from './inputs'
 
 const labelSpace = 100
 const gridGap = 16
@@ -37,7 +36,6 @@ function Form({ children, ...props }) {
     >
       <StyledForm {...props}>
         <FieldContainer>{children}</FieldContainer>
-        <Button type="submit">Submit</Button>
       </StyledForm>
     </div>
   )

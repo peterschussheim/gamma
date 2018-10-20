@@ -10,14 +10,13 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v6-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v7-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
       - run:
           name: Install Dependencies
           command: yarn install --frozen-lockfile
       - save_cache:
-          key: v6-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v7-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
           paths:
-            - ~/gamma
             - ~/.cache
       - run:
           name: Build 'api'
@@ -26,10 +25,10 @@ jobs:
           name: Build 'web'
           command: CI=false yarn build:web
       - save_cache:
-          key: v6-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
           paths:
-            - ~/gamma
-            - ~/.cache
+            - .git
+            - gamma
       - persist_to_workspace:
           root: ~/
           paths:
@@ -41,8 +40,12 @@ jobs:
       - image: circleci/node:10
     working_directory: ~/gamma
     steps:
+      - attach_workspace:
+          at: ~/
       - restore_cache:
-          key: v6-repo-{{ .Environment.CIRCLE_SHA1 }}
+          keys: 
+            - v7-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
+            - v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Lint
           command: yarn lint
@@ -58,20 +61,19 @@ jobs:
           at: ~/
       - restore_cache:
           keys:
-            - v6-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v6-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - v7-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
+            - v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Verify Cypress is installed
           command: yarn cy:verify
       - save_cache:
-          key: v6-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v7-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
           paths:
             - ~/.cache
       - run:
           name: Start e2e-tests
-          # workaround for 'is-ci-cli' issue with env variable `CI=false`
           command: |
-            yarn test:e2e:run
+            yarn test:e2e
           background: false
       - store_artifacts:
           path: cypress/videos
@@ -85,8 +87,10 @@ jobs:
     environment:
       CI: false
     steps:
+      - attach_workspace:
+            at: ~/
       - restore_cache:
-          key: v6-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Build api
           command: yarn build:api
@@ -94,7 +98,7 @@ jobs:
           name: Build web
           command: yarn build:web
       - save_cache:
-          key: v6-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-prod-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}-{{ .Revision }}
           paths:
             - ./web
             - ./api
@@ -106,7 +110,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v6-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-prod-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}-{{ .Revision }}
       - run:
           name: Parameterize ENV variables
           command: |
@@ -167,10 +171,6 @@ jobs:
             echo $API_STAGING_URL
             /home/circleci/gamma/deploy-pr.sh web ${API_STAGING_URL}
             cat /home/circleci/gamma/now.ui-staging.json
-      # - run:
-      #     name: Generate config file for web staging deployments on 'now'
-      #     command: |
-      #       echo $API_STAGING_URL
       - run:
           name: Generate 'latest' web dockerfile to be deployed to staging
           command: |
@@ -186,7 +186,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v6-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-prod-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}-{{ .Revision }}
       - run:
           name: Parameterize ENV variables
           command: |

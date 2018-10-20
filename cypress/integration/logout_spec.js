@@ -1,10 +1,10 @@
 /// <reference types="Cypress" />
 
-describe('Login', () => {
+xdescribe('Logout', () => {
   beforeEach(() => {
     cy.visit('/')
   })
-  it('Visits /auth/login route', () => {
+  it(`Clears an authenticated users' session`, () => {
     cy.get('p > a').click()
     cy.get('#email-input')
       .type('peter@schussheim.com')
@@ -13,8 +13,9 @@ describe('Login', () => {
       .type('12345')
       .should('have.value', '12345')
     cy.get('[data-cy="login-button"]').click()
-    cy.get('[data-cy="authenticate-link"]').should('be.visible')
-    cy.get('[data-cy="counter-sub"]').should('be.visible')
-    cy.get('[data-cy="logout-button"]').should('be.visible')
+    // TODO: update components to use 'data-cy=xxx' tags then update below
+    cy.get('nav > :nth-child(1) > :nth-child(3)').should('be.visible')
+    cy.get('nav > :nth-child(1) > :nth-child(4)').should('be.visible')
+    cy.get('nav > :nth-child(1) > :nth-child(6)').should('be.visible')
   })
 })
