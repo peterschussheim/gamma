@@ -95,7 +95,7 @@ jobs:
           name: Build web
           command: yarn build:web
       - save_cache:
-          key: v6-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-prod-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}-{{ .Revision }}
           paths:
             - ./web
             - ./api
@@ -107,7 +107,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v6-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-prod-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}-{{ .Revision }}
       - run:
           name: Parameterize ENV variables
           command: |
@@ -183,7 +183,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v6-prod-build-cache-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-prod-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}-{{ .Revision }}
       - run:
           name: Parameterize ENV variables
           command: |
