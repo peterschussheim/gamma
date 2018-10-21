@@ -31,7 +31,6 @@ class Signup extends React.Component {
     const {
       firstName,
       lastName,
-      error,
       email,
       password,
       redirectToReferrer
@@ -46,6 +45,7 @@ class Signup extends React.Component {
         mutation={REGISTER}
         variables={this.state}
         refetchQueries={[{ query: VIEWER }]}
+        errorPolicy="all"
       >
         {(signup, { error }) => (
           <Form
@@ -105,9 +105,6 @@ class Signup extends React.Component {
             <button data-cy="signup-button" type="submit">
               Signup
             </button>
-            {this.state.error ? (
-              <div>There was an error. Please try again.</div>
-            ) : null}
           </Form>
         )}
       </Mutation>
