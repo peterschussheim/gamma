@@ -17,6 +17,7 @@ import toobusy from 'shared/src/middlewares/toobusy'
 import { securityMiddleware } from 'shared/src/middlewares/securityMiddleware'
 import cors from 'shared/src/middlewares/cors'
 import session from '../middlewares/session'
+import stats from 'shared/src/middlewares/stats'
 import renderer from './renderer'
 
 // Cache is disabled for now
@@ -107,6 +108,10 @@ if (process.env.NODE_ENV === 'development') {
 app.use(cookieParser(process.env.SESSION_SECRET))
 app.use(bodyParser.json())
 app.use(session)
+
+// TODO: figure out how to send build stats in html template
+// using 'stats' middleware.
+// app.use(stats)
 
 // passport.serializeUser((user, done) => {
 //   done(null, user.id)

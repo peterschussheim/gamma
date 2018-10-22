@@ -15,9 +15,7 @@ import Raven from 'shared/src/raven'
 // Browser shim has to come before any client imports
 import './browser-shim'
 import template from './html-template'
-// import { getFooter, getHeader } from './html-template'
 const assets = require(process.env.GAMMA_ASSETS_MANIFEST)
-// import createCacheStream from '../create-cache-stream'
 import Routes from '../../routes'
 const stats = require('../../../build/react-loadable.json')
 
@@ -53,7 +51,6 @@ const renderer = (req, res) => {
       debug('got data from tree')
       if (routerContext.url) {
         debug('found redirect on frontend, redirecting')
-        // Somewhere a `<Redirect>` was rendered, so let's redirect server-side
         res.redirect(301, routerContext.url)
         return
       }
@@ -62,13 +59,8 @@ const renderer = (req, res) => {
 
       const data = client.extract()
       const { helmet } = helmetContext
-      debug('write header')
+
       let response = res
-      // TODO: uncomment when cache is implemented
-      // if (!req.user) {
-      //   response = createCacheStream(req.path)
-      //   response.pipe(res)
-      // }
 
       const bundles = getBundles(stats, modules)
       const scripts = bundles
@@ -77,9 +69,6 @@ const renderer = (req, res) => {
         .filter((bundle, pos, self) => self.indexOf(bundle) === pos)
       const staticBuild =
         process.env.NODE_ENV === 'production' ? '/' : 'http://localhost:3001/'
-      debug('scripts used:', util.inspect(scripts))
-      debug('static path:', util.inspect(staticBuild))
-      debug('Full path to scripts:', util.inspect(`${staticBuild}${scripts}`))
 
       const { header, footer } = template({
         helmet,
@@ -90,14 +79,6 @@ const renderer = (req, res) => {
       })
 
       response.write(header)
-      // response.write(
-      //   getHeader({
-      //     metaTags:
-      //       helmet.title.toString() +
-      //       helmet.meta.toString() +
-      //       helmet.link.toString()
-      //   })
-      // )
 
       const stream = renderToNodeStream(frontend)
 
@@ -106,16 +87,6 @@ const renderer = (req, res) => {
         { end: false }
       )
 
-      // stream.on('end', () =>
-      //   response.end(
-      //     getFooter({
-      //       assets,
-      //       data,
-      //       scripts,
-      //       staticBuild
-      //     })
-      //   )
-      // )
       stream.on('end', () => response.end(footer))
     })
     .catch(err => {
