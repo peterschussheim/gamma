@@ -60,7 +60,6 @@
     "lint": "eslint packages",
     "lint:staged": "lint-staged",
     "precise-commits": "precise-commits",
-    "precommit": "yarn run precise-commits",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check"
   },
   "pre-commit": "lint-staged",
@@ -82,8 +81,14 @@
     "concurrently": "4.0.1",
     "cypress": "3.1.0",
     "cypress-testing-library": "2.2.1",
+    "husky": "1.1.2",
     "is-ci-cli": "1.1.1",
     "start-server-and-test": "1.7.1",
     "test-data-bot": "0.6.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn run precise-commits"
+    }
   }
 }
