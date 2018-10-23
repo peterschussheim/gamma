@@ -7,7 +7,24 @@ import { ApolloProvider } from 'react-apollo'
 
 import Routes from './routes'
 import { history } from './utils/history'
-import { client } from './config/apollo'
+
+import {
+  cache,
+  errorLink,
+  wsLink,
+  requestLink,
+  httpLink
+} from './config/apollo'
+import ApolloClient from 'apollo-client'
+import { ApolloLink } from 'apollo-link'
+
+const links = [errorLink, requestLink]
+
+const client = new ApolloClient({
+  ssrForceFetchDelay: 100,
+  link: ApolloLink.from(links),
+  cache: window.__DATA__ ? cache.restore(window.__DATA__) : cache
+})
 
 const App = () => {
   return (

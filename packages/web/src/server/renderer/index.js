@@ -3,6 +3,8 @@ const debug = require('debug')('web:renderer:middleware')
 import React from 'react'
 import { renderToNodeStream } from 'react-dom/server'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
+import ApolloClient from 'apollo-client'
+import { ApolloLink } from 'apollo-link'
 import { StaticRouter } from 'react-router'
 import { HelmetProvider } from 'react-helmet-async'
 import Loadable from 'react-loadable'
@@ -20,8 +22,7 @@ import Routes from '../../routes'
 const stats = require('../../../build/react-loadable.json')
 
 import { API_URI } from '../../constants'
-import { client } from '../../config/apollo'
-console.log(`[SERVER] apollo ssr enabled: ${client.ssrMode}`)
+import { cache, errorLink, requestLink } from '../../config/apollo'
 
 const renderer = (req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8')
@@ -32,6 +33,13 @@ const renderer = (req, res) => {
   let modules = []
   let routerContext = {}
   let helmetContext = {}
+
+  const links = [errorLink, requestLink]
+  const client = new ApolloClient({
+    ssrMode: true,
+    link: ApolloLink.from(links),
+    cache: window.__DATA__ ? cache.restore(window.__DATA__) : cache
+  })
 
   const frontend = (
     <Loadable.Capture report={moduleName => modules.push(moduleName)}>

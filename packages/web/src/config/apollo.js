@@ -18,78 +18,61 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 
-// Use the exported client instance from below instead of using this factory!
-// Only use this factory if you need to create a new instance of the client
-// with the Authorization token, i.e. only use this factory on mobile
-export const createClient = options => {
-  // TODO: properly implement cache/state restore
-  const cache = new InMemoryCache()
-  const retryLink = new RetryLink({
-    attempts: (count, operation, error) => {
-      const isMutation =
-        operation &&
-        operation.query &&
-        operation.query.definitions &&
-        Array.isArray(operation.query.definitions) &&
-        operation.query.definitions.some(
-          def =>
-            def.kind === 'OperationDefinition' && def.operation === 'mutation'
-        )
+export const cache = new InMemoryCache()
 
-      if (isMutation) {
-        return !!error && count < 25
-      }
+export const retryLink = new RetryLink({
+  attempts: (count, operation, error) => {
+    const isMutation =
+      operation &&
+      operation.query &&
+      operation.query.definitions &&
+      Array.isArray(operation.query.definitions) &&
+      operation.query.definitions.some(
+        def =>
+          def.kind === 'OperationDefinition' && def.operation === 'mutation'
+      )
 
-      // setting query retries TOO high will cause excessive loading screens
-      return !!error && count < 6
+    if (isMutation) {
+      return !!error && count < 25
     }
-  })
 
-  const wsLink = process.browser
+    // setting query retries TOO high will cause excessive loading screens
+    return !!error && count < 6
+  }
+})
+
+export const wsLink = (config = {}) =>
+  process.browser
     ? new WebSocketLink({
         uri: WS_URI,
         options: {
           reconnect: true
-        }
+        },
+        ...config
       })
     : null
 
-  const httpLink = retryLink.concat(
-    createUploadLink({
-      uri: API_URI,
-      credentials: 'include'
-    })
-  )
-
-  // Switch between the two links based on runtime environment and operation
-  const link = process.browser
-    ? split(
-        ({ query }) => {
-          const { kind, operation } = getMainDefinition(query)
-          return kind === 'OperationDefinition' && operation === 'subscription'
-        },
-        wsLink,
-        httpLink
-      )
-    : httpLink
-
-  return new ApolloClient({
-    link,
-    // eslint-disable-next-line
-    cache: window.__DATA__ ? cache.restore(window.__DATA__) : cache,
-    ssrForceFetchDelay: 100,
-    ssrMode: process.browser ? false : true,
-    queryDeduplication: true
+export const httpLink = retryLink.concat(
+  createUploadLink({
+    uri: API_URI,
+    credentials: 'include'
   })
-}
+)
 
-const client = createClient()
+export const requestLink = process.browser
+  ? split(
+      ({ query }) => {
+        const { kind, operation } = getMainDefinition(query)
+        return kind === 'OperationDefinition' && operation === 'subscription'
+      },
+      wsLink(),
+      httpLink
+    )
+  : httpLink
 
-export { client }
-
-export const clearApolloStore = () => {
+export const clearApolloStore = clientInstance => {
   try {
-    client.resetStore()
+    clientInstance.resetStore()
   } catch (e) {
     console.error('error clearing store')
   }
