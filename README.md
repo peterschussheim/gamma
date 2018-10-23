@@ -1,6 +1,6 @@
 # gamma
 
-[![CircleCI](https://circleci.com/gh/peterschussheim/gamma.svg?style=svg)](https://circleci.com/gh/peterschussheim/gamma)
+[![CircleCI](https://circleci.com/gh/peterschussheim/gamma.svg?style=svg&circle-token=c2090c289000a9f65ff601f99ca8113ec300b519)](https://circleci.com/gh/peterschussheim/gamma)
 - [gamma](#gamma)
   - [Overview](#overview)
     - [Repo Structure](#repo-structure)
