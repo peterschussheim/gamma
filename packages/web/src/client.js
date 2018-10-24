@@ -8,7 +8,7 @@ import { ApolloProvider } from 'react-apollo'
 import Routes from './routes'
 import { history } from './utils/history'
 
-import { cache, errorLink, requestLink } from './config/apollo'
+import { cache, errorLink, requestLink } from './apollo'
 import ApolloClient from 'apollo-client'
 import { ApolloLink } from 'apollo-link'
 

@@ -5,7 +5,7 @@ import { split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import { onError } from 'apollo-link-error'
-import { API_URI, WS_URI } from '../constants'
+import { API_URI, WS_URI } from './constants'
 
 export const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)

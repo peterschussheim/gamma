@@ -22,7 +22,7 @@ import Routes from '../../routes'
 const stats = require('../../../build/react-loadable.json')
 
 import { API_URI } from '../../constants'
-import { cache, errorLink, requestLink } from '../../config/apollo'
+import { cache, errorLink, requestLink } from '../../apollo'
 
 const renderer = (req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8')
