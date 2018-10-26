@@ -21,7 +21,7 @@ type Query {
 }
 
 type Mutation {
-  signup(email: String!, password: String!): MutationResult!
+  signup(name: String, email: String!, password: String!): MutationResult!
   login(email: String!, password: String!): AuthPayload!
   logout: MutationResult!
   logoutOfAllSessions: MutationResult!
