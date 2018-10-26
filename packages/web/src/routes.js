@@ -3,10 +3,10 @@ import { Route, Switch } from 'react-router'
 import Loadable from 'react-loadable'
 
 import Navbar from './components/navbar'
-import Login from './components/login'
-import Signup from './components/signup'
+import Login from './components/form/login'
+import Signup from './components/form/signup'
 import Profile from './views/profile'
-import Editor from './views/editor'
+// import Editor from './views/editor'
 import NotFound from './views/notfound'
 import ConfirmEmail from './views/confirmEmail'
 
@@ -37,7 +37,7 @@ class Routes extends React.Component {
           <Route exact path="/auth/login" component={Login} />
           <Route exact path="/auth/signup" component={Signup} />
           <Route exact path="/success" component={Home} />
-          <Route exact path="/editor" component={Editor} />
+          {/* <Route exact path="/editor" component={Editor} /> */}
           <Route path="/confirm/:id" component={ConfirmEmail} />
           <Route path="*" component={NotFound} />
         </Switch>

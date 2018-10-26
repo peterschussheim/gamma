@@ -1,7 +1,7 @@
 import React from 'react'
 // import * as api from '../utils/api'
 import Form from '../components/form'
-import { Input, TextArea } from '../components/inputs'
+import { Input, TextArea } from '../components/form/inputs'
 
 class Editor extends React.Component {
   static defaultProps = {

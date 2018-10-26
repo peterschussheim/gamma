@@ -1,8 +1,8 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
 import { Redirect } from 'react-router-dom'
-import { Input } from './inputs'
-import Form from './form'
+import { Input } from './form/inputs'
+// import Form from './form'
 import RenderError from './error'
 import { REGISTER, VIEWER } from '../queries'
 
