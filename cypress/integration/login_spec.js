@@ -4,7 +4,7 @@ describe('Login', () => {
   beforeEach(() => {
     cy.visit('/')
   })
-  it('Visits /auth/login route', () => {
+  it('Authenticates an existing user', () => {
     cy.get('p > a').click()
     cy.get('#email-input')
       .type('peter@schussheim.com')
@@ -17,4 +17,5 @@ describe('Login', () => {
     cy.get('[data-cy="counter-sub"]').should('be.visible')
     cy.get('[data-cy="logout-button"]').should('be.visible')
   })
+  it('Validates form data on the client', () => {})
 })
