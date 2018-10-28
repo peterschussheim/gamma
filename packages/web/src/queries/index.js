@@ -32,8 +32,17 @@ export const VIEWER = gql`
     viewer {
       me {
         id
+        email
         emailConfirmed
       }
+    }
+  }
+`
+
+export const COUNTER_SUBSCRIPTION = gql`
+  subscription {
+    counter {
+      count
     }
   }
 `
