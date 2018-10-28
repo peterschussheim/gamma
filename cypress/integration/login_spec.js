@@ -5,7 +5,6 @@ describe('Login', () => {
     cy.visit('/auth/login')
   })
   it('Authenticates an existing user', () => {
-    // cy.wait(500)
     cy.get('[data-cy="authenticate-link"]').should('not.exist')
     cy.get('[data-cy="email-input"]')
       .type('peter@schussheim.com')
