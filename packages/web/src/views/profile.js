@@ -6,7 +6,10 @@ import { VIEWER } from '../queries'
 
 class Profile extends React.Component {
   renderAuthLink = props => {
-    if (props.location.pathname === '/auth/login') {
+    if (
+      props.location.pathname === '/auth/login' ||
+      props.location.pathname === '/auth/signup'
+    ) {
       return null
     } else {
       return (
@@ -41,7 +44,7 @@ class Profile extends React.Component {
                     Connect to Github Via server
                   </button>
                 )}
-                <Logout client={this.props.client} />
+                <Logout client={client} />
               </React.Fragment>
             )
           }
