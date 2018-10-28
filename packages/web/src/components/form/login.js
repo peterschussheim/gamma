@@ -1,30 +1,17 @@
 import React from 'react'
 import { compose, graphql } from 'react-apollo'
-import { Link, Redirect } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import { Formik, Field, Form, ErrorMessage, withFormik } from 'formik'
+import { Link } from 'react-router-dom'
+// import PropTypes from 'prop-types'
+import { Formik, Field, Form, ErrorMessage } from 'formik'
 
 import { Debug } from './formDebugger'
 import { LOGIN, VIEWER } from '../../queries'
 import { validLoginSchema } from '../../utils/schemas'
 
-const onFinish = () => {
-  const {
-    history,
-    location: { state }
-  } = this.props
-  if (state && state.next) {
-    return history.push(state.next)
-  }
-
-  history.push('/')
-}
-
 const Login = props => {
-  const { mutate, values, touched, errors, handleSubmit } = props
+  const { mutate } = props
   return (
-    <div>
-      <h1>Login</h1>
+    <React.Fragment>
       <Formik
         validLoginSchema={validLoginSchema}
         validateOnChange={false}
@@ -34,6 +21,7 @@ const Login = props => {
           mutate({ variables: values }).then(
             () => {
               actions.setSubmitting(false)
+              props.history.push('/')
               // updateUser(updatedUser)
               // onClose()
             },
@@ -54,6 +42,7 @@ const Login = props => {
               name="email"
               autoComplete="username email"
               style={{ flex: 1 }}
+              data-cy="email-input"
             />
             <ErrorMessage name="email" component="div" />
             <label style={{ justifySelf: 'right' }} htmlFor="password">
@@ -66,6 +55,7 @@ const Login = props => {
               autoComplete="current-password"
               aria-labelledby="password"
               style={{ flex: 1 }}
+              data-cy="password-input"
             />
             <ErrorMessage name="password" className="error" component="div" />
             {errors && errors.message && <div>ERROR: {errors.message}</div>}
@@ -93,7 +83,7 @@ const Login = props => {
           </Form>
         )}
       />
-    </div>
+    </React.Fragment>
   )
 }
 

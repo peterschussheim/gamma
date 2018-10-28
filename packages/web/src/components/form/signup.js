@@ -1,15 +1,15 @@
 import React from 'react'
 import { compose, graphql } from 'react-apollo'
-import { Link, Redirect } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import { Formik, Field, Form, ErrorMessage, withFormik } from 'formik'
+import { Link } from 'react-router-dom'
+// import PropTypes from 'prop-types'
+import { Formik, Field, Form, ErrorMessage } from 'formik'
 
 import { Debug } from './formDebugger'
 import { VIEWER, REGISTER } from '../../queries'
 import { validLoginSchema } from '../../utils/schemas'
 
 const Signup = props => {
-  const { mutate, values, touched, errors, handleSubmit } = props
+  const { mutate } = props
   return (
     <div>
       <h1>Signup</h1>
