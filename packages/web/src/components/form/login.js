@@ -58,7 +58,12 @@ const Login = props => {
               data-cy="password-input"
             />
             <ErrorMessage name="password" className="error" component="div" />
-            {errors && errors.message && <div>ERROR: {errors.message}</div>}
+            {errors &&
+              errors.message && (
+                <div data-cy="graphql-errors" style={{ background: 'red' }}>
+                  ERROR: {errors.message}
+                </div>
+              )}
             <button
               type="reset"
               className="secondary"

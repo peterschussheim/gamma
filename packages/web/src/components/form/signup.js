@@ -18,8 +18,7 @@ const Signup = props => {
         validateOnChange={false}
         validateOnBlur={false}
         initialValues={{
-          firstName: '',
-          lastName: '',
+          name: '',
           email: '',
           password: ''
         }}
@@ -46,6 +45,7 @@ const Signup = props => {
               placeholder="Name"
               name="name"
               style={{ flex: 1 }}
+              data-cy="name-input"
             />
             <ErrorMessage name="name" component="div" />
             <label style={{ justifySelf: 'right' }} htmlFor="email">
@@ -57,6 +57,7 @@ const Signup = props => {
               name="email"
               autoComplete="username email"
               style={{ flex: 1 }}
+              data-cy="email-input"
             />
             <ErrorMessage name="email" component="div" />
             <label style={{ justifySelf: 'right' }} htmlFor="password">
@@ -69,9 +70,15 @@ const Signup = props => {
               autoComplete="current-password"
               aria-labelledby="password"
               style={{ flex: 1 }}
+              data-cy="password-input"
             />
             <ErrorMessage name="password" className="error" component="div" />
-            {errors && errors.message && <div>ERROR: {errors.message}</div>}
+            {errors &&
+              errors.message && (
+                <div data-cy="graphql-errors" style={{ background: 'red' }}>
+                  ERROR: {errors.message}
+                </div>
+              )}
             <button
               type="reset"
               className="secondary"
