@@ -26,15 +26,13 @@ import { USER_SESSION_ID_PREFIX } from '../../constants'
 
 export const auth = {
   signup: async (parent, args, ctx: Context, info) => {
+    if (ctx.db.exists.User(args.email)) {
+      throw new EmailInUseError()
+    }
     const password = await bcrypt.hash(args.password, 10)
     const user = await ctx.db.mutation.createUser({
       data: { ...args, password }
     })
-
-    // TODO: add better argument validation
-    if (!user) {
-      throw new EmailInUseError()
-    }
 
     if (process.env.NODE_ENV !== 'test') {
       const confirmationUrl = await createConfirmEmailLink(user.id, ctx.redis)
