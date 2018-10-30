@@ -25,6 +25,6 @@ describe('Login', () => {
       .type('12345')
       .should('have.value', '12345')
     cy.get('[data-cy="login-button"]').click()
-    cy.get('[data-cy="graphql-errors"]').should('exist')
+    cy.get('[data-cy="form-error"]').should('exist')
   })
 })
