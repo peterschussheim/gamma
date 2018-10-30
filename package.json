@@ -60,7 +60,7 @@
     "lint": "eslint packages",
     "lint:staged": "lint-staged",
     "precise-commits": "precise-commits",
-    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check"
+    "eslint-check": "eslint --print-config .eslintrc | eslint-config-prettier-check"
   },
   "pre-commit": "lint-staged",
   "lint-staged": {
@@ -83,6 +83,15 @@
     "cypress-testing-library": "2.2.1",
     "husky": "1.1.2",
     "is-ci-cli": "1.1.1",
+    "lint-staged": "8.0.3",
+    "precise-commits": "1.0.2",
+    "prettier": "1.14.3",
+    "eslint": "^4.1.1",
+    "eslint-config-prettier": "3.1.0",
+    "eslint-plugin-emotion": "10.0.0-beta.6",
+    "eslint-plugin-jest": "^21.6.1",
+    "eslint-plugin-prettier": "3.0.0",
+    "eslint-plugin-promise": "^3.8.0",
     "start-server-and-test": "1.7.1",
     "test-data-bot": "0.6.0"
   },
