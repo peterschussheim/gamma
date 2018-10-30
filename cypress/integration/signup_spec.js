@@ -29,10 +29,8 @@ describe('Signup', function() {
     cy.get('[data-cy="password-input"]')
       .type('12345')
       .should('have.value', '12345')
-    cy.get('[data-cy="signup-button"]')
-      .click()
-      .wait(500)
-    cy.get('[data-cy="graphql-errors"]').should('exist')
+    cy.get('[data-cy="signup-button"]').click()
+    cy.get('[data-cy="form-error"]').should('exist')
     // automatically update user 'emailConfirmed=true'
   })
 })
