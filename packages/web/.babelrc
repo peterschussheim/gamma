@@ -1,7 +1,4 @@
 {
   "presets": ["babel-preset-gamma"],
-  "plugins": [
-    ["emotion", { "sourceMap": true, "autoLabel": true }],
-    "react-loadable/babel"
-  ]
+  "plugins": ["emotion", "react-loadable/babel"]
 }

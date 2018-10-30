@@ -5,6 +5,20 @@ import Logout from '../components/logout'
 import { VIEWER } from '../queries'
 
 class Profile extends React.Component {
+  renderAuthLink = props => {
+    if (
+      props.location.pathname === '/auth/login' ||
+      props.location.pathname === '/auth/signup'
+    ) {
+      return null
+    } else {
+      return (
+        <Link data-cy="authenticate-link" to="/auth/login">
+          Authenticate with PW
+        </Link>
+      )
+    }
+  }
   render() {
     return (
       <Query query={VIEWER} ssr={false}>
@@ -12,31 +26,27 @@ class Profile extends React.Component {
           if (loading) {
             return <p>Loading...</p>
           }
-          if (data) {
-            if (data.viewer.me === null) {
-              // TODO: if user is on '/auth/login', do NOT show auth button
-              return (
-                <p data-cy="authenticate-link">
-                  <Link to="/auth/login">Authenticate with PW</Link>
-                </p>
-              )
-            } else {
-              return (
-                <React.Fragment>
-                  <div>{data.viewer.me.id}</div>
-                  <div>{data.viewer.me.email}</div>
-                  {data.viewer.me.githubProfile ? null : (
-                    <button
-                      type="button"
-                      onClick={this.handleAuthorizeWithGithub}
-                    >
-                      Connect to Github Via server
-                    </button>
-                  )}
-                  <Logout client={client} />
-                </React.Fragment>
-              )
-            }
+          if (error) {
+            return <div>{error}</div>
+          }
+          if (data.viewer.me == null) {
+            return this.renderAuthLink(this.props)
+          } else {
+            return (
+              <React.Fragment>
+                <div>{data.viewer.me.id}</div>
+                <div>{data.viewer.me.email}</div>
+                {data.viewer.me.githubProfile ? null : (
+                  <button
+                    type="button"
+                    onClick={this.props.handleAuthorizeWithGithub}
+                  >
+                    Connect to Github Via server
+                  </button>
+                )}
+                <Logout client={client} />
+              </React.Fragment>
+            )
           }
         }}
       </Query>

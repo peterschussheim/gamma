@@ -21,16 +21,16 @@ type Query {
 }
 
 type Mutation {
-  signup(email: String!, password: String!): MutationResult!
+  signup(name: String, email: String!, password: String!): MutationResult!
   login(email: String!, password: String!): AuthPayload!
   logout: MutationResult!
   logoutOfAllSessions: MutationResult!
+  resendConfirmationEmail(email: String!): MutationResult!
   # Initiates a pw reset
   requestPasswordReset(email: String!): User
   # Completes the actual pw reset in db
   resetPassword(input: ResetPasswordInput): User!
   updateUser(emailConfirmed: Boolean!): User
-  updatePermissions(permissions: [PERMISSION], userId: ID!): User!
   createPost(input: PostCreateInput): Post!
   updatePost(input: PostUpdateInput): Post!
   deletePost(id: ID!): MutationResult!

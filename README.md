@@ -1,12 +1,11 @@
 # gamma
 
-[![CircleCI](https://circleci.com/gh/peterschussheim/gamma.svg?style=svg)](https://circleci.com/gh/peterschussheim/gamma)
+[![CircleCI](https://circleci.com/gh/peterschussheim/gamma.svg?style=svg&circle-token=c2090c289000a9f65ff601f99ca8113ec300b519)](https://circleci.com/gh/peterschussheim/gamma)
 - [gamma](#gamma)
   - [Overview](#overview)
     - [Repo Structure](#repo-structure)
   - [Conventions used in this project](#conventions-used-in-this-project)
     - [`npm` scripts](#npm-scripts)
-  - [services aliases](#services-aliases)
 
 ## Overview
 
@@ -21,6 +20,4 @@
 - `start:xxx` starts a **development** server for the package specified after the colon
 - `build:xxx` generates a production build for the package specified after the colon
 
-## services aliases
 
-![](docs/path-aliases.png)

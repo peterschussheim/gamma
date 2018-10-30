@@ -26,15 +26,13 @@ import { USER_SESSION_ID_PREFIX } from '../../constants'
 
 export const auth = {
   signup: async (parent, args, ctx: Context, info) => {
+    if (ctx.db.exists.User(args.email)) {
+      throw new EmailInUseError()
+    }
     const password = await bcrypt.hash(args.password, 10)
     const user = await ctx.db.mutation.createUser({
       data: { ...args, password }
     })
-
-    // TODO: add better argument validation
-    if (!user) {
-      throw new EmailInUseError()
-    }
 
     if (process.env.NODE_ENV !== 'test') {
       const confirmationUrl = await createConfirmEmailLink(user.id, ctx.redis)
@@ -112,7 +110,17 @@ export const auth = {
       user
     }
   },
+  resendConfirmationEmail: async (parent, args, ctx: Context, info) => {
+    const user = await ctx.db.query.user({ where: { email: args.email } })
+    if (user && user.emailConfirmed == false) {
+      const confirmationUrl = await createConfirmEmailLink(user.id, ctx.redis)
+      await sendConfirmationEmail(user.email, confirmationUrl)
+      debug(`Confirmation email sent to ${user.email}`)
+      return { success: true }
+    }
 
+    return { success: false }
+  },
   logout: async (parent, args, ctx: Context, info) => {
     const userId = getUserIdFromSession(ctx)
     if (userId) {
@@ -129,7 +137,6 @@ export const auth = {
 
     return { success: false }
   },
-
   logoutOfAllSessions: async (parent, args, ctx: Context, info) => {
     const userId = getUserIdFromSession(ctx)
     if (userId) {
