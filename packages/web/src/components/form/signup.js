@@ -2,11 +2,11 @@ import React from 'react'
 import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 // import PropTypes from 'prop-types'
-import { Formik, Field, Form, ErrorMessage } from 'formik'
+import { Formik, Form } from 'formik'
 
-import { Debug } from './formDebugger'
+import { TextInput } from './inputs'
 import { VIEWER, REGISTER } from '../../queries'
-import { validLoginSchema } from '../../utils/schemas'
+import { validRegistrationSchema } from '../../utils/schemas'
 
 const Signup = props => {
   const { mutate } = props
@@ -14,9 +14,9 @@ const Signup = props => {
     <div>
       <h1>Signup</h1>
       <Formik
-        validLoginSchema={validLoginSchema}
-        validateOnChange={false}
-        validateOnBlur={false}
+        validationSchema={validRegistrationSchema}
+        validateOnChange={true}
+        validateOnBlur={true}
         initialValues={{
           name: '',
           email: '',
@@ -26,59 +26,63 @@ const Signup = props => {
           mutate({ variables: values }).then(
             () => {
               actions.setSubmitting(false)
-              // updateUser(updatedUser)
-              // onClose()
+              // props.history.push('/success')
             },
             error => {
               actions.setSubmitting(false)
-              actions.setErrors(error)
+              const errors = error.graphQLErrors.map(e => e.message)
+              actions.setErrors({ email: '', password: '', form: errors })
             }
           )
         }}
-        render={({ errors, isSubmitting, handleReset }) => (
+        render={({
+          values,
+          errors,
+          dirty,
+          isSubmitting,
+          handleBlur,
+          handleChange,
+          handleReset,
+          touched
+        }) => (
           <Form>
-            <label style={{ justifySelf: 'right' }} htmlFor="name">
-              Name
-            </label>{' '}
-            <Field
+            {errors.form ? <div data-cy="form-error">{errors.form}</div> : null}
+            <TextInput
+              id="name"
               type="text"
+              label="Name"
               placeholder="Name"
-              name="name"
-              style={{ flex: 1 }}
+              error={touched.name && errors.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.name}
               data-cy="name-input"
             />
-            <ErrorMessage name="name" component="div" />
-            <label style={{ justifySelf: 'right' }} htmlFor="email">
-              Email
-            </label>{' '}
-            <Field
+            <TextInput
+              id="email"
               type="email"
-              placeholder="email..."
-              name="email"
+              label="Email"
+              placeholder="email@domain.tld"
+              error={touched.email && errors.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
               autoComplete="username email"
-              style={{ flex: 1 }}
               data-cy="email-input"
             />
-            <ErrorMessage name="email" component="div" />
-            <label style={{ justifySelf: 'right' }} htmlFor="password">
-              Password
-            </label>{' '}
-            <Field
+            <TextInput
+              id="password"
               type="password"
+              label="Password"
               placeholder="Password..."
-              name="password"
+              error={touched.password && errors.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.password}
               autoComplete="current-password"
               aria-labelledby="password"
-              style={{ flex: 1 }}
               data-cy="password-input"
             />
-            <ErrorMessage name="password" className="error" component="div" />
-            {errors &&
-              errors.message && (
-                <div data-cy="graphql-errors" style={{ background: 'red' }}>
-                  ERROR: {errors.message}
-                </div>
-              )}
             <button
               type="reset"
               className="secondary"
@@ -90,7 +94,7 @@ const Signup = props => {
             <button
               data-cy="signup-button"
               type="submit"
-              disabled={isSubmitting}
+              disabled={!dirty || isSubmitting}
             >
               Submit
             </button>
@@ -99,7 +103,6 @@ const Signup = props => {
                 Login
               </button>
             </Link>
-            <Debug />
           </Form>
         )}
       />
