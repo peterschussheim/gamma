@@ -10,6 +10,8 @@ import { HelmetProvider } from 'react-helmet-async'
 import Loadable from 'react-loadable'
 import { getBundles } from 'react-loadable/webpack'
 import { renderStylesToNodeStream } from 'emotion-server'
+// import { cache as styleCache } from 'emotion'
+// import { CacheProvider } from '@emotion/core'
 import 'cross-fetch/polyfill'
 import util from 'util'
 import Raven from 'shared/src/raven'
@@ -88,7 +90,9 @@ const renderer = (req, res) => {
 
       response.write(header)
 
-      const stream = renderToNodeStream(frontend)
+      const stream = renderToNodeStream(frontend).pipe(
+        renderStylesToNodeStream()
+      )
 
       stream.pipe(
         response,

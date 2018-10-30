@@ -2,8 +2,9 @@ import React from 'react'
 import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 // import PropTypes from 'prop-types'
-import { Formik, Field, Form, ErrorMessage } from 'formik'
+import { Formik, Form } from 'formik'
 
+import { TextInput } from './inputs'
 import { Debug } from './formDebugger'
 import { LOGIN, VIEWER } from '../../queries'
 import { validLoginSchema } from '../../utils/schemas'
@@ -11,91 +12,93 @@ import { validLoginSchema } from '../../utils/schemas'
 const Login = props => {
   const { mutate } = props
   return (
-    <React.Fragment>
-      <Formik
-        validLoginSchema={validLoginSchema}
-        validateOnChange={false}
-        validateOnBlur={false}
-        initialValues={{ email: '', password: '' }}
-        onSubmit={(values, actions) => {
-          mutate({ variables: values }).then(
-            () => {
-              actions.setSubmitting(false)
-              props.history.push('/')
-              // updateUser(updatedUser)
-              // onClose()
-            },
-            error => {
-              actions.setSubmitting(false)
-              actions.setErrors(error)
-            }
-          )
-        }}
-        render={({ errors, isSubmitting, handleReset }) => (
-          <Form>
-            <label style={{ justifySelf: 'right' }} htmlFor="email">
-              Email
-            </label>{' '}
-            <Field
-              type="email"
-              placeholder="email..."
-              name="email"
-              autoComplete="username email"
-              style={{ flex: 1 }}
-              data-cy="email-input"
-            />
-            <ErrorMessage name="email" component="div" />
-            <label style={{ justifySelf: 'right' }} htmlFor="password">
-              Password
-            </label>{' '}
-            <Field
-              type="password"
-              placeholder="Password..."
-              name="password"
-              autoComplete="current-password"
-              aria-labelledby="password"
-              style={{ flex: 1 }}
-              data-cy="password-input"
-            />
-            <ErrorMessage name="password" className="error" component="div" />
-            {errors &&
-              errors.message && (
-                <div data-cy="graphql-errors" style={{ background: 'red' }}>
-                  ERROR: {errors.message}
-                </div>
-              )}
-            <button
-              type="reset"
-              className="secondary"
-              disabled={isSubmitting}
-              onClick={handleReset}
-            >
-              Reset
+    <Formik
+      validationSchema={validLoginSchema}
+      validateOnChange={true}
+      validateOnBlur={true}
+      initialValues={{ email: '', password: '' }}
+      onSubmit={(values, actions) => {
+        mutate({ variables: values }).then(
+          () => {
+            actions.setSubmitting(false)
+            props.history.push('/')
+          },
+          error => {
+            actions.setSubmitting(false)
+            const errors = error.graphQLErrors.map(e => e.message)
+            actions.setErrors({ email: '', password: '', form: errors })
+          }
+        )
+      }}
+      render={({
+        values,
+        errors,
+        dirty,
+        isSubmitting,
+        handleBlur,
+        handleChange,
+        handleReset,
+        touched
+      }) => (
+        <Form>
+          {errors.form ? <div data-cy="form-error">{errors.form}</div> : null}
+          <TextInput
+            id="email"
+            type="email"
+            label="Email"
+            placeholder="email@domain.tld"
+            error={touched.email && errors.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.email}
+            autoComplete="username email"
+            data-cy="email-input"
+          />
+          <TextInput
+            id="password"
+            type="password"
+            label="Password"
+            placeholder="Password..."
+            error={touched.password && errors.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.password}
+            autoComplete="current-password"
+            aria-labelledby="password"
+            data-cy="password-input"
+          />
+          <button
+            type="reset"
+            className="secondary"
+            disabled={isSubmitting}
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+          <button
+            data-cy="login-button"
+            type="submit"
+            disabled={!dirty || isSubmitting}
+          >
+            Submit
+          </button>
+          <Link to="/auth/signup">
+            <button data-cy="signup-button" type="button">
+              Signup
             </button>
-            <button
-              data-cy="login-button"
-              type="submit"
-              disabled={isSubmitting}
-            >
-              Submit
-            </button>
-            <Link to="/auth/signup">
-              <button data-cy="signup-button" type="button">
-                Signup
-              </button>
-            </Link>
-            <Debug />
-          </Form>
-        )}
-      />
-    </React.Fragment>
+          </Link>
+          <Debug />
+        </Form>
+      )}
+    />
   )
 }
 
 export default compose(
   graphql(LOGIN, {
     options: {
-      refetchQueries: [{ query: VIEWER }]
+      refetchQueries: [{ query: VIEWER }],
+      fetchPolicy: 'network-only'
     }
   })
 )(Login)

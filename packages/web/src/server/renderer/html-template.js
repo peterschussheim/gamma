@@ -12,6 +12,11 @@ export default ({ helmet, data, assets, scripts, staticBuild }) => {
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <meta name="og:type" content="website">
         <meta name="og:site_name" content="gamma.app">
+        ${
+          assets.client.css
+            ? `<link rel="stylesheet" href="${assets.client.css}">`
+            : ''
+        }
           ${helmet.title.toString()}
           ${helmet.meta.toString()}
           ${helmet.link.toString()}
