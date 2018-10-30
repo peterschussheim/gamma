@@ -87,7 +87,6 @@ const Login = props => {
               Signup
             </button>
           </Link>
-          <Debug />
         </Form>
       )}
     />
