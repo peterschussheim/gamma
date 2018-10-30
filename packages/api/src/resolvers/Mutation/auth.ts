@@ -110,7 +110,17 @@ export const auth = {
       user
     }
   },
+  resendConfirmationEmail: async (parent, args, ctx: Context, info) => {
+    const user = await ctx.db.query.user({ where: { email: args.email } })
+    if (user && user.emailConfirmed == false) {
+      const confirmationUrl = await createConfirmEmailLink(user.id, ctx.redis)
+      await sendConfirmationEmail(user.email, confirmationUrl)
+      debug(`Confirmation email sent to ${user.email}`)
+      return { success: true }
+    }
 
+    return { success: false }
+  },
   logout: async (parent, args, ctx: Context, info) => {
     const userId = getUserIdFromSession(ctx)
     if (userId) {
@@ -127,7 +137,6 @@ export const auth = {
 
     return { success: false }
   },
-
   logoutOfAllSessions: async (parent, args, ctx: Context, info) => {
     const userId = getUserIdFromSession(ctx)
     if (userId) {
