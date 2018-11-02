@@ -178,7 +178,14 @@ jobs:
       - run:
           name: Deploy web to now
           command: |
-            now -t $NOW_TOKEN -A now.ui-staging.json
+            echo export DEPLOY_PREVIEW_URL="$(now -t $NOW_TOKEN -A now.ui-staging.json)" >> "$BASH_ENV"
+            source $BASH_ENV
+            echo $DEPLOY_PREVIEW_URL
+            curl -k -L -X POST \
+              -H Content-Type: application/json \
+              -H Accept: application/json \
+              -d "{"url": $DEPLOY_PREVIEW_URL, "sha": $CIRCLE_SHA1}" \
+              https://learned-keeper.glitch.me/deployment
 
   prepare-prod-deployment-images:
     machine: true
