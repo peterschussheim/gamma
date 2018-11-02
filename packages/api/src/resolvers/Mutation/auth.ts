@@ -26,7 +26,11 @@ import { USER_SESSION_ID_PREFIX } from '../../constants'
 
 export const auth = {
   signup: async (parent, args, ctx: Context, info) => {
-    if (ctx.db.exists.User(args.email)) {
+    const isEmailRegistered = await ctx.db.exists.User({
+      email: args.email
+    })
+
+    if (isEmailRegistered) {
       throw new EmailInUseError()
     }
     const password = await bcrypt.hash(args.password, 10)
