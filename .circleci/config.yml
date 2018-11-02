@@ -184,7 +184,7 @@ jobs:
             curl -k -L -X POST \
               --header "Content-Type: application/json" \
               --header "Accept: application/json" \
-              --data '{"url": "$DEPLOY_PREVIEW_URL", "sha": "$CIRCLE_SHA1"}' \
+              --data '{"url": $DEPLOY_PREVIEW_URL, "sha": $CIRCLE_SHA1}' \
               --request POST \
               https://learned-keeper.glitch.me/deployment
 
