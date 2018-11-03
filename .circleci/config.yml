@@ -181,12 +181,7 @@ jobs:
             echo export DEPLOY_PREVIEW_URL="$(now -t $NOW_TOKEN -A now.ui-staging.json)" >> "$BASH_ENV"
             source $BASH_ENV
             echo $DEPLOY_PREVIEW_URL
-            curl -k -L -X POST \
-              --header "Content-Type: application/json" \
-              --header "Accept: application/json" \
-              --data '{"url": $DEPLOY_PREVIEW_URL, "sha": $CIRCLE_SHA1}' \
-              --request POST \
-              https://learned-keeper.glitch.me/deployment
+            ./sendurl.sh ${DEPLOY_PREVIEW_URL}
 
   prepare-prod-deployment-images:
     machine: true
