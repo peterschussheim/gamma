@@ -178,7 +178,10 @@ jobs:
       - run:
           name: Deploy web to now
           command: |
-            now -t $NOW_TOKEN -A now.ui-staging.json
+            echo export DEPLOY_PREVIEW_URL="$(now -t $NOW_TOKEN -A now.ui-staging.json)" >> "$BASH_ENV"
+            source $BASH_ENV
+            echo $DEPLOY_PREVIEW_URL
+            ./sendurl.sh ${DEPLOY_PREVIEW_URL}
 
   prepare-prod-deployment-images:
     machine: true
