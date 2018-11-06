@@ -37,12 +37,9 @@ class Profile extends React.Component {
                 <div>{data.viewer.me.id}</div>
                 <div>{data.viewer.me.email}</div>
                 {data.viewer.me.githubProfile ? null : (
-                  <button
-                    type="button"
-                    onClick={this.props.handleAuthorizeWithGithub}
-                  >
-                    Connect to Github Via server
-                  </button>
+                  <Link data-cy="connect-github-link" to="/auth/github">
+                    Connect to GitHub
+                  </Link>
                 )}
                 <Logout client={client} />
               </React.Fragment>

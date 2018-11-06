@@ -142,7 +142,13 @@ class Routes extends React.Component {
           <Route exact path="/auth/signup" component={Signup} />
           <Route exact path="/success" component={Home} />
           {/* <Route exact path="/editor" component={Editor} /> */}
-          <Route path="/confirm/:id" component={ConfirmEmail} />
+          <Route
+            exact
+            path="/confirm"
+            component={ConfirmEmail}
+            props={this.props}
+          />
+          {/* <Route path="/confirm/:id" component={ConfirmEmail} /> */}
           <Route path="*" component={NotFound} />
         </Switch>
       </React.Fragment>
