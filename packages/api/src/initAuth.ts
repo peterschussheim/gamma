@@ -53,7 +53,7 @@ export const init = (prisma: Prisma) => {
         clientID: GITHUB_CLIENT_ID,
         clientSecret: GITHUB_CLIENT_SECRET,
         callbackURL: CALLBACK_URL,
-        scope: ['user'],
+        scope: ['user', 'gist'],
         passReqToCallback: true
       },
       async (req, token, tokenSecret, profile, done) => {
@@ -79,6 +79,7 @@ export const init = (prisma: Prisma) => {
           // if session has a userId property, update the record for this user
           // in DB
           if (req.session.userId) {
+            debug(`userId: ${req.session.userId}`)
             return prisma.mutation
               .createGithubProfile({
                 data: {
