@@ -53,8 +53,22 @@ export const VIEWER = gql`
     viewer {
       me {
         id
-        email
+        name
         emailConfirmed
+        email
+        githubProfile {
+          login
+          githubUserId
+          name
+        }
+        posts {
+          visibility
+          content {
+            name
+            data
+            type
+          }
+        }
       }
     }
   }
@@ -64,6 +78,22 @@ export const COUNTER_SUBSCRIPTION = gql`
   subscription {
     counter {
       count
+    }
+  }
+`
+
+export const USER_POSTS = gql`
+  fragment UserPosts on User {
+    id
+    posts {
+      id
+      visibility
+      content {
+        id
+        name
+        type
+        data
+      }
     }
   }
 `
