@@ -26,19 +26,15 @@ type Mutation {
   logout: MutationResult!
   logoutOfAllSessions: MutationResult!
   resendConfirmationEmail(email: String!): MutationResult!
-  # Initiates a pw reset
-  requestPasswordReset(email: String!): User
-  # Completes the actual pw reset in db
-  resetPassword(input: ResetPasswordInput): User!
   updateUser(emailConfirmed: Boolean!): User
-  createPost(input: PostCreateInput): Post!
-  updatePost(input: PostUpdateInput): Post!
+  createPost(data: PostCreateInput): Post!
+  updatePost(data: PostUpdateInput): Post!
   deletePost(id: ID!): MutationResult!
-  createTag(input: TagCreateInput): Tag!
-  updateTag(input: TagUpdateInput): Tag!
+  createTag(data: TagCreateInput): Tag!
+  updateTag(data: TagUpdateInput): Tag!
   deleteTag(id: ID!): MutationResult!
-  createComment(input: CommentCreateInput): Comment!
-  updateComment(input: CommentUpdateInput): Comment!
+  createComment(data: CommentCreateInput): Comment!
+  updateComment(data: CommentUpdateInput): Comment!
   deleteComment(id: ID!): MutationResult!
   renameFile(id: ID!, name: String!): File
   deleteFile(id: ID!): File
@@ -65,10 +61,4 @@ type AuthPayload {
 
 type MutationResult {
   success: Boolean
-}
-
-input ResetPasswordInput {
-  resetToken: String!
-  password: String!
-  confirmPassword: String!
 }
