@@ -1,5 +1,18 @@
 import gql from 'graphql-tag'
 
+export const CREATE_POST = gql`
+  mutation($data: PostCreateInput) {
+    createPost(data: $data) {
+      id
+      visibility
+      content {
+        name
+        data
+      }
+    }
+  }
+`
+
 export const REGISTER = gql`
   mutation($name: String, $email: String!, $password: String!) {
     signup(name: $name, email: $email, password: $password) {
