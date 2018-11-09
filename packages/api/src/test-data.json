@@ -1,0 +1,7 @@
+{
+  "data": {
+    "author": { "connect": { "id": "cjo5212dwz4gn0766d8fz8sjr" } },
+    "visibility": "PUBLIC",
+    "content": { "create": { "name": "second doc", "data": "sec Test Test" } }
+  }
+}
