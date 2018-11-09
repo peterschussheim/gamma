@@ -26,7 +26,8 @@ type Mutation {
   logout: MutationResult!
   logoutOfAllSessions: MutationResult!
   resendConfirmationEmail(email: String!): MutationResult!
-  updateUser(emailConfirmed: Boolean!): User
+  updateUserEmailStatus(emailConfirmed: Boolean!): User
+  updateUser(data: UserUpdateInput): User
   createPost(data: PostCreateInput): Post!
   updatePost(data: PostUpdateInput): Post!
   deletePost(id: ID!): MutationResult!
