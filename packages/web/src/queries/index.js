@@ -61,14 +61,6 @@ export const VIEWER = gql`
           githubUserId
           name
         }
-        posts {
-          visibility
-          content {
-            name
-            data
-            type
-          }
-        }
       }
     }
   }
