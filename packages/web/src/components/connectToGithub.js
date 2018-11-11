@@ -4,7 +4,7 @@ import { withRouter } from 'react-router'
 const ConnectToGithub = props => {
   const { history } = props
   const location = {
-    pathname: '/auth/github'
+    pathname: 'https://api.gamma.app/auth/github'
   }
 
   return (
