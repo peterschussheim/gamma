@@ -26,7 +26,7 @@ const Signup = props => {
           mutate({ variables: values }).then(
             () => {
               actions.setSubmitting(false)
-              // props.history.push('/success')
+              props.history.push('/confirm')
             },
             error => {
               actions.setSubmitting(false)

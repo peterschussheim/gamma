@@ -140,14 +140,31 @@ class Routes extends React.Component {
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/auth/login" component={Login} />
           <Route exact path="/auth/signup" component={Signup} />
+          {/* <Route path="/authed" component={Callback} props={this.props} /> */}
           <Route exact path="/success" component={Home} />
           {/* <Route exact path="/editor" component={Editor} /> */}
-          <Route path="/confirm/:id" component={ConfirmEmail} />
+          <Route
+            exact
+            path="/confirm"
+            component={ConfirmEmail}
+            props={this.props}
+          />
+          {/* <Route path="/confirm/:id" component={ConfirmEmail} /> */}
           <Route path="*" component={NotFound} />
         </Switch>
       </React.Fragment>
     )
   }
+}
+
+function Callback(props) {
+  return (
+    <React.Fragment>
+      <h1>GitHub Callback</h1>
+      <h3>GitHub Callback</h3>
+      <a href="/">GO HOME!</a>
+    </React.Fragment>
+  )
 }
 
 export default Routes
