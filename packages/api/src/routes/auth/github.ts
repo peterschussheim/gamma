@@ -1,22 +1,15 @@
 import { Router } from 'express'
-import * as passport from 'passport'
+
+import { createSigninRoutes } from './createSigninRoutes'
 
 const githubAuthRouter = Router()
+const { main, callbacks } = createSigninRoutes('github', {
+  scope: ['user', 'gist'],
+  state: true
+})
 
-// GET https://api.gamma.app/auth/github
-githubAuthRouter.get('/', passport.authenticate('github'))
+githubAuthRouter.get('/', main)
 
-// GET https://api.gamma.app/auth/github/callback
-githubAuthRouter.get(
-  '/callback',
-  passport.authenticate('github', {
-    failureRedirect: '/'
-  }),
-  (req, res) => {
-    console.log(`REQ.USER: ${req.user}`)
-    res.cookie('github-passport', new Date())
-    // res.redirect('/')
-  }
-)
+githubAuthRouter.get('/callback', ...callbacks)
 
 export default githubAuthRouter
