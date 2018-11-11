@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Query } from 'react-apollo'
 import Logout from '../components/logout'
+import ConnectToGithub from '../components/connectToGithub'
 import { VIEWER } from '../queries'
 
 class Profile extends React.Component {
@@ -37,11 +38,9 @@ class Profile extends React.Component {
                 <div>{data.viewer.me.id}</div>
                 <div>{data.viewer.me.email}</div>
                 {data.viewer.me.githubProfile ? null : (
-                  <Link data-cy="connect-github-link" to="/auth/github">
-                    Connect to GitHub
-                  </Link>
+                  <ConnectToGithub props={this.props} />
                 )}
-                <Logout client={client} />
+                <Logout client={client} props={this.props} />
               </React.Fragment>
             )
           }
