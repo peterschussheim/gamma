@@ -38,7 +38,12 @@ class Profile extends React.Component {
                 <div>{data.viewer.me.id}</div>
                 <div>{data.viewer.me.email}</div>
                 {data.viewer.me.githubProfile ? null : (
-                  <ConnectToGithub props={this.props} />
+                  <ConnectToGithub
+                    onClickHandler={() =>
+                      console.log('connecting to GitHub...')
+                    }
+                    href={`https://api.gamma.app/auth/github`}
+                  />
                 )}
                 <Logout client={client} props={this.props} />
               </React.Fragment>

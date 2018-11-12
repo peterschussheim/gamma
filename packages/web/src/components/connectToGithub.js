@@ -1,20 +1,16 @@
 import React from 'react'
-import { withRouter } from 'react-router'
+import { Link } from 'react-router-dom'
 
-const ConnectToGithub = props => {
-  const { history } = props
-  const location = {
-    pathname: '/auth/github'
-  }
-
+const ConnectToGithub = ({ onClickHandler, href }) => {
   return (
-    <button
+    <a
       data-cy="connect-github-link"
-      onClick={() => history.push(location)}
+      onClick={() => onClickHandler && onClickHandler('github')}
+      href={href}
     >
-      Connect to GitHub
-    </button>
+      <button>Connect to GitHub</button>
+    </a>
   )
 }
 
-export default withRouter(ConnectToGithub)
+export default ConnectToGithub
