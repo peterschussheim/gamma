@@ -40,15 +40,6 @@ export default function startServer(databaseInstance) {
   server.express.post(server.options.endpoint, (req, res, next) =>
     getUser(req, res, next, databaseInstance)
   )
-
-  // server.express.use('/', (req, res) => {
-  //   res.redirect(
-  //     process.env.NODE_ENV === 'production'
-  //       ? 'https://gamma.app'
-  //       : 'http://localhost:3000'
-  //   )
-  // })
-
   server.express.get(
     '/confirm/:id',
     confirmEmail({ prisma: databaseInstance, redis })
