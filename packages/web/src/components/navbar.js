@@ -12,9 +12,8 @@ const Navbar = () => (
       <ul>
         <NavbarLink title="Search" href="/search" />
         <NavbarLink title="Profile" href="/profile" />
-        <NavbarLink title="Create" href="/create" />
+        <NavbarLink title="Editor" href="/editor" />
       </ul>
-
       <Profile />
     </div>
   </nav>
