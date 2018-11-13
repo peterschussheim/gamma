@@ -18,7 +18,6 @@ import {
  *
 /**
 
-
  /** 
  * Deletes a SINGLE session for a given user.  Used to logout of a single session
  * (ex: user is signed in on 3 devices, logging out should only clear the session that the user
