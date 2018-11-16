@@ -96,6 +96,25 @@ export const VIEWER_GISTS = gql`
   }
 `
 
+export const GET_GIST_BY_ID = gql`
+  query getGistById($gistId: String!) {
+    getGistById(gistId: $gistId) {
+      gistId
+      description
+      files {
+        filename
+        type
+        language
+        raw_url
+        size
+        truncated
+        content
+      }
+      isPublic
+    }
+  }
+`
+
 export const COUNTER_SUBSCRIPTION = gql`
   subscription {
     counter {
