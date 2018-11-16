@@ -13,7 +13,7 @@ export const post = {
     const userId = getUserIdFromSession(ctx)
     if (userId) {
       const updatedPost = await ctx.db.mutation.updatePost(
-        { where: { id: args.id }, data: { content: args } },
+        { where: { id: args.id }, data: { files: args } },
         info
       )
       return updatedPost
