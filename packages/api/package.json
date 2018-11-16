@@ -15,9 +15,6 @@
     "get-remote-schema": "graphql get-schema --project database",
     "codegen": "graphql codegen",
     "clean": "rm -rf dist && rm -rf node_modules",
-    "lint": "eslint .",
-    "precommit": "lint-staged",
-    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "type-check": "tsc --noEmit --pretty"
   },
   "devDependencies": {
@@ -87,22 +84,6 @@
     "request-promise": "4.2.2",
     "sparkpost": "2.1.2",
     "useragent": "2.3.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.@(json|md|ts)": [
-      "yarn prettier --write",
-      "git add"
-    ],
-    "*.@(js)": [
-      "yarn eslint --fix",
-      "yarn prettier --write",
-      "git add"
-    ]
   },
   "jest": {
     "moduleFileExtensions": [
