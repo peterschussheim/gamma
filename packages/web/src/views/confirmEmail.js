@@ -3,12 +3,12 @@ import { compose, graphql, Query } from 'react-apollo'
 import { Formik, Form } from 'formik'
 
 import { TextInput } from '../components/form/inputs'
-import { RESEND_CONFIRMATION_EMAIL, VIEWER } from '../queries'
+import { RESEND_CONFIRMATION_EMAIL, VIEWER_ME } from '../queries'
 
 const ConfirmEmail = props => {
   const { mutate } = props
   return (
-    <Query query={VIEWER}>
+    <Query query={VIEWER_ME}>
       {({ loading, error, data }) => {
         if (loading) return 'Loading'
         if (error) return `Error: ${error}`
@@ -86,7 +86,7 @@ const ConfirmEmail = props => {
 export default compose(
   graphql(RESEND_CONFIRMATION_EMAIL, {
     options: {
-      refetchQueries: [{ query: VIEWER }]
+      refetchQueries: [{ query: VIEWER_ME }]
     }
   })
 )(ConfirmEmail)

@@ -6,7 +6,7 @@ import { Formik, Form } from 'formik'
 
 import { TextInput } from './inputs'
 import { Debug } from './formDebugger'
-import { LOGIN, VIEWER } from '../../queries'
+import { LOGIN, VIEWER_ME } from '../../queries'
 import { validLoginSchema } from '../../utils/schemas'
 
 const Login = props => {
@@ -96,7 +96,7 @@ const Login = props => {
 export default compose(
   graphql(LOGIN, {
     options: {
-      refetchQueries: [{ query: VIEWER }],
+      refetchQueries: [{ query: VIEWER_ME }],
       fetchPolicy: 'network-only'
     }
   })

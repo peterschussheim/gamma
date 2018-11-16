@@ -31,7 +31,7 @@ const Tag = styled('span')({
 })
 
 export default function Post({
-  post: { title, content, tags },
+  post: { title, files, tags },
   author = { username: 'unknown' }
 }) {
   return (
@@ -39,7 +39,7 @@ export default function Post({
       <PostTitle data-testid="post-title">{title}</PostTitle>
       <h4 data-testid="post-author-username">by {author.username}</h4>
       <PostSeparator />
-      <p data-testid="post-content">{content}</p>
+      <p data-testid="post-files">{files}</p>
       <div>
         {tags.map((t, i) => (
           <Tag key={t} data-testid={`post-tag-${i}`}>

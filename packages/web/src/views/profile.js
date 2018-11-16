@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom'
 import { Query } from 'react-apollo'
 import Logout from '../components/logout'
 import ConnectToGithub from '../components/connectToGithub'
-import { VIEWER } from '../queries'
+import { VIEWER_ME } from '../queries'
 
 class Profile extends React.Component {
   renderAuthLink = props => {
@@ -22,7 +22,7 @@ class Profile extends React.Component {
   }
   render() {
     return (
-      <Query query={VIEWER} ssr={false}>
+      <Query query={VIEWER_ME} ssr={false}>
         {({ client, loading, error, data }) => {
           if (loading) {
             return <p>Loading...</p>

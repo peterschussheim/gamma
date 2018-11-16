@@ -2,7 +2,7 @@ import React from 'react'
 import { Query } from 'react-apollo'
 import { Link } from 'react-router-dom'
 
-import { VIEWER } from '../queries'
+import { VIEWER_ME } from '../queries'
 import Logout from './logout'
 import RenderError from './error'
 
@@ -18,7 +18,7 @@ class User extends React.Component {
 
   render() {
     return (
-      <Query query={VIEWER}>
+      <Query query={VIEWER_ME}>
         {({ loading, error, data }) =>
           error && error.message.includes('Not authorized') ? (
             <div>

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 
 import { TextInput } from './inputs'
-import { VIEWER, REGISTER } from '../../queries'
+import { VIEWER_ME, REGISTER } from '../../queries'
 import { validRegistrationSchema } from '../../utils/schemas'
 
 const Signup = props => {
@@ -113,7 +113,7 @@ const Signup = props => {
 export default compose(
   graphql(REGISTER, {
     options: {
-      refetchQueries: [{ query: VIEWER }]
+      refetchQueries: [{ query: VIEWER_ME }]
     }
   })
 )(Signup)
