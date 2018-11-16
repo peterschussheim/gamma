@@ -1,7 +1,7 @@
 const debug = require('debug')('mutation:auth')
 import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
-var util = require('util')
+const util = require('util')
 import { getUserIdFromSession, AuthError } from '../../utils/getUserId'
 import { Context } from '../../gamma'
 import { sendConfirmationEmail } from '../../utils/email'
@@ -86,6 +86,8 @@ export const auth = {
     // 3) Attach a key with userId === to the user's id in DB
     ctx.req.session.userId = user.id
     if (user.githubProfile) {
+      // TODO: if user connects with github, attach their accessToken to
+      // session object to reduce hitting the DB
       debug(`GITHUB: ${user.githubProfile.githubUserId}`)
       ctx.req.session.githubId = user.githubProfile.githubUserId
     }
