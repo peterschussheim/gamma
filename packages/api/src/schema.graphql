@@ -3,6 +3,7 @@
 type Query {
   # Query the current user's data
   viewer: Viewer
+  getGistById(gistId: String!): Gist
   postById(id: ID!): Post!
   # Query a set of posts for a given data and/or multiple dates ordered chronologically.
   postsByDate(
@@ -28,7 +29,6 @@ type Mutation {
   resendConfirmationEmail(email: String!): MutationResult!
   updateUserEmailStatus(emailConfirmed: Boolean!): User
   updateUser(data: UserUpdateInput): User
-  getOneGist(gistId: String!): Gist
   createGist(
     files: [FileCreateInput]
     description: String
