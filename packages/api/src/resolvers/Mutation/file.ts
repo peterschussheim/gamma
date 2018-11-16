@@ -5,6 +5,6 @@ export const file = {
     return ctx.db.mutation.updateFile({ data: { name }, where: { id } }, info)
   },
   deleteFile: async (parent, { id }, ctx: Context, info) => {
-    return await ctx.db.mutation.deleteFile({ where: { id } }, info)
+    return ctx.db.mutation.deleteFile({ where: { id } }, info)
   }
 }
