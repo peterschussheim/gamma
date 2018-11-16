@@ -28,8 +28,14 @@ type Mutation {
   resendConfirmationEmail(email: String!): MutationResult!
   updateUserEmailStatus(emailConfirmed: Boolean!): User
   updateUser(data: UserUpdateInput): User
+  getOneGist(gistId: String!): Gist
+  createGist(
+    files: [FileCreateInput]
+    description: String
+    public: Boolean
+  ): Gist
   createPost(data: PostCreateInput): Post!
-  updatePost(data: PostUpdateInput): Post!
+  updatePost(data: PostUpdateInput, where: PostWhereUniqueInput): Post!
   deletePost(id: ID!): MutationResult!
   createTag(data: TagCreateInput): Tag!
   updateTag(data: TagUpdateInput): Tag!
@@ -48,6 +54,7 @@ type Subscription {
 type Viewer {
   # Used to check that a given user is authenticated.
   me: User
+  gists: [Gist!]!
 }
 
 type Counter {
@@ -62,4 +69,36 @@ type AuthPayload {
 
 type MutationResult {
   success: Boolean
+}
+
+type Gist {
+  gistId: String!
+  files: [GistFile!]!
+  description: String!
+  isPublic: Boolean
+  url: String
+  forks_url: String
+  commits_url: String
+  git_pull_url: String
+  git_push_url: String
+  html_url: String
+  created_at: String
+  updated_at: String
+  comments: Int
+  user: String
+  comments_url: String
+  owner: String
+  forks: [String]
+  history: [String]
+  truncated: Boolean
+}
+
+type GistFile {
+  filename: String
+  type: String
+  language: String
+  raw_url: String
+  size: Int
+  truncated: Boolean
+  content: String
 }
