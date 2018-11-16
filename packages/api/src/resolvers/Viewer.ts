@@ -1,7 +1,7 @@
 const debug = require('debug')('resolvers:viewer')
 const util = require('util')
 import * as Octokit from '@octokit/rest'
-
+import { UnauthenticatedError } from '../utils/errors'
 import { getUserIdFromSession } from '../utils/getUserId'
 import { Context } from '../gamma'
 
@@ -19,6 +19,9 @@ interface GistFiles {
 export const Viewer = {
   me: async (parent, args, ctx: Context, info) => {
     const id = getUserIdFromSession(ctx)
+    if (id === 'unauthenticated' || null) {
+      throw new UnauthenticatedError()
+    }
     return ctx.db.query.user({ where: { id } }, info)
   },
   gists: async (parent, args, ctx: Context, info) => {
@@ -32,6 +35,9 @@ export const Viewer = {
     }
   `
     const id = getUserIdFromSession(ctx)
+    if (id === 'unauthenticated' || null) {
+      throw new UnauthenticatedError()
+    }
     const {
       githubProfile: { accessTokens }
     } = await ctx.db.query.user({ where: { id } }, fragment)
