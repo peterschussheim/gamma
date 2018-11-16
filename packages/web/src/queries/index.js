@@ -5,9 +5,10 @@ export const CREATE_POST = gql`
     createPost(data: $data) {
       id
       visibility
-      content {
+      files {
         name
-        data
+        type
+        content
       }
     }
   }
@@ -48,7 +49,7 @@ export const LOGOUT = gql`
   }
 `
 
-export const VIEWER = gql`
+export const VIEWER_ME = gql`
   {
     viewer {
       me {
@@ -60,6 +61,27 @@ export const VIEWER = gql`
           login
           githubUserId
           name
+        }
+      }
+    }
+  }
+`
+
+export const VIEWER_GISTS = gql`
+  {
+    viewer {
+      gists {
+        gistId
+        url
+        description
+        isPublic
+        truncated
+        files {
+          filename
+          type
+          language
+          raw_url
+          size
         }
       }
     }
