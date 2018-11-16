@@ -49,6 +49,14 @@ export const LOGOUT = gql`
   }
 `
 
+export const LOGOUT_ALL_SESSIONS = gql`
+  mutation {
+    logoutOfAllSessions {
+      success
+    }
+  }
+`
+
 export const VIEWER_ME = gql`
   {
     viewer {
