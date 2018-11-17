@@ -1,11 +1,9 @@
 # import * from "./generated/prisma.graphql"
 
 type Query {
-  # Query the current user's data
   viewer: Viewer
   getGistById(gistId: String!): Gist
   postById(id: ID!): Post!
-  # Query a set of posts for a given data and/or multiple dates ordered chronologically.
   postsByDate(
     where: PostWhereInput
     orderBy: PostOrderByInput
@@ -15,7 +13,6 @@ type Query {
     first: Int
     last: Int
   ): [Post!]!
-  ## Fetch global list of tags.
   tags: [Tag!]!
   file(id: ID!): File
   files: [File!]!
@@ -29,11 +26,9 @@ type Mutation {
   resendConfirmationEmail(email: String!): MutationResult!
   updateUserEmailStatus(emailConfirmed: Boolean!): User
   updateUser(data: UserUpdateInput): User
-  createGist(
-    files: [FileCreateInput]
-    description: String
-    public: Boolean
-  ): Gist
+  createGist(data: GistCreateInput): Gist
+  updateGist(data: GistUpdateInput): Gist
+  deleteGist(gistId: String!): MutationResult!
   createPost(data: PostCreateInput): Post!
   updatePost(data: PostUpdateInput, where: PostWhereUniqueInput): Post!
   deletePost(id: ID!): MutationResult!
@@ -75,7 +70,7 @@ type Gist {
   gistId: String!
   files: [GistFile!]!
   description: String!
-  isPublic: Boolean
+  isPublic: Boolean!
   url: String
   forks_url: String
   commits_url: String
@@ -101,4 +96,23 @@ type GistFile {
   size: Int
   truncated: Boolean
   content: String
+}
+
+# set `GistCreateFileObjectInput` to `null` when editing to instruct
+# GitHub to delete that file.
+input GistCreateFileObjectInput {
+  filename: String
+  content: String
+}
+
+input GistCreateInput {
+  files: [GistCreateFileObjectInput!]!
+  description: String!
+  isPublic: Boolean!
+}
+
+input GistUpdateInput {
+  gistId: String!
+  files: [GistCreateFileObjectInput]
+  description: String
 }
