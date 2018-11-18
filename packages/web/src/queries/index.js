@@ -1,19 +1,5 @@
 import gql from 'graphql-tag'
 
-export const CREATE_POST = gql`
-  mutation($data: PostCreateInput) {
-    createPost(data: $data) {
-      id
-      visibility
-      files {
-        name
-        type
-        content
-      }
-    }
-  }
-`
-
 export const REGISTER = gql`
   mutation($name: String, $email: String!, $password: String!) {
     signup(name: $name, email: $email, password: $password) {
@@ -111,6 +97,67 @@ export const GET_GIST_BY_ID = gql`
         content
       }
       isPublic
+    }
+  }
+`
+
+export const CREATE_GIST = gql`
+  mutation($data: GistCreateInput) {
+    createGist(data: $data) {
+      description
+      isPublic
+      files {
+        filename
+        type
+        language
+        raw_url
+        size
+        truncated
+        content
+      }
+      created_at
+    }
+  }
+`
+
+export const EDIT_GIST = gql`
+  mutation($data: GistUpdateInput) {
+    updateGist(data: $data) {
+      description
+      isPublic
+      files {
+        filename
+        type
+        language
+        raw_url
+        size
+        truncated
+        content
+      }
+      created_at
+      updated_at
+    }
+  }
+`
+
+export const DELETE_GIST = gql`
+  mutation($gistId: String!) {
+    deleteGist(gistId: $gistId) {
+      success
+    }
+  }
+`
+
+export const CREATE_POST = gql`
+  mutation($data: PostCreateInput) {
+    createPost(data: $data) {
+      id
+      visibility
+      files {
+        name
+        type
+        content
+      }
     }
   }
 `
