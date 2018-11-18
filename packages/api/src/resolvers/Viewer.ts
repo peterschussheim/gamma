@@ -20,7 +20,7 @@ export const Viewer = {
   me: async (parent, args, ctx: Context, info) => {
     const id = getUserIdFromSession(ctx)
     if (id === 'unauthenticated' || null) {
-      throw new UnauthenticatedError()
+      // throw new UnauthenticatedError()
     }
     return ctx.db.query.user({ where: { id } }, info)
   },
@@ -76,7 +76,7 @@ async function getGists(
 }
 
 function getGistFiles(gist) {
-  const files = gist.files
+  const files: GistFiles = gist.files
   const gistFiles = []
   for (const [key, value] of Object.entries(files)) {
     if (files.hasOwnProperty(key)) {
