@@ -35,7 +35,10 @@ const options: Options = {
       return userId
     }
   },
-  playground: '/playground',
+  playground:
+    process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
+      ? false
+      : '/playground',
   formatError,
   bodyParserOptions: {
     type: '*/*'
@@ -46,14 +49,6 @@ const options: Options = {
  * Instantiate an instance of our prisma db using desired env variables
  */
 const prisma = initDatabase(defaultPrismaOptions)
-
-/**
- *  Paths needed to handle:
- *
- * 1) start server with apollo engine (currently disabled.)
- * 2) start server without apollo engine
- *
- */
 
 startServer(prisma)
   .start(options)
