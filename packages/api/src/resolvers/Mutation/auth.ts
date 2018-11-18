@@ -46,57 +46,30 @@ export const auth = {
       return { success: true }
     }
     return { success: false }
-
-    // ctx.request.session.userId = user.id
-    // if (ctx.request.sessionID) {
-    //   debug(
-    //     `Pushing current request sessionID into redis set: ${
-    //       ctx.request.sessionID
-    //     }`
-    //   )
-    //   // create and/or add a new set for this user and add the request.sessionID
-    //   await ctx.redis.sadd(
-    //     `${USER_SESSION_ID_PREFIX}${user.id}`,
-    //     ctx.request.sessionID
-    //   )
-    // }
-    // debug('New user created')
-    // debug('Returning signed token and user data')
-
-    // return {
-    //   token: jwt.sign({ userId: user.id }, process.env.APP_SECRET),
-    //   user
-    // }
   },
-
   login: async (parent, args, ctx: Context, info) => {
-    // 1) Lookup given email in db using `where` clause (email is unique field)
     const user = await ctx.db.query.user({ where: { email: args.email } })
     const valid = await bcrypt.compare(args.password, user ? user.password : '')
 
+    // debug(`user: ${util.inspect(user)}`)
     if (!user.emailConfirmed) {
       throw new ConfirmEmailError()
     }
 
-    // 2) throw if user is not found or pw is invalid
     if (!valid || !user) {
       throw new AuthError()
     }
 
-    // 3) Attach a key with userId === to the user's id in DB
     ctx.req.session.userId = user.id
+    debug(`token: ${user.githubProfile}`)
     if (user.githubProfile) {
-      // TODO: if user connects with github, attach their accessToken to
-      // session object to reduce hitting the DB
-      debug(`GITHUB: ${user.githubProfile.githubUserId}`)
-      ctx.req.session.githubId = user.githubProfile.githubUserId
+      ctx.req.session.githubAccessToken = user.githubProfile.accessTokens
     }
 
     if (ctx.req.sessionID) {
       debug(
         `Pushing current request sessionID into redis set: ${ctx.req.sessionID}`
       )
-      // 4) create and/or add a new set for this user and add a the request.sessionID.
       await ctx.redis.sadd(
         `${USER_SESSION_ID_PREFIX}${user.id}`,
         ctx.req.sessionID
@@ -118,7 +91,7 @@ export const auth = {
   },
   resendConfirmationEmail: async (parent, args, ctx: Context, info) => {
     const user = await ctx.db.query.user({ where: { email: args.email } })
-    if (user && user.emailConfirmed == false) {
+    if (user && user.emailConfirmed === false) {
       const confirmationUrl = await createConfirmEmailLink(user.id, ctx.redis)
       await sendConfirmationEmail(user.email, confirmationUrl)
       debug(`Confirmation email sent to ${user.email}`)
