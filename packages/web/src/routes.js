@@ -17,14 +17,6 @@ const Home = Loadable({
   loading: Loading
 })
 
-// const HomeFallback = signedOutFallback(Home, () => <Redirect to="/" />)
-// const LoginFallback = signedOutFallback(() => <Redirect to="/" />, Login)
-
-/**
- *  type Props = {
- *    currentUser: ?Object
- *  }
- */
 class Routes extends React.Component {
   render() {
     // const { currentUser } = this.props
