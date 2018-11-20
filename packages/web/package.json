@@ -22,8 +22,7 @@
     "precise-commits": "precise-commits",
     "precommit": "yarn run precise-commits",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
-    "webpack-defaults": "webpack-defaults",
-    "eject": "react-scripts eject"
+    "webpack-defaults": "webpack-defaults"
   },
   "pre-commit": "lint-staged",
   "lint-staged": {
@@ -40,8 +39,7 @@
   "devDependencies": {
     "babel-plugin-emotion": "9.2.11",
     "babel-plugin-transform-class-properties": "6.24.1",
-    "gamma-core": "0.0.1",
-    "monaco-editor-webpack-plugin": "1.6.0"
+    "gamma-core": "0.0.1"
   },
   "dependencies": {
     "@emotion/core": "10.0.0-beta.6",
@@ -74,9 +72,9 @@
     "graphql": "0.13.2",
     "graphql-tag": "2.9.2",
     "helmet": "3.13.0",
-    "hiredis": "0.5.0",
     "hpp": "0.2.2",
     "ioredis": "4.2.0",
+    "monaco-editor-webpack-plugin": "1.6.0",
     "now-env": "3.1.0",
     "passport": "0.4.0",
     "prisma-binding": "2.1.3",
@@ -89,7 +87,7 @@
     "react-error-boundary": "1.2.3",
     "react-helmet-async": "0.2.0",
     "react-loadable": "5.5.0",
-    "react-monaco-editor": "0.21.0",
+    "react-monaco-editor": "0.22.0",
     "react-router-dom": "4.3.1",
     "react-select": "2.1.1",
     "shared": "0.0.1",

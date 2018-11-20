@@ -1,6 +1,5 @@
 const { ReactLoadablePlugin } = require('react-loadable/webpack')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
-
 module.exports = {
   modify: (config, { target }, webpack) => {
     if (target === 'web') {
@@ -8,10 +7,10 @@ module.exports = {
         ...config,
         plugins: [
           ...config.plugins,
+          new MonacoWebpackPlugin(),
           new ReactLoadablePlugin({
             filename: './build/react-loadable.json'
-          }),
-          new MonacoWebpackPlugin()
+          })
         ]
       }
     }
