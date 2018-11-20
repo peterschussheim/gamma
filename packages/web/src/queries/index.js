@@ -66,17 +66,27 @@ export const VIEWER_GISTS = gql`
     viewer {
       gists {
         gistId
-        url
-        description
-        isPublic
-        truncated
         files {
           filename
           type
           language
           raw_url
           size
+          truncated
+          content
         }
+        description
+        isPublic
+        url
+        forks_url
+        commits_url
+        git_pull_url
+        git_push_url
+        html_url
+        created_at
+        updated_at
+        comments
+        history
       }
     }
   }
