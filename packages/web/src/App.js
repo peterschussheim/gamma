@@ -17,6 +17,17 @@ const client = new ApolloClient({
   cache: window.__DATA__ ? cache.restore(window.__DATA__) : cache
 })
 
+window.MonacoEnvironment = { getWorkerUrl: () => proxy }
+
+var proxy = URL.createObjectURL(
+  new Blob(
+    [
+      `self.MonacoEnvironment = {baseUrl: 'https://unpkg.com/monaco-editor@0.15.5/min/'}\n;importScripts('https://unpkg.com/monaco-editor@0.15.5/min/vs/base/worker/workerMain.js');`
+    ],
+    { type: 'text/javascript' }
+  )
+)
+
 /**
  * Use the following module on the client only.  For the server 'App',
  * we construct the app in the `server/index.js` file since it has different
