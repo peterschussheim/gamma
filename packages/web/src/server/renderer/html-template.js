@@ -2,7 +2,6 @@ import serialize from 'serialize-javascript'
 import { runtimeConfig } from '../../isomorphicVariables'
 const debug = require('debug')('ssr:html-template')
 const { inspect } = require('util')
-// debug(`html-template: ${inspect(runtimeConfig, { depth: 5, colors: true })}`)
 
 export default ({ helmet, data, assets, scripts, staticBuild }) => {
   const header = `<!DOCTYPE html>
