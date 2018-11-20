@@ -10,6 +10,13 @@ window.main = () => {
   render(App)
 }
 
+// window.MonacoEnvironment = {
+//   getWorkerUrl: function(workerId, label) {
+//     return `data:text/javascript;charset=utf-8,${encodeURIComponent(
+//       `self.MonacoEnvironment = {baseUrl: '../node_modules/@peterschussheim/monaco-editor/dist/external/monaco.js'};importScripts'../node_modules/@peterschussheim/monaco-editor/dist/external/monaco.js');`
+//     )}`
+//   }
+// }
 if (module.hot) {
   module.hot.accept('./App', () => {
     const NewApp = require('./App').default
