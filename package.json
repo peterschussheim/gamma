@@ -10,12 +10,12 @@
   "workspaces": {
     "packages": [
       "packages/*"
+    ],
+    "nohoist": [
+      "**/debug",
+      "**/debug/**"
     ]
   },
-  "nohoist": [
-    "**/debug",
-    "**/debug/**"
-  ],
   "engines": {
     "node": ">=10",
     "yarn": ">=1.9.4"
