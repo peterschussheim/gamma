@@ -12,9 +12,15 @@ export const HIT_COUNTER_PREFIX = 'htcount:'
 
 export const IS_PROD =
   process.env.NODE_ENV === 'production' && !process.env.FORCE_DEV
-export const API_URI = IS_PROD ? `/api` : 'http://localhost:4000/api'
 
 const { STAGING, API_STAGING_URL } = runtimeConfig
+
+export const API_URI =
+  STAGING === 'true' && IS_PROD
+    ? `https://${new URL(API_STAGING_URL).hostname}/api`
+    : STAGING === 'false'
+      ? `https://${window.location.host}/api`
+      : 'http://localhost:4000/api'
 
 export const WS_URI =
   STAGING === 'true' && IS_PROD
