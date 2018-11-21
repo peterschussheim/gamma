@@ -6,8 +6,7 @@ const styles = {
     color: 'white',
     fontWeight: 100,
     fontSize: 10,
-    fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`
+    width: 800
   }
 }
 

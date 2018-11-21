@@ -4,10 +4,12 @@ import PropTypes from 'prop-types'
 const styles = {
   container: {
     display: 'flex',
-    minHeight: 600
+    maxHeight: 500,
+    maxWidth: 800
   },
   rightPanel: {
-    flex: 1
+    flex: 1,
+    overflow: 'scroll'
   },
   leftPanel: {
     display: 'flex',
@@ -18,16 +20,16 @@ const styles = {
 
 export default class Skeleton extends Component {
   static propTypes = {
-    panel: PropTypes.node,
+    sidebar: PropTypes.node,
     children: PropTypes.node
   }
 
   render() {
-    const { panel, children } = this.props
+    const { sidebar, children } = this.props
 
     return (
       <div style={styles.container}>
-        <div style={styles.rightPanel}>{panel}</div>
+        <div style={styles.rightPanel}>{sidebar}</div>
         <div style={styles.leftPanel}>{children}</div>
       </div>
     )

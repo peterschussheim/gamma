@@ -45,10 +45,10 @@ class Editor extends React.Component {
               Title
             </label>
             <Input id="title-input" placeholder="Title" name="title" />
-            <Skeleton panel={<Sidebar />}>
+            <Skeleton sidebar={<Sidebar />}>
               <CodeEditor theme="vs-dark" />
-              <Header title="neat" />
             </Skeleton>
+            <Header title="neat" />
             <label style={{ justifySelf: 'right' }} htmlFor="tags-input">
               Tags
             </label>
@@ -69,7 +69,7 @@ class Editor extends React.Component {
             >
               Reset
             </button>
-            <Debug />
+            {/* <Debug /> */}
           </Form>
         )}
       />

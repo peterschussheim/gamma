@@ -6,9 +6,9 @@ import { VIEWER_GISTS } from '../../queries'
 const styles = {
   sidebar: {
     backgroundColor: '#343436',
-    width: '33vw',
-    height: '100vh',
-    overflow: 'auto'
+    // width: '33vw',
+    // height: '100vh',
+    overflow: 'scroll'
   },
   sidebarItem: {
     whiteSpace: 'nowrap',
