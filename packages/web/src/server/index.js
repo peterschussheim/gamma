@@ -178,6 +178,38 @@ app.get('/static/js/:name', (req, res, next) => {
   if (!actualFilename) return next()
   res.redirect(`/static/js/${actualFilename}`)
 })
+let cssFiles
+try {
+  cssFiles = fs.readdirSync(
+    path.resolve(__dirname, '..', 'build', 'public', 'static', 'css')
+  )
+} catch (err) {
+  // In development that folder might not exist, so ignore errors here
+  debug(`build/static/css not found: ${err}`)
+}
+app.get('/static/css/:name', (req, res, next) => {
+  if (!req.params.name) return next()
+  const existingFile = cssFiles.find(file => file.startsWith(req.params.name))
+  if (existingFile) {
+    debug(`existingFile found: ${existingFile}`)
+    return res.sendFile(
+      path.resolve(
+        __dirname,
+        '..',
+        'build',
+        'public',
+        'static',
+        'css',
+        req.params.name
+      )
+    )
+  }
+  const match = req.params.name.match(/(\w+?)\.(\w+?\.)?js/i)
+  if (!match) return next()
+  const actualFilename = cssFiles.find(file => file.startsWith(match[1]))
+  if (!actualFilename) return next()
+  res.redirect(`/static/css/${actualFilename}`)
+})
 
 app.get('/*', renderer)
 

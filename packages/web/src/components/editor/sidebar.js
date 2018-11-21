@@ -24,7 +24,7 @@ const SidebarItem = props => {
 
 const GistList = props => {
   return (
-    <Query query={VIEWER_GISTS}>
+    <Query query={VIEWER_GISTS} ssr={false}>
       {({ loading, error, data }) => {
         if (loading) {
           return <p>Loading...</p>
