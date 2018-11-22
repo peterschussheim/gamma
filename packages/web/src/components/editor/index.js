@@ -2,11 +2,8 @@ import React from 'react'
 import MonacoEditor from 'react-monaco-editor'
 
 export default class CodeEditor extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      code: '// type your code... \n'
-    }
+  state = {
+    code: '// type your code... \n'
   }
 
   onChange = (newValue, e) => {

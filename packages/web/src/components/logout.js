@@ -1,12 +1,13 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
 import { LOGOUT } from '../queries'
+import { BlueButton } from './buttons'
 
 const Logout = props => {
   return (
     <Mutation mutation={LOGOUT}>
       {(logout, { client }) => (
-        <button
+        <BlueButton
           data-cy="logout-button"
           onClick={async () => {
             await logout()
@@ -14,7 +15,7 @@ const Logout = props => {
           }}
         >
           Logout
-        </button>
+        </BlueButton>
       )}
     </Mutation>
   )
