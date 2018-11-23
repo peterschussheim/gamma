@@ -41,18 +41,18 @@ class Editor extends React.Component {
           setFieldTouched
         }) => (
           <Form>
-            <label style={{ justifySelf: 'right' }} htmlFor="title-input">
-              Title
-            </label>
-            <Input id="title-input" placeholder="Title" name="title" />
             <Skeleton sidebar={<Sidebar />}>
               <CodeEditor theme="vs-dark" />
             </Skeleton>
             <Header title="neat" />
+            {/* <label style={{ justifySelf: 'right' }} htmlFor="title-input">
+              Title
+            </label>
+            <Input id="title-input" placeholder="Title" name="title" />
             <label style={{ justifySelf: 'right' }} htmlFor="tags-input">
               Tags
             </label>
-            <Input id="tags-input" placeholder="tags" name="tags" />
+            <Input id="tags-input" placeholder="tags" name="tags" /> */}
             <button
               type="submit"
               className="secondary"

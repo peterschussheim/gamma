@@ -28,7 +28,12 @@ class Routes extends React.Component {
               box-sizing: border-box;
               font-family: ;
             }
-
+            :root {
+              --green: #5edb93;
+              --black: #414141;
+              --shadow: 0px 8px 30px -5px rgba(79, 79, 79, 0.3);
+              --shadowHover: 0px 8px 5px -5px rgba(79, 79, 79, 0.3);
+            }
             body {
               font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
                 Helvetica, Arial, sans-serif, 'Apple Color Emoji',
@@ -49,6 +54,19 @@ class Routes extends React.Component {
               font-family: 'Menlo';
               font-size: 13px;
               color: #ff00aa;
+            }
+
+            #flex-container {
+              display: flex;
+              flex-direction: row;
+            }
+
+            #flex-container > .flex-item {
+              flex: auto;
+            }
+
+            #flex-container > .raw-item {
+              width: 5rem;
             }
 
             .text-input {
@@ -94,22 +112,6 @@ class Routes extends React.Component {
               margin-bottom: 1rem;
             }
 
-            button {
-              max-width: 150px;
-              margin: 20px 0;
-              padding: 12px 20px;
-              border-style: none;
-              border-radius: 0px;
-              background-color: #08c;
-              box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
-              font-size: 17px;
-              font-weight: 500;
-              color: #fff;
-              cursor: pointer;
-              outline: none;
-              -webkit-appearance: none;
-            }
-
             button:disabled {
               opacity: 0.5;
               cursor: not-allowed !important;
@@ -141,6 +143,7 @@ class Routes extends React.Component {
             props={this.props}
           />
           {/* <Route path="/confirm/:id" component={ConfirmEmail} /> */}
+          <Route path="/g/:id" component={Editor} />
           <Route path="*" component={NotFound} />
         </Switch>
       </React.Fragment>

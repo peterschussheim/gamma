@@ -9,7 +9,7 @@ const styles = {
   },
   rightPanel: {
     flex: 1,
-    overflow: 'scroll'
+    overflow: 'auto'
   },
   leftPanel: {
     display: 'flex',

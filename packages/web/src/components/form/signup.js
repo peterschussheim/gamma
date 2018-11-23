@@ -1,9 +1,9 @@
 import React from 'react'
 import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
-// import PropTypes from 'prop-types'
 import { Formik, Form } from 'formik'
 
+import { GreenButton } from '../buttons'
 import { TextInput } from './inputs'
 import { VIEWER_ME, REGISTER } from '../../queries'
 import { validRegistrationSchema } from '../../utils/schemas'
@@ -83,25 +83,25 @@ const Signup = props => {
               aria-labelledby="password"
               data-cy="password-input"
             />
-            <button
-              type="reset"
-              className="secondary"
-              disabled={isSubmitting}
-              onClick={handleReset}
-            >
-              Reset
-            </button>
-            <button
+            <GreenButton
               data-cy="signup-button"
               type="submit"
               disabled={!dirty || isSubmitting}
             >
               Submit
-            </button>
+            </GreenButton>
+            <GreenButton
+              type="reset"
+              className="secondary"
+              disabled={!dirty || isSubmitting}
+              onClick={handleReset}
+            >
+              Reset
+            </GreenButton>
             <Link to="/auth/login">
-              <button data-cy="login-button" type="button">
+              <GreenButton data-cy="login-button" type="button">
                 Login
-              </button>
+              </GreenButton>
             </Link>
           </Form>
         )}

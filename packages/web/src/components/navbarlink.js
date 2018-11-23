@@ -7,7 +7,7 @@ const NavbarLink = ({ title, href, location }) => {
   const isActive = location.pathname === href
 
   return (
-    <li className={isActive ? 'active' : ''}>
+    <li style={{ listStyleType: 'none' }} className={isActive ? 'active' : ''}>
       <NavLink to={href}>
         {title}
         {isActive && <span>(current)</span>}

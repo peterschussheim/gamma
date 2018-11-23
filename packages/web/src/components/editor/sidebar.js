@@ -6,9 +6,7 @@ import { VIEWER_GISTS } from '../../queries'
 const styles = {
   sidebar: {
     backgroundColor: '#343436',
-    // width: '33vw',
-    // height: '100vh',
-    overflow: 'scroll'
+    overflow: 'auto'
   },
   sidebarItem: {
     whiteSpace: 'nowrap',
@@ -19,7 +17,7 @@ const styles = {
 }
 
 const SidebarItem = props => {
-  return <div style={styles.sidebarItem} {...props} />
+  return <div {...props} />
 }
 
 const GistList = props => {
@@ -33,17 +31,17 @@ const GistList = props => {
           return <div>{error}</div>
         } else {
           return (
-            <React.Fragment>
+            <div style={styles.sidebar}>
               {data.viewer.gists
                 ? data.viewer.gists.map(gist => (
-                    <SidebarItem key={gist.gistId}>
+                    <SidebarItem style={styles.sidebarItem} key={gist.gistId}>
                       <Link to={`/g/${gist.gistId}`}>
                         {gist.description || '[no description]'}
                       </Link>
                     </SidebarItem>
                   ))
                 : null}
-            </React.Fragment>
+            </div>
           )
         }
       }}
@@ -53,10 +51,6 @@ const GistList = props => {
 
 export default class Sidebar extends React.Component {
   render() {
-    return (
-      <div style={styles.sidebar}>
-        <GistList />
-      </div>
-    )
+    return <GistList props={this.props} />
   }
 }
