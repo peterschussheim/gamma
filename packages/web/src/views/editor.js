@@ -12,11 +12,11 @@ import { Debug } from '../components/form/formDebugger'
 
 class Editor extends React.Component {
   didLoad = () => {
-    console.log('DidLoad')
+    // console.log('DidLoad')
   }
 
   didMount = editor => {
-    console.log('DidMount', editor)
+    // console.log('DidMount', editor)
   }
   render() {
     return (

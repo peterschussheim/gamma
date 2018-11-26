@@ -11,7 +11,7 @@ export default class CodeEditor extends React.Component {
   }
 
   editorDidMount = editor => {
-    console.log('editorDidMount', editor, editor.getValue(), editor.getModel())
+    // console.log('editorDidMount', editor, editor.getValue(), editor.getModel())
     this.editor = editor
   }
 
