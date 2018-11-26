@@ -95,6 +95,7 @@
     "shared": "0.0.1",
     "subscriptions-transport-ws": "0.9.15",
     "toobusy-js": "0.5.1",
+    "vscode-icons-js": "7.25.2",
     "ws": "6.1.0",
     "yup": "0.26.6"
   }
