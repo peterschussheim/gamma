@@ -26,7 +26,7 @@ export default class CodeEditor extends React.Component {
   }
 
   render() {
-    const { code } = this.state
+    const { value } = this.props
     const options = {
       selectOnLineNumbers: true,
       roundedSelection: false,
@@ -48,7 +48,7 @@ export default class CodeEditor extends React.Component {
           height="500"
           language={this.props.language}
           theme={this.props.theme}
-          value={code}
+          value={value}
           options={options}
           onChange={this.onChange}
           requireConfig={requireConfig}

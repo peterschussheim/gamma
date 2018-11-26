@@ -4,13 +4,22 @@ import { Formik, Form } from 'formik'
 
 import CodeEditor from '../components/editor'
 import Skeleton from '../components/editor/skeleton'
-import Header from '../components/editor/header'
+import Footer from '../components/editor/footer'
 import Sidebar from '../components/editor/sidebar'
 
 import { Input, TextArea } from '../components/form/inputs'
 import { Debug } from '../components/form/formDebugger'
 
 class Editor extends React.Component {
+  state = {
+    isEditing: false,
+    isNewGist: false,
+    editorValue: ''
+  }
+
+  handleEdit = () => {
+    this.setState({ isEditing: true })
+  }
   didLoad = () => {
     // console.log('DidLoad')
   }
@@ -44,7 +53,7 @@ class Editor extends React.Component {
             <Skeleton sidebar={<Sidebar />}>
               <CodeEditor theme="vs-dark" />
             </Skeleton>
-            <Header title="neat" />
+            <Footer />
             {/* <label style={{ justifySelf: 'right' }} htmlFor="title-input">
               Title
             </label>

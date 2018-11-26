@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router'
+import { Link, Route, Switch } from 'react-router-dom'
 import Loadable from 'react-loadable'
 import { Global, css } from '@emotion/core'
 import { Query } from 'react-apollo'
@@ -14,6 +14,11 @@ import Editor from './views/editor'
 import Gist from './views/gist'
 import NotFound from './views/notfound'
 import ConfirmEmail from './views/confirmEmail'
+import Skeleton from './components/editor/skeleton'
+import Footer from './components/editor/footer'
+import Sidebar, { FileList } from './components/editor/sidebar'
+import CodeEditor from './components/editor'
+import Icon from './components/icon'
 
 const Loading = () => <div>Loading...</div>
 
@@ -47,8 +52,8 @@ class Routes extends React.Component {
             path="/g/:gistId"
             render={({ match }) => (
               <React.Fragment>
-                <h1>Viewing Gist</h1>
-                <div>gistId: {match.params.gistId}</div>
+                <h1>Viewing Gist: {match.params.gistId}</h1>
+                <Link to="/editor">Go back</Link>
                 <Query
                   query={GET_GIST_BY_ID}
                   variables={{ gistId: match.params.gistId }}
@@ -61,13 +66,33 @@ class Routes extends React.Component {
                     } else
                       return (
                         <React.Fragment>
-                          <div>{data.getGistById.url}</div>
-                          <div>{data.getGistById.description}</div>
-                          <Gist
-                            gistId={match.params.gistId}
-                            gist={data.getGistById}
-                            {...this.props}
-                            // gist={gists.find(g => g.id === match.params.gistId)}
+                          <Skeleton
+                            sidebar={
+                              <FileList
+                                gist={data.getGistById}
+                                {...this.props}
+                              />
+                            }
+                          >
+                            {/* <Gist
+                              gistId={match.params.gistId}
+                              gist={data.getGistById}
+                              {...this.props}
+                            /> */}
+                            <CodeEditor
+                              value={data.getGistById.files[0].content}
+                              language={data.getGistById.files[0].language}
+                              theme="vs-dark"
+                            />
+                          </Skeleton>
+                          <Footer
+                            currentFile={data.getGistById.files[0].filename}
+                            iconComponent={
+                              <Icon
+                                height={17}
+                                name={data.getGistById.files[0].filename}
+                              />
+                            }
                           />
                         </React.Fragment>
                       )

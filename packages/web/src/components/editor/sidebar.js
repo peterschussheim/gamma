@@ -1,24 +1,50 @@
 import React from 'react'
 import { compose, graphql, Query } from 'react-apollo'
 import { Link, withRouter } from 'react-router-dom'
+
 import { VIEWER_GISTS } from '../../queries'
+import Icon from '../icon'
 import Gist from '../../views/gist'
 
 const styles = {
+  description: {
+    fontSize: 11,
+    margin: '0px 15px 5px 5px',
+    color: 'white',
+    outline: '1px dotted #e73'
+  },
   sidebar: {
-    backgroundColor: '#343436',
-    overflow: 'auto'
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
   },
   sidebarItem: {
+    color: 'white',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    padding: '5px 10px'
+    padding: '0px 20px',
+    fontSize: 9
   }
 }
 
 const SidebarItem = props => {
   return <div {...props} />
+}
+
+export const FileList = ({ gist }) => {
+  return (
+    <div style={styles.sidebar}>
+      <span style={styles.description}>
+        {gist.description || '[no description]'}
+      </span>
+      {gist.files.map((file, index) => (
+        <SidebarItem style={styles.sidebarItem} key={file.filename}>
+          <Icon height={12} name={file.filename} /> {file.filename}
+        </SidebarItem>
+      ))}
+    </div>
+  )
 }
 
 class GistList extends React.PureComponent {

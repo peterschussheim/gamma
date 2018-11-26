@@ -9,7 +9,8 @@ const styles = {
   },
   rightPanel: {
     flex: 1,
-    overflow: 'auto'
+    overflow: 'auto',
+    backgroundColor: '#343436'
   },
   leftPanel: {
     display: 'flex',
