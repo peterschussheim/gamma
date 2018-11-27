@@ -6,8 +6,10 @@ const globalStyles = css`
     font-family: ;
   }
   :root {
-    --green: #5edb93;
     --black: #414141;
+    --green: #5edb93;
+    --red: #D73A49;
+    --grey: #6a737d
     --shadow: 0px 8px 30px -5px rgba(79, 79, 79, 0.3);
     --shadowHover: 0px 8px 5px -5px rgba(79, 79, 79, 0.3);
   }
