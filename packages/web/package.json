@@ -18,23 +18,8 @@
     "clean": "rm -rf node_modules && rm -rf yarn.lock",
     "test": "yarn run jest -- --runInBand --watch",
     "lint": "eslint .",
-    "lint:staged": "lint-staged",
-    "precise-commits": "precise-commits",
-    "precommit": "yarn run precise-commits",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "webpack-defaults": "webpack-defaults"
-  },
-  "pre-commit": "lint-staged",
-  "lint-staged": {
-    "*.@(json|md|ts)": [
-      "yarn prettier --write",
-      "git add"
-    ],
-    "*.@(js)": [
-      "prettier --write",
-      "eslint --fix",
-      "git add"
-    ]
   },
   "devDependencies": {
     "babel-plugin-emotion": "9.2.11",
