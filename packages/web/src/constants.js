@@ -19,12 +19,12 @@ export const API_URI =
   STAGING === 'true' && IS_PROD
     ? `https://${new URL(API_STAGING_URL).hostname}/api`
     : STAGING === 'false'
-      ? `https://${window.location.host}/api`
-      : 'http://localhost:4000/api'
+    ? `https://${window.location.host}/api`
+    : 'http://localhost:4000/api'
 
 export const WS_URI =
   STAGING === 'true' && IS_PROD
     ? `wss://${new URL(API_STAGING_URL).hostname}/subscriptions`
     : STAGING === 'false'
-      ? `wss://${window.location.host}/subscriptions`
-      : 'ws://localhost:4000/subscriptions'
+    ? `wss://${window.location.host}/subscriptions`
+    : 'ws://localhost:4000/subscriptions'

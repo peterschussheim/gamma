@@ -29,12 +29,11 @@ class CustomSelect extends React.Component {
           onBlur={this.handleBlur}
           value={this.props.value}
         />
-        {!!this.props.error &&
-          this.props.touched && (
-            <div style={{ color: 'red', marginTop: '.5rem' }}>
-              {this.props.error}
-            </div>
-          )}
+        {!!this.props.error && this.props.touched && (
+          <div style={{ color: 'red', marginTop: '.5rem' }}>
+            {this.props.error}
+          </div>
+        )}
       </div>
     )
   }
