@@ -17,28 +17,27 @@ class Editor extends React.Component {
     editorValue: ''
   }
 
-  handleEdit = () => {
-    this.setState({ isEditing: true })
-  }
-  didLoad = () => {
-    // console.log('DidLoad')
-  }
-
-  didMount = editor => {
-    // console.log('DidMount', editor)
-  }
   render() {
+    const { isNewGist, editorValue, isEditing } = this.state
     return (
       <Formik
         initialValues={{
-          visibility: 'PUBLIC',
-          content: {
-            name: '',
-            data: ''
-          }
+          isNewGist,
+          isPublic: true,
+          description: '',
+          gistId: null,
+          files: [
+            {
+              filename: '',
+              content: ''
+            }
+          ]
         }}
         onSubmit={this.handleSubmit}
         render={({
+          isNewGist,
+          editorValue,
+          isEditing,
           values,
           errors,
           dirty,
@@ -51,34 +50,13 @@ class Editor extends React.Component {
         }) => (
           <Form>
             <Skeleton sidebar={<Sidebar />}>
-              <CodeEditor theme="vs-dark" />
+              <CodeEditor
+                value={values.files[0].content}
+                onChange={handleChange}
+                theme="vs-dark"
+              />
             </Skeleton>
             <Footer />
-            {/* <label style={{ justifySelf: 'right' }} htmlFor="title-input">
-              Title
-            </label>
-            <Input id="title-input" placeholder="Title" name="title" />
-            <label style={{ justifySelf: 'right' }} htmlFor="tags-input">
-              Tags
-            </label>
-            <Input id="tags-input" placeholder="tags" name="tags" /> */}
-            <button
-              type="submit"
-              className="secondary"
-              data-cy="submit-post"
-              disabled={!dirty || isSubmitting}
-            >
-              Update
-            </button>
-            <button
-              type="reset"
-              className="secondary"
-              disabled={isSubmitting}
-              onClick={handleReset}
-            >
-              Reset
-            </button>
-            {/* <Debug /> */}
           </Form>
         )}
       />

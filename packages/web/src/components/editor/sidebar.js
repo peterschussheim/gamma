@@ -4,7 +4,6 @@ import { Link, withRouter } from 'react-router-dom'
 
 import { VIEWER_GISTS } from '../../queries'
 import Icon from '../icon'
-import Gist from '../../views/gist'
 
 const styles = {
   description: {
@@ -32,19 +31,25 @@ const SidebarItem = props => {
   return <div {...props} />
 }
 
-export const FileList = ({ gist }) => {
-  return (
-    <div style={styles.sidebar}>
-      <span style={styles.description}>
-        {gist.description || '[no description]'}
-      </span>
-      {gist.files.map((file, index) => (
-        <SidebarItem style={styles.sidebarItem} key={file.filename}>
-          <Icon height={12} name={file.filename} /> {file.filename}
-        </SidebarItem>
-      ))}
-    </div>
-  )
+export class FileList extends React.Component {
+  render() {
+    return (
+      <div style={styles.sidebar}>
+        <span style={styles.description}>
+          {gist.description || '[no description]'}
+        </span>
+        {gist.files.map((file, index) => (
+          <SidebarItem
+            style={styles.sidebarItem}
+            key={file.filename}
+            onClick={handleLoadSelectedFile}
+          >
+            <Icon height={12} name={file.filename} /> {file.filename}
+          </SidebarItem>
+        ))}
+      </div>
+    )
+  }
 }
 
 class GistList extends React.PureComponent {
@@ -80,7 +85,14 @@ const ConnectedGistList = graphql(VIEWER_GISTS, {
 })(GistList)
 
 class Sidebar extends React.Component {
-  state = { gists: null }
+  state = { gists: null, currentGist: null, selectedFile: null }
+
+  handleRenderSelectedFile = e => {
+    e.preventDefault()
+    console.log(e)
+    const { selectedFile } = e.target.value
+    this.setState({ selectedFile })
+  }
 
   handleOnCompleted = gists => this.setState(() => ({ gists }))
   render() {

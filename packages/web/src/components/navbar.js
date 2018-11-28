@@ -10,8 +10,7 @@ const NavLayout = props => (
       <Link to="/">gamma</Link>
     </div>
     <Card className="flex-item" id="flex">
-      {/* <NavbarLink title="Search" href="/search" props={props} />
-      <NavbarLink title="Profile" href="/profile" props={props} /> */}
+      <NavbarLink title="New Gist" href="/new" props={props} />
       <NavbarLink title="Editor" href="/editor" props={props} />
     </Card>
   </div>

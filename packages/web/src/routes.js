@@ -1,24 +1,28 @@
 import React from 'react'
-import { Link, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import Loadable from 'react-loadable'
 import { Global, css } from '@emotion/core'
 import { Query } from 'react-apollo'
 
 import { GET_GIST_BY_ID } from './queries'
+
+import { BlueButton, UserBtnsContainer } from './components/buttons'
 import globalStyles from './components/global'
 import Navbar from './components/navbar'
 import Login from './components/form/login'
 import Signup from './components/form/signup'
-import Profile from './views/profile'
-import Editor from './views/editor'
-import Gist from './views/gist'
-import NotFound from './views/notfound'
-import ConfirmEmail from './views/confirmEmail'
 import Skeleton from './components/editor/skeleton'
 import Footer from './components/editor/footer'
-import Sidebar, { FileList } from './components/editor/sidebar'
+import { FileList } from './components/editor/sidebar'
 import CodeEditor from './components/editor'
 import Icon from './components/icon'
+import Delete from './components/delete'
+
+import Profile from './views/profile'
+import Editor from './views/editor'
+import NewGist from './views/new'
+import NotFound from './views/notfound'
+import ConfirmEmail from './views/confirmEmail'
 
 const Loading = () => <div>Loading...</div>
 
@@ -40,6 +44,7 @@ class Routes extends React.Component {
           <Route exact path="/auth/login" component={Login} />
           <Route exact path="/auth/signup" component={Signup} />
           <Route exact path="/success" component={Home} />
+          <Route exact path="/new" component={NewGist} />
           <Route exact path="/editor" component={Editor} />
           <Route
             exact
@@ -50,10 +55,15 @@ class Routes extends React.Component {
           <Route path="/confirm/:id" component={ConfirmEmail} />
           <Route
             path="/g/:gistId"
-            render={({ match }) => (
+            render={({ history, match }) => (
               <React.Fragment>
                 <h1>Viewing Gist: {match.params.gistId}</h1>
-                <Link to="/editor">Go back</Link>
+                <UserBtnsContainer>
+                  <BlueButton onClick={() => history.push('/editor')}>
+                    Back
+                  </BlueButton>
+                  <Delete gistId={match.params.gistId} history={history} />
+                </UserBtnsContainer>
                 <Query
                   query={GET_GIST_BY_ID}
                   variables={{ gistId: match.params.gistId }}
@@ -70,15 +80,13 @@ class Routes extends React.Component {
                             sidebar={
                               <FileList
                                 gist={data.getGistById}
+                                handleLoadSelectedFile={event => {
+                                  console.log(event.target)
+                                }}
                                 {...this.props}
                               />
                             }
                           >
-                            {/* <Gist
-                              gistId={match.params.gistId}
-                              gist={data.getGistById}
-                              {...this.props}
-                            /> */}
                             <CodeEditor
                               value={data.getGistById.files[0].content}
                               language={data.getGistById.files[0].language}

@@ -1,7 +1,14 @@
 import React from 'react'
 import MonacoEditor from 'react-monaco-editor'
+import PropTypes from 'prop-types'
 
 export default class CodeEditor extends React.Component {
+  static propTypes = {
+    editorValue: PropTypes.string.isRequired,
+    editorLanguage: PropTypes.string,
+    handleLoadFile: PropTypes.func.isRequired,
+    handleEditorValueChange: PropTypes.func.isRequired
+  }
   state = {
     code: '// type your code... \n'
   }
@@ -26,13 +33,13 @@ export default class CodeEditor extends React.Component {
   }
 
   render() {
-    const { value } = this.props
+    const { editorValue, editorLanguage } = this.props
     const options = {
       selectOnLineNumbers: true,
       roundedSelection: false,
-      readOnly: false,
+      readOnly: this.props.readOnly,
       cursorStyle: 'line',
-      automaticLayout: false,
+      automaticLayout: true,
       minimap: { enabled: false }
     }
     const requireConfig = {
@@ -46,9 +53,9 @@ export default class CodeEditor extends React.Component {
       <div>
         <MonacoEditor
           height="500"
-          language={this.props.language}
-          theme={this.props.theme}
-          value={value}
+          language={editorLanguage}
+          theme="vs-dark"
+          value={editorValue}
           options={options}
           onChange={this.onChange}
           requireConfig={requireConfig}
