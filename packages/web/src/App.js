@@ -9,6 +9,8 @@ import { cache, errorLink, requestLink } from './apollo'
 import ApolloClient from 'apollo-client'
 import { ApolloLink } from 'apollo-link'
 
+import './styles.css'
+
 const links = [errorLink, requestLink]
 
 const client = new ApolloClient({
@@ -16,13 +18,12 @@ const client = new ApolloClient({
   link: ApolloLink.from(links),
   cache: window.__DATA__ ? cache.restore(window.__DATA__) : cache
 })
-
 window.MonacoEnvironment = { getWorkerUrl: () => proxy }
 
 var proxy = URL.createObjectURL(
   new Blob(
     [
-      `self.MonacoEnvironment = {baseUrl: 'https://unpkg.com/monaco-editor@0.15.5/min/'}\n;importScripts('https://unpkg.com/monaco-editor@0.15.5/min/vs/base/worker/workerMain.js');`
+      `self.MonacoEnvironment = {baseUrl: 'https://unpkg.com/monaco-editor@0.15.6/min/'}\n;importScripts('https://unpkg.com/monaco-editor@0.15.6/min/vs/base/worker/workerMain.js');`
     ],
     { type: 'text/javascript' }
   )
