@@ -108,7 +108,8 @@ const Input = styled('input')({
   display: 'block',
   paddingLeft: 10,
   '::placeholder': {
-    opacity: 0.5
+    opacity: 0.5,
+    textOverflow: 'ellipsis'
   }
 })
 
@@ -130,21 +131,13 @@ const TextArea = styled('textarea')({
   }
 })
 
-const Button = styled('button')({
-  fontSize: 13,
-  background: 'var(--green)',
-  padding: '10px 20px',
-  display: 'block',
-  marginLeft: 'auto',
-  color: 'white',
-  border: 'none',
-  borderRadius: 0,
-  boxShadow: 'var(--shadow)',
-  cursor: 'pointer',
-  transition: '0.5s',
-  ':hover': {
-    boxShadow: 'var(--shadowHover)'
+const GistInputsContainer = styled('div')({
+  display: 'flex',
+  '@media only screen and (max-width: 819px)': {
+    order: 1,
+    marginTop: 10,
+    flex: 1
   }
 })
 
-export { TextInput, Input, TextArea, Button }
+export { GistInputsContainer, TextInput, Input, TextArea }

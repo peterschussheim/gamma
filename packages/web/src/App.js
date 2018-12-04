@@ -34,14 +34,19 @@ var proxy = URL.createObjectURL(
  * we construct the app in the `server/index.js` file since it has different
  * options.
  */
-export default () => {
-  return (
-    <ApolloProvider client={client}>
-      <HelmetProvider>
-        <Router history={history}>
-          <Routes />
-        </Router>
-      </HelmetProvider>
-    </ApolloProvider>
-  )
+export default class App extends React.Component {
+  state = {
+    activeFile: null
+  }
+  render() {
+    return (
+      <ApolloProvider client={client}>
+        <HelmetProvider>
+          <Router history={history}>
+            <Routes />
+          </Router>
+        </HelmetProvider>
+      </ApolloProvider>
+    )
+  }
 }

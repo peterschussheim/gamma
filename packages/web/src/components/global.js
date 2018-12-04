@@ -1,4 +1,5 @@
 import { css } from '@emotion/core'
+import 'react-tippy/dist/tippy.css'
 
 const globalStyles = css`
   * {
@@ -6,7 +7,8 @@ const globalStyles = css`
     font-family: ;
   }
   :root {
-    --black: #414141;
+    --black: black;
+    --blue: #037ACB;
     --green: #5edb93;
     --red: #D73A49;
     --grey: #6a737d
@@ -49,11 +51,11 @@ const globalStyles = css`
 
   .text-input {
     padding: 0.5rem;
-    font-size: 16px;
     width: 100%;
     display: block;
     border-radius: 0px;
     border: 1px solid #ccc;
+    text-overflow: ellipsis;
   }
 
   .text-input:focus {
@@ -88,6 +90,29 @@ const globalStyles = css`
 
   .input-group {
     margin-bottom: 1rem;
+  }
+
+  .tippy-popper {
+    position: absolute;
+  }
+
+  .tippy-popper,
+  .tippy-popper * {
+    pointer-events: none;
+  }
+
+  .tippy-tooltip [x-circle] {
+    background-color: rgb(21, 24, 25) !important;
+  }
+
+  .tippy-tooltip.update-theme {
+    .arrow-regular {
+      border-bottom: 7px solid var(--green) !important;
+    }
+
+    background-color: var(--green);
+    border-radius: 2px;
+    padding: 0 !important;
   }
 
   button:disabled {

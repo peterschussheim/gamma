@@ -1,105 +1,157 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { compose, graphql } from 'react-apollo'
-import { Formik, Form } from 'formik'
 
-import CodeEditor from '../components/editor'
-import Skeleton from '../components/editor/skeleton'
-import Footer from '../components/editor/footer'
-import Sidebar from '../components/editor/sidebar'
-import { DefaultButton, GreenButton } from '../components/buttons'
+import { graphql } from 'react-apollo'
+import { Formik, Form, Field, FieldArray } from 'formik'
 
-import { Input, TextArea } from '../components/form/inputs'
+import { CREATE_GIST } from '../queries'
+
+import Editor from '../components/editor/newEditor'
+import Skeleton from '../components/skeleton'
+import Footer from '../components/footer'
+import OldFileList from '../components/SidebarList'
+import Icon from '../components/icon'
+import { GistInputsContainer, TextInput } from '../components/form/inputs'
+import {
+  DefaultButton,
+  GreenButton,
+  UserBtnsContainer
+} from '../components/buttons'
+
 import { Debug } from '../components/form/formDebugger'
 
 class NewGist extends React.Component {
+  state = {
+    description: '',
+    files: [{ filename: '', content: '' }],
+    activeFile: 0 || this.setActiveFile
+  }
+  setActiveFile = event => {
+    // get file index
+    let index = 0
+    this.setState({ activeFile: this.state.files[index] })
+  }
+  // handleFileContentChange = content => {
+  //   this.setState({ files[activeFile].filename: this.state.files[index].content })
+  // }
+  handleAddAdditionalFile = () => {
+    // this.setState({ content })
+  }
   render() {
+    const { mutate } = this.props
     return (
-      <Formik
-        initialValues={{
-          isPublic: true,
-          description: '',
-          files: [
-            {
-              filename: '',
-              content: ''
-            }
-          ]
-        }}
-        onSubmit={this.handleSubmit}
-        render={({
-          values,
-          errors,
-          dirty,
-          isSubmitting,
-          handleChange,
-          handleSubmit,
-          handleReset,
-          setFieldValue,
-          setFieldTouched
-        }) => (
-          <Form>
-            <Skeleton sidebar={<Sidebar />}>
-              <CodeEditor
-                editorValue={values.files[0].content}
-                onChange={handleChange}
+      <React.Fragment>
+        <Formik
+          initialValues={{
+            description: 'test gist',
+            files: [
+              { filename: 'index.js', content: `console.log('hello world')` }
+            ]
+          }}
+          onSubmit={(values, actions) => {
+            mutate({ variables: values }).then(
+              () => {
+                actions.setSubmitting(false)
+                this.props.history.push('/')
+              },
+              error => {
+                actions.setSubmitting(false)
+                const errors = error.graphQLErrors.map(e => e.message)
+                actions.setErrors({
+                  description: '',
+                  files: [{ filename: '', content: '' }],
+                  form: errors
+                })
+              }
+            )
+          }}
+          render={({ values, errors, handleBlur, handleChange, touched }) => (
+            <Form>
+              <Skeleton
+                sidebar={
+                  <OldFileList
+                    gist={values}
+                    activeFile={0}
+                    // handleLoadSelectedFile={this.setActiveFile}
+                    {...this.props}
+                  />
+                }
+                editor={
+                  <Editor
+                    value={values.files[0].content}
+                    editorRef={editor => {
+                      this.editor = editor
+                    }}
+                    onDidChangeContent={handleChange}
+                  />
+                }
               />
-            </Skeleton>
-            <Footer />
-            <label style={{ justifySelf: 'right' }} htmlFor="description-input">
-              Description
-            </label>
-            <Input
-              id="description-input"
-              placeholder="Description"
-              name="description"
-              value={values.description}
-              onChange={handleChange}
-            />
-
-            <React.Fragment>
-              <label style={{ justifySelf: 'right' }} htmlFor="isPublic-input">
-                Public
-              </label>
-              <Input
-                id="isPublic-input"
-                placeholder="isPublic"
-                name="isPublic"
-                type="checkbox"
-                value={values.isPublic}
-                onChange={handleChange}
+              <Footer
+                currentFile={values.files[0].filename}
+                iconComponent={
+                  <Icon height={17} name={values.files[0].filename} />
+                }
               />
-            </React.Fragment>
-            <GreenButton
-              type="submit"
-              className="secondary"
-              data-cy="new-public-gist"
-              disabled={!dirty || isSubmitting}
-            >
-              Create Private Gist
-            </GreenButton>
-            <DefaultButton
-              type="submit"
-              className="secondary"
-              data-cy="new-public-gist"
-              disabled={!dirty || isSubmitting}
-            >
-              Create Public Gist
-            </DefaultButton>
-            <button
-              type="reset"
-              className="secondary"
-              disabled={isSubmitting}
-              onClick={handleReset}
-            >
-              Reset
-            </button>
-            <Debug />
-          </Form>
-        )}
-      />
+              <TextInput
+                id="description"
+                type="description"
+                placeholder="Gist description..."
+                error={touched.description && errors.description}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.description}
+                data-cy="description-input"
+              />
+              <GistInputsContainer>
+                <FieldArray name="files">
+                  {({ push, remove }) => (
+                    <React.Fragment>
+                      {values.files &&
+                        values.files.length > 0 &&
+                        values.files.map((file, index) => (
+                          <React.Fragment key={file.filename}>
+                            <Field name={`files[${index}].filename`}>
+                              {({ field, form }) => (
+                                <input
+                                  onChange={handleChange}
+                                  type="text"
+                                  placeholder="Filename including extension..."
+                                  {...field}
+                                />
+                              )}
+                            </Field>
+                            <DefaultButton
+                              type="button"
+                              onClick={() =>
+                                push({ filename: '', content: '' })
+                              }
+                              className="secondary"
+                            >
+                              Add File
+                            </DefaultButton>
+                            <DefaultButton
+                              type="button"
+                              onClick={() => remove(index)}
+                              className="secondary"
+                            >
+                              Delete File
+                            </DefaultButton>
+                          </React.Fragment>
+                        ))}
+                    </React.Fragment>
+                  )}
+                </FieldArray>
+              </GistInputsContainer>
+              <UserBtnsContainer>
+                <GreenButton>Create Secret Gist</GreenButton>
+                <DefaultButton>Create Public Gist</DefaultButton>
+              </UserBtnsContainer>
+              <Debug />
+            </Form>
+          )}
+        />
+      </React.Fragment>
     )
   }
 }
 
-export default NewGist
+export default graphql(CREATE_GIST)(NewGist)

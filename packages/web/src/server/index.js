@@ -9,9 +9,7 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import passport from 'passport'
-// import { Prisma } from '../../api/src/generated/prisma'
-// console.log(path.resolve(__dirname, '..', '..', 'api/src/generated'))
-// const Prisma = require.resolve(__dirname, '..', '..', 'api/src/generated')
+// import { Prisma } from 'prisma-binding'
 import Raven from 'shared/src/raven'
 import toobusy from 'shared/src/middlewares/toobusy'
 import { securityMiddleware } from 'shared/src/middlewares/securityMiddleware'
@@ -44,8 +42,6 @@ import renderer from './renderer'
 // const getUser = async id => {
 //   return prisma.query.user({ where: { id } }, info)
 // }
-
-// const PORT = process.env.PORT || 3001
 
 const app = express()
 app.use(express.static(process.env.GAMMA_PUBLIC_DIR))

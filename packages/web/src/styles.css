@@ -1,24 +1,6 @@
-.yaml {
-  display: flex;
-  flex-direction: column;
-}
-.panel {
-  border: 2px solid;
-  border-top-style: none;
-  height: 24px;
-}
 .sandbox {
   all: unset;
   text-align: left;
   display: block;
-  height: 300px;
-}
-.sandbox-with-sidebar {
-  width: 50%;
-}
-.sidebar {
-  text-align: left;
-  width: 50%;
-  white-space: pre-wrap;
-  font-family: monospace;
+  height: 100%;
 }

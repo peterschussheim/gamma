@@ -10,7 +10,7 @@ const reverseAnimation = keyframes`
   100% { opacity: 0; transform: translateY(10px); }
 `
 
-export default (delay: number = 0, reverse: boolean = true) =>
+export default (delay = 0, reverse = true) =>
   `
     animation: ${reverse ? reverseAnimation : animation} 0.3s;
     animation-delay: ${delay}s;
