@@ -36,7 +36,7 @@ export const retryLink = new RetryLink({
     }
 
     // setting query retries TOO high will cause excessive loading screens
-    return !!error && count < 6
+    return !!error && count < 3
   }
 })
 
