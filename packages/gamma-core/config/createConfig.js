@@ -138,6 +138,7 @@ module.exports = (
               loader: require.resolve('eslint-loader')
             }
           ],
+          exclude: /vendor/,
           include: paths.appSrc
         },
         // Avoid "require is not defined" errors
@@ -150,6 +151,7 @@ module.exports = (
         {
           test: /\.(js|jsx|mjs)$/,
           include: [paths.appSrc],
+          exclude: /vendor/,
           use: [
             {
               loader: require.resolve('babel-loader'),
