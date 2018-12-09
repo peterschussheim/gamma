@@ -5,19 +5,19 @@ import { Formik, Form, Field, FieldArray } from 'formik'
 
 import { CREATE_GIST } from '../queries'
 
-import Editor from '../components/editor/newEditor'
-import Skeleton from '../components/skeleton'
-import Footer from '../components/footer'
+import MonacoEditor from '../components/MonacoEditor'
+import Skeleton from '../components/Skeleton'
+import Footer from '../components/Footer'
 import OldFileList from '../components/SidebarList'
 import Icon from '../components/icon'
-import { GistInputsContainer, TextInput } from '../components/form/inputs'
+import { GistInputsContainer, TextInput } from '../components/Form/inputs'
 import {
   DefaultButton,
   GreenButton,
   UserBtnsContainer
 } from '../components/buttons'
 
-import { Debug } from '../components/form/formDebugger'
+import { Debug } from '../components/Form/formDebugger'
 
 class NewGist extends React.Component {
   state = {
@@ -75,15 +75,7 @@ class NewGist extends React.Component {
                     {...this.props}
                   />
                 }
-                editor={
-                  <Editor
-                    value={values.files[0].content}
-                    editorRef={editor => {
-                      this.editor = editor
-                    }}
-                    onDidChangeContent={handleChange}
-                  />
-                }
+                editor={<div>editor</div>}
               />
               <Footer
                 currentFile={values.files[0].filename}

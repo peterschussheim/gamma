@@ -3,20 +3,104 @@ import { Query } from 'react-apollo'
 import PropTypes from 'prop-types'
 
 import { BlueButton, UserBtnsContainer } from '../components/buttons'
-import Skeleton from '../components/skeleton'
-import Footer from '../components/footer'
+import Skeleton from '../components/Skeleton'
+import Footer from '../components/Footer'
 import OldFileList from '../components/SidebarList'
-import Editor from '../components/editor/newEditor'
+// import MonacoEditor from '../components/MonacoEditor'
 import Icon from '../components/icon'
-import Delete from '../components/delete'
-
+import Delete from '../components/Delete'
+import MRE from '../components/MonacoEditor/MRE'
 import { GET_GIST_BY_ID } from '../queries'
+
+const files = {}
+
+class CodeEditor extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      code: '// type your code... \n'
+    }
+  }
+
+  onChange = (newValue, e) => {
+    console.log('onChange', newValue, e) // eslint-disable-line no-console
+  }
+
+  editorDidMount = editor => {
+    // eslint-disable-next-line no-console
+    console.log('editorDidMount', editor, editor.getValue(), editor.getModel())
+    this.editor = editor
+  }
+
+  changeEditorValue = () => {
+    if (this.editor) {
+      this.editor.setValue('// code changed! \n')
+    }
+  }
+
+  changeBySetState = () => {
+    this.setState({ code: '// code changed by setState! \n' })
+  }
+
+  render() {
+    const { code } = this.state
+    const options = {
+      selectOnLineNumbers: true,
+      roundedSelection: false,
+      readOnly: false,
+      cursorStyle: 'line',
+      automaticLayout: false
+    }
+    return (
+      <div>
+        <div>
+          <button onClick={this.changeEditorValue} type="button">
+            Change value
+          </button>
+          <button onClick={this.changeBySetState} type="button">
+            Change by setState
+          </button>
+        </div>
+        <hr />
+        <MRE
+          height="500"
+          language="javascript"
+          value={code}
+          options={options}
+          onChange={this.onChange}
+          editorDidMount={this.editorDidMount}
+        />
+      </div>
+    )
+  }
+}
 
 export default class Gist extends React.Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired
+  }
+
+  state = {
+    files,
+    current: ''
+  }
+
+  handleValueChange = code =>
+    this.setState(state => ({
+      files: {
+        ...state.files,
+        [state.current]: code
+      }
+    }))
+
+  handleOpenPath = path => this.setState({ current: path })
+
+  getFilenameToDisplayInSidebar = path => {
+    const split = path.split('/')
+    const cleaned = split[split.length - 1]
+    return cleaned
   }
   render() {
     const { match, location, history } = this.props
@@ -50,15 +134,7 @@ export default class Gist extends React.Component {
                         {...this.props}
                       />
                     }
-                    editor={
-                      <Editor
-                        editorRef={editor => {
-                          this.editor = editor
-                        }}
-                        value={data.getGistById.files[0].content}
-                        language={data.getGistById.files[0].language}
-                      />
-                    }
+                    editor={<CodeEditor />}
                   />
                   <Footer
                     currentFile={data.getGistById.files[0].filename}

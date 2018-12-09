@@ -1,5 +1,5 @@
 import React from 'react'
-import Status from './status'
+import Status from './Status'
 
 const NotFound = () => (
   <Status code={404}>

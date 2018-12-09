@@ -4,23 +4,27 @@ import Loadable from 'react-loadable'
 import { Global } from '@emotion/core'
 
 import globalStyles from './components/global'
-import Navbar from './components/navbar'
-import Login from './components/form/login'
-import Signup from './components/form/signup'
+import Navbar from './components/Navbar'
+import Login from './components/Form/login'
+import Signup from './components/Form/signup'
 
-import Profile from './views/profile'
-import EditorView from './views/editor'
-import Gist from './views/gist'
-import NewGist from './views/new'
-import NotFound from './views/notfound'
-import ConfirmEmail from './views/confirmEmail'
+import Profile from './views/Profile'
+import EditorView from './views/EditorView'
+// import NewGist from './views/New'
+import Gist from './views/Gist'
+import NotFound from './views/NotFound'
+import ConfirmEmail from './views/ConfirmEmail'
 
 const Loading = () => <div>Loading...</div>
 
 const Home = Loadable({
-  loader: () => import('./views/home'),
+  loader: () => import('./views/Home'),
   loading: Loading
 })
+// const Gist = Loadable({
+//   loader: () => import('./views/Gist'),
+//   loading: Loading
+// })
 
 class Routes extends React.Component {
   render() {
@@ -35,7 +39,7 @@ class Routes extends React.Component {
           <Route exact path="/auth/login" component={Login} />
           <Route exact path="/auth/signup" component={Signup} />
           <Route exact path="/success" component={Home} />
-          <Route exact path="/new" component={NewGist} />
+          {/* <Route exact path="/new" component={NewGist} /> */}
           <Route exact path="/editor" component={EditorView} />
           <Route exact path="/g/:gistId" component={Gist} {...this.props} />
           <Route

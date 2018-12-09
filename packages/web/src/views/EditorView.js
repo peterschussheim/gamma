@@ -1,10 +1,10 @@
 import React from 'react'
 import { Formik, Form } from 'formik'
 
-import Editor from '../components/editor/newEditor'
-import Skeleton from '../components/skeleton'
-import Footer from '../components/footer'
-import Sidebar from '../components/sidebar'
+// import MonacoEditor from '../components/MonacoEditor'
+import Skeleton from '../components/Skeleton'
+import Footer from '../components/Footer'
+import Sidebar from '../components/Sidebar'
 
 class EditorView extends React.Component {
   render() {
@@ -27,15 +27,7 @@ class EditorView extends React.Component {
               <Skeleton
                 data={values}
                 sidebar={<Sidebar />}
-                editor={
-                  <Editor
-                    editorRef={editor => {
-                      this.editor = editor
-                    }}
-                    value={values.files[0].content}
-                    onChange={handleChange}
-                  />
-                }
+                editor={<div>EditorView</div>}
               />
               <Footer />
             </React.Fragment>
