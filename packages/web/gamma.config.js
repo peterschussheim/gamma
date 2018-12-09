@@ -1,14 +1,15 @@
+const WorkerPlugin = require('worker-plugin')
 const { ReactLoadablePlugin } = require('react-loadable/webpack')
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 
 module.exports = {
-  modify: (config, { target }, webpack) => {
+  modify: (baseConfig, { target }, webpack) => {
+    const config = Object.assign({}, baseConfig)
     if (target === 'web') {
       return {
         ...config,
         plugins: [
           ...config.plugins,
-          new MonacoWebpackPlugin(),
+          new WorkerPlugin(),
           new ReactLoadablePlugin({
             filename: './build/react-loadable.json'
           })
