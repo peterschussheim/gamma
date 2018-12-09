@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Container, LeftPanel, RightPanel } from './elements'
 
-export default class Skeleton extends Component {
+export default class Skeleton extends React.Component {
   static propTypes = {
     sidebar: PropTypes.node,
     editor: PropTypes.node

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import NavbarLink from './navbarlink'
-import Profile from '../views/profile'
+import Profile from '../views/Profile'
 import Card from '../components/card'
 
 const NavLayout = props => (
