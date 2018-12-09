@@ -43,38 +43,38 @@ const renderer = (req, res) => {
     cache: window.__DATA__ ? cache.restore(window.__DATA__) : cache
   })
 
-  // const frontend = (
-  //   <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-  //     <ApolloProvider client={client}>
-  //       <HelmetProvider context={helmetContext}>
-  //         <StaticRouter location={req.url} context={routerContext}>
-  //           <Routes currentUser={req.user} />
-  //         </StaticRouter>
-  //       </HelmetProvider>
-  //     </ApolloProvider>
-  //   </Loadable.Capture>
-  // )
-  class App extends React.Component {
-    state = {
-      activeFile: null
-    }
-    render() {
-      return (
-        <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-          <ApolloProvider client={client}>
-            <HelmetProvider context={helmetContext}>
-              <StaticRouter location={req.url} context={routerContext}>
-                <Routes currentUser={req.user} />
-              </StaticRouter>
-            </HelmetProvider>
-          </ApolloProvider>
-        </Loadable.Capture>
-      )
-    }
-  }
+  const frontend = (
+    <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+      <ApolloProvider client={client}>
+        <HelmetProvider context={helmetContext}>
+          <StaticRouter location={req.url} context={routerContext}>
+            <Routes currentUser={req.user} />
+          </StaticRouter>
+        </HelmetProvider>
+      </ApolloProvider>
+    </Loadable.Capture>
+  )
+  // class App extends React.Component {
+  //   state = {
+  //     activeFile: null
+  //   }
+  //   render() {
+  //     return (
+  //       <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+  //         <ApolloProvider client={client}>
+  //           <HelmetProvider context={helmetContext}>
+  //             <StaticRouter location={req.url} context={routerContext}>
+  //               <Routes currentUser={req.user} />
+  //             </StaticRouter>
+  //           </HelmetProvider>
+  //         </ApolloProvider>
+  //       </Loadable.Capture>
+  //     )
+  //   }
+  // }
 
   debug('get data from tree')
-  getDataFromTree(<App />)
+  getDataFromTree(frontend)
     .then(() => {
       debug('got data from tree')
       if (routerContext.url) {
@@ -108,7 +108,7 @@ const renderer = (req, res) => {
 
       response.write(header)
 
-      const stream = renderToNodeStream(<App />).pipe(
+      const stream = renderToNodeStream(frontend).pipe(
         renderStylesToNodeStream()
       )
 
