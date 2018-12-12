@@ -8,6 +8,7 @@ import Navbar from './components/Navbar'
 import Login from './components/Form/login'
 import Signup from './components/Form/signup'
 
+// import Gist from './views/Gist'
 import Profile from './views/Profile'
 import EditorView from './views/EditorView'
 import NewGist from './views/New'

@@ -5,75 +5,64 @@ import PropTypes from 'prop-types'
 import { BlueButton, UserBtnsContainer } from '../components/buttons'
 import Skeleton from '../components/Skeleton'
 import Footer from '../components/Footer'
-import OldFileList from '../components/SidebarList'
+import GistFilesList from '../components/SidebarList/GistFilesList'
 // import MonacoEditor from '../components/MonacoEditor'
 import Icon from '../components/icon'
+import { Debugger } from '../components/Debugger'
 import Delete from '../components/Delete'
 import MRE from '../components/MonacoEditor/MRE'
 import { GET_GIST_BY_ID } from '../queries'
 
-const files = {}
+// class CodeEditor extends React.Component {
+//   constructor(props) {
+//     super(props)
+//     this.state = {
+//       code: '// type your code... \n'
+//     }
+//   }
 
-class CodeEditor extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      code: '// type your code... \n'
-    }
-  }
+//   onChange = (newValue, e) => {
+//     console.log('onChange', newValue, e) // eslint-disable-line no-console
+//   }
 
-  onChange = (newValue, e) => {
-    console.log('onChange', newValue, e) // eslint-disable-line no-console
-  }
+//   editorDidMount = editor => {
+//     // eslint-disable-next-line no-console
+//     console.log('editorDidMount', editor, editor.getValue(), editor.getModel())
+//     this.editor = editor
+//   }
 
-  editorDidMount = editor => {
-    // eslint-disable-next-line no-console
-    console.log('editorDidMount', editor, editor.getValue(), editor.getModel())
-    this.editor = editor
-  }
+//   changeEditorValue = () => {
+//     if (this.editor) {
+//       this.editor.setValue('// code changed! \n')
+//     }
+//   }
 
-  changeEditorValue = () => {
-    if (this.editor) {
-      this.editor.setValue('// code changed! \n')
-    }
-  }
+//   changeBySetState = () => {
+//     this.setState({ code: '// code changed by setState! \n' })
+//   }
 
-  changeBySetState = () => {
-    this.setState({ code: '// code changed by setState! \n' })
-  }
-
-  render() {
-    const { code } = this.state
-    const options = {
-      selectOnLineNumbers: true,
-      roundedSelection: false,
-      readOnly: false,
-      cursorStyle: 'line',
-      automaticLayout: false
-    }
-    return (
-      <div>
-        <div>
-          <button onClick={this.changeEditorValue} type="button">
-            Change value
-          </button>
-          <button onClick={this.changeBySetState} type="button">
-            Change by setState
-          </button>
-        </div>
-        <hr />
-        <MRE
-          height="500"
-          language="javascript"
-          value={code}
-          options={options}
-          onChange={this.onChange}
-          editorDidMount={this.editorDidMount}
-        />
-      </div>
-    )
-  }
-}
+//   render() {
+//     const { code } = this.state
+//     const options = {
+//       selectOnLineNumbers: true,
+//       roundedSelection: false,
+//       readOnly: false,
+//       cursorStyle: 'line',
+//       automaticLayout: false
+//     }
+//     return (
+//       <div>
+//         <MRE
+//           language="javascript"
+//           value={code}
+//           options={options}
+//           onChange={this.onChange}
+//           editorDidMount={this.editorDidMount}
+//         />
+//       </div>
+//     )
+//   }
+// }
 
 export default class Gist extends React.Component {
   static propTypes = {
@@ -83,73 +72,129 @@ export default class Gist extends React.Component {
   }
 
   state = {
-    files,
-    current: ''
+    gistId: null,
+    files: null,
+    currentFile: null,
+    apolloDataLoaded: null,
+    error: {}
   }
 
-  handleValueChange = code =>
+  componentDidMount() {
+    // this.loadData(this.props)
+  }
+
+  loadData = props => {
+    this.setState((state, props) => ({
+      error: null,
+      apolloDataLoaded: false,
+      gistId: props.match.params.gistId
+    }))
+
+    const { data } = props
+    const { loading, error } = data
+
+    if (error) {
+      this.setState({ error })
+    } else if (loading === false) {
+      this.setState({ apolloDataLoaded: true })
+      console.log(data.getGistById)
+      this.setState((state, props) => ({ files: props.data.getGistById.files }))
+    } else {
+      this.setState({ error: 'apollo data failed to load' })
+    }
+  }
+
+  handleUpdateCurrentFile = event => {
+    event.persist()
+    this.setState({ currentFile: event.target.textContent })
+  }
+
+  editorDidMount = editor => {
+    // console.log('editorDidMount', editor, editor.getValue(), editor.getModel())
+    this.editor = editor
+  }
+
+  changeEditorValue = newValue => {
+    if (this.editor) {
+      this.editor.setValue(newValue)
+    }
+  }
+
+  handleValueChange = code => {
     this.setState(state => ({
       files: {
         ...state.files,
-        [state.current]: code
+        [state.currentFile]: code
       }
     }))
-
-  handleOpenPath = path => this.setState({ current: path })
-
-  getFilenameToDisplayInSidebar = path => {
-    const split = path.split('/')
-    const cleaned = split[split.length - 1]
-    return cleaned
+    this.changeEditorValue(code)
   }
+
+  findFileObject = (filesArray, currentFile) => {
+    const obj = filesArray.find(file => file.filename === currentFile)
+    console.log(obj)
+    return obj.content
+  }
+
+  handleOpenPath = path => this.setState({ currentFile: path })
+
   render() {
-    const { match, location, history } = this.props
+    const {
+      match,
+      history,
+      data: { loading, error, getGistById }
+    } = this.props
+    const { currentFile } = this.state
+
     return (
-      <React.Fragment>
-        <h1>Viewing Gist: {match.params.gistId}</h1>
-        <UserBtnsContainer>
-          <BlueButton onClick={() => history.push('/editor')}>Back</BlueButton>
-          <Delete gistId={match.params.gistId} history={history} />
-        </UserBtnsContainer>
-        <Query
-          query={GET_GIST_BY_ID}
-          variables={{ gistId: match.params.gistId }}
-        >
-          {({ loading, error, data }) => {
-            if (loading) {
-              return null
-            } else if (error) {
-              return `Error!: ${error}`
-            } else
-              return (
-                <React.Fragment>
-                  <Skeleton
-                    data={data.getGistById}
-                    sidebar={
-                      <OldFileList
-                        gist={data.getGistById}
-                        handleLoadSelectedFile={event => {
-                          console.log(event.target)
-                        }}
-                        {...this.props}
-                      />
-                    }
-                    editor={<CodeEditor />}
-                  />
-                  <Footer
-                    currentFile={data.getGistById.files[0].filename}
-                    iconComponent={
-                      <Icon
-                        height={17}
-                        name={data.getGistById.files[0].filename}
-                      />
-                    }
-                  />
-                </React.Fragment>
-              )
-          }}
-        </Query>
-      </React.Fragment>
+      <Query query={GET_GIST_BY_ID} variables={match.params.gistId}>
+        {({ loading, error, data }) => {
+          if (loading) return null
+          if (error) return `Error!: ${error}`
+          return (
+            <React.Fragment>
+              <h1>Viewing Gist: {match.params.gistId}</h1>
+              <UserBtnsContainer>
+                <BlueButton onClick={() => history.push('/editor')}>
+                  Back
+                </BlueButton>
+                <Delete gistId={match.params.gistId} history={history} />
+              </UserBtnsContainer>
+              <React.Fragment>
+                <Skeleton
+                  data={getGistById}
+                  sidebar={
+                    <GistFilesList
+                      handleClickFile={this.handleUpdateCurrentFile}
+                      gistId={match.params.gistId}
+                      {...this.props}
+                    />
+                  }
+                  editor={
+                    <MRE
+                      files={getGistById.files}
+                      onOpenPath={this.handleOpenPath}
+                      value={getGistById.files[0].content}
+                      editorDidMount={this.editorDidMount}
+                      onValueChange={this.handleValueChange}
+                    />
+                  }
+                />
+                <Footer
+                  currentFile={getGistById.files[0].filename}
+                  iconComponent={
+                    <Icon
+                      height={17}
+                      filename={getGistById.files[0].filename}
+                    />
+                  }
+                />
+              </React.Fragment>
+              <Debugger state={this.state} props={this.props} />
+            </React.Fragment>
+          )
+        }}
+      </Query>
     )
   }
 }

@@ -5,10 +5,10 @@ import { Formik, Form, Field, FieldArray } from 'formik'
 
 import { CREATE_GIST } from '../queries'
 
-import MonacoEditor from '../components/MonacoEditor'
+// import MonacoEditor from '../components/MonacoEditor'
 import Skeleton from '../components/Skeleton'
 import Footer from '../components/Footer'
-import OldFileList from '../components/SidebarList'
+import GistFilesList from '../components/SidebarList/GistFilesList'
 import Icon from '../components/icon'
 import { GistInputsContainer, TextInput } from '../components/Form/inputs'
 import {
@@ -68,7 +68,7 @@ class NewGist extends React.Component {
             <Form>
               <Skeleton
                 sidebar={
-                  <OldFileList
+                  <GistFilesList
                     gist={values}
                     activeFile={0}
                     // handleLoadSelectedFile={this.setActiveFile}

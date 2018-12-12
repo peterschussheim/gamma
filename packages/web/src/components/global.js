@@ -36,16 +36,16 @@ const globalStyles = css`
     color: #ff00aa;
   }
 
-  #flex-container {
+  .flex-container {
     display: flex;
     flex-direction: row;
   }
 
-  #flex-container > .flex-item {
+  .flex-container > .flex-item {
     flex: auto;
   }
 
-  #flex-container > .raw-item {
+  .flex-container > .raw-item {
     width: 5rem;
   }
 
@@ -128,6 +128,21 @@ const globalStyles = css`
     background-color: #eee;
     border: 1px solid #aaa;
     color: #555;
+  }
+  @keyframes slide-down {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .slide-down[data-reach-menu-list] {
+    border-radius: 5px;
+    animation: slide-down 0.2s ease;
   }
 `
 export default globalStyles

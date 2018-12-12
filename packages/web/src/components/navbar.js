@@ -1,24 +1,44 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import NavbarLink from './navbarlink'
+import { Link, withRouter } from 'react-router-dom'
+
+import { Menu, MenuButton, MenuList, MenuLink } from '@reach/menu-button'
 import Profile from '../views/Profile'
-import Card from '../components/card'
+import '@reach/menu-button/styles.css'
 
 const NavLayout = props => (
-  <div id="flex-container">
-    <div className="flex-item" id="flex">
+  <div className="flex-container">
+    <div className="flex-item">
       <Link to="/">gamma</Link>
     </div>
-    <Card className="flex-item" id="flex">
-      <NavbarLink title="New Gist" href="/new" props={props} />
-      <NavbarLink title="Editor" href="/editor" props={props} />
-    </Card>
+    <Menu className="flex-item">
+      <MenuButton id="1">
+        Menu <span aria-hidden>▾</span>
+      </MenuButton>
+      <MenuList>
+        <MenuLink
+          to="/new"
+          onClick={() => props.history.push('/new')}
+          props={props}
+        >
+          New Gist
+        </MenuLink>
+        <MenuLink
+          to="/editor"
+          onClick={() => props.history.push('/editor')}
+          props={props}
+        >
+          Editor
+        </MenuLink>
+      </MenuList>
+    </Menu>
   </div>
 )
 
-const Navbar = () => (
+const NavLayoutWithRouter = withRouter(NavLayout)
+
+const Navbar = props => (
   <nav>
-    <NavLayout>{'  |  '}</NavLayout>
+    <NavLayoutWithRouter {...props} />
     <Profile />
   </nav>
 )
