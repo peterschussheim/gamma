@@ -8,10 +8,13 @@
     "ordered-imports": false,
     "no-var-requires": false,
     "no-consecutive-blank-lines": false,
+    "no-submodule-imports": false,
     "no-console": {
       "severity": "warning",
       "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
-    }
+    },
+    "jsx-no-lambda": false,
+    "member-access": false
   },
   "jsRules": {
     "max-line-length": {

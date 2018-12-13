@@ -1,9 +1,9 @@
-import React from 'react'
+import * as React from 'react'
 import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 
-import { GreenButton } from '../buttons'
+import { GreenButton } from '../Buttons'
 import { TextInput } from './inputs'
 import { VIEWER_ME, REGISTER } from '../../queries'
 import { validRegistrationSchema } from '../../utils/schemas'

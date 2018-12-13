@@ -1,5 +1,6 @@
-import React from 'react'
+import * as React from 'react'
 
+// tslint:disable:no-empty
 export const EditorContext = React.createContext({
   files: [
     {

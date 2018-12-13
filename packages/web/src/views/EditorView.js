@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 // import MonacoEditor from '../components/MonacoEditor'
 import Skeleton from '../components/Skeleton'

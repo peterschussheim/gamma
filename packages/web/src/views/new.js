@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 import { graphql } from 'react-apollo'
 import { Formik, Form, Field, FieldArray } from 'formik'
@@ -15,7 +15,7 @@ import {
   DefaultButton,
   GreenButton,
   UserBtnsContainer
-} from '../components/buttons'
+} from '../components/Buttons'
 
 import { Debug } from '../components/Form/formDebugger'
 

@@ -1,8 +1,8 @@
-import React from 'react'
+import * as React from 'react'
 import { Query } from 'react-apollo'
 import PropTypes from 'prop-types'
 
-import { BlueButton, UserBtnsContainer } from '../components/buttons'
+import { BlueButton, UserBtnsContainer } from '../components/Buttons'
 import Skeleton from '../components/Skeleton'
 import Footer from '../components/Footer'
 import GistFilesList from '../components/SidebarList/GistFilesList'

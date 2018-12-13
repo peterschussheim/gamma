@@ -1,8 +1,8 @@
-import React from 'react'
+import * as React from 'react'
 import styled from '@emotion/styled'
 
 import { SocialLogo } from './components/logo'
-import { NewPostBtn, SocialButton, UserBtnsContainer, UserBtn } from './buttons'
+import { SocialButton, UserBtnsContainer } from './Buttons'
 import githubLogo from './assets/github.svg'
 
 export const SocialMedia = () => (

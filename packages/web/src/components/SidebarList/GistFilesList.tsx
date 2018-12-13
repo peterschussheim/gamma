@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { graphql } from 'react-apollo'
 
 import { GET_GIST_BY_ID } from '../../queries'

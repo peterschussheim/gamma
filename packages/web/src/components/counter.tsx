@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { Subscription } from 'react-apollo'
 import { COUNTER_SUBSCRIPTION } from '../queries'
 

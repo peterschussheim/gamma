@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Query } from 'react-apollo'
 import Logout from '../components/logout'

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 import { Files, File, FileList, FilePanels, FilePanel } from './files'
 import { Description } from '../ListItems/elements'

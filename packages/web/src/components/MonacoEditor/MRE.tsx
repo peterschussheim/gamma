@@ -1,6 +1,6 @@
 import * as monaco from '@peterschussheim/monaco-editor'
 import PropTypes from 'prop-types'
-import React from 'react'
+import * as React from 'react'
 import debounce from 'lodash/debounce'
 
 function noop() {}

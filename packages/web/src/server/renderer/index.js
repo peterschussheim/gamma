@@ -1,6 +1,6 @@
 /* eslint-disable import/first */
 const debug = require('debug')('web:renderer:middleware')
-import React from 'react'
+import * as React from 'react'
 import { renderToNodeStream } from 'react-dom/server'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
 import ApolloClient from 'apollo-client'

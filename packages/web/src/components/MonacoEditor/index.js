@@ -9,7 +9,7 @@
 
 // // import 'monaco-editor/esm/vs/basic-languages/monaco.contribution'
 // import { StaticServices } from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices'
-// import React from 'react'
+// import * as React from 'react'
 // import debounce from 'lodash/debounce'
 
 // import light from './themes/light'

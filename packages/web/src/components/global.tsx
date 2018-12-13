@@ -1,6 +1,7 @@
 import { css } from '@emotion/core'
 import 'react-tippy/dist/tippy.css'
 
+// tslint:disable:max-line-length
 const globalStyles = css`
   * {
     box-sizing: border-box;

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Loadable from 'react-loadable'
 import { Global } from '@emotion/core'
@@ -34,16 +34,21 @@ class Routes extends React.Component {
         <Global styles={globalStyles} />
         <Navbar />
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/auth/login" component={Login} />
-          <Route exact path="/auth/signup" component={Signup} />
-          <Route exact path="/success" component={Home} />
-          <Route exact path="/new" component={NewGist} />
-          <Route exact path="/editor" component={EditorView} />
-          <Route exact path="/g/:gistId" component={Gist} {...this.props} />
+          <Route exact={true} path="/" component={Home} />
+          <Route exact={true} path="/profile" component={Profile} />
+          <Route exact={true} path="/auth/login" component={Login} />
+          <Route exact={true} path="/auth/signup" component={Signup} />
+          <Route exact={true} path="/success" component={Home} />
+          <Route exact={true} path="/new" component={NewGist} />
+          <Route exact={true} path="/editor" component={EditorView} />
           <Route
-            exact
+            exact={true}
+            path="/g/:gistId"
+            component={Gist}
+            {...this.props}
+          />
+          <Route
+            exact={true}
             path="/confirm"
             component={ConfirmEmail}
             props={this.props}

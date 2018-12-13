@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import GistList from '../SidebarList/GistList'
 
 class Sidebar extends React.Component {
@@ -6,6 +6,7 @@ class Sidebar extends React.Component {
 
   handleRenderSelectedFile = e => {
     e.preventDefault()
+    // tslint:disable-next-line:no-console
     console.log(e)
     const { selectedFile } = e.target.value
     this.setState({ selectedFile })

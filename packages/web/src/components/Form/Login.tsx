@@ -1,10 +1,10 @@
-import React from 'react'
+import * as React from 'react'
 import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 
 import { TextInput } from './inputs'
-import { GreenButton } from '../buttons'
+import { GreenButton } from '../Buttons'
 import { LOGIN, VIEWER_ME } from '../../queries'
 import { validLoginSchema } from '../../utils/schemas'
 

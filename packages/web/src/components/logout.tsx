@@ -1,7 +1,7 @@
-import React from 'react'
+import * as React from 'react'
 import { Mutation } from 'react-apollo'
 import { LOGOUT } from '../queries'
-import { BlueButton } from './buttons'
+import { BlueButton } from './Buttons'
 
 const Logout = props => {
   return (
