@@ -1,7 +1,7 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
 import { DELETE_GIST } from '../queries'
-import { RedButton } from './buttons'
+import { RedButton } from './Buttons'
 
 const Delete = props => {
   return (

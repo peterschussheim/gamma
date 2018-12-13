@@ -1,9 +1,9 @@
-import React from 'react'
+import * as React from 'react'
 import Routes from './routes'
 import { history } from './utils/history'
 import { HelmetProvider } from 'react-helmet-async'
 import { ApolloProvider } from 'react-apollo'
-import { Router } from 'react-router'
+import { Router } from 'react-router-dom'
 
 import { cache, errorLink, requestLink } from './apollo'
 import ApolloClient from 'apollo-client'
@@ -18,17 +18,6 @@ const client = new ApolloClient({
   link: ApolloLink.from(links),
   cache: window.__DATA__ ? cache.restore(window.__DATA__) : cache
 })
-
-// window.MonacoEnvironment = { getWorkerUrl: () => proxy }
-
-// var proxy = URL.createObjectURL(
-//   new Blob(
-//     [
-//       `importScripts('https://unpkg.com/monaco-editor@0.15.6/min/vs/base/worker/workerMain.js, https://cdnjs.cloudflare.com/ajax/libs/typescript/2.4.2/typescript.min.js');`
-//     ],
-//     { type: 'text/javascript' }
-//   )
-// )
 
 /**
  * Use the following module on the client only.  For the server 'App',

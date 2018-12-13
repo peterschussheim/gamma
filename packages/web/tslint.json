@@ -1,0 +1,30 @@
+{
+  "extends": [
+    "tslint:latest",
+    "tslint-eslint-rules",
+    "tslint-config-prettier",
+    "tslint-react",
+    "../../tslint.json"
+  ],
+  "linterOptions": {
+    "exclude": ["src/components/MonacoEditor/vendor/eslint.bundle.js"]
+  },
+  "rules": {
+    "max-line-length": {
+      "options": [80]
+    },
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "no-var-requires": false,
+    "no-consecutive-blank-lines": false,
+    "no-console": {
+      "severity": "warning",
+      "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+    }
+  },
+  "jsRules": {
+    "max-line-length": {
+      "options": [80]
+    }
+  }
+}
