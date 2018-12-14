@@ -1,30 +1,40 @@
 const makeLoaderFinder = require('gamma-core/dev-utils/makeLoaderFinder')
 const WorkerPlugin = require('worker-plugin')
 const { ReactLoadablePlugin } = require('react-loadable/webpack')
-const autoprefixer = require('autoprefixer')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const path = require('path')
-const scssPlugin = new ExtractTextPlugin(
-  'static/css/[name].[contenthash:8].css'
-)
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-//   .BundleAnalyzerPlugin
 
 const babelLoaderFinder = makeLoaderFinder('babel-loader')
 const tsLoaderFinder = makeLoaderFinder('ts-loader')
 const eslintLoaderFinder = makeLoaderFinder('eslint-loader')
 
+const defaultOptions = {
+  useBabel: true,
+  useEslint: true,
+  tsLoader: {
+    transpileOnly: true,
+    experimentalWatchApi: true
+  },
+  forkTsChecker: {
+    tsconfig: './tsconfig.json',
+    tslint: './tslint.json',
+    watch: ['./src'],
+    typeCheck: true
+  }
+}
+
 module.exports = {
   modify: (baseConfig, { target, dev }, webpack) => {
+    const options = Object.assign({}, defaultOptions)
     const config = Object.assign({}, baseConfig)
 
-    config.resolve.extensions = config.resolve.extensions.concat([
-      '.ts',
-      '.tsx'
-    ])
+    config.resolve.extensions = [...config.resolve.extensions, '.ts', '.tsx']
 
-    config.devtool = 'cheap-module-source-map'
+    if (!options.useBabel || !options.useEslint) {
+      // Locate eslint-loader and remove it (we're using only tslint)
+      config.module.rules = config.module.rules.filter(
+        rule => !eslintLoaderFinder(rule)
+      )
+    }
 
     const babelLoader = config.module.rules.find(babelLoaderFinder)
     if (!babelLoader) {
@@ -42,35 +52,32 @@ module.exports = {
       include,
       test: /\.tsx?$/,
       use: [
-        dev && { loader: 'cache-loader' },
-        dev && {
-          loader: 'thread-loader',
-          options: {
-            // there should be 1 cpu for the fork-ts-checker-webpack-plugin
-            workers: 2
-          }
-        },
         {
-          loader: 'ts-loader',
-          options: {
-            happyPackMode: true // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack
-          }
+          loader: require.resolve('ts-loader'),
+          options: Object.assign({}, defaultOptions.tsLoader, options.tsLoader)
         }
-      ].filter(x => x)
+      ]
     }
 
-    // Fully replace babel-loader with ts-loader
-    config.module.rules[babelLoader] = tsLoader
+    if (options.useBabel) {
+      // If using babel, also add babel-loader to ts files,
+      // so we can use babel plugins on tsx files too
+      tsLoader.use = [...babelLoader.use, ...tsLoader.use]
+    } else {
+      // If not using babel, remove it
+      config.module.rules = config.module.rules.filter(
+        rule => !babelLoaderFinder(rule)
+      )
+    }
 
+    config.module.rules.push(tsLoader)
+    // Do typechecking in a separate process,
+    // We can run it only in client builds.
     if (target === 'web') {
       config.plugins.push(
-        new ForkTsCheckerWebpackPlugin({
-          checkSyntacticErrors: true,
-          formatter: 'codeframe',
-          tslint: './tslint.json',
-          watch: './src',
-          workers: 2
-        })
+        new ForkTsCheckerWebpackPlugin(
+          Object.assign({}, defaultOptions.forkTsChecker, options.forkTsChecker)
+        )
       )
       config.plugins.push(new WorkerPlugin())
       config.plugins.push(
@@ -78,115 +85,17 @@ module.exports = {
           filename: './build/react-loadable.json'
         })
       )
-      // config.plugins.push(new BundleAnalyzerPlugin());
-    }
-
-    if (target === 'web') {
-      config.module.rules.push(
-        dev
-          ? {
-              test: /.scss$/,
-              use: [
-                'style-loader',
-                {
-                  loader: 'css-loader',
-                  options: {
-                    modules: false,
-                    sourceMap: true
-                  }
-                },
-                {
-                  loader: 'postcss-loader',
-                  options: {
-                    ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-                    plugins: () => [
-                      autoprefixer({
-                        browsers: [
-                          '>1%',
-                          'last 4 versions',
-                          'Firefox ESR',
-                          'not ie < 9' // React doesn't support IE8 anyway
-                        ]
-                      })
-                    ]
-                  }
-                },
-                'sass-loader'
-              ]
-            }
-          : {
-              test: /.scss$/,
-              use: scssPlugin.extract({
-                fallback: 'style-loader',
-                use: [
-                  {
-                    loader: 'css-loader',
-                    options: {
-                      minimize: true,
-                      importLoaders: 1
-                    }
-                  },
-                  {
-                    loader: 'postcss-loader',
-                    options: {
-                      ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-                      plugins: () => [
-                        autoprefixer({
-                          browsers: [
-                            '>1%',
-                            'last 4 versions',
-                            'Firefox ESR',
-                            'not ie < 9' // React doesn't support IE8 anyway
-                          ]
-                        })
-                      ]
-                    }
-                  },
-                  'sass-loader'
-                ]
-              })
-            }
-      )
-
-      config.output.filename = dev
-        ? 'static/js/[name].js'
-        : 'static/js/[name].[hash:7].js'
-
-      config.entry.vendor = [
-        require.resolve('gamma-core/polyfills'),
-        require.resolve('react'),
-        require.resolve('react-dom'),
-        require.resolve('react-router-dom'),
-        require.resolve('react-helmet-async'),
-        require.resolve('formik'),
-        require.resolve('yup')
-      ]
-
-      // config.plugins.push(
-      //   new webpack.optimize.CommonsChunkPlugin({
-      //     names: ['vendor', 'manifest'],
-      //     minChunks: Infinity
-      //   })
-      // )
-      // // extract common modules from all the chunks (requires no 'name' property)
-      // config.plugins.push(
-      //   new webpack.optimize.CommonsChunkPlugin({
-      //     async: true,
-      //     children: true,
-      //     minChunks: 4
-      //   })
-      // )
-
-      // config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin());
-
-      if (!dev) {
-        config.plugins.push(scssPlugin)
+      if (dev) {
+        // As suggested by Microsoft's Outlook team, these optimizations
+        // crank up Webpack x TypeScript perf.
+        // @see https://medium.com/@kenneth_chau/speeding-up-webpack-typescript-incremental-builds-by-7x-3912ba4c1d15
+        config.output.pathinfo = false
+        config.optimization = {
+          removeAvailableModules: false,
+          removeEmptyChunks: false,
+          splitChunks: false
+        }
       }
-    } else {
-      config.module.rules.push({
-        test: /.scss$/,
-        use: 'css-loader'
-      })
     }
 
     return config

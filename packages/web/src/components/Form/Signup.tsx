@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 
 import { GreenButton } from '../Buttons'
-import { TextInput } from './inputs'
+import { TextInput } from './Inputs'
 import { VIEWER_ME, REGISTER } from '../../queries'
 import { validRegistrationSchema } from '../../utils/schemas'
 

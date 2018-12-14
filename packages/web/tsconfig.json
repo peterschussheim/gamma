@@ -24,7 +24,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "target": "es2016"
   },
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "./build/react-loadable.json"],
   "exclude": [
     "node_modules",
     "build",

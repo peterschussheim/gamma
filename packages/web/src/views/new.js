@@ -10,14 +10,14 @@ import Skeleton from '../components/Skeleton'
 import Footer from '../components/Footer'
 import GistFilesList from '../components/SidebarList/GistFilesList'
 import Icon from '../components/icon'
-import { GistInputsContainer, TextInput } from '../components/Form/inputs'
+import { GistInputsContainer, TextInput } from '../components/Form/Inputs'
 import {
   DefaultButton,
   GreenButton,
   UserBtnsContainer
 } from '../components/Buttons'
 
-import { Debug } from '../components/Form/formDebugger'
+import { Debug } from '../components/Form/FormDebugger'
 
 class NewGist extends React.Component {
   state = {

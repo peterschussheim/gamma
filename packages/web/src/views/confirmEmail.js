@@ -2,7 +2,7 @@ import * as React from 'react'
 import { compose, graphql, Query } from 'react-apollo'
 import { Formik, Form } from 'formik'
 
-import { TextInput } from '../components/Form/inputs'
+import { TextInput } from '../components/Form/Inputs'
 import { RESEND_CONFIRMATION_EMAIL, VIEWER_ME } from '../queries'
 
 const ConfirmEmail = props => {

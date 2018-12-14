@@ -5,8 +5,8 @@ import { Global } from '@emotion/core'
 
 import globalStyles from './components/global'
 import Navbar from './components/Navbar'
-import Login from './components/Form/login'
-import Signup from './components/Form/signup'
+import Login from './components/Form/Login'
+import Signup from './components/Form/Signup'
 
 // import Gist from './views/Gist'
 import Profile from './views/Profile'
