@@ -15,7 +15,7 @@
     "no-submodule-imports": false,
     "max-classes-per-file": false,
     "no-console": {
-      "severity": "warning",
+      "severity": "off",
       "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
     },
     "jsx-no-lambda": false,
