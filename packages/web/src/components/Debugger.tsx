@@ -1,21 +1,21 @@
 import * as React from 'react'
 
-export const Debugger = ({ state, props }) => (
+export const Debugger = ({ componentName, state, props }) => (
   <div
     style={{
       margin: '3rem 0',
-      borderRadius: 4,
-      background: '#f6f8fa',
-
+      borderRadius: 0,
+      background: '#45c7a080',
       boxShadow: '0 0 1px  #eee inset'
     }}
   >
+    <h1>{componentName}</h1>
     <div
       style={{
         textTransform: 'uppercase',
         fontSize: 11,
-        borderTopLeftRadius: 4,
-        borderTopRightRadius: 4,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
         fontWeight: 500,
         padding: '.5rem',
         background: '#555',
