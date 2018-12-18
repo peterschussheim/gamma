@@ -9,6 +9,7 @@ import { cache, errorLink, requestLink } from './apollo'
 import ApolloClient from 'apollo-client'
 import { ApolloLink } from 'apollo-link'
 
+import { EditorProvider } from './components/EnhancedEditors/EditorContext'
 import './styles.css'
 
 const links = [errorLink, requestLink]
@@ -29,7 +30,9 @@ export default () => {
     <ApolloProvider client={client}>
       <HelmetProvider>
         <Router history={history}>
-          <Routes />
+          <EditorProvider>
+            <Routes />
+          </EditorProvider>
         </Router>
       </HelmetProvider>
     </ApolloProvider>
