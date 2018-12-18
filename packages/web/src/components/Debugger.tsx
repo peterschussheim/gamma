@@ -25,12 +25,26 @@ const styles = {
   }
 }
 
-export const Debugger = ({ componentName, state, props }) => (
+export const Debugger = ({ componentName, context, state, props }) => (
   <div style={styles.container}>
     <h1>{componentName}</h1>
-    <div style={styles.values}>State</div>
-    <pre style={styles.pre}>{JSON.stringify(state, null, 2)}</pre>
-    <div style={styles.values}>Props</div>
-    <pre style={styles.pre}>{JSON.stringify(props, null, 2)}</pre>
+    {context == null ? null : (
+      <React.Fragment>
+        <div style={styles.values}>Context</div>
+        <pre style={styles.pre}>{JSON.stringify(context, null, 2)}</pre>
+      </React.Fragment>
+    )}
+    {state == null ? null : (
+      <React.Fragment>
+        <div style={styles.values}>State</div>
+        <pre style={styles.pre}>{JSON.stringify(state, null, 2)}</pre>
+      </React.Fragment>
+    )}
+    {props == null ? null : (
+      <React.Fragment>
+        <div style={styles.values}>Props</div>
+        <pre style={styles.pre}>{JSON.stringify(props, null, 2)}</pre>
+      </React.Fragment>
+    )}
   </div>
 )
