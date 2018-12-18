@@ -384,10 +384,10 @@
     universal-user-agent "^2.0.0"
     url-template "^2.0.8"
 
-"@peterschussheim/monaco-editor@0.15.5":
-  version "0.15.5"
-  resolved "https://registry.yarnpkg.com/@peterschussheim/monaco-editor/-/monaco-editor-0.15.5.tgz#6891b50585bc6d6e14441a1b30a8c082e615143f"
-  integrity sha512-fLBeWcuT5ZeHAbCM21TuRD6T4s51biBvtOpuTFaZSo/S7DX25uKORRJffpG70A/qSC4diL+3Xkg3n5N8EtTAUw==
+"@peterschussheim/monaco-editor@0.15.6":
+  version "0.15.6"
+  resolved "https://registry.yarnpkg.com/@peterschussheim/monaco-editor/-/monaco-editor-0.15.6.tgz#99e1c7f8e274376d40a8e11d83b025ff7fade237"
+  integrity sha512-wVpIFv9qLzdmxiaw5fySV6f7I2tzNSZNIuSIzyybxE289kN8v4DjqYkueidotfLvUhy09hEEqgL9RBIHqyZMLA==
 
 "@reach/component-component@^0.1.1":
   version "0.1.1"

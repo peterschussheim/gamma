@@ -42,7 +42,7 @@
   "dependencies": {
     "@emotion/core": "10.0.0-beta.6",
     "@emotion/styled": "10.0.0-beta.6",
-    "@peterschussheim/monaco-editor": "0.15.5",
+    "@peterschussheim/monaco-editor": "0.15.6",
     "@reach/menu-button": "0.1.7",
     "apollo-cache-inmemory": "1.3.8",
     "apollo-client": "2.4.5",
