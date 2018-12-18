@@ -1,11 +1,5 @@
 {
-  "extends": [
-    "tslint:latest",
-    "tslint-eslint-rules",
-    "tslint-config-prettier",
-    "tslint-react",
-    "../../tslint.json"
-  ],
+  "extends": ["tslint:latest", "tslint-react", "../../tslint.json"],
   "linterOptions": {
     "exclude": ["src/components/MonacoEditor/vendor/eslint.bundle.js"]
   }
