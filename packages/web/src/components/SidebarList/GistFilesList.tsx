@@ -8,13 +8,13 @@ import Icon from '../icon'
 
 class GistFilesList extends React.Component {
   render() {
-    const { data, activeFile, handleClickFile } = this.props
+    const { data, handleClickFile } = this.props
     const { loading, error } = data
     if (loading || !data) {
       return null
     } else if (error) {
       return `Error!: ${error}`
-    } else
+    } else {
       return (
         <FileListContainer>
           <SidebarContainer>
@@ -22,11 +22,14 @@ class GistFilesList extends React.Component {
               {data.getGistById.description || '[no description]'}
             </Description>
             {data.getGistById.files.map((file, index) => (
-              <ListItem onClick={handleClickFile} key={file.filename}>
+              <ListItem
+                onClick={() => handleClickFile(file)}
+                key={file.filename}
+              >
                 <Icon
-                  onClick={handleClickFile}
+                  onClick={() => handleClickFile(file)}
                   height={12}
-                  name={file.filename}
+                  filename={file.filename}
                 />{' '}
                 {file.filename}
               </ListItem>
@@ -34,6 +37,7 @@ class GistFilesList extends React.Component {
           </SidebarContainer>
         </FileListContainer>
       )
+    }
   }
 }
 

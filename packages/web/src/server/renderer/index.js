@@ -21,6 +21,8 @@ import './browser-shim'
 import template from './html-template'
 const assets = require(process.env.GAMMA_ASSETS_MANIFEST)
 import Routes from '../../routes'
+import { EditorProvider } from '../../components/EnhancedEditors/EditorContext'
+
 const stats = require('../../../build/react-loadable.json')
 
 import { API_URI } from '../../constants'
@@ -48,7 +50,9 @@ const renderer = (req, res) => {
       <ApolloProvider client={client}>
         <HelmetProvider context={helmetContext}>
           <StaticRouter location={req.url} context={routerContext}>
-            <Routes currentUser={req.user} />
+            <EditorProvider>
+              <Routes currentUser={req.user} />
+            </EditorProvider>
           </StaticRouter>
         </HelmetProvider>
       </ApolloProvider>

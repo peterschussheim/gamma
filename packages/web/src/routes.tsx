@@ -9,8 +9,8 @@ import Login from './components/Form/Login'
 import Signup from './components/Form/Signup'
 
 // import Gist from './views/Gist'
+// import EditorView from './views/EditorView'
 import Profile from './views/Profile'
-import EditorView from './views/EditorView'
 import NewGist from './views/New'
 import NotFound from './views/NotFound'
 import ConfirmEmail from './views/ConfirmEmail'
@@ -23,6 +23,10 @@ const Home = Loadable({
 })
 const Gist = Loadable({
   loader: () => import('./views/Gist'),
+  loading: Loading
+})
+const EditorView = Loadable({
+  loader: () => import('./views/EditorView'),
   loading: Loading
 })
 
@@ -40,7 +44,12 @@ class Routes extends React.Component {
           <Route exact={true} path="/auth/signup" component={Signup} />
           <Route exact={true} path="/success" component={Home} />
           <Route exact={true} path="/new" component={NewGist} />
-          <Route exact={true} path="/editor" component={EditorView} />
+          <Route
+            exact={true}
+            path="/editor"
+            component={EditorView}
+            {...this.props}
+          />
           <Route
             exact={true}
             path="/g/:gistId"

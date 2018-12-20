@@ -8,16 +8,9 @@ export default class Skeleton extends React.Component {
     sidebar: PropTypes.node,
     editor: PropTypes.node
   }
-  state = { data: null, selectedFile: 0 }
-
-  componentDidMount() {
-    this.setState((state, props) => ({
-      data: props.data
-    }))
-  }
 
   render() {
-    const { data, sidebar, editor } = this.props
+    const { sidebar, editor } = this.props
 
     return (
       <Container>

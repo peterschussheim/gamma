@@ -5,6 +5,31 @@
 // export interface IModelCache {
 //   // [filename: string]:
 // }
+export interface Editor {}
+
+export interface CodeEditorProps {
+  gist: Gist
+  gistId: string
+  currentFile: string
+  onChange: (code: string, moduleShortid?: string) => void
+  onInitialized: (editor: Editor) => void
+  onModuleChange: (moduleId: string) => void
+  onNpmDependencyAdded?: (name: string) => void
+  onSave?: (code: string) => void
+  height?: string
+  width?: string
+  hideNavigation?: boolean
+  dependencies?: {
+    [name: string]: {
+      version: string
+    }
+  }
+  highlightedLines?: number[]
+  readOnly?: boolean
+  receivingCode?: boolean
+  onCodeReceived?: () => void
+  onSelectionChanged: (d: { selection: any; moduleShortid: string }) => void
+}
 
 export type CreateModel = (
   value: string,
@@ -33,12 +58,8 @@ export interface File {
 
 export type MonacoEditorNS = typeof monaco
 
-export interface IEditorInstance {
-  editor: monaco.editor.IStandaloneCodeEditor
-}
-
 export type EditorDidMount = (
-  editorInstance: IEditorInstance,
+  editorInstance: monaco.editor.ICodeEditor,
   monacoInstance: MonacoEditorNS
 ) => void
 

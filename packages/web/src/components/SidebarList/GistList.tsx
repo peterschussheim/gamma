@@ -10,7 +10,7 @@ class GistList extends React.PureComponent {
     const { data } = this.props
     const { loading, error } = data
     if (loading) {
-      return <p>Loading...</p>
+      return null
     } else if (error) {
       return <div>{error}</div>
     } else {
