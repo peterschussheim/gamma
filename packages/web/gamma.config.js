@@ -2,7 +2,7 @@ const makeLoaderFinder = require('gamma-core/dev-utils/makeLoaderFinder')
 const WorkerPlugin = require('worker-plugin')
 const { ReactLoadablePlugin } = require('react-loadable/webpack')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 const babelLoaderFinder = makeLoaderFinder('babel-loader')
 const tsLoaderFinder = makeLoaderFinder('ts-loader')
 const eslintLoaderFinder = makeLoaderFinder('eslint-loader')
@@ -79,16 +79,30 @@ module.exports = {
           Object.assign({}, defaultOptions.forkTsChecker, options.forkTsChecker)
         )
       )
+      config.plugins.push(new MonacoWebpackPlugin())
       config.plugins.push(new WorkerPlugin())
       config.plugins.push(
         new ReactLoadablePlugin({
           filename: './build/react-loadable.json'
         })
       )
+      config.optimization.splitChunks = {
+        cacheGroups: {
+          editor: {
+            // Editor bundle
+            test: /[\\/]node_modules\/(monaco-editor\/esm\/vs\/(nls\.js|editor|platform|base|basic-languages|language\/(css|html|json|typescript)\/monaco\.contribution\.js)|style-loader\/lib|css-loader\/lib\/css-base\.js)/,
+            name: 'monaco-editor',
+            chunks: 'async'
+          },
+          languages: {
+            // Language bundle
+            test: /[\\/]node_modules\/monaco-editor\/esm\/vs\/language\/(css|html|json|typescript)\/(_deps|lib|fillers|languageFeatures\.js|workerManager\.js|tokenization\.js|(tsMode|jsonMode|htmlMode|cssMode)\.js|(tsWorker|jsonWorker|htmlWorker|cssWorker)\.js)/,
+            name: 'monaco-languages',
+            chunks: 'async'
+          }
+        }
+      }
       if (dev) {
-        // As suggested by Microsoft's Outlook team, these optimizations
-        // crank up Webpack x TypeScript perf.
-        // @see https://medium.com/@kenneth_chau/speeding-up-webpack-typescript-incremental-builds-by-7x-3912ba4c1d15
         config.output.pathinfo = false
         config.optimization = {
           removeAvailableModules: false,
