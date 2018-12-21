@@ -26,7 +26,7 @@ export default class CodeEditor extends React.Component<CodeEditorProps, {}> {
     editor.focus()
     const currentModel = monaco.editor.getModels()
     console.log(currentModel)
-    // monaco.editor.setModelLanguage(currentModel, 'javascript')
+    // monaco.editor.setModelLanguage(currentModel, 'css')
   }
 
   render() {
@@ -39,7 +39,8 @@ export default class CodeEditor extends React.Component<CodeEditorProps, {}> {
         editorWillMount={this.editorWillMount}
         editorDidMount={this.editorDidMount}
         onOpenPath={() => onOpenPath(currentFile)}
-        value={currentValue}
+        // value={currentValue}
+        language="css"
       />
     )
   }

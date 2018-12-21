@@ -2,7 +2,6 @@ import * as React from 'react'
 import * as monaco from '@peterschussheim/monaco-editor'
 // tslint:disable-next-line:no-implicit-dependencies
 import debounce from 'lodash/debounce'
-import { MonacoEditorNS } from '../../types'
 
 export type BuiltinTheme = 'vs' | 'vs-dark' | 'hc-black'
 
@@ -14,6 +13,7 @@ export interface MonacoEditorProps {
   }
   path: string
   value: string
+  language: string
   onOpenPath: (path: string) => void
   onValueChange: (value: string) => void
   lineNumbers?: 'on' | 'off' | 'relative' | 'interval'
@@ -130,6 +130,7 @@ class MonacoEditor extends React.PureComponent<MonacoEditorProps, {}> {
     console.log('options: ', options)
     console.log('language: ', language)
     const mergedOptions = { ...options, language }
+    console.log('mergedOptions', mergedOptions)
     this.editor.updateOptions(mergedOptions)
 
     const model = this.editor.getModel()

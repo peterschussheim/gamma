@@ -29,10 +29,14 @@ const EditorView = Loadable({
   loader: () => import('./views/EditorView'),
   loading: Loading
 })
+const CssEditorView = Loadable({
+  loader: () => import('./views/CssEditorView'),
+  loading: Loading
+})
 
 class Routes extends React.Component {
   render() {
-    const { currentUser } = this.props
+    // const { currentUser } = this.props
     return (
       <React.Fragment>
         <Global styles={globalStyles} />
@@ -44,6 +48,7 @@ class Routes extends React.Component {
           <Route exact={true} path="/auth/signup" component={Signup} />
           <Route exact={true} path="/success" component={Home} />
           <Route exact={true} path="/new" component={NewGist} />
+          <Route exact={true} path="/css" component={CssEditorView} />
           <Route
             exact={true}
             path="/editor"

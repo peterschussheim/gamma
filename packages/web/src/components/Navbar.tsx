@@ -23,6 +23,13 @@ const NavLayout = props => (
           New Gist
         </MenuLink>
         <MenuLink
+          to="/css"
+          onClick={() => props.history.push('/css')}
+          props={props}
+        >
+          CSS Editor
+        </MenuLink>
+        <MenuLink
           to="/editor"
           onClick={() => props.history.push('/editor')}
           props={props}
