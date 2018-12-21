@@ -40,7 +40,7 @@ function noop() {}
 /**
  * Minimal component to be used as a BASE for adding advanced features.
  */
-class MonacoEditor extends React.PureComponent<MonacoEditorProps, {}> {
+class MonacoEditorComponent extends React.PureComponent<MonacoEditorProps, {}> {
   iframeElement: any
   containerElement: any
   subscription: any
@@ -244,4 +244,4 @@ class MonacoEditor extends React.PureComponent<MonacoEditorProps, {}> {
   }
 }
 
-export default MonacoEditor
+export default MonacoEditorComponent

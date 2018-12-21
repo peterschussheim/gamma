@@ -21,7 +21,7 @@ import './browser-shim'
 import template from './html-template'
 const assets = require(process.env.GAMMA_ASSETS_MANIFEST)
 import Routes from '../../routes'
-import { EditorProvider } from '../../components/EnhancedEditors/EditorContext'
+import { EditorProvider } from '../../components/MonacoEditor/EditorContext'
 
 const stats = require('../../../build/react-loadable.json')
 

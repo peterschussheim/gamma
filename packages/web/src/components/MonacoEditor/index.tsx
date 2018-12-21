@@ -1,19 +1,9 @@
 import * as React from 'react'
-
-import MonacoEditor from '../MonacoEditor/MonacoEditor'
+import MonacoEditorComponent from './MonacoEditorComponent'
 import { EditorContext } from './EditorContext'
-import getMode from '../MonacoEditor/monaco-utils/getMode'
-import { Debugger } from '../Debugger'
-import { getCursorLine } from '../MonacoEditor/monaco-utils'
-
-import { CodeEditorProps, EditorDidMount, MonacoEditorNS } from '../../types'
-
 const modelCache = {}
 
 export default class CodeEditor extends React.Component<CodeEditorProps, {}> {
-  constructor(props: CodeEditorProps) {
-    super(props)
-  }
   static contextType = EditorContext
 
   editorWillMount = (monaco: MonacoEditorNS) => {
@@ -34,7 +24,7 @@ export default class CodeEditor extends React.Component<CodeEditorProps, {}> {
     const { currentFile, currentValue, onSelectFile, onOpenPath } = this.context
 
     return (
-      <MonacoEditor
+      <MonacoEditorComponent
         onValueChange={handleValueChange}
         editorWillMount={this.editorWillMount}
         editorDidMount={this.editorDidMount}

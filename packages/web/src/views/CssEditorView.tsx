@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import CodeEditor from '../components/EnhancedEditors/CodeEditor'
+import CodeEditor from '../components/MonacoEditor'
 import Skeleton from '../components/Skeleton'
 import Footer from '../components/Footer'
 import Sidebar from '../components/Sidebar'

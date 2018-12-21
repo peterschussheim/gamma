@@ -4,8 +4,8 @@ import Skeleton from '../Skeleton'
 import Footer from '../Footer'
 import GistFilesList from '../SidebarList/GistFilesList'
 import Icon from '../icon'
-import MonacoEditor from '../MonacoEditor/MonacoEditor'
-import { EditorContext } from './EditorContext'
+import MonacoEditorComponent from '../MonacoEditor/MonacoEditorComponent'
+import { EditorContext } from '../MonacoEditor/EditorContext'
 import { Debugger } from '../Debugger'
 export interface GetGistById {
   gistId: string
@@ -55,7 +55,7 @@ export default class GistEditor extends React.Component<GistEditorProps, {}> {
             />
           }
           editor={
-            <MonacoEditor
+            <MonacoEditorComponent
               onValueChange={onValueChange}
               onOpenPath={() => onOpenPath(currentFile)}
               value={currentValue}

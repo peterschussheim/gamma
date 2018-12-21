@@ -9,7 +9,7 @@ import { cache, errorLink, requestLink } from './apollo'
 import ApolloClient from 'apollo-client'
 import { ApolloLink } from 'apollo-link'
 
-import { EditorProvider } from './components/EnhancedEditors/EditorContext'
+import { EditorProvider } from './components/MonacoEditor/EditorContext'
 import './styles.css'
 
 const links = [errorLink, requestLink]
