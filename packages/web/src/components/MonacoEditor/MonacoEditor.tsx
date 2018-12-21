@@ -1,5 +1,4 @@
 import * as React from 'react'
-import * as monaco from '@peterschussheim/monaco-editor'
 // tslint:disable-next-line:no-implicit-dependencies
 import debounce from 'lodash/debounce'
 import { MonacoEditorNS } from '../../types'

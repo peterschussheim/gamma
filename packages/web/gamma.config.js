@@ -1,5 +1,6 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const util = require('util')
 const makeLoaderFinder = require('gamma-core/dev-utils/makeLoaderFinder')
-const WorkerPlugin = require('worker-plugin')
 const { ReactLoadablePlugin } = require('react-loadable/webpack')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
@@ -28,6 +29,10 @@ module.exports = {
     const config = Object.assign({}, baseConfig)
 
     config.resolve.extensions = [...config.resolve.extensions, '.ts', '.tsx']
+    config.resolveLoader.alias = {
+      'blob-url-loader': require.resolve('./blobUrl'),
+      'compile-loader': require.resolve('./compile')
+    }
 
     if (!options.useBabel || !options.useEslint) {
       // Locate eslint-loader and remove it (we're using only tslint)
@@ -71,6 +76,7 @@ module.exports = {
     }
 
     config.module.rules.push(tsLoader)
+
     // Do typechecking in a separate process,
     // We can run it only in client builds.
     if (target === 'web') {
@@ -79,29 +85,37 @@ module.exports = {
           Object.assign({}, defaultOptions.forkTsChecker, options.forkTsChecker)
         )
       )
-      config.plugins.push(new MonacoWebpackPlugin())
-      config.plugins.push(new WorkerPlugin())
+      // config.plugins.push(new MonacoWebpackPlugin())
+      config.plugins.push(
+        new CopyWebpackPlugin([
+          {
+            from: '../../node_modules/monaco-editor/min/vs',
+            to: 'public/monaco/vs',
+            force: true
+          }
+        ])
+      )
       config.plugins.push(
         new ReactLoadablePlugin({
           filename: './build/react-loadable.json'
         })
       )
-      config.optimization.splitChunks = {
-        cacheGroups: {
-          editor: {
-            // Editor bundle
-            test: /[\\/]node_modules\/(monaco-editor\/esm\/vs\/(nls\.js|editor|platform|base|basic-languages|language\/(css|html|json|typescript)\/monaco\.contribution\.js)|style-loader\/lib|css-loader\/lib\/css-base\.js)/,
-            name: 'monaco-editor',
-            chunks: 'async'
-          },
-          languages: {
-            // Language bundle
-            test: /[\\/]node_modules\/monaco-editor\/esm\/vs\/language\/(css|html|json|typescript)\/(_deps|lib|fillers|languageFeatures\.js|workerManager\.js|tokenization\.js|(tsMode|jsonMode|htmlMode|cssMode)\.js|(tsWorker|jsonWorker|htmlWorker|cssWorker)\.js)/,
-            name: 'monaco-languages',
-            chunks: 'async'
-          }
-        }
-      }
+      // config.optimization.splitChunks = {
+      //   cacheGroups: {
+      //     editor: {
+      //       // Editor bundle
+      //       test: /[\\/]node_modules\/(monaco-editor\/esm\/vs\/(nls\.js|editor|platform|base|basic-languages|language\/(css|html|json|typescript)\/monaco\.contribution\.js)|style-loader\/lib|css-loader\/lib\/css-base\.js)/,
+      //       name: 'monaco-editor',
+      //       chunks: 'async'
+      //     },
+      //     languages: {
+      //       // Language bundle
+      //       test: /[\\/]node_modules\/monaco-editor\/esm\/vs\/language\/(css|html|json|typescript)\/(_deps|lib|fillers|languageFeatures\.js|workerManager\.js|tokenization\.js|(tsMode|jsonMode|htmlMode|cssMode)\.js|(tsWorker|jsonWorker|htmlWorker|cssWorker)\.js)/,
+      //       name: 'monaco-languages',
+      //       chunks: 'async'
+      //     }
+      //   }
+      // }
       if (dev) {
         config.output.pathinfo = false
         config.optimization = {
@@ -111,7 +125,7 @@ module.exports = {
         }
       }
     }
-
+    console.log(util.inspect(config.plugins, { showHidden: true, depth: null }))
     return config
   }
 }

@@ -94,6 +94,11 @@ const renderer = (req, res) => {
 
       let response = res
 
+      /**
+       * TODO:
+       *
+       * Figure out what `bundles` and `scripts` returns
+       */
       const bundles = getBundles(stats, modules)
       const scripts = bundles
         .filter(bundle => bundle.file.endsWith('.js'))
@@ -101,7 +106,9 @@ const renderer = (req, res) => {
         .filter((bundle, pos, self) => self.indexOf(bundle) === pos)
       const staticBuild =
         process.env.NODE_ENV === 'production' ? '/' : 'http://localhost:3001/'
-
+      debug('bundles: ', bundles)
+      debug('scripts: ', scripts)
+      debug('staticBuild: ', staticBuild)
       const { header, footer } = template({
         helmet,
         data,

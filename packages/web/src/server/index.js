@@ -1,5 +1,6 @@
 /* eslint-disable import/first */
 const debug = require('debug')('web:renderer:app')
+const util = require('util')
 debug('Renderer starting...')
 import 'raf/polyfill'
 import fs from 'fs'
@@ -128,10 +129,14 @@ app.use(session)
 // Static files
 // This route handles the case where our ServiceWorker requests main.asdf123.js, but
 // we've deployed a new version of the app so the filename changed to main.dfyt975.js
+debug(
+  'jsfiles/static: ',
+  path.resolve(__dirname, '..', 'build', 'static', 'js')
+)
 let jsFiles
 try {
   jsFiles = fs.readdirSync(
-    path.resolve(__dirname, '..', 'build', 'public', 'static', 'js')
+    path.resolve(__dirname, '..', 'build', 'static', 'js')
   )
 } catch (err) {
   // In development that folder might not exist, so ignore errors here
@@ -151,6 +156,8 @@ app.use(
   })
 )
 app.get('/static/js/:name', (req, res, next) => {
+  debug('static/js', req.params.name)
+  debug('jsFiles', util.inspect(jsFiles))
   if (!req.params.name) return next()
   const existingFile = jsFiles.find(file => file.startsWith(req.params.name))
   if (existingFile) {

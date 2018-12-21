@@ -19,7 +19,23 @@ const client = new ApolloClient({
   link: ApolloLink.from(links),
   cache: window.__DATA__ ? cache.restore(window.__DATA__) : cache
 })
-
+window.MonacoEnvironment = {
+  getWorker(moduleId, label) {
+    switch (label) {
+      case 'json':
+        return require('monaco-editor/esm/vs/language/json/json.worker')
+      case 'css':
+        return require('monaco-editor/esm/vs/language/css/css.worker')
+      case 'html':
+        return require('monaco-editor/esm/vs/language/html/html.worker')
+      case 'typescript':
+      case 'javascript':
+        return require('monaco-editor/esm/vs/language/typescript/ts.worker')
+      default:
+        return require('monaco-editor/esm/vs/editor/editor.worker')
+    }
+  }
+}
 /**
  * Use the following module on the client only.  For the server 'App',
  * we construct the app in the `server/index.js` file since it has different
