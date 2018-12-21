@@ -1,13 +1,10 @@
+## monaco notes
 
-## monaco conventions
-
-### emmitted events
-
-Events fired from `monaco.editor` when their corresponding method is called, ex:
-
-```typescript
-```
-
+- [monaco notes](#monaco-notes)
+- [Managing multiple models](#managing-multiple-models)
+  - [emmitted events](#emmitted-events)
+  - [example `modelCache`](#example-modelcache)
+  - [global variables](#global-variables)
 
 ## Managing multiple models
 
@@ -15,6 +12,10 @@ Events fired from `monaco.editor` when their corresponding method is called, ex:
 - create N model instances via `monaco.editor.createModel(...)`.
 - switch tabs by calling `editorInstance.setModel(modelInstance)`
 - for each model, you can save its view state (cursor, scroll position, etc) via `editorInstance.saveViewState()` and restore it via `editorInstance.restoreViewState()`.
+
+### emmitted events
+
+Events fired from `monaco.editor` when their corresponding method is called, ex:
 
 ### example `modelCache`
 
