@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import CodeEditor from '../components/MonacoEditor'
+import MonacoEditor from '../components/MonacoEditor'
 import Skeleton from '../components/Skeleton'
 import Footer from '../components/Footer'
 import Sidebar from '../components/Sidebar'
@@ -16,7 +16,7 @@ export default class CssEditorView extends React.Component {
         <Skeleton
           sidebar={<Sidebar />}
           editor={
-            <CodeEditor
+            <MonacoEditor
               language="css"
               handleValueChange={this.handleValueChange}
             />

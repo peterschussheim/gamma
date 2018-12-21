@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import CodeEditor from '../components/MonacoEditor'
+import MonacoEditor from '../components/MonacoEditor'
 import Skeleton from '../components/Skeleton'
 import Footer from '../components/Footer'
 import Sidebar from '../components/Sidebar'
@@ -15,7 +15,7 @@ class EditorView extends React.Component {
       <React.Fragment>
         <Skeleton
           sidebar={<Sidebar />}
-          editor={<CodeEditor handleValueChange={this.handleValueChange} />}
+          editor={<MonacoEditor handleValueChange={this.handleValueChange} />}
         />
         <Footer />
         <Debugger props={this.props} />

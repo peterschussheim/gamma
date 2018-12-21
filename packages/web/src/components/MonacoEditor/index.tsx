@@ -3,19 +3,19 @@ import MonacoEditorComponent from './MonacoEditorComponent'
 import { EditorContext } from './EditorContext'
 const modelCache = {}
 
-export default class CodeEditor extends React.Component<CodeEditorProps, {}> {
+export default class MonacoEditor<P, S> extends React.Component<P, S> {
+  constructor(props: P) {
+    super(props)
+  }
   static contextType = EditorContext
 
-  editorWillMount = (monaco: MonacoEditorNS) => {
+  editorWillMount = monaco => {
     // console.log('editorWillMount', monaco.editor)
   }
 
-  editorDidMount: EditorDidMount = (editor, monaco) => {
-    console.log('editorInstance', editor)
-    console.log('monacoInstance', monaco)
+  editorDidMount = (editor, monaco) => {
     editor.focus()
     const currentModel = monaco.editor.getModels()
-    console.log(currentModel)
     // monaco.editor.setModelLanguage(currentModel, 'css')
   }
 
