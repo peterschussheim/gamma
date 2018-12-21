@@ -48,9 +48,9 @@ if (module.hot) {
 
 async function render(Root) {
   try {
-        await MonacoUtils.initialize()
-        // await import(/* webpackChunkName: "monaco-languages" */ 'monaco-editor')
-      } catch (e) {
+    await MonacoUtils.initialize()
+    // await import(/* webpackChunkName: "monaco-languages" */ 'monaco-editor')
+  } catch (e) {
     console.error('Error loading monaco', e)
   }
   Loadable.preloadReady()
