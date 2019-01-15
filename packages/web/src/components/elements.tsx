@@ -1,6 +1,6 @@
-import * as React from "react"
+import * as React from 'react'
 
-import styled from "@emotion/styled"
+import styled from '@emotion/styled'
 
 const Fullscreen = styled.div`
   display: flex;

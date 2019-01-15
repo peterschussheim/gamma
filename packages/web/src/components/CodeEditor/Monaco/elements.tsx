@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import styled from '@emotion/styled'
 
 export const Container = styled.div`
   width: 100%;
@@ -23,7 +23,7 @@ export const CodeContainer = styled.div`
     justify-content: center;
 
     &:after {
-      content: "";
+      content: '';
       width: 50%;
       height: 50%;
       background-color: green;
@@ -37,7 +37,7 @@ export const CodeContainer = styled.div`
     justify-content: center;
 
     &:after {
-      content: "";
+      content: '';
       width: 50%;
       height: 50%;
       background-color: red;
