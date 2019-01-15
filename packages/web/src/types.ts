@@ -1,17 +1,23 @@
 // tslint:disable:max-line-length
 
-// export interface IMonacoModel {}
+export type Monaco = typeof monaco
+export type MonacoCodeEditor = monaco.editor.ICodeEditor
 
-// export interface IModelCache {
-//   // [filename: string]:
-// }
-export interface Editor {}
+export type EditorDidMount = (
+  editorInstance: MonacoCodeEditor,
+  monacoInstance: Monaco
+) => void
+
+export type ChangeHandler = (
+  value: string,
+  event: monaco.editor.IModelContentChangedEvent
+) => void
 
 export interface CodeEditorProps {
   gist: Gist
   gistId: string
   currentFile: string
-  onChange: (code: string, moduleShortid?: string) => void
+  onValueChange: (code: string, moduleShortid?: string) => void
   onInitialized: (editor: Editor) => void
   onModuleChange: (moduleId: string) => void
   onNpmDependencyAdded?: (name: string) => void
@@ -26,16 +32,8 @@ export interface CodeEditorProps {
   }
   highlightedLines?: number[]
   readOnly?: boolean
-  receivingCode?: boolean
-  onCodeReceived?: () => void
   onSelectionChanged: (d: { selection: any; moduleShortid: string }) => void
 }
-
-export type CreateModel = (
-  value: string,
-  language?: string,
-  uri?: monaco.Uri
-) => monaco.editor.ITextModel
 
 export type FindFilePath = (fileId: string) => string | null
 
@@ -55,15 +53,3 @@ export interface File {
   truncated: boolean
   content: string
 }
-
-export type MonacoEditorNS = typeof monaco
-
-export type EditorDidMount = (
-  editorInstance: monaco.editor.ICodeEditor,
-  monacoInstance: MonacoEditorNS
-) => void
-
-export type ChangeHandler = (
-  value: string,
-  event: monaco.editor.IModelContentChangedEvent
-) => void

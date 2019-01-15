@@ -24,8 +24,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "target": "es2016"
   },
-  "files": ["./monaco.d.ts", "./index.d.ts"],
-  "include": ["./src/**/*", "./build/react-loadable.json"],
+  "include": ["./src/**/*", "./monaco.d.ts"],
   "exclude": [
     "node_modules",
     "build",

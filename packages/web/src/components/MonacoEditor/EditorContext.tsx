@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-let EditorContext
+let EditorContext: any
 const { Provider, Consumer } = (EditorContext = React.createContext())
 
 class EditorProvider extends React.Component<{}, {}> {

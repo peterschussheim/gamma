@@ -3,8 +3,8 @@ import MonacoEditorComponent from './MonacoEditorComponent'
 import { EditorContext } from './EditorContext'
 const modelCache = {}
 
-export default class MonacoEditor<P, S> extends React.Component<P, S> {
-  constructor(props: P) {
+export default class MonacoEditor extends React.Component {
+  constructor(props) {
     super(props)
   }
   static contextType = EditorContext
