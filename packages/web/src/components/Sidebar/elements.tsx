@@ -21,6 +21,7 @@ const Description = styled.span`
 `
 
 const SidebarItem = styled.div`
+  cursor: pointer;
   color: white;
   white-space: nowrap;
   text-overflow: ellipsis;

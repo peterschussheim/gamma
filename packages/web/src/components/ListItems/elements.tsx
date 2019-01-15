@@ -8,6 +8,7 @@ const Description = styled.span`
 `
 
 const ListItem = styled.div`
+  cursor: pointer;
   color: white;
   white-space: nowrap;
   text-overflow: ellipsis;

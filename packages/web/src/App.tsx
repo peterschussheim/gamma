@@ -17,6 +17,7 @@ const links = [errorLink, requestLink]
 const client = new ApolloClient({
   ssrForceFetchDelay: 100,
   link: ApolloLink.from(links),
+  // @ts-ignore
   cache: window.__DATA__ ? cache.restore(window.__DATA__) : cache
 })
 
@@ -38,19 +39,3 @@ export default () => {
     </ApolloProvider>
   )
 }
-// export default class App extends React.Component {
-//   state = {
-//     activeFile: null
-//   }
-//   render() {
-//     return (
-//       <ApolloProvider client={client}>
-//         <HelmetProvider>
-//           <Router history={history}>
-//             <Routes />
-//           </Router>
-//         </HelmetProvider>
-//       </ApolloProvider>
-//     )
-//   }
-// }

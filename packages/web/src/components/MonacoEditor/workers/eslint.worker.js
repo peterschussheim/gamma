@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 import ESLint from '../vendor/eslint.bundle'
 import config from '../config/eslint.json'
 
