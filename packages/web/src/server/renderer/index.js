@@ -10,8 +10,6 @@ import { HelmetProvider } from 'react-helmet-async'
 import Loadable from 'react-loadable'
 import { getBundles } from 'react-loadable/webpack'
 import { renderStylesToNodeStream } from 'emotion-server'
-// import { cache as styleCache } from 'emotion'
-// import { CacheProvider } from '@emotion/core'
 import 'cross-fetch/polyfill'
 import util from 'util'
 import Raven from 'shared/src/raven'
@@ -21,7 +19,7 @@ import './browser-shim'
 import template from './html-template'
 const assets = require(process.env.GAMMA_ASSETS_MANIFEST)
 import Routes from '../../routes'
-import { EditorProvider } from '../../components/MonacoEditor/EditorContext'
+import { EditorProvider } from '../../components/CodeEditor/EditorContext'
 
 const stats = require('../../../build/react-loadable.json')
 
@@ -58,24 +56,6 @@ const renderer = (req, res) => {
       </ApolloProvider>
     </Loadable.Capture>
   )
-  // class App extends React.Component {
-  //   state = {
-  //     activeFile: null
-  //   }
-  //   render() {
-  //     return (
-  //       <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-  //         <ApolloProvider client={client}>
-  //           <HelmetProvider context={helmetContext}>
-  //             <StaticRouter location={req.url} context={routerContext}>
-  //               <Routes currentUser={req.user} />
-  //             </StaticRouter>
-  //           </HelmetProvider>
-  //         </ApolloProvider>
-  //       </Loadable.Capture>
-  //     )
-  //   }
-  // }
 
   debug('get data from tree')
   getDataFromTree(frontend)
