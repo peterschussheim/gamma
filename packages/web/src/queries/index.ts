@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const REGISTER = gql`
-  mutation($name: String, $email: String!, $password: String!) {
+  mutation Signup($name: String, $email: String!, $password: String!) {
     signup(name: $name, email: $email, password: $password) {
       success
     }
@@ -9,7 +9,7 @@ export const REGISTER = gql`
 `
 
 export const LOGIN = gql`
-  mutation($email: String!, $password: String!) {
+  mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       user {
         id
@@ -20,7 +20,7 @@ export const LOGIN = gql`
 `
 
 export const RESEND_CONFIRMATION_EMAIL = gql`
-  mutation($email: String!) {
+  mutation ResendConfirmationEmail($email: String!) {
     resendConfirmationEmail(email: $email) {
       success
     }
@@ -28,7 +28,7 @@ export const RESEND_CONFIRMATION_EMAIL = gql`
 `
 
 export const LOGOUT = gql`
-  mutation {
+  mutation Logout {
     logout {
       success
     }
@@ -36,7 +36,7 @@ export const LOGOUT = gql`
 `
 
 export const LOGOUT_ALL_SESSIONS = gql`
-  mutation {
+  mutation LogoutOfAllSessions {
     logoutOfAllSessions {
       success
     }
@@ -44,7 +44,7 @@ export const LOGOUT_ALL_SESSIONS = gql`
 `
 
 export const VIEWER_ME = gql`
-  {
+  query Me {
     viewer {
       me {
         id
@@ -62,7 +62,7 @@ export const VIEWER_ME = gql`
 `
 
 export const VIEWER_GISTS = gql`
-  {
+  query ViewerGists {
     viewer {
       gists {
         gistId
@@ -93,7 +93,7 @@ export const VIEWER_GISTS = gql`
 `
 
 export const GET_GIST_BY_ID = gql`
-  query getGistById($gistId: String!) {
+  query GetGistById($gistId: String!) {
     getGistById(gistId: $gistId) {
       gistId
       description
@@ -112,7 +112,7 @@ export const GET_GIST_BY_ID = gql`
 `
 
 export const CREATE_GIST = gql`
-  mutation($data: GistCreateInput) {
+  mutation CreateGist($data: GistCreateInput) {
     createGist(data: $data) {
       description
       isPublic
@@ -131,7 +131,7 @@ export const CREATE_GIST = gql`
 `
 
 export const EDIT_GIST = gql`
-  mutation($data: GistUpdateInput) {
+  mutation UpdateGist($data: GistUpdateInput) {
     updateGist(data: $data) {
       description
       isPublic
@@ -151,7 +151,7 @@ export const EDIT_GIST = gql`
 `
 
 export const DELETE_GIST = gql`
-  mutation($gistId: String!) {
+  mutation DeleteGist($gistId: String!) {
     deleteGist(gistId: $gistId) {
       success
     }
@@ -159,7 +159,7 @@ export const DELETE_GIST = gql`
 `
 
 export const CREATE_POST = gql`
-  mutation($data: PostCreateInput) {
+  mutation CreatePost($data: PostCreateInput) {
     createPost(data: $data) {
       id
       visibility
@@ -173,25 +173,9 @@ export const CREATE_POST = gql`
 `
 
 export const COUNTER_SUBSCRIPTION = gql`
-  subscription {
+  subscription Counter {
     counter {
       count
-    }
-  }
-`
-
-export const USER_POSTS = gql`
-  fragment UserPosts on User {
-    id
-    posts {
-      id
-      visibility
-      content {
-        id
-        name
-        type
-        data
-      }
     }
   }
 `
