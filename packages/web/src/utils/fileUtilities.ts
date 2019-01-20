@@ -1,5 +1,5 @@
 import escapeRegExp from 'escape-string-regexp'
-import { FileSystemEntry, TextFileEntry } from '../types'
+import { FileSystemEntry, TextFileEntry } from '../components/CodeEditor/types'
 
 export function isInsideFolder(path: string, folderPath: string) {
   return path.startsWith(`${folderPath}/`)
@@ -9,6 +9,13 @@ export function getParentPath(path: string): string | undefined {
   return path.includes('/') ? path.replace(/\/[^/]+$/, '') : undefined
 }
 
+/**
+ * Changes parent path
+ * @param path
+ * @param oldParentPath
+ * @param newParentPath
+ * @returns
+ */
 export function changeParentPath(
   path: string,
   oldParentPath: string,
@@ -65,6 +72,11 @@ export function isImage(name: string): boolean {
   return /\.(bmp|jpg|jpeg|png|gif|svg)$/.test(name)
 }
 
+/**
+ * Determines whether script file is
+ * @param entry
+ * @returns boolean
+ */
 export function isScriptFile(
   entry: FileSystemEntry | undefined
 ): entry is TextFileEntry {

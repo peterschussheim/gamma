@@ -1,3 +1,5 @@
+// tslint:disable:max-line-length
+
 import path from 'path'
 import { Store, set as setItem, get as getItem } from 'idb-keyval'
 import resources from './resources.json'

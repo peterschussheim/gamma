@@ -32,8 +32,9 @@ export default async function prettierCode(
     const prettier = await import('prettier/standalone')
     const {
       default: config
-    } = (await import('../configs/prettier.json')) as any
+    } = (await import('../components/CodeEditor/configs/prettier.json')) as any
 
+    // @ts-ignore
     return prettier.format(code, {
       parser,
       plugins,
