@@ -10,8 +10,6 @@ import Signup from './components/Form/Signup'
 
 import Profile from './views/Profile'
 import NewGist from './views/New'
-import NotFound from './views/NotFound'
-import ConfirmEmail from './views/ConfirmEmail'
 
 const Loading = () => <div>Loading...</div>
 
@@ -22,6 +20,16 @@ const Home = Loadable({
 
 const EditorView = Loadable({
   loader: () => import('./views/EditorView'),
+  loading: Loading
+})
+
+const ConfirmEmail = Loadable({
+  loader: () => import('./views/ConfirmEmail'),
+  loading: Loading
+})
+
+const NotFound = Loadable({
+  loader: () => import('./views/NotFound'),
   loading: Loading
 })
 
