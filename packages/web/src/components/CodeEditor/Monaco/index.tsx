@@ -1,19 +1,15 @@
+// tslint:disable:max-line-length
 import * as React from 'react'
 import { debounce } from 'lodash-es'
 
 import MonacoEditorComponent, { findModel } from './MonacoEditor'
 
-import getSettings from '../../../editor_utils'
+import getSettings from '../../../utils/getEditorSettings'
 import prettierCode from '../../../utils/prettier'
 import getRelativePath from '../../../utils/getRelativePath'
 import getFileLanguage from '../../../utils/getFileLanguage'
 
-import {
-  MonacoEditorProps,
-  DependencyList,
-  Annotation,
-  Gist
-} from '../../../types'
+import { MonacoEditorProps, DependencyList, Annotation, Gist } from '../types'
 import { monaco } from '../../../typings/monaco-editor'
 
 // Store editor states such as cursor position, selection and scroll position for each model
@@ -39,6 +35,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
     editorStates.delete(path)
     const model = findModel(path)
 
+    // tslint:disable-next-line:no-unused-expression
     model && model.dispose()
   }
 
@@ -51,8 +48,8 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
     this.removePath(oldPath)
   }
 
-  editor: monaco.editor.IStandaloneCodeEditor
-  monaco: typeof monaco
+  editor!: monaco.editor.IStandaloneCodeEditor
+  monaco!: typeof monaco
   sizeProbeInterval?: NodeJS.Timeout
   gist: Gist
   path: string
@@ -75,20 +72,20 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
   }
 
   componentDidMount() {
-    this.linterWorker = new Worker('../../../workers/linter.worker')
-    this.linterWorker &&
-      this.linterWorker.addEventListener('message', ({ data }: any) =>
-        // this.addTypings(data)
-        console.log('linterWorker: ', data)
-      )
+    // this.linterWorker = new Worker('../../../workers/linter.worker')
+    // this.linterWorker &&
+    //   this.linterWorker.addEventListener('message', ({ data }: any) =>
+    //     // this.addTypings(data)
+    //     console.log('linterWorker: ', data)
+    //   )
 
-    this.typingsWorker = new Worker('../../../workers/typings.worker', {
-      type: 'module'
-    })
-    this.typingsWorker &&
-      this.typingsWorker.addEventListener('message', ({ data }: any) =>
-        this.addTypings(data)
-      )
+    // this.typingsWorker = new Worker('../../../workers/typings.worker', {
+    //   type: 'module'
+    // })
+    // this.typingsWorker &&
+    //   this.typingsWorker.addEventListener('message', ({ data }: any) =>
+    //     this.addTypings(data)
+    //   )
 
     const {
       path,
@@ -104,6 +101,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
       const model = editor.getModel()
 
       if (model) {
+        // tslint:disable-next-line:no-shadowed-variable
         const value = model.getValue()
 
         if (value !== this.props.value) {
@@ -177,11 +175,11 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
             position.column < end
           ) {
             // Get the string for the token and strip quotes
-            const string = line.slice(current.offset + 1, end - 1)
+            const s = line.slice(current.offset + 1, end - 1)
 
             const deps = this.getAllDependencies(this.props.dependencies)
 
-            if (deps[string]) {
+            if (deps[s]) {
               // If the string refers to a dependency show the version
               return {
                 range: new this.monaco.Range(
@@ -190,7 +188,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
                   position.lineNumber,
                   end
                 ),
-                contents: [{ value: `version "${deps[string].version}"` }]
+                contents: [{ value: `version "${deps[s].version}"` }]
               }
             }
           }
@@ -303,6 +301,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
     )
   }
 
+  // tslint:disable-next-line:no-shadowed-variable
   configureEditor = async (editor, monaco) => {
     this.editor = editor
     this.monaco = monaco
@@ -364,24 +363,27 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
   }
 
   initializeFile = (path: string, value: string) => {
+    // tslint:disable-next-line:no-shadowed-variable
     const monaco = this.monaco
     let model = findModel(path)
-    let modelNoLeadingSlash = findModel(path.replace(/^\//, ''))
+    // let modelNoLeadingSlash = findModel(path.replace(/^\//, ''))
 
-    if (model && !model.isDisposed()) {
-      // If a model exists, we need to update it's value
-      // This is needed because the content for the file might have been modified externally
-      // Use `pushEditOperations` instead of `setValue` or `applyEdits` to preserve undo stack
-      // @ts-ignore
-      model.pushEditOperations(
-        [],
-        [
-          {
-            range: model.getFullModelRange(),
-            text: value
-          }
-        ]
-      )
+    if (model !== undefined) {
+      if (!model.isDisposed()) {
+        // If a model exists, we need to update it's value
+        // This is needed because the content for the file might have been modified externally
+        // Use `pushEditOperations` instead of `setValue` or `applyEdits` to preserve undo stack
+        // @ts-ignore
+        model.pushEditOperations(
+          [],
+          [
+            {
+              range: model.getFullModelRange(),
+              text: value
+            }
+          ]
+        )
+      }
     } else {
       model = monaco.editor.createModel(
         value,
@@ -401,7 +403,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
 
     const model = findModel(path)
 
-    if (this.editor && model) {
+    if (this.editor && model !== undefined) {
       this.editor.setModel(model)
 
       // Restore the editor state for the file
@@ -443,6 +445,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
 
       requestedTypings.set(name, version)
 
+      // tslint:disable-next-line:no-unused-expression
       this.typingsWorker &&
         this.typingsWorker.postMessage({
           name,
@@ -475,7 +478,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
     })
   }
 
-  updateMarkers = (annotations: Array<Annotation>) =>
+  updateMarkers = (annotations: Annotation[]) =>
     this.monaco.editor.setModelMarkers(
       this.editor.getModel(),
       null,
@@ -541,7 +544,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
         )
 
         // @ts-ignore
-        if (previous && previous.file.content === file.content) {
+        if (previous && previous.content === file.content) {
           return
         }
 
@@ -560,8 +563,8 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
     if (this.editor) {
       this.editor.dispose()
     }
-    this.linterWorker && this.linterWorker.terminate()
-    this.typingsWorker && this.typingsWorker.terminate()
+    // this.linterWorker && this.linterWorker.terminate()
+    // this.typingsWorker && this.typingsWorker.terminate()
   }
 
   changeOptions = (options: monaco.editor.IEditorOptions) => {
