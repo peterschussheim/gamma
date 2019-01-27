@@ -1,13 +1,16 @@
 import * as React from 'react'
-import PropTypes from 'prop-types'
 
 import { Container, LeftPanel, RightPanel } from './elements'
 
-export default class Skeleton extends React.Component {
-  static propTypes = {
-    sidebar: PropTypes.node,
-    editor: PropTypes.node
-  }
+type Props = {
+  sidebar: React.ReactNode
+  editor: React.ReactNode
+}
+
+export default class Skeleton extends React.Component<Props> {
+  // shouldComponentUpdate() {
+  //   return false
+  // }
 
   render() {
     const { sidebar, editor } = this.props

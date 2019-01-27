@@ -44,6 +44,7 @@ export function getUniquePath(
   while (allPaths.some(p => p.toLowerCase() === path.toLowerCase())) {
     const suffix = `${initialSuffix || ''} ${counter || ''}`.trim()
 
+    // tslint:disable-next-line:prefer-conditional-expression
     if (ext) {
       path = `${initialPath} ${suffix}.${ext}`
     } else {

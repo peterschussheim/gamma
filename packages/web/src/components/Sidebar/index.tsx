@@ -1,9 +1,14 @@
 import * as React from 'react'
 import GistList from '../SidebarList/GistList'
 
-class Sidebar extends React.Component {
+type Props = {
+  /** called when selecting a gist|file from a list of gist|files */
+  onSelectEntry: () => void
+}
+
+class Sidebar extends React.Component<Props> {
   render() {
-    return <GistList onCompleted={this.handleOnCompleted} props={this.props} />
+    return <GistList {...this.props} />
   }
 }
 

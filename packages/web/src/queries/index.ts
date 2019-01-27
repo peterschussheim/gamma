@@ -114,6 +114,7 @@ export const GET_GIST_BY_ID = gql`
 export const CREATE_GIST = gql`
   mutation CreateGist($data: GistCreateInput) {
     createGist(data: $data) {
+      gistId
       description
       isPublic
       files {
@@ -133,6 +134,7 @@ export const CREATE_GIST = gql`
 export const EDIT_GIST = gql`
   mutation UpdateGist($data: GistUpdateInput) {
     updateGist(data: $data) {
+      gistId
       description
       isPublic
       files {

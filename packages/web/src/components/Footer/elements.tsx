@@ -7,14 +7,20 @@ const FooterContainer = styled.div`
   max-width: 800px;
   min-height: 17px;
   max-height: 17px;
+  padding-left: 10px;
   display: flex;
 `
 
-const CurrentFile = styled.div`
+const FooterItem = styled.div`
   font-size: 10px;
   padding-top: 1px;
-  padding-left: 10px;
   text-align: left;
+  padding-left: 3px;
+  padding-right: 3px;
+  &:hover {
+    cursor: pointer;
+    background-color: #2024314f;
+  }
 `
 
 const IconContainer = styled.div`
@@ -23,4 +29,4 @@ const IconContainer = styled.div`
   padding-right: 10px;
 `
 
-export { FooterContainer, CurrentFile, IconContainer }
+export { FooterContainer, FooterItem, IconContainer }

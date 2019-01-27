@@ -1,5 +1,5 @@
 import { isEntryPoint } from './fileUtilities'
-import { FileSystemEntry, Gist } from '../types'
+import { FileSystemEntry, Gist } from '../components/CodeEditor/types'
 
 const getFolders = (path: string): string[] => {
   const pathSegments = path.split('/')

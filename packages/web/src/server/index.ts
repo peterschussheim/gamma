@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 const debug = require('debug')('web:renderer:app')
 debug('Renderer starting...')
 import 'raf/polyfill'
@@ -16,10 +15,6 @@ import cors from 'shared/src/middlewares/cors'
 import session from '../middlewares/session'
 // import stats from 'shared/src/middlewares/stats'
 import renderer from './renderer'
-
-// Cache is disabled for now
-// import cache from './cache'
-// app.use(cache)
 
 // const { PRISMA_ENDPOINT, PRISMA_SECRET, PRISMA_DEBUG } = process.env
 // const prismaOptions = {
@@ -125,9 +120,6 @@ app.use(session)
 // app.use(passport.initialize())
 // app.use(passport.session())
 
-// Static files
-// This route handles the case where our ServiceWorker requests main.asdf123.js, but
-// we've deployed a new version of the app so the filename changed to main.dfyt975.js
 let jsFiles
 try {
   jsFiles = fs.readdirSync(
@@ -141,6 +133,7 @@ debug(`jsFiles: ${jsFiles}`)
 app.use(
   express.static(path.resolve(__dirname, '..', 'build'), {
     index: false,
+    // tslint:disable-next-line:no-shadowed-variable
     setHeaders: (res, path) => {
       // Don't cache the serviceworker in the browser
       if (path.indexOf('sw.js')) {
@@ -151,7 +144,9 @@ app.use(
   })
 )
 app.get('/static/js/:name', (req, res, next) => {
-  if (!req.params.name) return next()
+  if (!req.params.name) {
+    return next()
+  }
   const existingFile = jsFiles.find(file => file.startsWith(req.params.name))
   if (existingFile) {
     debug(`existingFile found: ${existingFile}`)
@@ -168,9 +163,13 @@ app.get('/static/js/:name', (req, res, next) => {
     )
   }
   const match = req.params.name.match(/(\w+?)\.(\w+?\.)?js/i)
-  if (!match) return next()
+  if (!match) {
+    return next()
+  }
   const actualFilename = jsFiles.find(file => file.startsWith(match[1]))
-  if (!actualFilename) return next()
+  if (!actualFilename) {
+    return next()
+  }
   res.redirect(`/static/js/${actualFilename}`)
 })
 let cssFiles
@@ -183,7 +182,9 @@ try {
   debug(`build/static/css not found: ${err}`)
 }
 app.get('/static/css/:name', (req, res, next) => {
-  if (!req.params.name) return next()
+  if (!req.params.name) {
+    return next()
+  }
   const existingFile = cssFiles.find(file => file.startsWith(req.params.name))
   if (existingFile) {
     debug(`existingFile found: ${existingFile}`)
@@ -200,9 +201,13 @@ app.get('/static/css/:name', (req, res, next) => {
     )
   }
   const match = req.params.name.match(/(\w+?)\.(\w+?\.)?js/i)
-  if (!match) return next()
+  if (!match) {
+    return next()
+  }
   const actualFilename = cssFiles.find(file => file.startsWith(match[1]))
-  if (!actualFilename) return next()
+  if (!actualFilename) {
+    return next()
+  }
   res.redirect(`/static/css/${actualFilename}`)
 })
 

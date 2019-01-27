@@ -17,13 +17,6 @@ const NavLayout = props => (
       </MenuButton>
       <MenuList>
         <MenuLink
-          to="/new"
-          onClick={() => props.history.push('/new')}
-          props={props}
-        >
-          New Gist
-        </MenuLink>
-        <MenuLink
           to="/editor"
           onClick={() => props.history.push('/editor')}
           props={props}

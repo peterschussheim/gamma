@@ -2,12 +2,24 @@ import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { graphql } from 'react-apollo'
 
+import { ViewerGists } from '../../__generated__/types'
 import { VIEWER_GISTS } from '../../queries'
 import { SidebarContainer, SidebarItem } from '../Sidebar/elements'
 
-class GistList extends React.PureComponent {
+interface Props {
+  data: ViewerGists
+}
+
+const withGistList = graphql(VIEWER_GISTS, {
+  options: () => ({
+    fetchPolicy: 'cache-and-network'
+  })
+})
+
+class GistList extends React.PureComponent<Props> {
   render() {
     const { data } = this.props
+    // @ts-ignore
     const { loading, error } = data
     if (loading) {
       return null
@@ -31,8 +43,5 @@ class GistList extends React.PureComponent {
   }
 }
 
-export default graphql(VIEWER_GISTS, {
-  options: props => ({
-    fetchPolicy: 'cache-and-network'
-  })
-})(GistList)
+// @ts-ignore
+export default withGistList(GistList)

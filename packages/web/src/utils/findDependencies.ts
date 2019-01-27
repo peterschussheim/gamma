@@ -1,7 +1,7 @@
 import * as babylon from '@babel/parser'
 import { print, parse, types } from 'recast'
 import validate from 'validate-npm-package-name'
-import pickBy from 'lodash/pickBy'
+import pickBy from 'lodash-es'
 import getFileLanguage from './getFileLanguage'
 
 const parserPlugins = [
@@ -53,6 +53,7 @@ const removeCommentFromPath = (path: any) => {
   if (path.node.type === 'CallExpression') {
     const { parentPath } = path
 
+    // tslint:disable-next-line:prefer-conditional-expression
     if (parentPath.node.type === 'VariableDeclarator') {
       node = parentPath.parentPath.node
     } else {
@@ -87,6 +88,7 @@ const findDependencies = (
   }
 
   const parser = {
+    // tslint:disable-next-line:no-shadowed-variable
     parse: (code: string) =>
       babylon.parse(code, {
         sourceType: 'module',

@@ -1,11 +1,16 @@
 import * as React from 'react'
 
-import { FooterContainer, CurrentFile, IconContainer } from './elements'
+import { FooterContainer, FooterItem, IconContainer } from './elements'
 
-const Footer = ({ currentFile, iconComponent }) => {
+const Footer: React.FunctionComponent<{
+  status?: string
+  currentFile: string
+  iconComponent: React.ReactNode
+}> = ({ status, currentFile, iconComponent }) => {
   return (
     <FooterContainer>
-      <CurrentFile>{currentFile}</CurrentFile>
+      <FooterItem>{currentFile}</FooterItem>
+      {status ? <FooterItem>{status}</FooterItem> : null}
       <IconContainer>{iconComponent}</IconContainer>
     </FooterContainer>
   )

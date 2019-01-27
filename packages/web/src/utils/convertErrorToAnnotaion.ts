@@ -1,4 +1,4 @@
-import { Error, Annotation } from '../types'
+import { Error, Annotation } from '../components/CodeEditor/types'
 
 export default function convertErrorToAnnotation(error: Error): Annotation {
   let loc = error.loc || [0, 0]

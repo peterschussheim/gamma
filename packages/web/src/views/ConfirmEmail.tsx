@@ -10,8 +10,12 @@ const ConfirmEmail = props => {
   return (
     <Query query={VIEWER_ME}>
       {({ loading, error, data }) => {
-        if (loading) return 'Loading'
-        if (error) return `Error: ${error}`
+        if (loading) {
+          return 'Loading'
+        }
+        if (error) {
+          return `Error: ${error}`
+        }
         return (
           <React.Fragment>
             {data.viewer.me == null ? (
@@ -28,9 +32,10 @@ const ConfirmEmail = props => {
                         actions.setSubmitting(false)
                         // reset form state
                       },
-                      error => {
+                      err => {
                         actions.setSubmitting(false)
-                        const errors = error.graphQLErrors.map(e => e.message)
+                        const errors = err.graphQLErrors.map(e => e.message)
+                        // @ts-ignore
                         actions.setErrors({ email: '', form: errors })
                       }
                     )
@@ -45,9 +50,12 @@ const ConfirmEmail = props => {
                     touched
                   }) => (
                     <Form>
+                      // @ts-ignore
                       {errors.form ? (
+                        // @ts-ignore
                         <div data-cy="form-error">{errors.form}</div>
                       ) : null}
+                      // @ts-ignore
                       <TextInput
                         id="email"
                         type="email"

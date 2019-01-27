@@ -2,7 +2,17 @@ import * as React from 'react'
 
 import { getIconForFile } from 'vscode-icons-js'
 
-export default function Icon({ filename = 'index.js', height }) {
+interface Props {
+  filename: string
+  height: number
+  onClick?: () => void
+}
+
+export const Icon: React.FunctionComponent<Props> = ({
+  filename = 'index.js',
+  height,
+  onClick
+}) => {
   let iconName
   try {
     iconName = getIconForFile(filename)
@@ -10,5 +20,7 @@ export default function Icon({ filename = 'index.js', height }) {
     return null
   }
   const iconPath = require(`../../public/icons/${iconName}`)
-  return <img style={{ height }} src={iconPath} alt="file-type" />
+  return (
+    <img onClick={onClick} style={{ height }} src={iconPath} alt="file-type" />
+  )
 }

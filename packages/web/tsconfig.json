@@ -4,7 +4,7 @@
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
     "downlevelIteration": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "lib": ["webworker", "esnext", "dom"],
@@ -23,7 +23,8 @@
     "strict": true,
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "esnext"
+    "target": "esnext",
+    "types": ["react-emotion", "node", "webpack-env"]
   },
   "include": ["./src/**/*", "./monaco.d.ts"],
   "exclude": [
@@ -34,6 +35,5 @@
     "webpack",
     "jest",
     "gamma.config.js"
-  ],
-  "types": ["typePatches", "node", "webpack-env"]
+  ]
 }
