@@ -125,22 +125,6 @@ export const gist = {
   }
 }
 
-/**
- * transform an array of [key, value] pairs into an object keyed by
- * `filename===key` where each key hold an object containing a key
- * of 'content' and value of the actual file content.
- */
-function buildFilesObject(filesArray) {
-  const filesObject = {}
-  for (const file of filesArray) {
-    filesObject[file.filename] = {
-      filename: file.filename,
-      content: file.content
-    }
-  }
-  return filesObject
-}
-
 async function createGist(
   accessToken,
   options: Octokit.GistsCreateParams
@@ -186,6 +170,22 @@ async function deleteGist(
   })
   const result = await ghClient.gists.delete(options)
   return result
+}
+
+/**
+ * transform an array of [key, value] pairs into an object keyed by
+ * `filename===key` where each key hold an object containing a key
+ * of 'content' and value of the actual file content.
+ */
+function buildFilesObject(filesArray) {
+  const filesObject = {}
+  for (const file of filesArray) {
+    filesObject[file.filename] = {
+      filename: file.filename,
+      content: file.content
+    }
+  }
+  return filesObject
 }
 
 function createFilesArrayFromObject(filesObject) {
