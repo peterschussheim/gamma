@@ -1,30 +1,25 @@
-export const isGistDirty = (
-  files: Array<{
-    filename: string
-    content: string | null
-  }>,
-  changes
-) => {
-  if (changes === null || changes === undefined) {
-    return false
-  } else {
-    const dirty = files.some(
-      file => changes[file.filename] && changes[file.filename] !== file.content
-    )
-    if (dirty) {
-      return true
-    }
-    return false
-  }
-}
-
+/**
+ * used when creating elements by mapping over an array.
+ *
+ * @param initial Data either from apollo or new gist creation data
+ * @param maybeChangedFile
+ */
 export const isFileDirty = (
-  changes: { [filename: string]: string },
-  file: { filename: string; content: string }
+  initial: Array<{
+    filename: string
+    content: string
+  }>,
+  maybeChangedFile: { filename: string; content: string }
 ) => {
-  return changes !== null &&
-    changes[file.filename] &&
-    changes[file.filename] !== file.content
-    ? true
-    : false
+  if (maybeChangedFile != null && initial.length > 0) {
+    // we have changes
+    // check changes array for originalFile.filename and if found,
+    const original = initial.find(f => f.filename === maybeChangedFile.filename)
+    if (original) {
+      // found a possible match, return result of comparison on their content
+      return maybeChangedFile.content !== original.content
+    }
+  }
+
+  return false
 }

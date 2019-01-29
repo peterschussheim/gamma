@@ -24,7 +24,7 @@
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
     "target": "esnext",
-    "types": ["react-emotion", "node", "webpack-env"]
+    "types": ["jest", "node", "webpack-env"]
   },
   "include": ["./src/**/*", "./monaco.d.ts"],
   "exclude": [
