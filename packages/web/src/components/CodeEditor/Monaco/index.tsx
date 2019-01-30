@@ -1,6 +1,6 @@
 // tslint:disable:max-line-length
 import * as React from 'react'
-import { debounce } from 'lodash-es'
+import debounce from 'lodash/debounce'
 
 import MonacoEditorComponent, { findModel } from './MonacoEditor'
 

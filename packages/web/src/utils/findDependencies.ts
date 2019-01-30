@@ -1,7 +1,7 @@
 import * as babylon from '@babel/parser'
 import { print, parse, types } from 'recast'
 import validate from 'validate-npm-package-name'
-import pickBy from 'lodash-es'
+import pickBy from 'lodash/pickBy'
 import getFileLanguage from './getFileLanguage'
 
 const parserPlugins = [

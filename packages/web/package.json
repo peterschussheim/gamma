@@ -84,7 +84,7 @@
     "idb-keyval": "3.1.0",
     "ioredis": "4.2.0",
     "json-to-ast": "2.1.0",
-    "lodash-es": "4.17.11",
+    "lodash": "4.17.11",
     "now-env": "3.1.0",
     "passport": "0.4.0",
     "prettier": "1.16.1",
