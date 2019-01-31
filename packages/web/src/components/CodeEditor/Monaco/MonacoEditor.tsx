@@ -1,3 +1,5 @@
+// tslint:disable:no-shadowed-variable
+
 import * as React from 'react'
 import * as monaco from '@peterschussheim/monaco-editor'
 
@@ -5,7 +7,9 @@ export type BuiltinTheme = 'vs' | 'vs-dark' | 'hc-black'
 import { monaco as monacoEditor } from '../../../typings/monaco-editor'
 
 export const findModel = (path: string) =>
-  monaco.editor.getModels().find(model => model.uri.path === `/${path}`)
+  monaco.editor
+    .getModels()
+    .find((model: { uri: { path: string } }) => model.uri.path === `/${path}`)
 
 export interface MonacoEditorComponentProps {
   onOpenPath?: (path: string) => void
@@ -18,8 +22,8 @@ export interface MonacoEditorComponentProps {
   getEditorOptions?: () => void
   diffEditor?: boolean
   context?: any
-  height?: number
-  width?: number
+  height?: string | number
+  width?: string | number
   dependencies?: {
     [name: string]: {
       version: string
@@ -46,6 +50,7 @@ export interface MonacoEditorComponentProps {
     fontLigatures?: boolean
     theme?: BuiltinTheme | string
   }
+  requireConfig?: any
 }
 
 // tslint:disable-next-line:no-empty
@@ -60,7 +65,7 @@ export default class MonacoEditorComponent extends React.PureComponent<
   containerElement: React.ReactNode
   editor: any
 
-  static defaultProps = {
+  static defaultProps: Partial<MonacoEditorComponentProps> = {
     width: '100%',
     height: '100%',
     options: {
@@ -119,7 +124,7 @@ export default class MonacoEditorComponent extends React.PureComponent<
    * Any event fired BEFORE the editor mounts. Do something before the editor
    * instance loads, ex: set language defaults, etc.
    */
-  editorWillMount = monaco => {
+  editorWillMount = (monaco: any) => {
     const { editorWillMount } = this.props
     editorWillMount(monaco)
   }
@@ -129,7 +134,7 @@ export default class MonacoEditorComponent extends React.PureComponent<
    * Use this method to interact with the editor instance and/or
    * the raw monaco namespace.
    */
-  editorDidMount = (editor, monaco) => {
+  editorDidMount = (editor: any, monaco: monacoEditor.editor.ICodeEditor) => {
     this.props.editorDidMount(editor, monaco)
   }
 
@@ -143,7 +148,7 @@ export default class MonacoEditorComponent extends React.PureComponent<
     }
   }
 
-  assignRef = component => {
+  assignRef = (component: React.ReactNode) => {
     this.containerElement = component
   }
 

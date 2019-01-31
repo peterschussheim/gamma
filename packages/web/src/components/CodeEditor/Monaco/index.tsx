@@ -12,7 +12,8 @@ import getFileLanguage from '../../../utils/getFileLanguage'
 import { MonacoEditorProps, DependencyList, Annotation, Gist } from '../types'
 import { monaco } from '../../../typings/monaco-editor'
 
-// Store editor states such as cursor position, selection and scroll position for each model
+// Store editor states such as cursor position,
+// selection and scroll position for each model
 const editorStates = new Map<
   string,
   monaco.editor.ICodeEditorViewState | undefined | null
@@ -26,7 +27,7 @@ const extraLibs = new Map<
 >()
 
 class MonacoEditor extends React.Component<MonacoEditorProps> {
-  static defaultProps = {
+  static defaultProps: Partial<MonacoEditorProps> = {
     width: '100%',
     height: '100%'
   }
@@ -502,7 +503,6 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
       const model = this.editor.getModel()
 
       if (path !== prevProps.path) {
-        console.log('componentDIdUpdate, setting current model state')
         // Save the editor state for the previous file so we can restore it when it's re-opened
         editorStates.set(prevProps.path, this.editor.saveViewState())
 

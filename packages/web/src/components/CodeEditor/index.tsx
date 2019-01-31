@@ -3,7 +3,7 @@ import * as React from 'react'
 
 import MonacoEditor from './Monaco'
 
-import { MonacoEditorProps, Gist } from '../../types'
+import { MonacoEditorProps, Gist } from './types'
 
 // interface CodeEditorProps {
 //   editorWillMount?: (editor: any) => void
@@ -32,31 +32,19 @@ export default class CodeEditor extends React.PureComponent<MonacoEditorProps> {
     // containing the modified files with their hash
 
     return (
-      <div
-        style={{
-          height: props.height || '100%',
-          width: props.width || '100%',
-          position: 'static',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0
-        }}
-      >
-        <MonacoEditor
-          editorDidMount={props.editorDidMount}
-          onValueChange={props.onValueChange}
-          value={props.value}
-          entries={props.entries}
-          path={props.path}
-          gist={props.gist}
-          dependencies={props.dependencies}
-          options={props.options}
-          modelOptions={props.modelOptions}
-          autoFocus={true}
-          {...props}
-        />
-      </div>
+      <MonacoEditor
+        editorDidMount={props.editorDidMount}
+        onValueChange={props.onValueChange}
+        value={props.value}
+        entries={props.entries}
+        path={props.path}
+        gist={props.gist}
+        dependencies={props.dependencies}
+        options={props.options}
+        modelOptions={props.modelOptions}
+        autoFocus={true}
+        {...props}
+      />
     )
   }
 }

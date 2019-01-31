@@ -1,4 +1,4 @@
-import { monaco } from './typings/monaco-editor'
+import { monaco } from '../../typings/monaco-editor'
 
 export interface File {
   filename: string
@@ -6,9 +6,10 @@ export interface File {
 }
 
 export interface Gist {
-  id: string
+  /** gistId of null indicates user is creating a new gist and hasn't saved */
+  gistId: string | null
   description: string
-  files: Array<File>
+  files: File[]
 }
 
 export type SaveStatus =
@@ -108,19 +109,19 @@ export interface MonacoEditorProps {
   onOpenPath: (path: string) => void
   onValueChange: (value: string) => void
   onSave?: (code: string) => void
-  entries: Array<FileSystemEntry>
+  entries: FileSystemEntry[]
   gist: Gist
   path: string
   value: string
-  dependencies: DependencyList
-  annotations?: Array<Annotation>
+  dependencies?: DependencyList
+  annotations?: Annotation[]
   options?: monaco.editor.IEditorOptions
   modelOptions?: monaco.editor.ITextModelUpdateOptions
   height?: string | number
   width?: string | number
   absoluteHeight?: string | number
   absoluteWidth?: string | number
-  highlightedLines?: Array<number>
+  highlightedLines?: number[]
   readOnly?: boolean
   autoFocus?: boolean
 }
