@@ -9,7 +9,7 @@ import Login from './components/Form/Login'
 import Signup from './components/Form/Signup'
 
 import Profile from './views/Profile'
-import NewGist from './views/New'
+import App from './App'
 
 const Loading = () => <div>Loading...</div>
 
@@ -23,6 +23,16 @@ const EditorView = Loadable({
   loading: Loading
 })
 
+const GistByIdView = Loadable({
+  loader: () => import('./views/GistByIdView'),
+  loading: Loading
+})
+
+const NewGistView = Loadable({
+  loader: () => import('./views/NewGistView'),
+  loading: Loading
+})
+
 const ConfirmEmail = Loadable({
   loader: () => import('./views/ConfirmEmail'),
   loading: Loading
@@ -33,7 +43,17 @@ const NotFound = Loadable({
   loading: Loading
 })
 
-class Routes extends React.Component {
+class AppRouter extends React.Component {
+  renderRoute = (props: any) => {
+    const { data, ...rest } = this.props
+
+    if (data && data.type === 'success') {
+      return <App {...props} {...rest} />
+    } else {
+      return <NotFound />
+    }
+  }
+
   render() {
     // const { currentUser } = this.props
     return (
@@ -46,7 +66,6 @@ class Routes extends React.Component {
           <Route exact={true} path="/auth/login" component={Login} />
           <Route exact={true} path="/auth/signup" component={Signup} />
           <Route exact={true} path="/success" component={Home} />
-          <Route exact={true} path="/new" component={NewGist} />
           <Route
             exact={true}
             path="/editor"
@@ -56,7 +75,13 @@ class Routes extends React.Component {
           <Route
             exact={true}
             path="/g/:gistId"
-            component={EditorView}
+            component={GistByIdView}
+            {...this.props}
+          />
+          <Route
+            exact={true}
+            path="/new"
+            component={NewGistView}
             {...this.props}
           />
           <Route
@@ -73,4 +98,4 @@ class Routes extends React.Component {
   }
 }
 
-export default Routes
+export default AppRouter

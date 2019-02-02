@@ -18,8 +18,8 @@ import Raven from 'shared/src/raven'
 import './browser-shim'
 import template from './html-template'
 const assets = require(process.env.GAMMA_ASSETS_MANIFEST)
-import Routes from '../../routes'
-import { EditorProvider } from '../../components/CodeEditor/EditorContext'
+import AppRouter from '../../AppRouter'
+import { EditorProvider } from '../../components/CodeEditor/EditorProvider'
 
 const stats = require('../../../build/react-loadable.json')
 
@@ -42,23 +42,26 @@ const renderer = (req, res) => {
     link: ApolloLink.from(links),
     cache: window.__DATA__ ? cache.restore(window.__DATA__) : cache
   })
-
-  const frontend = (
-    <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-      <ApolloProvider client={client}>
-        <HelmetProvider context={helmetContext}>
-          <StaticRouter location={req.url} context={routerContext}>
-            <EditorProvider>
-              <Routes currentUser={req.user} />
-            </EditorProvider>
-          </StaticRouter>
-        </HelmetProvider>
-      </ApolloProvider>
-    </Loadable.Capture>
-  )
+  class App extends React.Component {
+    render() {
+      return (
+        <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+          <ApolloProvider client={client}>
+            <HelmetProvider context={helmetContext}>
+              <StaticRouter location={req.url} context={routerContext}>
+                <EditorProvider>
+                  <AppRouter currentUser={req.user} />
+                </EditorProvider>
+              </StaticRouter>
+            </HelmetProvider>
+          </ApolloProvider>
+        </Loadable.Capture>
+      )
+    }
+  }
 
   debug('get data from tree')
-  getDataFromTree(frontend)
+  getDataFromTree(<App />)
     .then(() => {
       debug('got data from tree')
       if (routerContext.url) {
@@ -92,7 +95,7 @@ const renderer = (req, res) => {
 
       response.write(header)
 
-      const stream = renderToNodeStream(frontend).pipe(
+      const stream = renderToNodeStream(<App data={data} />).pipe(
         renderStylesToNodeStream()
       )
 
