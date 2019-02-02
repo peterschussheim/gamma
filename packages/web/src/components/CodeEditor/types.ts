@@ -36,6 +36,7 @@ export type GistFiles = {
 
 export type GistWorkspace = {
   code?: GistFiles
+  created?: string
   dependencies?: {
     [key: string]: string
   }
@@ -78,11 +79,6 @@ export type FolderEntry = Readonly<{
 
 export type FileSystemEntry = TextFileEntry | FolderEntry
 
-export interface AppState {
-  currentFilename: string | null
-  currentBanner: BannerName | null
-}
-
 export type Error = {
   loc?: [number, number]
   line?: number
@@ -101,7 +97,7 @@ export type Annotation = {
 }
 
 export interface DependencyList {
-  [key: string]: { version: string }
+  [name: string]: string
 }
 
 export interface MonacoEditorProps {

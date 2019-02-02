@@ -9,7 +9,13 @@ import prettierCode from '../../../utils/prettier'
 import getRelativePath from '../../../utils/getRelativePath'
 import getFileLanguage from '../../../utils/getFileLanguage'
 
-import { MonacoEditorProps, DependencyList, Annotation, Gist } from '../types'
+import {
+  FileSystemEntry,
+  MonacoEditorProps,
+  DependencyList,
+  Annotation,
+  Gist
+} from '../types'
 import { monaco } from '../../../typings/monaco-editor'
 
 // Store editor states such as cursor position,
@@ -52,6 +58,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
   editor!: monaco.editor.IStandaloneCodeEditor
   monaco!: typeof monaco
   sizeProbeInterval?: NodeJS.Timeout
+  entries: FileSystemEntry[]
   gist: Gist
   path: string
   options?: monaco.editor.IEditorOptions
@@ -66,6 +73,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
 
   constructor(props: MonacoEditorProps) {
     super(props)
+    this.entries = props.entries
     this.gist = props.gist
     this.path = props.path
     this.options = props.options
@@ -119,8 +127,14 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
     this.updateMarkers(annotations)
     this.fetchTypings(dependencies)
 
-    this.props.gist.files.forEach(file => {
-      this.initializeFile(file.filename, file.content)
+    this.props.entries.forEach(({ item }) => {
+      if (
+        item.type === 'file' &&
+        item.path !== path &&
+        typeof item.content === 'string'
+      ) {
+        this.initializeFile(item.path, item.content)
+      }
     })
 
     // TODO: integrate these two methods to fix `openReference` functionality
@@ -490,6 +504,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
     const {
       path,
       gist,
+      entries,
       value,
       autoFocus,
       annotations,
@@ -536,21 +551,38 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
     //   monaco.editor.setTheme(theme);
     // }
 
-    if (gist.files !== prevProps.gist.files) {
+    if (this.props.entries !== prevProps.entries) {
       // Update all changed entries for updated intellisense
-      this.props.gist.files.forEach(file => {
-        const previous = prevProps.gist.files.find(
-          prevFile => prevFile.filename === file.filename
-        )
+      this.props.entries.forEach(({ item }) => {
+        if (item.type === 'file' && item.path !== path) {
+          const previous = prevProps.entries.find(
+            e => e.item.path === item.path
+          )
 
-        // @ts-ignore
-        if (previous && previous.content === file.content) {
-          return
+          // @ts-ignore
+          if (previous && previous.item.content === item.content) {
+            return
+          }
+
+          this.initializeFile(item.path, item.content)
         }
-
-        this.initializeFile(file.filename, file.content)
       })
     }
+    // if (gist.files !== prevProps.gist.files) {
+    //   // Update all changed entries for updated intellisense
+    //   this.props.gist.files.forEach(file => {
+    //     const previous = prevProps.gist.files.find(
+    //       prevFile => prevFile.filename === file.filename
+    //     )
+
+    //     // @ts-ignore
+    //     if (previous && previous.content === file.content) {
+    //       return
+    //     }
+
+    //     this.initializeFile(file.filename, file.content)
+    //   })
+    // }
   }
 
   componentWillUnmount() {
