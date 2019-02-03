@@ -8,16 +8,22 @@ import { onError } from 'apollo-link-error'
 import { API_URI, WS_URI } from './constants'
 
 export const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors)
-    graphQLErrors.map(({ message, location, path }) =>
+  if (graphQLErrors) {
+    graphQLErrors.map(({ message, locations, path }) =>
       console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${location}, Path: ${path}`
+        // tslint:disable-next-line:max-line-length
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       )
     )
-  if (networkError) console.log(`[Network error]: ${networkError}`)
+  }
+  if (networkError) {
+    console.log(`[Network error]: ${networkError}`)
+  }
 })
 
-export const cache = new InMemoryCache()
+export const cache = new InMemoryCache({
+  dataIdFromObject: object => object.id || null
+})
 
 export const retryLink = new RetryLink({
   attempts: (count, operation, error) => {
@@ -41,6 +47,7 @@ export const retryLink = new RetryLink({
 })
 
 export const wsLink = (config = {}) =>
+  // @ts-ignore
   process.browser
     ? new WebSocketLink({
         uri: WS_URI,
@@ -58,10 +65,16 @@ export const httpLink = retryLink.concat(
   })
 )
 
+interface Definition {
+  kind: string
+  operation?: string
+}
+
+// @ts-ignore
 export const requestLink = process.browser
   ? split(
       ({ query }) => {
-        const { kind, operation } = getMainDefinition(query)
+        const { kind, operation }: Definition = getMainDefinition(query)
         return kind === 'OperationDefinition' && operation === 'subscription'
       },
       wsLink(),
