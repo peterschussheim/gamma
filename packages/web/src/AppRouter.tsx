@@ -45,6 +45,7 @@ const NotFound = Loadable({
 
 class AppRouter extends React.Component {
   renderRoute = (props: any) => {
+    // @ts-ignore
     const { data, ...rest } = this.props
 
     if (data && data.type === 'success') {
