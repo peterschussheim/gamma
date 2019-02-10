@@ -161,8 +161,8 @@ export default class MonacoEditorComponent extends React.PureComponent<
     const style: React.CSSProperties = {
       width: fixedWidth,
       height: fixedHeight,
-      overflow: 'hidden',
-      position: 'absolute'
+      overflow: 'hidden'
+      // position: 'absolute'
     }
 
     return (
