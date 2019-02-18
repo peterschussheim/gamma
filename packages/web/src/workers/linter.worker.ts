@@ -1,3 +1,4 @@
+// tslint:disable:max-line-length
 import Linter from 'eslint/lib/linter'
 
 import monkeypatch from '../utils/monkeypatch-babel-eslint'
