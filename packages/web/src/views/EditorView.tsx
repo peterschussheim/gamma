@@ -1,27 +1,31 @@
+// tslint:disable:no-unused-expression
+
 import * as React from 'react'
 
 import { RouteComponentProps } from 'react-router-dom'
 
 import Skeleton from '../components/Skeleton'
 import Footer from '../components/Footer'
+import NoFileSelected from '../components/NoFileSelected'
 import GistList from '../components/SidebarList/GistList'
 import { Icon } from '../components/icon'
 import { UserBtnsContainer, BlueButton } from '../components/Buttons'
+import { NewGist } from '../components/NewGist'
+import CodeEditor from '../components/CodeEditor'
+import { Debugger } from '../components/Debugger'
 
 import { EditorContext } from '../components/CodeEditor/EditorProvider'
 
+import { openEntry } from '../actions'
+// import lintEntry from '../utils/lintEntry'
+import { isInsideFolder, changeParentPath } from '../utils/fileUtilities'
 import {
   DependencyList,
   FileSystemEntry,
   TextFileEntry,
+  SaveStatus,
   Annotation
 } from '../components/CodeEditor/types'
-import { NewGist } from '../components/NewGist'
-import CodeEditor from '../components/CodeEditor'
-import { Debugger } from '../components/Debugger'
-import { openEntry } from '../actions'
-// import lintEntry from '../utils/lintEntry'
-import debounce from 'lodash/debounce'
 
 interface MatchParams {
   gistId: string
@@ -34,6 +38,7 @@ interface EditorViewProps extends RouteComponentProps<MatchParams> {
   onChangeCode: (code: string) => void
   entries: FileSystemEntry[]
   entry: FileSystemEntry
+  saveStatus: SaveStatus
   path?: string
   currentFilename: string
   value?: string
@@ -75,6 +80,7 @@ export default class EditorView extends React.Component<
     return null
   }
   static contextType = EditorContext
+  EditorComponent: any
 
   componentDidUpdate(prevProps: EditorViewProps) {
     if (this.props.entry !== prevProps.entry) {
@@ -84,6 +90,37 @@ export default class EditorView extends React.Component<
 
   handleOpenPath = (path: string): Promise<void> =>
     this.props.onFileEntriesChange(openEntry(this.props.entries, path, true))
+
+  handleRemoveFile = (path: string) => {
+    const entry = this.props.entries.find(({ item }) => item.path === path)
+
+    if (entry && entry.item.type === 'folder') {
+      this.props.entries.forEach(({ item }) => {
+        if (isInsideFolder(item.path, path)) {
+          this.EditorComponent && this.EditorComponent.removePath(item.path)
+        }
+      })
+    } else {
+      this.EditorComponent && this.EditorComponent.removePath(path)
+    }
+  }
+
+  handleRenameFile = (oldPath: string, newPath: string) => {
+    const entry = this.props.entries.find(({ item }) => item.path === oldPath)
+
+    if (entry && entry.item.type === 'folder') {
+      this.props.entries.forEach(({ item }) => {
+        if (isInsideFolder(item.path, oldPath)) {
+          const renamedPath = changeParentPath(item.path, oldPath, newPath)
+
+          this.EditorComponent &&
+            this.EditorComponent.renamePath(item.path, renamedPath)
+        }
+      })
+    } else {
+      this.EditorComponent && this.EditorComponent.renamePath(oldPath, newPath)
+    }
+  }
 
   // lintNotDebounced = async (entry: FileSystemEntry | undefined) => {
   //   const lintErrors = await lintEntry(entry, this.props.entries)
@@ -99,8 +136,7 @@ export default class EditorView extends React.Component<
   // lint = debounce(this.lintNotDebounced, 500)
 
   render() {
-    console.log(this.props)
-    const { entry, entries } = this.props
+    const { entry, entries, history } = this.props
     const { lintErrors, previousEntry } = this.state
     const context = this.context
     const annotations: Annotation[] = []
@@ -116,26 +152,32 @@ export default class EditorView extends React.Component<
         <Skeleton
           sidebar={<GistList data={this.props.data} />}
           editor={
-            <CodeEditor
-              onValueChange={this.props.onChangeCode}
-              onOpenPath={this.handleOpenPath}
-              dependencies={this.props.dependencies}
-              entries={this.props.entries}
-              annotations={annotations}
-              path={entry && entry.item.path}
-              value={entry && entry.item.type === 'file' && entry.item.content}
-              options={{
-                fontSize: 12,
-                automaticLayout: true,
-                colorDecorators: true
-              }}
-            />
+            entry && entry.item.type === 'file' ? (
+              <CodeEditor
+                onValueChange={this.props.onChangeCode}
+                onOpenPath={this.handleOpenPath}
+                dependencies={this.props.dependencies}
+                entries={entries && entries}
+                annotations={annotations}
+                path={entry && entry.item.path}
+                value={
+                  entry && entry.item.type === 'file' && entry.item.content
+                }
+                options={{
+                  fontSize: 12,
+                  automaticLayout: true,
+                  colorDecorators: true
+                }}
+              />
+            ) : (
+              <NoFileSelected />
+            )
           }
           footer={
             <Footer
-              currentFile={context.values.currentFilename}
+              currentFile={entry && entry.item.path}
               iconComponent={
-                <Icon height={17} filename={context.values.currentFilename} />
+                <Icon height={17} filename={entry && entry.item.path} />
               }
             />
           }

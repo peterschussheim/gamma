@@ -10,18 +10,18 @@ interface Props {
 
 const GistList: React.FC<Props> = ({ data }) => {
   // @ts-ignore
-  if (data.networkStatus === 1) {
+  if (data && data.loading) {
     return <div>loading</div>
   }
 
   // @ts-ignore
-  if (data.error) {
+  if (data && data.error) {
     // @ts-ignore
     return <div>{data.error.message}</div>
   }
   return (
     <SidebarContainer>
-      {data.viewer
+      {data && data.viewer
         ? data.viewer.gists.map(gist => (
             <SidebarItem key={gist.gistId}>
               <Link to={`/g/${gist.gistId}`}>

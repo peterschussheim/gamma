@@ -1,213 +1,94 @@
 import * as React from 'react'
-import AppRouter from './AppRouter'
-import { history } from './utils/history'
-import { HelmetProvider } from 'react-helmet-async'
-import { ApolloProvider } from 'react-apollo'
-import { BrowserRouter } from 'react-router-dom'
-
-import { cache, errorLink, requestLink } from './apollo'
-import ApolloClient from 'apollo-client'
-import { ApolloLink } from 'apollo-link'
-
-import { EditorProvider } from './components/CodeEditor/EditorProvider'
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
+import routes from './routes'
+import Navbar from './components/Navbar'
+import NotFound from './views/NotFound'
+import globalStyles from './components/global'
+import { Global } from '@emotion/core'
 import './styles.css'
 import {
-  SaveHistory,
-  FileSystemEntry,
-  SaveStatus,
   GistFiles,
-  GistWorkspace,
-  TextFileEntry,
-  Gist
+  FileSystemEntry,
+  TextFileEntry
 } from './components/CodeEditor/types'
-import { GetGistById } from './__generated__/types'
+import {
+  INITIAL_DESCRIPTION,
+  INITIAL_DEPENDENCIES,
+  buildEntriesFromGist,
+  buildEntriesFromDefaultCode
+} from './utils/buildEntries'
+
 import { updateEntry } from './actions'
+import EditorView from './views/EditorView'
 
-const links = [errorLink, requestLink]
-
-const client = new ApolloClient({
-  ssrForceFetchDelay: 100,
-  link: ApolloLink.from(links),
-  // @ts-ignore
-  cache: window.__DATA__ ? cache.restore(window.__DATA__) : cache
-})
-
-/**
- * accepts an array of objects containing files for a given gist
- * and returns a new array with objects matching `TextFileEntry` type.
- */
-export const buildEntriesFromGist = ({
-  getGistById
-}: GetGistById): TextFileEntry[] => {
-  const fileSystemArray = []
-
-  getGistById.files.forEach(file => {
-    fileSystemArray.push({
-      item: {
-        gistId: getGistById.gistId,
-        path: file.filename,
-        content: file.content,
-        gistDescription: getGistById.description,
-        type: 'file'
-      },
-      state: {}
-    })
-  })
-
-  return fileSystemArray
-}
-
-/**
- * accepts an object of objects containing dummy files for use when creating
- * a new gist and returns a new array matching `TextFileEntry` type.
- */
-export const buildEntriesFromDefaultCode = (
-  defaultCode: Partial<Gist>
-): TextFileEntry[] => {
-  const fileSystemArray = []
-
-  for (const filename of Object.keys(defaultCode).sort()) {
-    fileSystemArray.push({
-      item: {
-        gistId: '',
-        path: filename,
-        content: defaultCode[filename].contents,
-        gistDescription: INITIAL_DESCRIPTION,
-        type: 'file'
-      },
-      state: {}
-    })
-  }
-
-  return fileSystemArray
-}
-
-/**
- * use the `INITIAL_XXX` constants below to help create new gists.
- */
-const INITIAL_CODE: GistFiles = {
-  'README.md': {
-    contents: `# README\n## Topic`,
-    type: 'CODE'
-  },
-  'App.tsx': {
-    contents: `import * as React from 'react'\n
-    export default class App extends React.Component {}`,
-    type: 'CODE'
-  }
-}
-const INITIAL_DESCRIPTION: string = 'Change me!'
-const INITIAL_DEPENDENCIES = { react: { version: '16.3.1' } }
-
-type Params = {
-  /** id produced when saving changed files */
-  id?: string
-  gistId?: string
-}
-
-type Props = {
-  getGistById?: GetGistById
-  gist?: GistWorkspace
-  history: {
-    push: (props: { pathname: string; search: string }) => void
-  }
-  match: {
-    params: Params
-  }
-  location: {
-    search: string
-  }
-}
-
-type SessionState = {
-  gistId: string
-  description: string
-  files: GistFiles
-  dependencies: { [key: string]: { version: string } }
-  isSaved?: boolean
-}
-
-type State = {
-  sessionState: SessionState
-  isSavedOnce: boolean
-  saveHistory: SaveHistory
-  saveStatus: SaveStatus
-  params?: Params
-  fileEntries: FileSystemEntry[]
-}
-
-export default class App extends React.Component<Props, State> {
-  constructor(props: Props) {
+class App extends React.Component {
+  constructor(props) {
     super(props)
-    const usingDefaultCode = !(props.gist && props.gist.code)
+    // let gistId = props.location.pathname.split('/')[2] || ''
+    // const usingDefaultCode = !gistId
 
     let code: GistFiles | string =
-      props.gist && props.gist.code ? props.gist.code : INITIAL_CODE
+      props.data && props.data.getGistById
+        ? props.data.getGistById
+        : INITIAL_CODE
 
-    let gistId = ''
     let description = INITIAL_DESCRIPTION
-    let dependencies = usingDefaultCode ? INITIAL_DEPENDENCIES : {}
+    let dependencies = INITIAL_DEPENDENCIES
+    // let dependencies = usingDefaultCode ? INITIAL_DEPENDENCIES : {}
 
-    const sessionState: SessionState = {
-      gistId,
-      description,
-      files: code,
-      dependencies
-    }
-
-    const fileEntries = usingDefaultCode
-      ? buildEntriesFromDefaultCode(code)
-      : buildEntriesFromGist(props.getGistById)
+    const fileEntries =
+      props.data && props.data.getGistById
+        ? buildEntriesFromGist(props.data.getGistById)
+        : buildEntriesFromDefaultCode(INITIAL_CODE)
+    // const fileEntries = usingDefaultCode
+    //   ? buildEntriesFromDefaultCode(code)
+    //   : buildEntriesFromGist(props.data.getGistById.files)
 
     this.state = {
-      sessionState,
+      gistId: '',
+      description,
+      files: code,
+      dependencies,
       fileEntries: [...fileEntries],
-      isSavedOnce: false,
       saveHistory: props.gist && props.gist.history ? props.gist.history : [],
       saveStatus: 'changed'
     }
   }
 
-  handleChangeCode = (content: string) =>
-    this.setState((state: State) => ({
-      saveStatus: 'changed',
-      fileEntries: state.fileEntries.map(entry => {
-        if (entry.item.type === 'file' && entry.state.isFocused) {
-          return updateEntry(entry, { item: { content } })
-        }
-        return entry
-      })
-    }))
+  // static getDerivedStateFromProps(props, state: State) {
+  //   if (
+  //     props.location &&
+  //     props.location.pathname.split('/')[2] !== state.gistId
+  //   ) {
+  //     const { location } = props
+  //     const { gistId } = state
 
-  handleFileEntriesChange = (
-    nextFileEntries: FileSystemEntry[]
-  ): Promise<void> => {
-    return new Promise(resolve =>
-      this.setState(state => {
-        let fileEntries = nextFileEntries.map(entry => entry)
+  //     return {
+  //       gistId: location.pathname.split('/')[2]
+  //     }
+  //   }
+  //   if (
+  //     state.gistId &&
+  //     state.gistId.length > 0 &&
+  //     props.data.getGistById &&
+  //     props.data.getGistById.gistId !== state.gistId
+  //   ) {
+  //     const fileEntries = buildEntriesFromGist(props.data.getGistById)
+  //     return {
+  //       fileEntries
+  //     }
+  //   }
 
-        return { fileEntries }
-      }, resolve)
-    )
-  }
-
-  findFocusedEntry = (entries: FileSystemEntry[]): TextFileEntry | undefined =>
-    // @ts-ignore
-    entries.find(
-      ({ item, state }) => item.type === 'file' && state.isFocused === true
-    )
+  //   return null
+  // }
 
   render() {
     return (
-      <ApolloProvider client={client}>
-        <HelmetProvider>
-          <BrowserRouter>
-            <EditorProvider>
-              <AppRouter data={window.__DATA__.data} />
-            </EditorProvider>
-          </BrowserRouter>
-        </HelmetProvider>
-      </ApolloProvider>
+      <div>
+        <EditorView />
+      </div>
     )
   }
 }
+
+export default App
