@@ -1,3 +1,4 @@
+/** @jsx jsx */
 import { css } from '@emotion/core'
 import 'react-tippy/dist/tippy.css'
 
@@ -119,10 +120,6 @@ const globalStyles = css`
   button:disabled {
     opacity: 0.5;
     cursor: not-allowed !important;
-  }
-
-  button + button {
-    margin-left: 0.5rem;
   }
 
   button.outline {

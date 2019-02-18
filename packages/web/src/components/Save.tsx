@@ -3,8 +3,6 @@ import { Mutation } from 'react-apollo'
 import { CREATE_GIST, EDIT_GIST, GET_GIST_BY_ID } from '../queries'
 import { GreenButton } from './Buttons'
 
-import { Changes } from './CodeEditor/EditorProvider'
-
 import { UpdateGist, GistUpdateInput } from '../__generated__/types'
 
 /**

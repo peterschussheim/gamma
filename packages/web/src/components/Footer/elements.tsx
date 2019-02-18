@@ -4,7 +4,6 @@ const FooterContainer = styled.div`
   background-color: #007acc;
   color: white;
   font-weight: 100;
-  max-width: 800px;
   min-height: 17px;
   max-height: 17px;
   padding-left: 10px;

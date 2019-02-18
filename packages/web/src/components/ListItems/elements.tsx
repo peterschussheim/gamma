@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 
-const Description = styled.span`
+const Description = styled.input`
   font-size: 11px;
   margin: 0px 15px 5px 5px;
   color: white;
@@ -8,19 +8,23 @@ const Description = styled.span`
 `
 
 const ListItem = styled.div`
+  display: flex;
   cursor: pointer;
   color: white;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  padding: 0px 20px;
+  padding: 0px 21px;
   font-size: 9px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   border-style: dotted;
   border-width: thin;
   border-color: #ffffff00;
-  &:active {
-    background-color: #0e2840;
-  }
+  ${({ active }) =>
+    active &&
+    `
+    background: #0e2840;
+  `}
   &:hover {
     border-style: dotted;
     border-width: thin;

@@ -25,7 +25,19 @@ const styles = {
   }
 }
 
-export const Debugger = ({ componentName, context, state, props }) => (
+interface Props {
+  componentName?: string
+  context?: any
+  state?: any
+  props?: any
+}
+
+export const Debugger: React.FunctionComponent<Props> = ({
+  componentName,
+  context,
+  state,
+  props
+}) => (
   <div style={styles.container}>
     <h1>{componentName}</h1>
     {context == null ? null : (
