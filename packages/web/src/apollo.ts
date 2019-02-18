@@ -1,4 +1,4 @@
-import { createUploadLink } from 'apollo-upload-client'
+import { createHttpLink } from 'apollo-link-http'
 import { RetryLink } from 'apollo-link-retry'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { split } from 'apollo-link'
@@ -59,7 +59,7 @@ export const wsLink = (config = {}) =>
     : null
 
 export const httpLink = retryLink.concat(
-  createUploadLink({
+  createHttpLink({
     uri: API_URI,
     credentials: 'include'
   })
