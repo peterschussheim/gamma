@@ -97,7 +97,7 @@ export type Annotation = {
 }
 
 export interface DependencyList {
-  [name: string]: string
+  [name: string]: { version: string }
 }
 
 export interface MonacoEditorProps {
@@ -106,7 +106,6 @@ export interface MonacoEditorProps {
   onValueChange: (value: string) => void
   onSave?: (code: string) => void
   entries: FileSystemEntry[]
-  gist: Gist
   path: string
   value: string
   dependencies?: DependencyList

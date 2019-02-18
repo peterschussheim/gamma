@@ -5,7 +5,7 @@ import debounce from 'lodash/debounce'
 import MonacoEditorComponent, { findModel } from './MonacoEditor'
 
 import getSettings from '../../../utils/getEditorSettings'
-import prettierCode from '../../../utils/prettier'
+// import prettierCode from '../../../utils/prettier'
 import getRelativePath from '../../../utils/getRelativePath'
 import getFileLanguage from '../../../utils/getFileLanguage'
 
@@ -35,7 +35,7 @@ const extraLibs = new Map<
 class MonacoEditor extends React.Component<MonacoEditorProps> {
   static defaultProps: Partial<MonacoEditorProps> = {
     width: '100%',
-    height: '100%'
+    height: '50%'
   }
 
   static removePath(path: string) {
@@ -59,7 +59,6 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
   monaco!: typeof monaco
   sizeProbeInterval?: NodeJS.Timeout
   entries: FileSystemEntry[]
-  gist: Gist
   path: string
   options?: monaco.editor.IEditorOptions
   modelOptions?: monaco.editor.ITextModelUpdateOptions
@@ -74,7 +73,6 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
   constructor(props: MonacoEditorProps) {
     super(props)
     this.entries = props.entries
-    this.gist = props.gist
     this.path = props.path
     this.options = props.options
     this.modelOptions = props.modelOptions
@@ -127,15 +125,17 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
     this.updateMarkers(annotations)
     this.fetchTypings(dependencies)
 
-    this.props.entries.forEach(({ item }) => {
-      if (
-        item.type === 'file' &&
-        item.path !== path &&
-        typeof item.content === 'string'
-      ) {
-        this.initializeFile(item.path, item.content)
-      }
-    })
+    // tslint:disable-next-line:no-unused-expression
+    this.props.entries &&
+      this.props.entries.forEach(({ item }) => {
+        if (
+          item.type === 'file' &&
+          item.path !== path &&
+          typeof item.content === 'string'
+        ) {
+          this.initializeFile(item.path, item.content)
+        }
+      })
 
     // TODO: integrate these two methods to fix `openReference` functionality
     // setCurrentModule = (moduleId: string) => {
@@ -341,15 +341,15 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
       }
     }
     const documentFormattingProvider: monaco.languages.DocumentFormattingEditProvider = {
-      async provideDocumentFormattingEdits(model) {
-        const text = await prettierCode(model.uri.path, model.getValue())
-        return [
-          {
-            range: model.getFullModelRange(),
-            text
-          }
-        ]
-      }
+      // async provideDocumentFormattingEdits(model) {
+      //   const text = await prettierCode(model.uri.path, model.getValue())
+      //   return [
+      //     {
+      //       range: model.getFullModelRange(),
+      //       text
+      //     }
+      //   ]
+      // }
     }
 
     monaco.languages.registerDocumentFormattingEditProvider(
@@ -503,7 +503,6 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
   componentDidUpdate(prevProps: MonacoEditorProps) {
     const {
       path,
-      gist,
       entries,
       value,
       autoFocus,
@@ -568,21 +567,6 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
         }
       })
     }
-    // if (gist.files !== prevProps.gist.files) {
-    //   // Update all changed entries for updated intellisense
-    //   this.props.gist.files.forEach(file => {
-    //     const previous = prevProps.gist.files.find(
-    //       prevFile => prevFile.filename === file.filename
-    //     )
-
-    //     // @ts-ignore
-    //     if (previous && previous.content === file.content) {
-    //       return
-    //     }
-
-    //     this.initializeFile(file.filename, file.content)
-    //   })
-    // }
   }
 
   componentWillUnmount() {
