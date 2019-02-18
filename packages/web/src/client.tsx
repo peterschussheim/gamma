@@ -1,28 +1,39 @@
 import * as React from 'react'
 import ReactDOM from 'react-dom'
-import Loadable from 'react-loadable'
+import { ApolloProvider } from 'react-apollo'
+import { BrowserRouter } from 'react-router-dom'
 
-import App from './App'
+import { cache, errorLink, requestLink } from './apollo'
+import ApolloClient from 'apollo-client'
+import { ApolloLink } from 'apollo-link'
+import { EditorProvider } from './components/CodeEditor/EditorProvider'
+import Router from './Router'
 
-const root = document.getElementById('root')
+const links = [errorLink, requestLink]
 
-window.main = () => {
-  render(App)
+const client = new ApolloClient({
+  ssrForceFetchDelay: 100,
+  link: ApolloLink.from(links),
+  // @ts-ignore
+  cache: window.__DATA__ ? cache.restore(window.__DATA__) : cache
+})
+
+class GammaEntry extends React.Component {
+  render() {
+    return (
+      <ApolloProvider client={client}>
+        <BrowserRouter>
+          <EditorProvider>
+            <Router />
+          </EditorProvider>
+        </BrowserRouter>
+      </ApolloProvider>
+    )
+  }
 }
+
+ReactDOM.hydrate(<GammaEntry />, document.getElementById('root'))
 
 if (module.hot) {
-  module.hot.accept('./App', () => {
-    const NewApp = require('./App').default
-    render(NewApp)
-  })
-}
-
-function render(Root) {
-  Loadable.preloadReady()
-    .then(() => {
-      ReactDOM.hydrate(<Root />, root)
-    })
-    .catch(err => {
-      console.error(`Error hydrating react client app: ${err}`)
-    })
+  module.hot.accept()
 }

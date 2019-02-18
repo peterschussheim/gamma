@@ -3,7 +3,7 @@ import { runtimeConfig } from '../../isomorphicVariables'
 const debug = require('debug')('ssr:html-template')
 const { inspect } = require('util')
 
-export default ({ helmet, data, assets, scripts, staticBuild }) => {
+export default ({ helmet, data, assets }) => {
   const header = `<!DOCTYPE html>
     <html>
       <head>
@@ -34,10 +34,6 @@ export default ({ helmet, data, assets, scripts, staticBuild }) => {
         ? `<script src="${assets.client.js}"></script>`
         : `<script src="${assets.client.js}" crossorigin></script>`
     }
-    ${scripts
-      .map(file => `<script src="${staticBuild}${file}"></script>`)
-      .join('\n')}
-      <script>window.main();</script>
       </body>
     </html>`
 

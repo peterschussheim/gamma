@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 require('now-env')
 const debug = require('debug')('web:entry')
 import express from 'express'
@@ -21,7 +20,7 @@ if (module.hot) {
 
 export default express()
   .use((req, res) => app.handle(req, res))
-  .listen(port, err => {
+  .listen(port, (err: Error) => {
     if (err) {
       console.error(err)
       return

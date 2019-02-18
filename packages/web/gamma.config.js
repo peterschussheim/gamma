@@ -1,6 +1,7 @@
 const makeLoaderFinder = require('gamma-core/dev-utils/makeLoaderFinder')
 const WorkerPlugin = require('worker-plugin')
-const { ReactLoadablePlugin } = require('react-loadable/webpack')
+
+const { createEmotionPlugin } = require('emotion-ts-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 const babelLoaderFinder = makeLoaderFinder('babel-loader')
@@ -12,7 +13,10 @@ const defaultOptions = {
   useEslint: true,
   tsLoader: {
     transpileOnly: true,
-    experimentalWatchApi: true
+    experimentalWatchApi: true,
+    getCustomTransformers: () => ({
+      before: [createEmotionPlugin()]
+    })
   },
   forkTsChecker: {
     tsconfig: './tsconfig.json',
@@ -80,11 +84,6 @@ module.exports = {
         )
       )
       config.plugins.push(new WorkerPlugin())
-      config.plugins.push(
-        new ReactLoadablePlugin({
-          filename: './build/react-loadable.json'
-        })
-      )
       if (dev) {
         // As suggested by Microsoft's Outlook team, these optimizations
         // crank up Webpack x TypeScript perf.
