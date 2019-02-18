@@ -2,33 +2,30 @@
 import { jsx, css } from '@emotion/core'
 import * as React from 'react'
 
-import { DefaultButton } from './Buttons'
+import { DefaultButton } from '../Buttons'
 import ModalDialog from './ModalDialog'
 
 type Props = {
   title: string
   visible: boolean
   action: string
-  onSave: (description: string) => void
+  onSave: (filename: string) => void
   onDismiss: () => void
-  description: string | undefined
+  filename: string | undefined
   loading?: boolean
 }
 
 type State = {
-  description: string
+  filename: string
   visible: boolean
 }
 
-export default class ModalEditDescription extends React.Component<
-  Props,
-  State
-> {
+export default class ModalEditFilename extends React.Component<Props, State> {
   static getDerivedStateFromProps(props: Props, state: State) {
     if (state.visible !== props.visible) {
       if (props.visible) {
         return {
-          description: props.description || '',
+          filename: props.filename || '',
           visible: props.visible
         }
       } else {
@@ -40,18 +37,18 @@ export default class ModalEditDescription extends React.Component<
   }
 
   state = {
-    description: this.props.description || '',
+    filename: this.props.filename || '',
     visible: this.props.visible
   }
 
   handleSubmit = e => {
     e.preventDefault()
-    this.props.onSave(this.state.description)
+    this.props.onSave(this.state.filename)
   }
 
-  validateDescription = (description: string) =>
-    description
-      ? /^[a-z_\-\d\s]+$/i.test(description)
+  validateFilename = (filename: string) =>
+    filename
+      ? /^[a-z_\-\d\s]+$/i.test(filename)
         ? null
         : new Error(
             // tslint:disable-next-line:max-line-length
@@ -65,11 +62,11 @@ export default class ModalEditDescription extends React.Component<
     return (
       <ModalDialog visible={visible} title={title} onDismiss={onDismiss}>
         <form onSubmit={this.handleSubmit}>
-          <h4 css={subtitle}>Description</h4>
+          <h4 css={subtitle}>Edit Filename</h4>
           <input
             type="text"
-            value={this.state.description}
-            onChange={e => this.setState({ description: e.target.value })}
+            value={this.state.filename}
+            onChange={e => this.setState({ filename: e.target.value })}
             placeholder={''}
           />
           <div css={buttons}>
