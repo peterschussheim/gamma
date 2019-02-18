@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import EditableText from '../EditableText'
 import { Description, ListItem } from './elements'
-import { Icon } from '../icon'
+import { Icon } from '../Icon'
 import { isFileDirty } from '../../utils/isGistDirty'
 import EditIcons from '../EditIcons'
 import { EditorContext } from '../CodeEditor/EditorProvider'

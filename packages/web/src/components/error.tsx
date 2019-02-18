@@ -1,8 +1,10 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
-export default function RenderError({ error }) {
-  if (!error || !error.message) return null
+export default function Error({ error }) {
+  if (!error || !error.message) {
+    return null
+  }
   return (
     <React.Fragment>
       <pre>NAME: {JSON.stringify(error.name)}</pre>
@@ -19,10 +21,10 @@ export default function RenderError({ error }) {
   )
 }
 
-RenderError.defaultProps = {
+Error.defaultProps = {
   error: {}
 }
 
-RenderError.propTypes = {
+Error.propTypes = {
   error: PropTypes.object
 }
