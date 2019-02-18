@@ -1,16 +1,18 @@
+type File = {
+  filename: string
+  content: string
+}
+
 /**
  * used when creating elements by mapping over an array.
  *
  * @param initial Data either from apollo or new gist creation data
- * @param maybeChangedFile
+ * @param maybeChangedFile A file object from context.values
  */
 export const isFileDirty = (
-  initial: Array<{
-    filename: string
-    content: string
-  }>,
-  maybeChangedFile: { filename: string; content: string }
-) => {
+  initial: File[],
+  maybeChangedFile: File
+): boolean => {
   if (maybeChangedFile != null && initial.length > 0) {
     // we have changes
     // check changes array for originalFile.filename and if found,

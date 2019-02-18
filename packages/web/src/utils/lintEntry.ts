@@ -5,7 +5,7 @@ import {
   isJSONFile
 } from './fileUtilities'
 
-import { FileSystemEntry, TextFileEntry } from '../types'
+import { FileSystemEntry, TextFileEntry } from '../components/CodeEditor/types'
 
 export default async function lintEntry(
   focusedEntry: FileSystemEntry | undefined,
