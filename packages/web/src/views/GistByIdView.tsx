@@ -25,6 +25,7 @@ import {
 } from '../components/CodeEditor/types'
 import { isFileDirty } from '../utils/isGistDirty'
 import { GET_GIST_BY_ID } from '../queries'
+import NoFileSelected from '../components/NoFileSelected'
 
 const defaultOptions = {
   fontSize: 12,
@@ -66,7 +67,6 @@ export default class GistByIdView extends React.Component<GistByIdProps, null> {
   }
 
   componentDidMount() {
-    console.log(this.props)
     if (this.props && this.props.getGistById) {
       const nextEntries = buildEntriesFromGist(this.props.getGistById)
       this.props.onFileEntriesChange(nextEntries)
@@ -74,13 +74,15 @@ export default class GistByIdView extends React.Component<GistByIdProps, null> {
     return
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props && this.props.getGistById) {
-      const nextEntries = buildEntriesFromGist(this.props.getGistById)
-      this.props.onFileEntriesChange(nextEntries)
-    }
-    return
-  }
+  // TODO: Figure this out!!
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.props && this.props.getGistById) {
+  //     if (prevProps.fileEntries)
+  //     const nextEntries = buildEntriesFromGist(this.props.getGistById)
+  //     this.props.onFileEntriesChange(nextEntries)
+  //   }
+  //   return
+  // }
 
   handleValueChange = (value: string) => {
     this.context.change('changes', value)
@@ -100,8 +102,7 @@ export default class GistByIdView extends React.Component<GistByIdProps, null> {
   }
 
   render() {
-    const { history, entries, gistId } = this.props
-    console.log(this.props)
+    const { history, entries, entry, gistId } = this.props
     const context = this.context
 
     return this.props.getGistById ? (
@@ -132,15 +133,19 @@ export default class GistByIdView extends React.Component<GistByIdProps, null> {
               ) : null
             }
             editor={
-              <CodeEditor
-                onOpenPath={path => context.change('currentFilename', path)}
-                onValueChange={v => this.handleValueChange(v)}
-                path={context.values.currentFilename}
-                value={this.props.entry && this.props.entry.item.content}
-                entries={entries}
-                options={defaultOptions}
-                modelOptions={{ tabSize: 2 }}
-              />
+              entry && entry.item.type === 'file' ? (
+                <CodeEditor
+                  onOpenPath={path => context.change('currentFilename', path)}
+                  onValueChange={v => this.handleValueChange(v)}
+                  path={this.props.path && this.props.path.item.path}
+                  value={this.props.entry && this.props.entry.item.content}
+                  entries={entries}
+                  options={defaultOptions}
+                  modelOptions={{ tabSize: 2 }}
+                />
+              ) : (
+                <NoFileSelected />
+              )
             }
             footer={
               <Footer
