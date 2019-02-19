@@ -81,9 +81,22 @@ module.exports = {
       config.plugins.push(
         new ForkTsCheckerWebpackPlugin(
           Object.assign({}, defaultOptions.forkTsChecker, options.forkTsChecker)
-        )
+        ),
+        new webpack.DefinePlugin({
+          __isBrowser__: 'true'
+        })
       )
+
+      if (target === 'node') {
+        config.plugins.push(
+          new webpack.DefinePlugin({
+            __isBrowser__: 'false'
+          })
+        )
+      }
+
       config.plugins.push(new WorkerPlugin())
+
       if (dev) {
         // As suggested by Microsoft's Outlook team, these optimizations
         // crank up Webpack x TypeScript perf.
