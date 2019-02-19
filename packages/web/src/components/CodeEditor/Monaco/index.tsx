@@ -617,6 +617,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
 
     return (
       <MonacoEditorComponent
+        path={this.props.path}
         editorDidMount={this.configureEditor}
         onValueChange={this.props.onValueChange}
         options={options}
