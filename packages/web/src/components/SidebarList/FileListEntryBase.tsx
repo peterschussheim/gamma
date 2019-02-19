@@ -2,6 +2,8 @@
 import { jsx, css } from '@emotion/core'
 import * as React from 'react'
 import { FileSystemEntry } from '../CodeEditor/types'
+import { ListItem } from '../ListItems/elements'
+import { Icon } from '../Icon'
 
 type Props = {
   entry: FileSystemEntry
@@ -70,12 +72,12 @@ export default class FileListEntry extends React.Component<Props, State> {
 
     return (
       <React.Fragment>
-        <div
+        <ListItem
           css={css({
             position: 'relative',
-            display: 'inline-block',
+            // display: 'inline-block',
+            // padding: '4px 16px',
             outline: 0,
-            padding: '4px 16px',
             width: '100%',
             cursor: 'pointer',
             zIndex: 1,
@@ -90,8 +92,15 @@ export default class FileListEntry extends React.Component<Props, State> {
           onFocus={this.handleFocus}
           onKeyDown={this.handleKeyDown}
         >
+          <Icon
+            onClick={this.handleClick}
+            height={12}
+            marginTop={2}
+            marginRight={2}
+            filename={entry.item.path}
+          />
           {this.props.renderItem()}
-        </div>
+        </ListItem>
         {this.props.renderTree && this.props.renderTree()}
       </React.Fragment>
     )
