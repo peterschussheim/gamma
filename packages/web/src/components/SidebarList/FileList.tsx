@@ -30,6 +30,7 @@ type Props = {
 
 type State = {
   openFilesPane: boolean
+  openGistPane: boolean
   deleted: Array<{
     id: number
     path: string
@@ -48,6 +49,7 @@ const AddIcon = () => (
 export default class FileList extends React.PureComponent<Props, State> {
   state: State = {
     openFilesPane: true,
+    openGistPane: true,
     deleted: []
   }
 
@@ -153,12 +155,13 @@ export default class FileList extends React.PureComponent<Props, State> {
       createNewEntry(this.props.entries, 'folder', path)
     )
 
+  toggleOpenGistPane = () =>
+    this.setState(state => ({ openGistPane: !state.openGistPane }))
+
   toggleOpenFilesPane = () =>
     this.setState(state => ({ openFilesPane: !state.openFilesPane }))
 
   render() {
-    console.log(this.props)
-
     return (
       <div css={css({ display: 'flex', flexDirection: 'column' })}>
         <FileListPane
@@ -197,10 +200,10 @@ export default class FileList extends React.PureComponent<Props, State> {
           </ul>
         </FileListPane>
         <FileListPane
-          onClick={this.toggleOpenFilesPane}
-          expanded={this.state.openFilesPane}
-          css={css({ flex: 1 })}
           title="Gist"
+          onClick={this.toggleOpenGistPane}
+          expanded={this.state.openGistPane}
+          css={css({ flex: 1 })}
         >
           <div
             css={css({ position: 'relative' })}
