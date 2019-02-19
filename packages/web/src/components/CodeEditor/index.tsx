@@ -12,14 +12,13 @@ export default class CodeEditor extends React.PureComponent<MonacoEditorProps> {
   }
   render() {
     const props: MonacoEditorProps = this.props
-
     return (
       <Container>
         <MonacoEditor
           editorDidMount={this.editorDidMount}
           onValueChange={props.onValueChange}
           value={props.value}
-          entries={props.entries && props.entries}
+          entries={props.entries}
           path={props.path}
           dependencies={props.dependencies}
           options={props.options}
