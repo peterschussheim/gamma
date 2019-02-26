@@ -31,6 +31,7 @@ class EditorProvider extends React.Component<{}, State> {
 
   handleChange = (key: string, value: any) => {
     if (key === 'changes') {
+      const { path, content } = value
       /**
        * 1) find the index of the currentFilename for the value being changed
        *    1.a) if it is found (this file exists in our changes obj), set the

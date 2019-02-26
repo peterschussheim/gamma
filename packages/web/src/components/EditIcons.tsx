@@ -7,7 +7,6 @@ import {
   MdCreateNewFolder as AddDirectoryIcon
 } from 'react-icons/md'
 import { GoPencil as EditIcon } from 'react-icons/go'
-import { Tooltip } from 'react-tippy'
 
 export const Icon = styled.div`
   position: relative;
@@ -57,25 +56,19 @@ const EditIcons: React.FunctionComponent<Props> = ({
       {(hovering || active || forceShow) && (
         <React.Fragment>
           {onEdit && (
-            <Tooltip title="Rename">
-              <Icon onClick={handleClick(onEdit)}>
-                <EditIcon />
-              </Icon>
-            </Tooltip>
+            <Icon onClick={handleClick(onEdit)}>
+              <EditIcon />
+            </Icon>
           )}
           {onCreateFile && (
-            <Tooltip title="New File">
-              <Icon onClick={handleClick(onCreateFile)}>
-                <AddFileIcon />
-              </Icon>
-            </Tooltip>
+            <Icon onClick={handleClick(onCreateFile)}>
+              <AddFileIcon />
+            </Icon>
           )}
           {onDelete && (
-            <Tooltip title="Delete">
-              <Icon onClick={handleClick(onDelete)}>
-                <CrossIcon />
-              </Icon>
-            </Tooltip>
+            <Icon onClick={handleClick(onDelete)}>
+              <CrossIcon />
+            </Icon>
           )}
         </React.Fragment>
       )}

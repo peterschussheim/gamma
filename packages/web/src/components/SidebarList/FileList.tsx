@@ -5,6 +5,9 @@ import * as React from 'react'
 import FileListPane from './FileListPane'
 import FileListOpenEntry from './FileListOpenEntry'
 import FileListChildren from './FileListChildren'
+import FileListPaneButton from './FileListPaneButton'
+import SplitPane from 'react-split-pane'
+
 import {
   renameEntry,
   selectEntry,
@@ -19,11 +22,33 @@ import { getUniquePath, isInsideFolder } from '../../utils/fileUtilities'
 
 import { FileSystemEntry, TextFileEntry, SaveStatus } from '../CodeEditor/types'
 
+type SidebarShellProps = {
+  children?: React.ReactNode
+}
+
+function SidebarShell({ children }: SidebarShellProps) {
+  return (
+    <div
+      css={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        minWidth: 240,
+        borderRight: '#F0F0F0'
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
 type Props = {
   visible: boolean
   onEntriesChange: (entries: FileSystemEntry[]) => Promise<void>
   onRemoveFile: (path: string) => void
   onRenameFile: (oldPath: string, newPath: string) => void
+  gistId: string
+  gistDescription: string
   entries: FileSystemEntry[]
   saveStatus: SaveStatus
 }
@@ -162,24 +187,25 @@ export default class FileList extends React.PureComponent<Props, State> {
     this.setState(state => ({ openFilesPane: !state.openFilesPane }))
 
   render() {
+    const { gistId, gistDescription } = this.props
+
     return (
-      <div css={css({ display: 'flex', flexDirection: 'column' })}>
+      <div css={{ display: 'flex', flexDirection: 'column' }}>
         <FileListPane
           title="Open files"
           expanded={this.state.openFilesPane}
           onClick={this.toggleOpenFilesPane}
         >
           <ul
-            css={css({
+            css={{
               margin: 0,
               listStyle: 'none',
               padding: '8px 0',
               overflow: 'auto',
-
               ':empty': {
                 display: 'none'
               }
-            })}
+            }}
             data-test-id="file-list-open-files-content"
           >
             {this.props &&
@@ -202,11 +228,24 @@ export default class FileList extends React.PureComponent<Props, State> {
         <FileListPane
           title="Gist"
           onClick={this.toggleOpenGistPane}
+          buttons={[
+            <FileListPaneButton
+              key="create-file"
+              onClick={() => this.handleCreateFile()}
+            >
+              <path
+                fillOpacity="0.7"
+                // tslint:disable-next-line: max-line-length
+                d="M3,2 L13,2 L13,14 L3,14 L3,2 Z M9,2 L13,6 L13,2 L9,2 Z M9,6 L9,2 L8,2 L8,7 L13,7 L13,6 L9,6 Z"
+              />
+              <AddIcon />
+            </FileListPaneButton>
+          ]}
           expanded={this.state.openGistPane}
-          css={css({ flex: 1 })}
+          css={{ flex: 1 }}
         >
           <div
-            css={css({ position: 'relative' })}
+            css={{ position: 'relative' }}
             data-test-id="file-list-gist-content"
           >
             <FileListChildren
@@ -219,7 +258,7 @@ export default class FileList extends React.PureComponent<Props, State> {
               onRename={this.handleEntryRename}
               onExpand={this.handleEntryExpand}
               onDelete={this.handleEntryDelete}
-              css={css({ padding: '0 12px', height: '100%' })}
+              css={{ padding: '0 12px', height: '100%' }}
             />
           </div>
         </FileListPane>
@@ -227,50 +266,3 @@ export default class FileList extends React.PureComponent<Props, State> {
     )
   }
 }
-
-// container: {
-//   display: 'flex',
-//   flexDirection: 'column'
-// },
-// list: {
-//   padding: '0 12px',
-//   height: '100%'
-// },
-// pane: {
-//   flex: 1,
-//   display: 'flex',
-//   flexDirection: 'column',
-//   width: 240,
-//   minWidth: 240,
-//   height: '100%',
-//   zIndex: 10
-// },
-// project: {
-//   flex: 1
-// },
-// files: {
-//   flex: 1,
-//   overflow: 'auto'
-// },
-// children: {
-//   position: 'relative'
-// },
-// tabs: {
-//   margin: 0,
-//   listStyle: 'none',
-//   padding: '8px 0',
-//   overflow: 'auto',
-
-//   ':empty': {
-//     display: 'none'
-//   }
-// },
-// toolbar: {
-//   padding: 8
-// },
-// toasts: {
-//   position: 'fixed',
-//   bottom: '3em',
-//   left: '1em',
-//   zIndex: 10
-// }

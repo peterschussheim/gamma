@@ -2,7 +2,6 @@ import * as React from 'react'
 import { Mutation } from 'react-apollo'
 import { CREATE_GIST, EDIT_GIST, GET_GIST_BY_ID } from '../queries'
 import { GreenButton } from './Buttons'
-
 import { UpdateGist, GistUpdateInput } from '../__generated__/types'
 
 /**
@@ -22,9 +21,8 @@ type Props = {
   dirty: boolean
   gistId: string
   description: string
-  changedFiles: Files
-  handleSaveFile?(payload: Payload): string
-  handleResetChanges(): void
+  files: Files
+  onSaveCompleted: (data: Partial<UpdateGist>) => void
 }
 
 type Data = UpdateGist
@@ -32,13 +30,21 @@ type Variables = { data: GistUpdateInput }
 
 class EditGistMutation extends Mutation<Data, Variables> {}
 
+// TODO: refactor the incoming props, specifically the files.
+// most likely we need to convert the 'FileEntry' type back into the shape
+// our graphql endpoint expects.
 export const Save: React.FunctionComponent<Props> = props => {
   return (
     <EditGistMutation
       mutation={EDIT_GIST}
+      awaitRefetchQueries={true}
       refetchQueries={[
         { query: GET_GIST_BY_ID, variables: { gistId: props.gistId } }
       ]}
+      onCompleted={data => {
+        // tslint:disable-next-line: no-unused-expression
+        data && data.updateGist && props.onSaveCompleted(data.updateGist)
+      }}
     >
       {(updateGist, { data, loading, error }) => {
         return (
@@ -47,8 +53,8 @@ export const Save: React.FunctionComponent<Props> = props => {
             data-cy="save-button"
             onClick={async e => {
               e.preventDefault()
-              const { gistId, description, changedFiles: files } = props
-
+              const { gistId, description } = props
+              const files = props.files()
               await updateGist({
                 variables: {
                   data: {
@@ -60,7 +66,7 @@ export const Save: React.FunctionComponent<Props> = props => {
               })
             }}
           >
-            Save Changes
+            {loading ? 'Loading' : 'Save Changes'}
           </GreenButton>
         )
       }}

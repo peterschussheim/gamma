@@ -1,6 +1,5 @@
 // tslint:disable:max-line-length
 import * as React from 'react'
-import debounce from 'lodash/debounce'
 
 import MonacoEditorComponent, { findModel } from './MonacoEditor'
 
@@ -57,7 +56,6 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
 
   editor!: monaco.editor.IStandaloneCodeEditor
   monaco!: typeof monaco
-  sizeProbeInterval?: NodeJS.Timeout
   entries: FileSystemEntry[]
   path: string
   options?: monaco.editor.IEditorOptions
@@ -374,7 +372,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
       compilerOptions
     )
 
-    window.addEventListener('resize', this.handleResize)
+    this.props.editorDidMount(this.editor, this.monaco)
   }
 
   initializeFile = (path: string, value: string) => {
@@ -606,11 +604,6 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
       readOnly: !!this.props.readOnly
     }
   }
-
-  handleResize = debounce(() => this.editor.layout(), 100, {
-    leading: true,
-    trailing: true
-  })
 
   render() {
     const options = this.getEditorOptions()

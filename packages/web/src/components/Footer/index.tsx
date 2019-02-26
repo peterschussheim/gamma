@@ -1,6 +1,11 @@
 import * as React from 'react'
 
-import { FooterContainer, FooterItem, IconContainer } from './elements'
+import {
+  FooterContainer,
+  FooterItem,
+  IconContainer,
+  FooterStatus
+} from './elements'
 
 const Footer: React.FunctionComponent<{
   status?: string
@@ -10,7 +15,7 @@ const Footer: React.FunctionComponent<{
   return (
     <FooterContainer>
       <FooterItem>{currentFile}</FooterItem>
-      {status ? <FooterItem>{status}</FooterItem> : null}
+      {status ? <FooterStatus out={false}>{status}</FooterStatus> : null}
       <IconContainer>{iconComponent}</IconContainer>
     </FooterContainer>
   )

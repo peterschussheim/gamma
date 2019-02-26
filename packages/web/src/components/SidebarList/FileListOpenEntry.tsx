@@ -3,6 +3,7 @@ import { jsx, css } from '@emotion/core'
 import * as React from 'react'
 
 import { TextFileEntry } from '../CodeEditor/types'
+import { Icon } from '../Icon'
 
 type Props = {
   entry: TextFileEntry
@@ -72,13 +73,15 @@ export default class FileListOpenEntry extends React.PureComponent<
               background: 'none',
               outline: 0
             },
-            this.state.isHovered ? { opacity: 1 } : { opacity: 0 }
+            this.state.isHovered
+              ? { opacity: 1, color: 'white' }
+              : { opacity: 0 }
           ])}
         >
           ×
         </button>
         <div onClick={this.props.onOpen}>
-          {/* <FileListEntryIcon entry={entry} /> */}
+          <Icon filename={entry} />
           <span
             css={css({
               display: 'inline-block',

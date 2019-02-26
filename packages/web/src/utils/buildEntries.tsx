@@ -3,6 +3,10 @@ import {
   Gist,
   FileSystemEntry
 } from '../components/CodeEditor/types'
+import {
+  GetGistById_getGistById,
+  UpdateGist_updateGist
+} from '../__generated__/types'
 
 export const INITIAL_DESCRIPTION: string = 'Change me!'
 export const INITIAL_DEPENDENCIES = { react: { version: '16.3.1' } }
@@ -29,20 +33,25 @@ export const buildEntriesFromDefaultCode = (
   return fileSystemArray
 }
 
-export const buildEntriesFromGist = (gist: Gist): FileSystemEntry[] => {
+export const buildEntriesFromGist = (
+  gist: GetGistById_getGistById | UpdateGist_updateGist
+): FileSystemEntry[] => {
   const fileSystemArray = []
-  // if param `gist` has a length of 0, we need to create data for a new gist
-  if (gist.files.length > 0) {
+  // tslint:disable-next-line:max-line-length
+  // if param `GetGistById` has a length of 0, we need to create data for a new gist
+  if (gist && gist.files && gist.files.length > 0) {
     gist.files.forEach(file => {
       fileSystemArray.push({
         item: {
-          gistId: gist.gistId,
           path: file.filename,
           content: file.content,
-          gistDescription: gist.description,
           type: 'file'
         },
-        state: {}
+        state: {
+          isOpen: false,
+          isSelected: false,
+          isFocused: false
+        }
       })
     })
     return fileSystemArray

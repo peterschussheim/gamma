@@ -19,37 +19,35 @@ export default function FileListPane({
   onClick
 }: Props) {
   return (
-    <div
-      css={css({ display: 'flex', flexDirection: 'column', margin: '8px 0' })}
-    >
+    <div css={{ display: 'flex', flexDirection: 'column', margin: '8px 0' }}>
       <div
-        css={css({
+        css={{
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
           padding: '0 4px'
-        })}
+        }}
       >
         <div
-          css={css({
+          css={{
             flex: 1,
             display: 'flex',
             flexDirection: 'row',
             padding: '8px 4px',
             cursor: 'pointer'
-          })}
+          }}
           onClick={onClick}
           data-test-id={`file-list-pane-${title
             .toLowerCase()
             .replace(/[^a-z]/g, '-')}`}
         >
           <svg
-            css={css([
+            css={[
               { margin: '1px 6px 1px 2px', opacity: 0.7 },
               expanded
                 ? { transform: 'rotate(0deg)' }
                 : { transform: 'rotate(180deg)' }
-            ])}
+            ]}
             width="12px"
             height="12px"
             viewBox="0 0 12 12"
@@ -71,22 +69,23 @@ export default function FileListPane({
             </g>
           </svg>
           <h4
-            css={css({
+            css={{
               fontSize: '1em',
+              color: 'white',
               fontWeight: 500,
               lineHeight: 1,
               margin: 0
-            })}
+            }}
           >
             {title}
           </h4>
         </div>
         <div
-          css={css({
+          css={{
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center'
-          })}
+          }}
         >
           {buttons}
         </div>

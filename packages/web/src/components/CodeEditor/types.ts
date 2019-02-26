@@ -13,6 +13,7 @@ export interface Gist {
 }
 
 export type SaveStatus =
+  | 'no-changes'
   | 'changed'
   | 'saving-draft'
   | 'saved-draft'

@@ -38,5 +38,6 @@ const leftPanel = css`
 const rightPanel = css`
   display: flex;
   flex-direction: column;
+  min-height: 100%;
   flex: 3;
 `

@@ -8,6 +8,7 @@ import { isInsideFolder } from '../../utils/fileUtilities'
 import { FileSystemEntry } from '../CodeEditor/types'
 
 type Props = {
+  dirty: boolean
   parent: string
   entries: FileSystemEntry[]
   onOpen: (path: string) => void
@@ -31,6 +32,7 @@ export default class FileListChildren extends React.PureComponent<Props> {
 
   render() {
     const {
+      dirty,
       entries,
       onCreateFile,
       onFocus,
@@ -41,6 +43,7 @@ export default class FileListChildren extends React.PureComponent<Props> {
       onDelete
     } = this.props
 
+    // const dirty =
     return (
       <div
         css={css({
@@ -68,6 +71,7 @@ export default class FileListChildren extends React.PureComponent<Props> {
           })
           .map(e => (
             <FileListEntry
+              dirty={dirty}
               key={e.item.path}
               entry={e}
               rest={entries.filter(en =>

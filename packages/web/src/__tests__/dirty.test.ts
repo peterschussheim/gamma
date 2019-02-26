@@ -1,5 +1,5 @@
 // tslint:disable:max-line-length
-import { isFileDirty } from '../utils/isGistDirty'
+import { isFileDirty } from '../utils/isFileDirty'
 
 const changedData = [
   {

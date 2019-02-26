@@ -11,7 +11,7 @@ interface Props {
 const GistList: React.FC<Props> = ({ data }) => {
   // @ts-ignore
   if (data && data.loading) {
-    return <div>loading</div>
+    return null
   }
 
   // @ts-ignore

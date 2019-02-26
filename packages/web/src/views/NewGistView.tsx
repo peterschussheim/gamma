@@ -4,14 +4,14 @@ import { match } from 'react-router'
 import { UserBtnsContainer, DefaultButton } from '../components/Buttons'
 import Skeleton from '../components/Skeleton'
 import GistFilesList from '../components/SidebarList/GistFilesList'
-import CodeEditor from '../components/CodeEditor'
+import MonacoEditor from '../components/CodeEditor/Monaco'
 import Footer from '../components/Footer'
 import { Icon } from '../components/Icon'
 import { Debugger } from '../components/Debugger'
 import { EditorContext } from '../components/CodeEditor/EditorProvider'
 import { buildEntriesFromGist } from '../utils/buildEntries'
 
-import { isFileDirty } from '../utils/isGistDirty'
+import { isFileDirty } from '../utils/isFileDirty'
 
 interface NewGistViewState {
   gistId: string
@@ -123,7 +123,7 @@ export default class NewGistView extends React.Component<
             />
           }
           editor={
-            <CodeEditor
+            <MonacoEditor
               onOpenPath={path => this.handleOpenPath(path)}
               onValueChange={v => this.handleValueChange(v)}
               path={context.values.currentFilename}

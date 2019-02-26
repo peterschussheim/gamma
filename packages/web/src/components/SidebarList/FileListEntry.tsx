@@ -1,14 +1,21 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core'
 import * as React from 'react'
-
+import isEqual from 'react-fast-compare'
 import FileListEntryBase from './FileListEntryBase'
 import FileListChildren from './FileListChildren'
+
 import { isEntryPoint } from '../../utils/fileUtilities'
 import { FileSystemEntry } from '../CodeEditor/types'
-// import EditIcons from '../EditIcons'
+import { Action } from '../ContextMenu'
+import { KeyMap } from '../Keybindings'
+import { DirtyIndicator } from './DirtyIndicator'
+
+const pick = (obj, arr) =>
+  arr.reduce((acc, curr) => (curr in obj && (acc[curr] = obj[curr]), acc), {})
 
 type Props = {
+  dirty: boolean
   entry: FileSystemEntry
   rest: FileSystemEntry[]
   onOpen: (path: string) => void
@@ -22,6 +29,7 @@ type Props = {
 }
 
 type State = {
+  initialValue: FileSystemEntry | {}
   name: string
   error: Error | null
   isRenaming: boolean
@@ -34,6 +42,7 @@ export default class FileListEntry extends React.Component<Props, State> {
     const { entry } = props
 
     this.state = {
+      initialValue: entry.item || {},
       name: entry.state.isCreating
         ? entry.item.path.split('/').pop() || ''
         : '',
@@ -157,9 +166,51 @@ export default class FileListEntry extends React.Component<Props, State> {
     })
   }
 
+  handleInputKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    switch (e.keyCode) {
+      case KeyMap.Enter:
+        this.handleToggleRename()
+        break
+      case KeyMap.Escape:
+        this.handleInputBlur()
+        break
+    }
+  }
+
+  getActions = (): Array<Action | undefined> => [
+    {
+      label: 'New file',
+      handler: this.handleCreateFile
+    },
+
+    ...(!isEntryPoint(this.props.entry.item.path) &&
+    !this.props.entry.item.virtual
+      ? [
+          {
+            label: 'Rename',
+            handler: this.handleToggleRename,
+            combo: [KeyMap.F2]
+          },
+          {
+            label: 'Delete',
+            handler: this.handleDelete,
+            combo: [KeyMap.Delete]
+          }
+        ]
+      : [])
+  ]
+
   handleCreateFile = () => this.props.onCreateFile(this.props.entry.item.path)
 
+  getComputedProps = () => {
+    const dirty = !isEqual(this.state.initialValue, this.props.entry.item)
+    return {
+      dirty
+    }
+  }
+
   renderItem = () => {
+    const { dirty } = this.getComputedProps()
     const { entry } = this.props
     const { isRenaming, name } = this.state
     const displayName = isRenaming ? '\u00A0' : entry.item.path.split('/').pop()
@@ -168,7 +219,7 @@ export default class FileListEntry extends React.Component<Props, State> {
       <div>
         {this.state.error ? (
           <div
-            css={css({
+            css={{
               backgroundColor: 'red',
               color: '#fff',
               padding: '4px 8px',
@@ -176,20 +227,20 @@ export default class FileListEntry extends React.Component<Props, State> {
               marginTop: -32,
               marginLeft: 20,
               borderRadius: 3
-            })}
+            }}
           >
             {this.state.error.message}
           </div>
         ) : null}
-        {/* <EditIcons onDelete={this.handleDelete} entry={entry} /> */}
         <span
-          css={css({
+          css={{
             verticalAlign: -1,
             margin: '0 6px',
             userSelect: 'none'
-          })}
+          }}
         >
           {displayName}
+          <DirtyIndicator isDirty={dirty} />
         </span>
         {isRenaming ? (
           <input
@@ -199,23 +250,30 @@ export default class FileListEntry extends React.Component<Props, State> {
             onChange={this.handleInputChange}
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}
-            css={css({
+            onKeyUp={this.handleInputKeyUp}
+            css={{
+              color: 'black',
               position: 'absolute',
               top: 0,
               left: 35,
-              height: 28,
               margin: 1,
               border: 0,
-              background: 'rgba(0, 0, 0, .08)',
               outline: 0,
               paddingLeft: 2
-            })}
+            }}
           />
         ) : null}
       </div>
     )
   }
 
+  /**
+   * NOTE: `renderTree` is not in use at the moment.
+   *
+   * Ideally, we could refactor the other components so this could also handle
+   * displaying a root view of the user's gists, where each gist is equivalent
+   * to a folder. allowing the user to work using an interactive tree.
+   */
   renderTree = () => {
     const {
       entry,
@@ -249,10 +307,20 @@ export default class FileListEntry extends React.Component<Props, State> {
   }
 
   render() {
-    const { entry, rest, onOpen, onFocus, onRename, onExpand } = this.props
+    const {
+      entry,
+      dirty,
+      rest,
+      onOpen,
+      onFocus,
+      onRename,
+      onExpand
+    } = this.props
 
     return (
       <FileListEntryBase
+        dirty={dirty}
+        actions={this.getActions()}
         entry={entry}
         rest={rest}
         onOpen={onOpen}

@@ -11,8 +11,6 @@ import GistList from '../components/SidebarList/GistList'
 import { Icon } from '../components/Icon'
 import { UserBtnsContainer, BlueButton } from '../components/Buttons'
 import { NewGist } from '../components/NewGist'
-import CodeEditor from '../components/CodeEditor'
-import { Debugger } from '../components/Debugger'
 
 import { EditorContext } from '../components/CodeEditor/EditorProvider'
 
@@ -151,41 +149,8 @@ export default class EditorView extends React.Component<
         </UserBtnsContainer>
         <Skeleton
           sidebar={<GistList data={this.props.data} />}
-          editor={
-            entry && entry.item.type === 'file' ? (
-              <CodeEditor
-                onValueChange={this.props.onChangeCode}
-                onOpenPath={this.handleOpenPath}
-                dependencies={this.props.dependencies}
-                entries={entries && entries}
-                annotations={annotations}
-                path={entry && entry.item.path}
-                value={
-                  entry && entry.item.type === 'file' && entry.item.content
-                }
-                options={{
-                  fontSize: 12,
-                  automaticLayout: true,
-                  colorDecorators: true
-                }}
-              />
-            ) : (
-              <NoFileSelected />
-            )
-          }
-          footer={
-            <Footer
-              currentFile={entry && entry.item.path}
-              iconComponent={
-                <Icon height={17} filename={entry && entry.item.path} />
-              }
-            />
-          }
-        />
-        <Debugger
-          componentName="EditorView"
-          context={context}
-          props={this.props}
+          editor={<NoFileSelected />}
+          footer={<Footer />}
         />
       </React.Fragment>
     )

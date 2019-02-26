@@ -1,5 +1,4 @@
-import { isEntryPoint } from './fileUtilities'
-import { FileSystemEntry, Gist } from '../components/CodeEditor/types'
+import { FileSystemEntry } from '../components/CodeEditor/types'
 
 const getFolders = (path: string): string[] => {
   const pathSegments = path.split('/')
@@ -71,6 +70,7 @@ const getFolders = (path: string): string[] => {
 //   return fileSystem
 // }
 
+type Files = Array<{ filename: string; content: string }>
 /**
  *
  * Used to transform `Array<FileSystemEntry>` back into an object that our
@@ -78,17 +78,15 @@ const getFolders = (path: string): string[] => {
  *
  * Use to send an update/create payload to our gql server.
  */
-// export const entryArrayToGist = (entryArray: Array<FileSystemEntry>) => {
-//   const gist = {}
-//   for (const { item } of entryArray) {
-//     if (item.type === 'file') {
-
-//         gist[item.path] = {
-//           contents: item.content,
-//           type: 'CODE'
-//         }
-
-//     }
-//   }
-//   return gist
-// }
+export const entryArrayToGist = (entryArray: FileSystemEntry[]): Files => {
+  const files = []
+  for (const { item } of entryArray) {
+    if (item.type === 'file') {
+      files.push({
+        filename: item.path,
+        content: item.content
+      })
+    }
+  }
+  return files
+}

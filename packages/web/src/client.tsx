@@ -8,7 +8,7 @@ import ApolloClient from 'apollo-client'
 import { ApolloLink } from 'apollo-link'
 import { EditorProvider } from './components/CodeEditor/EditorProvider'
 import Router from './Router'
-
+import './styles.css'
 const links = [errorLink, requestLink]
 
 const client = new ApolloClient({

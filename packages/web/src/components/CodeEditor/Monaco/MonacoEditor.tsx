@@ -5,6 +5,8 @@ import * as React from 'react'
 
 export type BuiltinTheme = 'vs' | 'vs-dark' | 'hc-black'
 import { monaco as monacoEditor } from '../../../typings/monaco-editor'
+import { debounce } from 'lodash'
+import ResizeDetector from '../../ResizeDetector'
 
 export const findModel = (path: string) =>
   monaco.editor
@@ -139,6 +141,7 @@ export default class MonacoEditorComponent extends React.PureComponent<
   }
 
   componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize)
     this.destroyMonaco()
   }
 
@@ -152,25 +155,32 @@ export default class MonacoEditorComponent extends React.PureComponent<
     this.containerElement = component
   }
 
+  handleResize = debounce(() => this.editor && this.editor.layout(), 100, {
+    leading: true,
+    trailing: true
+  })
+
   render() {
     const { width, height } = this.props
-    const fixedWidth =
-      width.toString().indexOf('%') !== -1 ? width : `${width}px`
-    const fixedHeight =
-      height.toString().indexOf('%') !== -1 ? height : `${height}px`
-    const style: React.CSSProperties = {
-      width: fixedWidth,
-      height: fixedHeight,
-      overflow: 'hidden'
-      // position: 'absolute'
-    }
+    // const fixedWidth =
+    //   width.toString().indexOf('%') !== -1 ? width : `${width}px`
+    // const fixedHeight =
+    //   height.toString().indexOf('%') !== -1 ? height : `${height}px`
+    // const style: React.CSSProperties = {
+    //   width: fixedWidth,
+    //   height: fixedHeight,
+    //   overflow: 'hidden'
+    //   // position: 'absolute'
+    // }
 
     return (
-      <div
-        ref={this.assignRef}
-        style={style}
-        className="react-monaco-editor-container"
-      />
+      <ResizeDetector onResize={this.handleResize}>
+        <div
+          ref={this.assignRef}
+          style={{ width, height }}
+          className="react-monaco-editor-container"
+        />
+      </ResizeDetector>
     )
   }
 }
