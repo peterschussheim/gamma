@@ -35,7 +35,7 @@ export const buildEntriesFromDefaultCode = (
 
 export const buildEntriesFromGist = (
   gist: GetGistById_getGistById | UpdateGist_updateGist
-): FileSystemEntry[] => {
+): TextFileEntry[] => {
   const fileSystemArray = []
   // tslint:disable-next-line:max-line-length
   // if param `GetGistById` has a length of 0, we need to create data for a new gist

@@ -1,3 +1,5 @@
+// tslint:disable: max-line-length
+
 const debug = require('debug')('web:renderer:middleware')
 import * as React from 'react'
 
@@ -28,15 +30,16 @@ const renderer = (req, res) => {
   debug(`server-side rendering path: ${util.inspect(req.url)}`)
   debug(`Rendering service querying API at ${API_URI}`)
 
+  // tslint:disable-next-line: prefer-const
   let context = {}
 
   const cookies = req.cookies
-  debug(cookies)
 
   const links = [errorLink, requestLink]
   const client = new ApolloClient({
     ssrMode: true,
     link: ApolloLink.from(links),
+    // @ts-ignore
     cache: window.__DATA__ ? cache.restore(window.__DATA__) : cache
   })
 
@@ -44,12 +47,7 @@ const renderer = (req, res) => {
     <ApolloProvider client={client}>
       <StaticRouter location={req.url} context={context}>
         <EditorProvider>
-          <Router
-            cookie={cookies}
-            data={{ type: 'success' }}
-            location={req.url}
-            currentUser={req.user}
-          />
+          <Router location={req.url} currentUser={req.user} />
         </EditorProvider>
       </StaticRouter>
     </ApolloProvider>
@@ -71,7 +69,9 @@ const renderer = (req, res) => {
         </ApolloProvider>
       )
       const helmet = Helmet.renderStatic()
+      // @ts-ignore
       if (context.url) {
+        // @ts-ignore
         res.redirect(context.url)
       } else {
         res.status(200).send(

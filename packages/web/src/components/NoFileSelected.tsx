@@ -1,12 +1,13 @@
 /** @jsx jsx */
-import { jsx, css } from '@emotion/core'
+import { jsx } from '@emotion/core'
+import { css } from 'emotion'
 import * as React from 'react'
 
 export default class NoFileSelected extends React.PureComponent {
   render() {
     return (
       <div
-        css={css({
+        className={css({
           backgroundColor: '#0E2840',
           flex: 1,
           display: 'flex',
@@ -15,7 +16,7 @@ export default class NoFileSelected extends React.PureComponent {
         })}
       >
         <h4
-          css={css({
+          className={css({
             color: '#89A5DB',
             fontSize: '1.5em',
             fontWeight: 500,

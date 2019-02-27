@@ -9,13 +9,13 @@ import {
 
 const Footer: React.FunctionComponent<{
   status?: string
-  currentFile: string
-  iconComponent: React.ReactNode
+  currentFile?: string
+  iconComponent?: React.ReactNode
 }> = ({ status, currentFile, iconComponent }) => {
   return (
     <FooterContainer>
       <FooterItem>{currentFile}</FooterItem>
-      {status ? <FooterStatus out={false}>{status}</FooterStatus> : null}
+      {status ? <FooterStatus>{status}</FooterStatus> : null}
       <IconContainer>{iconComponent}</IconContainer>
     </FooterContainer>
   )

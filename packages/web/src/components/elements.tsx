@@ -1,5 +1,5 @@
-import * as React from 'react'
-
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core'
 import styled from '@emotion/styled'
 
 const Fullscreen = styled.div`

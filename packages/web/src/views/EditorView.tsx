@@ -29,7 +29,7 @@ interface MatchParams {
   gistId: string
 }
 
-interface EditorViewProps extends RouteComponentProps<MatchParams> {
+interface EditorViewProps {
   // handleOpenPath: (path: string) => void
   // handleValueChange?: (value: string) => void
   onFileEntriesChange: (entries: FileSystemEntry[]) => Promise<void>
@@ -44,6 +44,8 @@ interface EditorViewProps extends RouteComponentProps<MatchParams> {
   children?: React.ReactNode
   options?: any
   modelOptions?: any
+  data?: any
+  history?: any
 }
 
 interface EditorViewState {

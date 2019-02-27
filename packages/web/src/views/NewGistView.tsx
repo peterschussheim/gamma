@@ -86,7 +86,7 @@ export default class NewGistView extends React.Component<
     const context = this.context
     const { history } = this.props
     const data = { ...this.state }
-
+    // @ts-ignore
     const entries = buildEntriesFromGist(data)
     const isGistDirty = data.files
       .map(file => {
@@ -114,6 +114,7 @@ export default class NewGistView extends React.Component<
         </UserBtnsContainer>
         <Skeleton
           sidebar={
+            // @ts-ignore
             <GistFilesList
               onDescriptionChange={this.handleDescriptionChange}
               onFilenameChange={this.handleFilenameChange}

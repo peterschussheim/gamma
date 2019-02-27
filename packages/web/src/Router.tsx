@@ -24,17 +24,25 @@ import {
   TextFileEntry,
   SaveStatus
 } from './components/CodeEditor/types'
-import { debounce } from 'lodash'
 import { entryArrayToGist } from './utils/convertFileStructure'
 import { buildEntriesFromGist } from './utils/buildEntries'
 
-const EditorViewWithData = graphql(VIEWER_GISTS, {
+// TODO: remove any
+const EditorViewWithData: any = graphql(VIEWER_GISTS, {
   options: () => ({
     notifyOnNetworkStatusChange: true,
     fetchPolicy: 'network-only',
     ssr: true
   })
 })(EditorView)
+
+type Props = {
+  data?: any
+  url?: string
+  location?: any
+  cookie?: any
+  currentUser?: any
+}
 
 type State = {
   fileEntries: FileSystemEntry[]
@@ -50,9 +58,9 @@ const initialState: State = {
   saveStatus: 'no-changes'
 }
 
-export default class Router extends React.Component<null, State> {
+export default class Router extends React.Component<Props, State> {
   static contextType = EditorContext
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
     this.state = initialState
   }
@@ -107,6 +115,7 @@ export default class Router extends React.Component<null, State> {
   ): Promise<void> => {
     return new Promise(resolve =>
       this.setState(state => {
+        // tslint:disable-next-line: prefer-const
         let fileEntries = nextFileEntries.map(entry => entry)
 
         return { fileEntries }
