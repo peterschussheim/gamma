@@ -4,8 +4,6 @@ jobs:
     docker:
       - image: circleci/node:10
     working_directory: ~/gamma
-    environment:
-      CI: false
     steps:
       - checkout
       - restore_cache:
@@ -25,9 +23,8 @@ jobs:
           name: Build 'web'
           command: CI=false yarn build:web
       - save_cache:
-          key: source-code-v3-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
+          key: source-code-v4-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
           paths:
-            - .git
             - gamma
       - persist_to_workspace:
           root: ~/
@@ -45,7 +42,7 @@ jobs:
       - restore_cache:
           keys: 
             - dependency-cache-v3-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
-            - source-code-v3-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
+            - source-code-v4-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Lint
           command: yarn lint
@@ -62,7 +59,7 @@ jobs:
       - restore_cache:
           keys:
             - dependency-cache-v3-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
-            - source-code-v3-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
+            - source-code-v4-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Verify Cypress is installed
           command: yarn cy:verify
@@ -90,7 +87,7 @@ jobs:
       - attach_workspace:
             at: ~/
       - restore_cache:
-          key: source-code-v3-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
+          key: source-code-v4-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Build api
           command: yarn build:api
