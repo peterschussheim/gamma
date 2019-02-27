@@ -1,22 +1,17 @@
 const makeLoaderFinder = require('gamma-core/dev-utils/makeLoaderFinder')
 const WorkerPlugin = require('worker-plugin')
 
-const { createEmotionPlugin } = require('emotion-ts-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 const babelLoaderFinder = makeLoaderFinder('babel-loader')
-const tsLoaderFinder = makeLoaderFinder('ts-loader')
 const eslintLoaderFinder = makeLoaderFinder('eslint-loader')
 
 const defaultOptions = {
   useBabel: true,
-  useEslint: true,
+  useEslint: false,
   tsLoader: {
     transpileOnly: true,
-    experimentalWatchApi: true,
-    getCustomTransformers: () => ({
-      before: [createEmotionPlugin()]
-    })
+    experimentalWatchApi: true
   },
   forkTsChecker: {
     tsconfig: './tsconfig.json',

@@ -1,5 +1,6 @@
 {
   "extends": ["tslint:latest", "tslint-eslint-rules", "tslint-config-prettier"],
+  "defaultSeverity": "off",
   "rules": {
     "max-line-length": {
       "options": [80]
@@ -8,6 +9,7 @@
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "no-var-requires": false,
+    "no-implicit-dependencies": false,
     "member-ordering": false,
     "no-bitwise": false,
     "only-arrow-functions": false,

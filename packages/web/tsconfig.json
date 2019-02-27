@@ -3,6 +3,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
+    "checkJs": false,
     "downlevelIteration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -20,11 +21,11 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "strict": true,
+    "strict": false,
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
     "target": "esnext",
-    "types": ["jest", "node", "webpack-env"]
+    "types": ["@emotion/core", "jest", "node", "webpack-env"]
   },
   "include": ["./src/**/*", "./monaco.d.ts"],
   "exclude": [
