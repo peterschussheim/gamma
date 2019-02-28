@@ -85,6 +85,9 @@ jobs:
       - attach_workspace:
             at: ~/
       - run:
+          name: Install dependencies
+          command: yarn
+      - run:
           name: Build api
           command: yarn build:api
       - run:
