@@ -24,19 +24,19 @@ jobs:
       # - run:
       #     name: Build 'web'
       #     command: CI=false yarn build:web
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - gamma
-            - .cache/Cypress
+      # - persist_to_workspace:
+      #     root: ~/
+      #     paths:
+      #       - gamma
+      #       - .cache/Cypress
 
   lint:
     docker:
       - image: circleci/node:10
     working_directory: ~/gamma
     steps:
-      - attach_workspace:
-          at: ~/
+      # - attach_workspace:
+      #     at: ~/
       - restore_cache:
           keys: 
             - dependency-cache-v4-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
@@ -52,8 +52,8 @@ jobs:
     working_directory: ~/gamma
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/
+      # - attach_workspace:
+      #     at: ~/
       - restore_cache:
           keys:
             - dependency-cache-v4-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
@@ -82,8 +82,8 @@ jobs:
       CI: false
     steps:
       - checkout
-      - attach_workspace:
-            at: ~/
+      # - attach_workspace:
+      #       at: ~/
       - run:
           name: Install dependencies
           command: yarn
@@ -265,13 +265,13 @@ workflows:
       #     filters:
       #       branches:
       #         ignore: master
-      - test-e2e:
-          requires:
-            - build-dependencies
-            # - lint
-          filters:
-            branches:
-              ignore: master
+      # - test-e2e:
+      #     requires:
+      #       - build-dependencies
+      #       # - lint
+      #     filters:
+      #       branches:
+      #         ignore: master
       - build-prod:
           # requires:
           #   - test-e2e
@@ -279,8 +279,8 @@ workflows:
             branches:
               ignore: master
       - prepare-pr-deployment-images:
-          requires:
-            - build-prod
+          # requires:
+          #   - build-prod
           filters:
             branches:
               ignore: master
