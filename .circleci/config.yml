@@ -255,6 +255,7 @@ jobs:
             now -t $NOW_TOKEN -A now.api.json && now -t $NOW_TOKEN -A now.api.json alias
 
 workflows:
+  version: 2
   build-test-push-deploy-pr:
     jobs:
       - build-dependencies:
