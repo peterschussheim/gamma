@@ -10,12 +10,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - dependency-cache-v3-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
+            - dependency-cache-v4-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
       - run:
           name: Install Dependencies
           command: yarn install --frozen-lockfile
       - save_cache:
-          key: dependency-cache-v3-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
+          key: dependency-cache-v4-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
           paths:
             - ~/.cache
       # - run:
@@ -39,7 +39,7 @@ jobs:
           at: ~/
       - restore_cache:
           keys: 
-            - dependency-cache-v3-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
+            - dependency-cache-v4-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
       - run:
           name: Lint
           command: yarn lint
@@ -56,12 +56,12 @@ jobs:
           at: ~/
       - restore_cache:
           keys:
-            - dependency-cache-v3-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
+            - dependency-cache-v4-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
       - run:
           name: Verify Cypress is installed
           command: yarn cy:verify
       - save_cache:
-          key: dependency-cache-v3-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
+          key: dependency-cache-v4-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
           paths:
             - ~/.cache
       - run:
