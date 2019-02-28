@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "dotenv": "6.0.0",
+    "helmet": "3.15.1",
+    "hpp": "0.2.2",
     "raven": "2.6.3",
     "raven-js": "3.26.4"
   }
