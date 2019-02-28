@@ -250,20 +250,20 @@ workflows:
   version: 2
   build-test-push-deploy-pr:
     jobs:
-      # - build-dependencies:
-      #     filters:
-      #       branches:
-      #         ignore: master
-      # - lint:
-      #     requires:
-      #       - build-dependencies
-      #     filters:
-      #       branches:
-      #         ignore: master
+      - build-dependencies:
+          filters:
+            branches:
+              ignore: master
+      - lint:
+          requires:
+            - build-dependencies
+          filters:
+            branches:
+              ignore: master
       - test-e2e:
-          # requires:
-          #   - build-dependencies
-          #   - lint
+          requires:
+            - build-dependencies
+            - lint
           filters:
             branches:
               ignore: master
