@@ -262,16 +262,16 @@ workflows:
           filters:
             branches:
               ignore: master
-      - lint:
-          requires:
-            - build-dependencies
-          filters:
-            branches:
-              ignore: master
+      # - lint:
+      #     requires:
+      #       - build-dependencies
+      #     filters:
+      #       branches:
+      #         ignore: master
       - test-e2e:
           requires:
             - build-dependencies
-            - lint
+            # - lint
           filters:
             branches:
               ignore: master
@@ -300,16 +300,16 @@ workflows:
           filters:
             branches:
               only: master
-      - lint:
-          requires:
-            - build-dependencies
-          filters:
-            branches:
-              only: master
+      # - lint:
+      #     requires:
+      #       - build-dependencies
+      #     filters:
+      #       branches:
+      #         only: master
       - test-e2e:
           requires:
             - build-dependencies
-            - lint
+            # - lint
           filters:
             branches:
               only: master
