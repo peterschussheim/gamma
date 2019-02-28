@@ -27,7 +27,7 @@
     "target": "esnext",
     "types": ["@emotion/core", "jest", "node", "webpack-env"]
   },
-  "include": ["./src/**/*", "./monaco.d.ts"],
+  "include": ["src/**/*", "./monaco.d.ts"],
   "exclude": [
     "node_modules",
     "build",
