@@ -7,7 +7,7 @@ const babelLoaderFinder = makeLoaderFinder('babel-loader')
 const eslintLoaderFinder = makeLoaderFinder('eslint-loader')
 
 const defaultOptions = {
-  useBabel: true,
+  useBabel: false,
   useEslint: false,
   tsLoader: {
     transpileOnly: true,
