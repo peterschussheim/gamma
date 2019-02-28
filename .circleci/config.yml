@@ -18,12 +18,12 @@ jobs:
           key: dependency-cache-v3-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
           paths:
             - ~/.cache
-      - run:
-          name: Build 'api'
-          command: yarn build:api
-      - run:
-          name: Build 'web'
-          command: CI=false yarn build:web
+      # - run:
+      #     name: Build 'api'
+      #     command: yarn build:api
+      # - run:
+      #     name: Build 'web'
+      #     command: CI=false yarn build:web
       - persist_to_workspace:
           root: ~/
           paths:
@@ -254,16 +254,16 @@ workflows:
           filters:
             branches:
               ignore: master
-      - lint:
-          requires:
-            - build-dependencies
-          filters:
-            branches:
-              ignore: master
+      # - lint:
+      #     requires:
+      #       - build-dependencies
+      #     filters:
+      #       branches:
+      #         ignore: master
       - test-e2e:
           requires:
             - build-dependencies
-            - lint
+            # - lint
           filters:
             branches:
               ignore: master
