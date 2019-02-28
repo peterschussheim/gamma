@@ -273,14 +273,15 @@ workflows:
       #       branches:
       #         ignore: master
       - build-prod:
-          # requires:
+          requires:
+            - build-dependencies
           #   - test-e2e
           filters:
             branches:
               ignore: master
       - prepare-pr-deployment-images:
-          # requires:
-          #   - build-prod
+          requires:
+            - build-prod
           filters:
             branches:
               ignore: master
