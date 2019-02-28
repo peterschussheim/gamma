@@ -24,10 +24,6 @@ jobs:
       - run:
           name: Build 'web'
           command: CI=false yarn build:web
-      - save_cache:
-          key: source-code-v4-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - gamma
       - persist_to_workspace:
           root: ~/
           paths:
@@ -44,7 +40,6 @@ jobs:
       - restore_cache:
           keys: 
             - dependency-cache-v3-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
-            - source-code-v4-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Lint
           command: yarn lint
@@ -61,7 +56,6 @@ jobs:
       - restore_cache:
           keys:
             - dependency-cache-v3-{{ .Branch }}-{{ checksum "package.json" }}-{{ .Revision }}
-            - source-code-v4-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Verify Cypress is installed
           command: yarn cy:verify
@@ -88,8 +82,6 @@ jobs:
     steps:
       - attach_workspace:
             at: ~/
-      - restore_cache:
-          key: source-code-v4-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Build api
           command: yarn build:api
