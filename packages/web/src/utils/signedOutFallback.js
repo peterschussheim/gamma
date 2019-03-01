@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import queryString from 'query-string'
 
 // This is the component that determines at render time what to do

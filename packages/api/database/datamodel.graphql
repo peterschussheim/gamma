@@ -50,7 +50,7 @@ type Post {
   id: ID! @unique
   author: User!
   visibility: VISIBILITY @default(value: "PUBLIC")
-  content: File!
+  files: [File!]!
   tags: [Tag!]!
   views: Int
   comments: [Comment!]!
@@ -76,7 +76,7 @@ type File {
   id: ID! @unique
   name: String!
   type: FILE_TYPE! @default(value: "MARKDOWN")
-  data: String! @default(value: "")
+  content: String! @default(value: "")
   parent: Directory
   isDirty: Boolean! @default(value: "false")
   isTransient: Boolean! @default(value: "false")

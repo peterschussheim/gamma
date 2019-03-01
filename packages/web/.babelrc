@@ -1,4 +1,3 @@
 {
-  "presets": ["babel-preset-gamma"],
-  "plugins": ["emotion", "react-loadable/babel"]
+  "presets": ["babel-preset-gamma"]
 }

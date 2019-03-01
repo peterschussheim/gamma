@@ -1,7 +1,7 @@
 const debug = require('debug')('utils:getUserId')
 import * as jwt from 'jsonwebtoken'
 import { Context } from '../gamma'
-var util = require('inspector')
+const util = require('inspector')
 
 /**
  * Gets userId by pulling the authorization header off off the Request object
@@ -48,8 +48,8 @@ export function getUserIdFromSession(ctx: Context): string {
   if (!ctx.req.user) {
     return (ctx.req.user = 'unauthenticated')
   }
-  return ctx.res.status(401)
-  // throw new AuthError(`Could not get userId from session`)
+  // return ctx.res.status(401)
+  throw new AuthError(`Could not get userId from session`)
 }
 
 /**

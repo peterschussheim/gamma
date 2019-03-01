@@ -1,0 +1,32 @@
+{
+  "extends": ["tslint:latest", "tslint-eslint-rules", "tslint-config-prettier"],
+  "defaultSeverity": "off",
+  "rules": {
+    "max-line-length": {
+      "options": [80]
+    },
+    "interface-over-type-literal": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "no-var-requires": false,
+    "no-implicit-dependencies": false,
+    "member-ordering": false,
+    "no-bitwise": false,
+    "only-arrow-functions": false,
+    "no-consecutive-blank-lines": false,
+    "interface-name": false,
+    "no-submodule-imports": false,
+    "max-classes-per-file": false,
+    "no-console": {
+      "severity": "off",
+      "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+    },
+    "jsx-no-lambda": false,
+    "member-access": false
+  },
+  "jsRules": {
+    "max-line-length": {
+      "options": [80]
+    }
+  }
+}

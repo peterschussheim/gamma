@@ -10,12 +10,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v7-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
+            - dependency-cache-v3-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
       - run:
           name: Install Dependencies
           command: yarn install --frozen-lockfile
       - save_cache:
-          key: v7-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
+          key: dependency-cache-v3-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
           paths:
             - ~/.cache
       - run:
@@ -25,7 +25,7 @@ jobs:
           name: Build 'web'
           command: CI=false yarn build:web
       - save_cache:
-          key: v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
+          key: source-code-v3-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
           paths:
             - .git
             - gamma
@@ -44,8 +44,8 @@ jobs:
           at: ~/
       - restore_cache:
           keys: 
-            - v7-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
-            - v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
+            - dependency-cache-v3-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
+            - source-code-v3-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Lint
           command: yarn lint
@@ -61,13 +61,13 @@ jobs:
           at: ~/
       - restore_cache:
           keys:
-            - v7-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
-            - v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
+            - dependency-cache-v3-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
+            - source-code-v3-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Verify Cypress is installed
           command: yarn cy:verify
       - save_cache:
-          key: v7-dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
+          key: dependency-cache-v3-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ .Revision }}
           paths:
             - ~/.cache
       - run:
@@ -90,7 +90,7 @@ jobs:
       - attach_workspace:
             at: ~/
       - restore_cache:
-          key: v1-source-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
+          key: source-code-v3-{{ .Environment.CIRCLE_SHA1 }}-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Build api
           command: yarn build:api
@@ -98,7 +98,7 @@ jobs:
           name: Build web
           command: yarn build:web
       - save_cache:
-          key: v1-prod-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}-{{ .Revision }}
+          key: v2-prod-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}-{{ .Revision }}
           paths:
             - ./web
             - ./api
@@ -110,7 +110,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-prod-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}-{{ .Revision }}
+          key: v2-prod-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}-{{ .Revision }}
       - run:
           name: Parameterize ENV variables
           command: |
@@ -189,7 +189,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-prod-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}-{{ .Revision }}
+          key: v2-prod-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}-{{ .Revision }}
       - run:
           name: Parameterize ENV variables
           command: |
@@ -262,16 +262,16 @@ workflows:
           filters:
             branches:
               ignore: master
-      - lint:
-          requires:
-            - build-dependencies
-          filters:
-            branches:
-              ignore: master
+      # - lint:
+      #     requires:
+      #       - build-dependencies
+      #     filters:
+      #       branches:
+      #         ignore: master
       - test-e2e:
           requires:
             - build-dependencies
-            - lint
+            # - lint
           filters:
             branches:
               ignore: master
@@ -300,16 +300,16 @@ workflows:
           filters:
             branches:
               only: master
-      - lint:
-          requires:
-            - build-dependencies
-          filters:
-            branches:
-              only: master
+      # - lint:
+      #     requires:
+      #       - build-dependencies
+      #     filters:
+      #       branches:
+      #         only: master
       - test-e2e:
           requires:
             - build-dependencies
-            - lint
+            # - lint
           filters:
             branches:
               only: master

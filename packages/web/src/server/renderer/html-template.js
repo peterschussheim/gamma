@@ -2,9 +2,8 @@ import serialize from 'serialize-javascript'
 import { runtimeConfig } from '../../isomorphicVariables'
 const debug = require('debug')('ssr:html-template')
 const { inspect } = require('util')
-// debug(`html-template: ${inspect(runtimeConfig, { depth: 5, colors: true })}`)
 
-export default ({ helmet, data, assets, scripts, staticBuild }) => {
+export default ({ helmet, data, assets }) => {
   const header = `<!DOCTYPE html>
     <html>
       <head>
@@ -35,10 +34,6 @@ export default ({ helmet, data, assets, scripts, staticBuild }) => {
         ? `<script src="${assets.client.js}"></script>`
         : `<script src="${assets.client.js}" crossorigin></script>`
     }
-    ${scripts
-      .map(file => `<script src="${staticBuild}${file}"></script>`)
-      .join('\n')}
-      <script>window.main();</script>
       </body>
     </html>`
 

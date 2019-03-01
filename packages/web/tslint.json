@@ -1,0 +1,10 @@
+{
+  "extends": ["tslint:latest", "tslint-react", "../../tslint.json"],
+  "linterOptions": {
+    "exclude": [
+      "src/components/MonacoEditor/vendor/eslint.bundle.js",
+      "src/workers",
+      "src/utils/monkeypatch-babel-eslint.ts"
+    ]
+  }
+}

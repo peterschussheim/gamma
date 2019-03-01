@@ -10,12 +10,12 @@
   "workspaces": {
     "packages": [
       "packages/*"
+    ],
+    "nohoist": [
+      "**/debug",
+      "**/debug/**"
     ]
   },
-  "nohoist": [
-    "**/debug",
-    "**/debug/**"
-  ],
   "engines": {
     "node": ">=10",
     "yarn": ">=1.9.4"
@@ -78,22 +78,24 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "4.0.1",
-    "cypress": "3.1.0",
-    "cypress-testing-library": "2.2.1",
-    "husky": "1.1.2",
-    "is-ci-cli": "1.1.1",
-    "lint-staged": "8.0.3",
-    "precise-commits": "1.0.2",
-    "prettier": "1.14.3",
+    "concurrently": "4.1.0",
+    "cypress": "3.1.2",
+    "cypress-testing-library": "2.3.3",
     "eslint": "^4.1.1",
-    "eslint-config-prettier": "3.1.0",
-    "eslint-plugin-emotion": "10.0.0-beta.6",
+    "eslint-config-prettier": "3.3.0",
     "eslint-plugin-jest": "^21.6.1",
     "eslint-plugin-prettier": "3.0.0",
-    "eslint-plugin-promise": "^3.8.0",
-    "start-server-and-test": "1.7.1",
-    "test-data-bot": "0.6.0"
+    "eslint-plugin-promise": "^4.0.1",
+    "husky": "1.2.0",
+    "is-ci-cli": "1.1.1",
+    "lint-staged": "8.1.0",
+    "precise-commits": "1.0.2",
+    "prettier": "1.15.2",
+    "start-server-and-test": "1.7.11",
+    "test-data-bot": "0.6.0",
+    "tslint": "5.11.0",
+    "tslint-config-prettier": "1.17.0",
+    "tslint-eslint-rules": "5.4.0"
   },
   "husky": {
     "hooks": {
