@@ -1,7 +1,7 @@
 // tslint:disable:no-shadowed-variable
 
 import * as React from 'react'
-// import * as monaco from '@peterschussheim/monaco-editor'
+import * as monaco from '@peterschussheim/monaco-editor'
 
 export type BuiltinTheme = 'vs' | 'vs-dark' | 'hc-black'
 import { monaco as monacoEditor } from '../../../typings/monaco-editor'
