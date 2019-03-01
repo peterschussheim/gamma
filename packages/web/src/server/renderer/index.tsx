@@ -83,6 +83,7 @@ const renderer = (req, res) => {
             <meta name="og:type" content="website">
             <meta name="og:site_name" content="gamma.app">
             ${helmet.title.toString()}
+            <base href="/" />
             ${helmet.meta.toString()}
             ${helmet.link.toString()}
             ${
@@ -91,7 +92,7 @@ const renderer = (req, res) => {
                 : ''
             }
             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/vs/loader.js"></script>
-            <script>
+            <script type="text/javascript">
               require.config({
                 paths: {
                   'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/vs'
@@ -102,6 +103,8 @@ const renderer = (req, res) => {
                   return '/worker-loader-proxy.js';
                 }
               };
+
+              require(["vs/editor/editor.main"], function () {})
             </script>
             <script>
                 !function(e,a,t,n,g,c,o){e.GoogleAnalyticsObject=g,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),o=a.getElementsByTagName(t)[0],c.defer=1,c.src="https://www.google-analytics.com/analytics.js",o.parentNode.insertBefore(c,o)}(window,document,"script",0,"ga"),ga("create","UA-123019519-1","auto"),ga("send","pageview"),ga('set', 'anonymizeIp', true)
