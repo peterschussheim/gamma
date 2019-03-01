@@ -1,7 +1,7 @@
 // tslint:disable:no-shadowed-variable
 
 import * as React from 'react'
-import * as monaco from '@peterschussheim/monaco-editor'
+// import monaco from '@peterschussheim/monaco-editor'
 
 export type BuiltinTheme = 'vs' | 'vs-dark' | 'hc-black'
 import { monaco as monacoEditor } from '../../../typings/monaco-editor'
@@ -115,6 +115,7 @@ export default class MonacoEditorComponent extends React.PureComponent<
       ](this.containerElement, appliedOptions)
 
       if (options.theme) {
+        // TODO: change this to context.monaco
         monaco.editor.setTheme(options.theme)
       }
       // After initializing monaco editor
