@@ -25,7 +25,6 @@ import { cache, errorLink, requestLink } from '../../apollo'
 
 const renderer = (req, res) => {
   const assets = require(process.env.GAMMA_ASSETS_MANIFEST)
-  res.setHeader('Content-Type', 'text/html; charset=utf-8')
 
   debug(`server-side rendering path: ${util.inspect(req.url)}`)
   debug(`Rendering service querying API at ${API_URI}`)
