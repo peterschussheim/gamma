@@ -99,9 +99,13 @@ const renderer = (req, res) => {
               });
               window.MonacoEnvironment = {
                 getWorkerUrl: function (workerId, label) {
-                  return '/worker-loader-proxy.js';
-                }
-              };
+                  return data:text/javascript;charset=utf-8,${encodeURIComponent(`
+                    self.MonacoEnvironment = {
+                      baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/'
+                    };
+                    importScripts('https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/vs/base/worker/workerMain.js');`)};
+              }
+            };
 
               require(["vs/editor/editor.main"], function () {})
             </script>
