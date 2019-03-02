@@ -23,6 +23,12 @@ import { EditorProvider } from '../../components/CodeEditor/EditorProvider'
 import { API_URI } from '../../constants'
 import { cache, errorLink, requestLink } from '../../apollo'
 
+const inlineScript = `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+self.MonacoEnvironment = {
+  baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/'
+};
+importScripts('https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/vs/base/worker/workerMain.js');`)};`
+
 const renderer = (req, res) => {
   const assets = require(process.env.GAMMA_ASSETS_MANIFEST)
 
@@ -91,7 +97,7 @@ const renderer = (req, res) => {
                 : ''
             }
             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/vs/loader.js"></script>
-            <script type="text/javascript">
+            <script>
               require.config({
                 paths: {
                   'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/vs'
@@ -99,11 +105,7 @@ const renderer = (req, res) => {
               });
               window.MonacoEnvironment = {
                 getWorkerUrl: function (workerId, label) {
-                  return data:text/javascript;charset=utf-8,${encodeURIComponent(`
-                    self.MonacoEnvironment = {
-                      baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/'
-                    };
-                    importScripts('https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/vs/base/worker/workerMain.js');`)};
+                  return ${serialize(inlineScript)}
               }
             };
 
