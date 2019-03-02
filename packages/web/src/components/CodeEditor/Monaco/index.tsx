@@ -319,6 +319,11 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
     this.editor = editor
     this.monaco = monaco
 
+    window.CodeEditor = {
+      editor: this.editor,
+      monaco: this.monaco
+    }
+
     const compilerOptions = {
       allowJs: true,
       allowSyntheticDefaultImports: true,

@@ -23,9 +23,14 @@ import { EditorProvider } from '../../components/CodeEditor/EditorProvider'
 import { API_URI } from '../../constants'
 import { cache, errorLink, requestLink } from '../../apollo'
 
+const inlineScript = `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+self.MonacoEnvironment = {
+  baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/'
+};
+importScripts('https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.6/min/vs/base/worker/workerMain.js');`)};`
+
 const renderer = (req, res) => {
   const assets = require(process.env.GAMMA_ASSETS_MANIFEST)
-  res.setHeader('Content-Type', 'text/html; charset=utf-8')
 
   debug(`server-side rendering path: ${util.inspect(req.url)}`)
   debug(`Rendering service querying API at ${API_URI}`)
@@ -83,6 +88,7 @@ const renderer = (req, res) => {
             <meta name="og:type" content="website">
             <meta name="og:site_name" content="gamma.app">
             ${helmet.title.toString()}
+            <base href="/" />
             ${helmet.meta.toString()}
             ${helmet.link.toString()}
             ${
@@ -99,9 +105,10 @@ const renderer = (req, res) => {
               });
               window.MonacoEnvironment = {
                 getWorkerUrl: function (workerId, label) {
-                  return '/worker-loader-proxy.js';
-                }
-              };
+                  return ${serialize(inlineScript)}
+              }
+            };
+
               require(["vs/editor/editor.main"], function () {})
             </script>
             <script>
