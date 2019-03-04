@@ -71,39 +71,33 @@ export const GreenButton = styled('button')({
   }
 })
 
-export const RedButton: React.FunctionComponent<ButtonProps> = props => (
-  <button
-    css={{
-      maxWidth: '150px',
-      margin: '20px 5px',
-      padding: '6px 12px',
-      backgroundImage: 'linear-gradient(-180deg,var(--red),var(--red) 90%)',
-      borderColor: 'rgba(27,31,35,.2)',
-      borderStyle: 'solid',
-      borderRadius: '0px',
-      backgroundColor: 'var(--red)',
-      fontSize: '12px',
-      fontWeight: '500',
-      background: '#d73a49ab',
-      cursor: 'pointer',
-      color: 'var(--black)',
-      outline: 'none',
-      ':hover': {
-        backgroundColor: 'var(--red)',
-        backgroundPosition: '-.5em',
-        backgroundImage: 'linear-gradient(-180deg,var(--red),var(--red) 90%)',
-        borderColor: 'rgba(27,31,35,.35)',
-        textDecoration: 'none',
-        backgroundRepeat: 'repeat-x'
-      },
-      ':active': {
-        boxShadow: 'inset 0 0.15em 0.3em rgba(27,31,35,.15)'
-      }
-    }}
-  >
-    {props.text}
-  </button>
-)
+export const RedButton = styled('button')({
+  maxWidth: '150px',
+  margin: '20px 5px',
+  padding: '6px 12px',
+  backgroundImage: 'linear-gradient(-180deg,var(--red),var(--red) 90%)',
+  borderColor: 'rgba(27,31,35,.2)',
+  borderStyle: 'solid',
+  borderRadius: '0px',
+  backgroundColor: 'var(--red)',
+  fontSize: '12px',
+  fontWeight: '500',
+  background: '#d73a49ab',
+  cursor: 'pointer',
+  color: 'var(--black)',
+  outline: 'none',
+  ':hover': {
+    backgroundColor: 'var(--red)',
+    backgroundPosition: '-.5em',
+    backgroundImage: 'linear-gradient(-180deg,var(--red),var(--red) 90%)',
+    borderColor: 'rgba(27,31,35,.35)',
+    textDecoration: 'none',
+    backgroundRepeat: 'repeat-x'
+  },
+  ':active': {
+    boxShadow: 'inset 0 0.15em 0.3em rgba(27,31,35,.15)'
+  }
+})
 
 export const DefaultButton = styled('button')({
   // @ts-ignore

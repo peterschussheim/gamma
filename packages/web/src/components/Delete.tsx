@@ -9,13 +9,14 @@ const Delete = props => {
     <Mutation mutation={DELETE_GIST}>
       {(deleteGist, loading, error) => (
         <RedButton
-          text="Delete"
           data-cy="delete-button"
           onClick={async () => {
             await deleteGist({ variables: { gistId: props.gistId } })
             props.history.push('/editor')
           }}
-        />
+        >
+          Delete
+        </RedButton>
       )}
     </Mutation>
   )
