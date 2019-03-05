@@ -18,7 +18,7 @@ import { Global } from '@emotion/core'
 import globalStyles from './components/global'
 import Navbar from './components/Navbar'
 import { EditorContext } from './components/CodeEditor/EditorProvider'
-import { updateEntry, openEntry } from './actions'
+import { updateEntry } from './actions'
 import {
   FileSystemEntry,
   TextFileEntry,
@@ -26,6 +26,7 @@ import {
 } from './components/CodeEditor/types'
 import { entryArrayToGist } from './utils/convertFileStructure'
 import { buildEntriesFromGist } from './utils/buildEntries'
+import ModalEditDescription from './components/Modal/ModalEditDescription'
 
 // TODO: remove any
 const EditorViewWithData: any = graphql(VIEWER_GISTS, {
@@ -49,13 +50,15 @@ type State = {
   gistDescription: string
   gistId: string
   saveStatus: SaveStatus
+  currentModal: null | 'edit-description'
 }
 
 const initialState: State = {
   fileEntries: [],
   gistDescription: '',
   gistId: '',
-  saveStatus: 'no-changes'
+  saveStatus: 'no-changes',
+  currentModal: null
 }
 
 export default class Router extends React.Component<Props, State> {
@@ -138,19 +141,14 @@ export default class Router extends React.Component<Props, State> {
     return convertedFiles
   }
 
-  // TODO: fix cannot read property 'item' undefined
-  handleSaveGistCompleted = (updateGist: any) => {
-    const lastFile = this.findFocusedEntry(this.state.fileEntries)
+  handleSaveGistCompleted = (mutationResponse: any) => {
     this.setState(state => ({
       saveStatus: 'published'
     }))
-    console.log('save Completed event fired', lastFile)
-    const nextFileEntries = buildEntriesFromGist(updateGist)
 
+    const nextFileEntries = buildEntriesFromGist(mutationResponse)
+    // this.handleGistIdChange(updateGist.gistId)
     this.handleFileEntriesChange(nextFileEntries)
-    this.handleFileEntriesChange(
-      openEntry(nextFileEntries, lastFile.item.path, true)
-    )
   }
 
   findFocusedEntry = (entries: FileSystemEntry[]): TextFileEntry | undefined =>
@@ -165,15 +163,36 @@ export default class Router extends React.Component<Props, State> {
     })
   }
 
-  handleGistDescriptionChange = (gistDescription: string) => {
-    this.setState(state => {
+  handleEditDescription = (gistDescription: string) => {
+    this.setState(prevState => {
       return {
-        gistDescription
+        gistDescription,
+        currentModal: null
       }
     })
   }
 
+  handleDismissEditModal = () => {
+    this.setState({ currentModal: null })
+  }
+
+  handleShowDescriptionModal = () => {
+    this.setState({ currentModal: 'edit-description' })
+  }
+
+  handleSaveStatusChange = (nextSaveStatus: SaveStatus) => {
+    this.setState({
+      saveStatus: nextSaveStatus
+    })
+  }
+
   render() {
+    const {
+      currentModal,
+      fileEntries,
+      gistDescription,
+      saveStatus
+    } = this.state
     return (
       <React.Fragment>
         <Global styles={globalStyles} />
@@ -194,7 +213,7 @@ export default class Router extends React.Component<Props, State> {
             path="/g/:gistId"
             render={({ history, match }) => {
               const gistId = match && match.url.split('/')[2]
-              const focusedEntry = this.findFocusedEntry(this.state.fileEntries)
+              const focusedEntry = this.findFocusedEntry(fileEntries)
               return (
                 <Query
                   query={GET_GIST_BY_ID}
@@ -210,27 +229,42 @@ export default class Router extends React.Component<Props, State> {
                     } else {
                       return (
                         data.getGistById && (
-                          <GistByIdView
-                            onChangeCode={this.handleChangeCode}
-                            onFileEntriesChange={this.handleFileEntriesChange}
-                            onChangeGistId={this.handleGistIdChange}
-                            onResetLocalState={this.handleResetLocalState}
-                            onChangeDescription={
-                              this.handleGistDescriptionChange
-                            }
-                            onSaveGistCompleted={this.handleSaveGistCompleted}
-                            getConvertedEntries={
-                              this.handleConvertFilesBeforeSave
-                            }
-                            history={history}
-                            getGistById={data.getGistById}
-                            entries={this.state.fileEntries}
-                            entry={focusedEntry}
-                            path={focusedEntry}
-                            gistId={gistId}
-                            gistDescription={data.getGistById.description}
-                            saveStatus={this.state.saveStatus}
-                          />
+                          <React.Fragment>
+                            <ModalEditDescription
+                              visible={currentModal === 'edit-description'}
+                              action="Save Description"
+                              title="Edit gist description"
+                              description={gistDescription}
+                              onDismiss={this.handleDismissEditModal}
+                              onSave={this.handleEditDescription}
+                            />
+                            <GistByIdView
+                              onChangeCode={this.handleChangeCode}
+                              onFileEntriesChange={this.handleFileEntriesChange}
+                              onChangeGistId={this.handleGistIdChange}
+                              onResetLocalState={this.handleResetLocalState}
+                              onChangeDescription={this.handleEditDescription}
+                              onSaveStatusChange={this.handleSaveStatusChange}
+                              onShowDescriptionEdit={
+                                this.handleShowDescriptionModal
+                              }
+                              onHideDescriptionEdit={
+                                this.handleDismissEditModal
+                              }
+                              onSaveGistCompleted={this.handleSaveGistCompleted}
+                              getConvertedEntries={
+                                this.handleConvertFilesBeforeSave
+                              }
+                              history={history}
+                              getGistById={data.getGistById}
+                              entries={fileEntries}
+                              entry={focusedEntry}
+                              path={focusedEntry}
+                              gistId={gistId}
+                              gistDescription={gistDescription}
+                              saveStatus={saveStatus}
+                            />
+                          </React.Fragment>
                         )
                       )
                     }
@@ -242,7 +276,48 @@ export default class Router extends React.Component<Props, State> {
           <Route
             exact={true}
             path="/new"
-            render={({ history }) => <NewGistView history={history} />}
+            render={({ history }) => {
+              const focusedEntry = this.findFocusedEntry(this.state.fileEntries)
+              return (
+                <React.Fragment>
+                  <ModalEditDescription
+                    visible={currentModal === 'edit-description'}
+                    action="Save Description"
+                    title="Edit gist description"
+                    description={gistDescription}
+                    onDismiss={this.handleDismissEditModal}
+                    onSave={this.handleEditDescription}
+                  />
+                  <NewGistView
+                    onChangeCode={this.handleChangeCode}
+                    onFileEntriesChange={this.handleFileEntriesChange}
+                    onChangeGistId={this.handleGistIdChange}
+                    onResetLocalState={this.handleResetLocalState}
+                    onChangeDescription={this.handleEditDescription}
+                    onSaveStatusChange={this.handleSaveStatusChange}
+                    onShowDescriptionEdit={this.handleShowDescriptionModal}
+                    onHideDescriptionEdit={this.handleDismissEditModal}
+                    onSaveGistCompleted={this.handleSaveGistCompleted}
+                    getConvertedEntries={this.handleConvertFilesBeforeSave}
+                    history={history}
+                    initialData={{
+                      gistId: '',
+                      description: 'NEW GIST change me',
+                      files: [
+                        { filename: 'readme.md', content: '## Welcome!' }
+                      ],
+                      isPublic: true
+                    }}
+                    entries={fileEntries}
+                    entry={focusedEntry}
+                    path={focusedEntry}
+                    gistId={this.state.gistId}
+                    gistDescription={gistDescription}
+                    saveStatus={saveStatus}
+                  />
+                </React.Fragment>
+              )
+            }}
           />
           <Route
             exact={true}

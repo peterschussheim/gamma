@@ -1,163 +1,205 @@
 import * as React from 'react'
-import { match } from 'react-router'
+import { RouteComponentProps } from 'react-router'
+import { ChildDataProps } from 'react-apollo'
 
-import { UserBtnsContainer, DefaultButton } from '../components/Buttons'
+import { UserBtnsContainer, BlueButton } from '../components/Buttons'
 import Skeleton from '../components/Skeleton'
-import GistFilesList from '../components/SidebarList/GistFilesList'
 import MonacoEditor from '../components/CodeEditor/Monaco'
 import Footer from '../components/Footer'
+import { CreateNewGist } from '../components/CreateNewGist'
 import { Icon } from '../components/Icon'
-import { Debugger } from '../components/Debugger'
-import { EditorContext } from '../components/CodeEditor/EditorProvider'
+import NoFileSelected from '../components/NoFileSelected'
+import FileList from '../components/SidebarList/FileList'
+
+import { openEntry } from '../actions'
 import { buildEntriesFromGist } from '../utils/buildEntries'
 
-import { isFileDirty } from '../utils/isFileDirty'
+import {
+  FileSystemEntry,
+  DependencyList,
+  SaveStatus
+} from '../components/CodeEditor/types'
+import {
+  UpdateGist_updateGist,
+  CreateGist_createGist
+} from '../__generated__/types'
 
-interface NewGistViewState {
+const defaultOptions = {
+  fontSize: 12,
+  automaticLayout: true,
+  colorDecorators: true
+}
+
+type Data = Partial<CreateGist_createGist> & ChildDataProps
+type Files = Array<{ filename: string; content: string }>
+
+interface NewGistViewProps extends RouteComponentProps<{}> {
+  onFileEntriesChange: (entries: FileSystemEntry[]) => Promise<void>
+  onChangeCode: (code: string) => void
+  onChangeGistId: (gistId: string) => void
+  onChangeDescription: (description: string) => void
+  onResetLocalState: () => void
+  getConvertedEntries: () => Files
+  onSaveGistCompleted: (data: UpdateGist_updateGist) => void
+  handleOpenPath: (path: string) => void
+  handleValueChange?: (value: string) => void
+  initialData: Data
+  entries: FileSystemEntry[]
+  entry: FileSystemEntry
+  path: any
   gistId: string
-  description: string
-  modalVisible?: boolean
-  files: Array<{
-    filename: string
-    content: string
-  }>
-}
-
-interface NewGistViewProps {
-  onCancelNewGist: () => void
-  modalVisible?: boolean
-  context: any
-  match?: match
-  history?: any
-}
-
-const initialState = {
-  modalVisible: false,
-  gistId: '',
-  description: 'New gist',
-  files: [{ filename: 'index.js', content: '' }]
+  gistDescription: string
+  value?: string
+  saveStatus: SaveStatus
+  dependencies?: DependencyList
+  children?: React.ReactNode
+  options?: any
+  modelOptions?: any
 }
 
 export default class NewGistView extends React.Component<
   NewGistViewProps,
-  NewGistViewState
+  null
 > {
-  static contextType = EditorContext
   static defaultProps: Partial<NewGistViewProps> = {
-    modalVisible: false
+    dependencies: {
+      react: { version: '16.3.1' }
+    }
   }
+
+  // tslint:disable-next-line: variable-name
+  _EditorComponent: React.ComponentType<any>
+  didMount: boolean
+  initialValues: FileSystemEntry[] | []
+
   constructor(props: NewGistViewProps) {
     super(props)
-    this.state = initialState
+
+    this.didMount = false
+    this.initialValues = props.initialData || []
   }
 
-  toggleModal = () => {
-    this.setState({ modalVisible: !this.state.modalVisible })
+  componentDidMount() {
+    this.didMount = true
+    if (this.props && this.props.initialData) {
+      const nextEntries = buildEntriesFromGist(this.props.initialData)
+      // get a snapshot of the initial state to calculate if a file is dirty
+      this.initialValues = nextEntries
+      this.props.onFileEntriesChange(nextEntries)
+    }
+
+    // set an initial default description
+    this.props.onChangeDescription(this.props.initialData.description)
   }
 
-  handleAdditionalFile = () => {
-    // prompt user for a filename
-    this.toggleModal()
-    this.setState(
-      (prevState, props) => ({
-        files: prevState.files.concat({ filename: '', content: '' })
-      }),
-      () => this.handleOpenPath(this.state.files[0].filename)
-    )
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.props &&
+      this.props.gistDescription !== prevProps.gistDescription
+    ) {
+      this.props.onChangeDescription(this.props.gistDescription)
+    }
+
+    // if (this.props && this.props.initialData !== prevProps.getGistById) {
+    //   const nextEntries = buildEntriesFromGist(this.props.initialData)
+    //   this.props.onFileEntriesChange(nextEntries)
+    // }
+    return
   }
 
-  handleOpenPath = (path: string) => {
-    this.context.change('currentFilename', path)
+  handleRenameFile = (oldPath: string, newPath: string) => {
+    // tslint:disable-next-line: no-unused-expression
+    this._EditorComponent && this._EditorComponent.renamePath(oldPath, newPath)
   }
 
-  handleDescriptionChange = e => {
-    this.context.change('gistDescription', e)
+  handleRemoveFile = (path: string) => {
+    // tslint:disable-next-line: no-unused-expression
+    this._EditorComponent && this._EditorComponent.removePath(path)
   }
 
-  handleValueChange = e => {
-    this.context.change('changes', e)
-  }
+  handleOpenPath = (path: string): Promise<void> =>
+    this.props.onFileEntriesChange(openEntry(this.props.entries, path, true))
 
-  handleFilenameChange = e => {
-    console.log('e', e)
+  componentWillUnmount() {
+    this.didMount = false
+    this.props.onResetLocalState()
   }
 
   render() {
-    const context = this.context
-    const { history } = this.props
-    const data = { ...this.state }
-    // @ts-ignore
-    const entries = buildEntriesFromGist(data)
-    const isGistDirty = data.files
-      .map(file => {
-        return isFileDirty(context.values.changes, file)
-      })
-      .some(element => element === true)
-
-    const initialValue = entries.find(
-      ({ item }) => item.path === context.values.currentFilename
-    )
-
-    const existingFileIndex = this.context.values.changes.findIndex(
-      file => file.filename === this.context.values.currentFilename
-    )
+    const {
+      history,
+      entries,
+      entry,
+      gistDescription,
+      gistId,
+      onSaveGistCompleted,
+      getConvertedEntries,
+      saveStatus
+    } = this.props
 
     return (
       <React.Fragment>
         <UserBtnsContainer>
-          <DefaultButton onClick={() => history.push('/editor')}>
-            Cancel
-          </DefaultButton>
-          <DefaultButton onClick={this.handleAdditionalFile}>
-            Add Another File
-          </DefaultButton>
+          <BlueButton onClick={() => history.push('/editor')}>Back</BlueButton>
+          <CreateNewGist
+            history={history}
+            dirty={true}
+            gistId={gistId}
+            description={gistDescription}
+            files={getConvertedEntries}
+            onSaveCompleted={onSaveGistCompleted}
+          />
         </UserBtnsContainer>
-        <Skeleton
-          sidebar={
-            // @ts-ignore
-            <GistFilesList
-              onDescriptionChange={this.handleDescriptionChange}
-              onFilenameChange={this.handleFilenameChange}
-              isCreating={true}
-              loading={false}
-              data={data}
-            />
-          }
-          editor={
-            <MonacoEditor
-              onOpenPath={path => this.handleOpenPath(path)}
-              onValueChange={v => this.handleValueChange(v)}
-              path={context.values.currentFilename}
-              value={
-                isGistDirty === true && existingFileIndex !== -1
-                  ? this.context.values.changes[existingFileIndex].content
-                  : initialValue && initialValue.item.content
-              }
-              entries={entries}
-              options={{
-                fontSize: 12,
-                automaticLayout: true,
-                colorDecorators: true
-              }}
-              modelOptions={{ tabSize: 2 }}
-            />
-          }
-          footer={
-            <Footer
-              status={null}
-              currentFile={context.values.currentFilename}
-              iconComponent={
-                <Icon height={17} filename={context.values.currentFilename} />
-              }
-            />
-          }
-        />
-        <Debugger
-          componentName="NewGistView"
-          state={this.state}
-          props={this.props}
-          context={context}
-        />
+        <React.Fragment>
+          <Skeleton
+            sidebar={
+              this.props && this.props.entries.length > 0 ? (
+                <FileList
+                  gistDescription={gistDescription}
+                  gistId={gistId}
+                  visible={true}
+                  entries={this.props.entries}
+                  onEditDescription={this.props.onShowDescriptionEdit}
+                  onEntriesChange={this.props.onFileEntriesChange}
+                  onRemoveFile={() =>
+                    console.log('handleRemoveFile not yet implemented')
+                  }
+                  onRenameFile={this.handleRenameFile}
+                  saveStatus={this.props.saveStatus}
+                />
+              ) : null
+            }
+            editor={
+              entry && entry.item.type === 'file' ? (
+                <MonacoEditor
+                  editorDidMount={editor => editor}
+                  onOpenPath={this.handleOpenPath}
+                  onValueChange={this.props.onChangeCode}
+                  path={this.props.path && this.props.path.item.path}
+                  value={this.props.entry && this.props.entry.item.content}
+                  entries={entries}
+                  options={defaultOptions}
+                  autoFocus={true}
+                  modelOptions={{ tabSize: 2 }}
+                />
+              ) : (
+                <NoFileSelected />
+              )
+            }
+            footer={
+              <Footer
+                currentFile={this.props.entry && this.props.entry.item.path}
+                iconComponent={
+                  <Icon
+                    height={17}
+                    filename={this.props.entry && this.props.entry.item.path}
+                  />
+                }
+                status={saveStatus === 'published' ? 'Gist saved!' : null}
+              />
+            }
+          />
+        </React.Fragment>
       </React.Fragment>
     )
   }

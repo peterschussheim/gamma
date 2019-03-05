@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core'
 import * as React from 'react'
+import { GoPencil } from 'react-icons/go'
 
 import FileListPane from './FileListPane'
 import FileListOpenEntry from './FileListOpenEntry'
@@ -20,33 +21,14 @@ import {
 
 import { getUniquePath, isInsideFolder } from '../../utils/fileUtilities'
 
-import { FileSystemEntry, TextFileEntry, SaveStatus } from '../CodeEditor/types'
-
-type SidebarShellProps = {
-  children?: React.ReactNode
-}
-
-function SidebarShell({ children }: SidebarShellProps) {
-  return (
-    <div
-      css={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        minWidth: 240,
-        borderRight: '#F0F0F0'
-      }}
-    >
-      {children}
-    </div>
-  )
-}
+import { FileSystemEntry, SaveStatus } from '../CodeEditor/types'
 
 type Props = {
   visible: boolean
   onEntriesChange: (entries: FileSystemEntry[]) => Promise<void>
   onRemoveFile: (path: string) => void
   onRenameFile: (oldPath: string, newPath: string) => void
+  onEditDescription: () => void
   gistId: string
   gistDescription: string
   entries: FileSystemEntry[]
@@ -69,6 +51,18 @@ const AddIcon = () => (
     <rect fill="#FFFFFF" x="4" y="2" width="1" height="5" />
     <rect fill="#FFFFFF" x="2" y="4" width="5" height="1" />
   </g>
+)
+
+const EditIcon = () => (
+  <GoPencil
+    style={{
+      color: 'deepskyblue',
+      display: 'block',
+      margin: '0 auto',
+      position: 'absolute'
+    }}
+    fill="FFFFFF"
+  />
 )
 
 export default class FileList extends React.PureComponent<Props, State> {
@@ -180,6 +174,10 @@ export default class FileList extends React.PureComponent<Props, State> {
       createNewEntry(this.props.entries, 'folder', path)
     )
 
+  handleEditDescription(): void {
+    this.props.onEditDescription()
+  }
+
   toggleOpenGistPane = () =>
     this.setState(state => ({ openGistPane: !state.openGistPane }))
 
@@ -226,18 +224,19 @@ export default class FileList extends React.PureComponent<Props, State> {
           </ul>
         </FileListPane>
         <FileListPane
-          title="Gist"
+          title={this.props.gistDescription}
           onClick={this.toggleOpenGistPane}
           buttons={[
+            <FileListPaneButton
+              key="edit-gist-description"
+              onClick={() => this.handleEditDescription()}
+            >
+              <EditIcon />
+            </FileListPaneButton>,
             <FileListPaneButton
               key="create-file"
               onClick={() => this.handleCreateFile()}
             >
-              <path
-                fillOpacity="0.7"
-                // tslint:disable-next-line: max-line-length
-                d="M3,2 L13,2 L13,14 L3,14 L3,2 Z M9,2 L13,6 L13,2 L9,2 Z M9,6 L9,2 L8,2 L8,7 L13,7 L13,6 L9,6 Z"
-              />
               <AddIcon />
             </FileListPaneButton>
           ]}

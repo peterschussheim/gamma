@@ -15,7 +15,6 @@ const pick = (obj, arr) =>
   arr.reduce((acc, curr) => (curr in obj && (acc[curr] = obj[curr]), acc), {})
 
 type Props = {
-  dirty: boolean
   entry: FileSystemEntry
   rest: FileSystemEntry[]
   onOpen: (path: string) => void
@@ -33,14 +32,16 @@ type State = {
   name: string
   error: Error | null
   isRenaming: boolean
+  dirty: boolean | null
 }
 
 export default class FileListEntry extends React.Component<Props, State> {
+  initialValue = null
   constructor(props: Props) {
     super(props)
 
     const { entry } = props
-
+    this.initialValue = entry
     this.state = {
       initialValue: entry.item || {},
       name: entry.state.isCreating
@@ -48,16 +49,24 @@ export default class FileListEntry extends React.Component<Props, State> {
         : '',
       error: null,
       // @ts-ignore
-      isRenaming: !entry.item.asset && !!entry.state.isCreating
+      isRenaming: !entry.item.asset && !!entry.state.isCreating,
+      dirty: null
     }
   }
 
-  state: State
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if (prevProps.entry.item !== this.props.entry.item) {
+      this.setState({
+        dirty: !isEqual(prevProps.entry.item, this.props.entry.item)
+      })
+    }
+  }
 
   componentDidMount() {
     if (this.props.entry.state.isCreating) {
       this.props.onOpen(this.props.entry.item.path)
     }
+    this.setState({ dirty: false })
   }
 
   handleToggleExpand = () =>
@@ -210,10 +219,10 @@ export default class FileListEntry extends React.Component<Props, State> {
   }
 
   renderItem = () => {
-    const { dirty } = this.getComputedProps()
     const { entry } = this.props
     const { isRenaming, name } = this.state
     const displayName = isRenaming ? '\u00A0' : entry.item.path.split('/').pop()
+    const { dirty } = this.getComputedProps()
 
     return (
       <div>
@@ -307,19 +316,11 @@ export default class FileListEntry extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      entry,
-      dirty,
-      rest,
-      onOpen,
-      onFocus,
-      onRename,
-      onExpand
-    } = this.props
+    const { entry, rest, onOpen, onFocus, onRename, onExpand } = this.props
 
     return (
       <FileListEntryBase
-        dirty={dirty}
+        dirty={this.state.dirty}
         actions={this.getActions()}
         entry={entry}
         rest={rest}

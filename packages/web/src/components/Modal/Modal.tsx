@@ -95,8 +95,7 @@ const modal = css({
   backgroundColor: 'rgba(24, 29, 37, 0.8)',
   color: '#fff',
   zIndex: 999,
-  transitionDuration: '200ms',
-  '-webkit-font-smoothing': 'antialiased'
+  transitionDuration: '200ms'
 })
 
 const content = css({

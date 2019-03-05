@@ -64,21 +64,7 @@ export default class EditorView extends React.Component<
       previousEntry: undefined
     }
   }
-  static getDerivedStateFromProps(
-    props: EditorViewProps,
-    state: EditorViewState
-  ) {
-    if (props.entry !== state.previousEntry) {
-      const { entry } = props
-      const { previousEntry } = state
 
-      return {
-        previousEntry: entry
-      }
-    }
-
-    return null
-  }
   static contextType = EditorContext
   EditorComponent: any
 

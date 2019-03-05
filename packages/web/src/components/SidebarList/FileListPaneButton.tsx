@@ -16,10 +16,10 @@ class FileListPaneButton extends React.PureComponent<Props> {
       <button
         {...rest}
         css={css({
+          cursor: 'pointer',
           appearance: 'none',
           background: 'transparent',
           border: 0,
-          margin: 0,
           outline: 0
         })}
         ref={innerRef}
