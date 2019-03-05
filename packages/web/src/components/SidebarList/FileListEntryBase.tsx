@@ -133,7 +133,7 @@ export default class FileListEntryBase extends React.Component<Props, State> {
   }
 
   render() {
-    const { entry, rest, onRename, actions, dirty } = this.props
+    const { entry, rest, onRename, actions } = this.props
     const { menu, isHovered } = this.state
 
     return (

@@ -20,7 +20,8 @@ import { buildEntriesFromGist } from '../utils/buildEntries'
 import {
   DependencyList,
   FileSystemEntry,
-  SaveStatus
+  SaveStatus,
+  TextFileEntry
 } from '../components/CodeEditor/types'
 import {
   GetGistById_getGistById,
@@ -43,6 +44,9 @@ interface GistByIdProps extends RouteComponentProps<{}> {
   onChangeCode: (code: string) => void
   onChangeGistId: (gistId: string) => void
   onChangeDescription: (description: string) => void
+  onHideDescriptionEdit: () => void
+  onShowDescriptionEdit: () => void
+  onSaveStatusChange: (nextStatus: SaveStatus) => void
   onResetLocalState: () => void
   getConvertedEntries: () => Files
   onSaveGistCompleted: (data: UpdateGist_updateGist) => void
@@ -62,8 +66,14 @@ interface GistByIdProps extends RouteComponentProps<{}> {
   modelOptions?: any
 }
 
-export default class GistByIdView extends React.Component<GistByIdProps, null> {
-  static contextType = EditorContext
+type GistByIdState = {
+  previousEntry: TextFileEntry | undefined
+}
+
+export default class GistByIdView extends React.Component<
+  GistByIdProps,
+  GistByIdState
+> {
   static defaultProps: Partial<GistByIdProps> = {
     dependencies: {
       react: { version: '16.3.1' }
@@ -80,6 +90,22 @@ export default class GistByIdView extends React.Component<GistByIdProps, null> {
 
     this.didMount = false
     this.initialValues = props.entries || []
+    this.state = {
+      previousEntry: undefined
+    }
+  }
+
+  static getDerivedStateFromProps(props: GistByIdProps, state: GistByIdState) {
+    if (props.entry !== state.previousEntry) {
+      const { entry } = props
+      const { previousEntry } = state
+
+      return {
+        previousEntry: entry
+      }
+    }
+
+    return null
   }
 
   componentDidMount() {
@@ -93,13 +119,13 @@ export default class GistByIdView extends React.Component<GistByIdProps, null> {
     if (this.props && this.props.gistId) {
       this.props.onChangeGistId(this.props.gistId)
     }
-    if (this.props && this.props.gistDescription) {
-      this.props.onChangeDescription(this.props.gistDescription)
+    if (this.props && this.props.getGistById.description) {
+      this.props.onChangeDescription(this.props.getGistById.description)
     }
     return
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (this.props && this.props.gistId !== prevProps.gistId) {
       this.props.onChangeGistId(this.props.gistId)
     }
@@ -109,6 +135,17 @@ export default class GistByIdView extends React.Component<GistByIdProps, null> {
       this.props.gistDescription !== prevProps.gistDescription
     ) {
       this.props.onChangeDescription(this.props.gistDescription)
+    }
+
+    if (
+      this.props &&
+      this.props.gistDescription !== prevProps.gistDescription
+    ) {
+      if (prevProps.gistDescription.length > 0) {
+        // update status to enable the save button by comparing descriptions
+        this.props.onSaveStatusChange('description-changed')
+      }
+      return
     }
 
     if (this.props && this.props.getGistById !== prevProps.getGistById) {
@@ -148,7 +185,8 @@ export default class GistByIdView extends React.Component<GistByIdProps, null> {
       saveStatus
     } = this.props
 
-    const renderSaveButton = saveStatus === 'changed'
+    const renderSaveButton =
+      saveStatus === 'changed' || saveStatus === 'description-changed'
 
     return this.props.getGistById ? (
       <React.Fragment>
@@ -159,9 +197,11 @@ export default class GistByIdView extends React.Component<GistByIdProps, null> {
           <Save
             dirty={renderSaveButton}
             gistId={gistId}
-            description={this.props.getGistById.description}
+            description={gistDescription}
             files={getConvertedEntries}
             onSaveCompleted={onSaveGistCompleted}
+            handleOpenPath={this.handleOpenPath}
+            previousOpenPath={this.state.previousEntry}
           />
         </UserBtnsContainer>
         <React.Fragment>
@@ -173,6 +213,7 @@ export default class GistByIdView extends React.Component<GistByIdProps, null> {
                   gistId={gistId}
                   visible={true}
                   entries={this.props.entries}
+                  onEditDescription={this.props.onShowDescriptionEdit}
                   onEntriesChange={this.props.onFileEntriesChange}
                   onRemoveFile={() =>
                     console.log('handleRemoveFile not yet implemented')

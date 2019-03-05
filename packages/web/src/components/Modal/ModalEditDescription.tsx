@@ -67,13 +67,16 @@ export default class ModalEditDescription extends React.Component<
         <form onSubmit={this.handleSubmit}>
           <h4 css={subtitle}>Description</h4>
           <input
+            autoFocus={true}
             type="text"
             value={this.state.description}
             onChange={e => this.setState({ description: e.target.value })}
             placeholder={''}
           />
           <div css={buttons}>
-            <DefaultButton type="button">{action}</DefaultButton>
+            <DefaultButton type="button" onClick={this.handleSubmit}>
+              {action}
+            </DefaultButton>
           </div>
         </form>
       </ModalDialog>

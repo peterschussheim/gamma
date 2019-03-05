@@ -3,6 +3,7 @@ import { Mutation } from 'react-apollo'
 import { CREATE_GIST, EDIT_GIST, GET_GIST_BY_ID } from '../queries'
 import { GreenButton } from './Buttons'
 import { UpdateGist, GistUpdateInput } from '../__generated__/types'
+import { TextFileEntry } from './CodeEditor/types'
 
 /**
  * Setting a file's `content` property to null will instruct
@@ -10,19 +11,15 @@ import { UpdateGist, GistUpdateInput } from '../__generated__/types'
  */
 type Content = string | null
 type Files = Array<{ filename: string; content: Content }>
-interface Payload {
-  /** Optional since we won't have an ID when creating a new files */
-  gistId?: string
-  description: string
-  files: Files
-}
 
 type Props = {
   dirty: boolean
   gistId: string
   description: string
   files: Files
+  previousEntry: TextFileEntry | undefined
   onSaveCompleted: (data: Partial<UpdateGist>) => void
+  handleOpenPath: (path: string) => void
 }
 
 type Data = UpdateGist
@@ -30,9 +27,6 @@ type Variables = { data: GistUpdateInput }
 
 class EditGistMutation extends Mutation<Data, Variables> {}
 
-// TODO: refactor the incoming props, specifically the files.
-// most likely we need to convert the 'FileEntry' type back into the shape
-// our graphql endpoint expects.
 export const Save: React.FunctionComponent<Props> = props => {
   return (
     <EditGistMutation
@@ -43,6 +37,10 @@ export const Save: React.FunctionComponent<Props> = props => {
       ]}
       onCompleted={data => {
         // tslint:disable-next-line: no-unused-expression
+        props.handleOpenPath(
+          props.previousEntry && props.previousEntry.item.path
+        )
+
         data && data.updateGist && props.onSaveCompleted(data.updateGist)
       }}
     >
