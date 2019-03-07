@@ -244,10 +244,12 @@ export default class GistByIdView extends React.Component<
               <Footer
                 currentFile={this.props.entry && this.props.entry.item.path}
                 iconComponent={
-                  <Icon
-                    height={17}
-                    filename={this.props.entry && this.props.entry.item.path}
-                  />
+                  this.props.entry != null ? (
+                    <Icon
+                      height={17}
+                      filename={this.props.entry && this.props.entry.item.path}
+                    />
+                  ) : null
                 }
                 status={saveStatus === 'published' ? 'Gist saved!' : null}
               />

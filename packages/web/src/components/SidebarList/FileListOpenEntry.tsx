@@ -86,6 +86,8 @@ export default class FileListOpenEntry extends React.PureComponent<
             css={css({
               display: 'inline-block',
               verticalAlign: -1,
+              color: 'white',
+              fontSize: 9,
               margin: 6,
               userSelect: 'none',
               whiteSpace: 'nowrap'

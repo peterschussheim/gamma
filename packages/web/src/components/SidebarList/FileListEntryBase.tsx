@@ -7,6 +7,7 @@ import { Icon } from '../Icon'
 import ContextMenu from '../ContextMenu'
 // tslint:disable-next-line: no-duplicate-imports
 import { Action } from '../ContextMenu'
+import { DirtyIndicator } from './DirtyIndicator'
 
 type Props = {
   entry: FileSystemEntry
@@ -166,6 +167,7 @@ export default class FileListEntryBase extends React.Component<Props, State> {
             filename={entry.item.path}
           />
           {this.props.renderItem()}
+          <DirtyIndicator isDirty={this.props.dirty} />
         </ListItem>
         <ContextMenu
           ref={this.menu}
