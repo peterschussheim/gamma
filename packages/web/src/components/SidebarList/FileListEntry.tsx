@@ -222,7 +222,6 @@ export default class FileListEntry extends React.Component<Props, State> {
     const { entry } = this.props
     const { isRenaming, name } = this.state
     const displayName = isRenaming ? '\u00A0' : entry.item.path.split('/').pop()
-    const { dirty } = this.getComputedProps()
 
     return (
       <div>
@@ -249,7 +248,6 @@ export default class FileListEntry extends React.Component<Props, State> {
           }}
         >
           {displayName}
-          <DirtyIndicator isDirty={dirty} />
         </span>
         {isRenaming ? (
           <input
