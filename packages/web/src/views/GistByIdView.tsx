@@ -12,10 +12,11 @@ import { UserBtnsContainer, BlueButton } from '../components/Buttons'
 import { Save } from '../components/Save'
 import Delete from '../components/Delete'
 import FileList from '../components/SidebarList/FileList'
-import { EditorContext } from '../components/CodeEditor/EditorProvider'
 import NoFileSelected from '../components/NoFileSelected'
 
 import { buildEntriesFromGist } from '../utils/buildEntries'
+
+import PrivateIcon from '../components/PrivateIcon'
 
 import {
   DependencyList,
@@ -243,6 +244,12 @@ export default class GistByIdView extends React.Component<
             footer={
               <Footer
                 currentFile={this.props.entry && this.props.entry.item.path}
+                isPublic={
+                  <PrivateIcon
+                    isPublic={this.props.getGistById.isPublic}
+                    height={17}
+                  />
+                }
                 iconComponent={
                   this.props.entry != null ? (
                     <Icon
