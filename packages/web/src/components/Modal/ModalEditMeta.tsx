@@ -5,29 +5,36 @@ import * as React from 'react'
 import { DefaultButton } from '../Buttons'
 import ModalDialog from './ModalDialog'
 
+type InputValue = boolean | string
+
+interface SavePayload {
+  isPublic?: boolean
+  description?: string
+}
+
 type Props = {
   title: string
   visible: boolean
   action: string
-  onSave: (description: string) => void
+  onSave: (payload: SavePayload) => void
   onDismiss: () => void
+  isPublic: boolean | undefined
   description: string | undefined
   loading?: boolean
 }
 
 type State = {
+  isPublic: boolean
   description: string
   visible: boolean
 }
 
-export default class ModalEditDescription extends React.Component<
-  Props,
-  State
-> {
+export default class ModalEditMeta extends React.Component<Props, State> {
   static getDerivedStateFromProps(props: Props, state: State) {
     if (state.visible !== props.visible) {
       if (props.visible) {
         return {
+          isPublic: props.isPublic || undefined,
           description: props.description || '',
           visible: props.visible
         }
@@ -40,13 +47,17 @@ export default class ModalEditDescription extends React.Component<
   }
 
   state = {
+    isPublic: undefined,
     description: this.props.description || '',
     visible: this.props.visible
   }
 
   handleSubmit = e => {
     e.preventDefault()
-    this.props.onSave(this.state.description)
+    this.props.onSave({
+      isPublic: this.state.isPublic,
+      description: this.state.description
+    })
   }
 
   validateDescription = (description: string) =>
@@ -65,6 +76,13 @@ export default class ModalEditDescription extends React.Component<
     return (
       <ModalDialog visible={visible} title={title} onDismiss={onDismiss}>
         <form onSubmit={this.handleSubmit}>
+          <h4 css={subtitle}>Visibility</h4>
+          <input
+            autoFocus={false}
+            type="checkbox"
+            checked={this.state.isPublic}
+            onChange={e => this.setState({ isPublic: e.target.checked })}
+          />
           <h4 css={subtitle}>Description</h4>
           <input
             autoFocus={true}
