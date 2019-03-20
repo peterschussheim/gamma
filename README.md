@@ -82,8 +82,8 @@ with regard to functionality/features.
 
 Below are links to various documents created during development that may be useful to others.  Please note that these documents were created for personal use and are unfinished/unedited.
 
-- [CI-CD]('docs/ci-cd.md')
-- [codegen]('docs/codegen.md')
-- [consuming types question for stack overflow]('docs/consuming-types-so-question.md')
-- [monaco notes]('docs/monaco.md')
-- [monorepo notes]('docs/monorepo.md')
+- [CI-CD](docs/ci-cd.md)
+- [codegen](docs/codegen.md)
+- [consuming types question for stack overflow](docs/consuming-types-so-question.md)
+- [monaco notes](docs/monaco.md)
+- [monorepo notes](docs/monorepo.md)
