@@ -39,7 +39,7 @@
     "run:api": "yarn workspace api start",
     "run:web": "yarn workspace web start:prod",
     "start": "concurrently -p \"[{name}]\" -n \"API,WEB\" \"yarn start:api\" \"yarn start:web\"",
-    "start:api": "yarn workspace api dev:verbose",
+    "start:api": "yarn workspace api dev",
     "start:web": "yarn workspace web start",
     "start:web:v": "yarn workspace web start:verbose",
     "start:web:i": "yarn workspace web start:inspect",
