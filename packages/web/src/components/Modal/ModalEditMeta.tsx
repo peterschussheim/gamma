@@ -76,12 +76,18 @@ export default class ModalEditMeta extends React.Component<Props, State> {
     return (
       <ModalDialog visible={visible} title={title} onDismiss={onDismiss}>
         <form onSubmit={this.handleSubmit}>
-          <h4 css={subtitle}>Visibility</h4>
+          <h4 css={subtitle}>SECRET GIST?</h4>
           <input
             autoFocus={false}
             type="checkbox"
-            checked={this.state.isPublic}
-            onChange={e => this.setState({ isPublic: e.target.checked })}
+            title={
+              this.props.isPublic
+                ? 'Cannot update a public Gist to be secret!'
+                : 'Gist is secret'
+            }
+            disabled={this.props.isPublic == null && this.state.isPublic}
+            checked={!this.state.isPublic}
+            onChange={e => this.setState({ isPublic: !e.target.checked })}
           />
           <h4 css={subtitle}>Description</h4>
           <input

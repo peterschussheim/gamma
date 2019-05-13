@@ -13,10 +13,10 @@ import { Save } from '../components/Save'
 import Delete from '../components/Delete'
 import FileList from '../components/SidebarList/FileList'
 import NoFileSelected from '../components/NoFileSelected'
+import MonacoEditor from '../components/CodeEditor/Monaco'
+import SecretIcon from '../components/PrivateIcon'
 
 import { buildEntriesFromGist } from '../utils/buildEntries'
-
-import PrivateIcon from '../components/PrivateIcon'
 
 import {
   DependencyList,
@@ -28,7 +28,7 @@ import {
   GetGistById_getGistById,
   UpdateGist_updateGist
 } from '../__generated__/types'
-import MonacoEditor from '../components/CodeEditor/Monaco'
+
 import { openEntry } from '../actions'
 
 const defaultOptions = {
@@ -44,6 +44,7 @@ interface GistByIdProps extends RouteComponentProps<{}> {
   onFileEntriesChange: (entries: FileSystemEntry[]) => Promise<void>
   onChangeCode: (code: string) => void
   onChangeGistId: (gistId: string) => void
+  onChangeVisibility: (isPublic: boolean) => void
   onChangeDescription: (description: string) => void
   onHideDescriptionEdit: () => void
   onShowDescriptionEdit: () => void
@@ -58,6 +59,7 @@ interface GistByIdProps extends RouteComponentProps<{}> {
   entry: FileSystemEntry
   path: any
   gistId: string
+  isPublic: boolean
   gistDescription: string
   value?: string
   saveStatus: SaveStatus
@@ -123,6 +125,9 @@ export default class GistByIdView extends React.Component<
     if (this.props && this.props.getGistById.description) {
       this.props.onChangeDescription(this.props.getGistById.description)
     }
+    if (this.props && this.props.getGistById.isPublic != null) {
+      this.props.onChangeVisibility(this.props.getGistById.isPublic)
+    }
     return
   }
 
@@ -136,6 +141,15 @@ export default class GistByIdView extends React.Component<
       this.props.gistDescription !== prevProps.gistDescription
     ) {
       this.props.onChangeDescription(this.props.gistDescription)
+    }
+
+    if (
+      this.props &&
+      this.props.isPublic !== prevProps.isPublic &&
+      prevProps.isPublic == null
+    ) {
+      // console.log('vis changed')
+      this.props.onChangeVisibility(this.props.isPublic)
     }
 
     if (
@@ -245,10 +259,7 @@ export default class GistByIdView extends React.Component<
               <Footer
                 currentFile={this.props.entry && this.props.entry.item.path}
                 isPublic={
-                  <PrivateIcon
-                    isPublic={this.props.getGistById.isPublic}
-                    height={17}
-                  />
+                  <SecretIcon isPublic={this.props.isPublic} height={17} />
                 }
                 iconComponent={
                   this.props.entry != null ? (

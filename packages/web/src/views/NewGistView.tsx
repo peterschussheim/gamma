@@ -88,6 +88,10 @@ export default class NewGistView extends React.Component<
       this.props.onFileEntriesChange(nextEntries)
     }
 
+    if (this.props && this.props.initialData.isPublic != null) {
+      this.props.onChangeVisibility(this.props.initialData.isPublic)
+    }
+
     // set an initial default description
     this.props.onChangeDescription(this.props.initialData.description)
   }
@@ -100,10 +104,15 @@ export default class NewGistView extends React.Component<
       this.props.onChangeDescription(this.props.gistDescription)
     }
 
-    // if (this.props && this.props.initialData !== prevProps.getGistById) {
-    //   const nextEntries = buildEntriesFromGist(this.props.initialData)
-    //   this.props.onFileEntriesChange(nextEntries)
-    // }
+    if (
+      this.props &&
+      this.props.isPublic !== prevProps.isPublic &&
+      prevProps.isPublic == null
+    ) {
+      // console.log('vis changed')
+      this.props.onChangeVisibility(this.props.isPublic)
+    }
+
     return
   }
 

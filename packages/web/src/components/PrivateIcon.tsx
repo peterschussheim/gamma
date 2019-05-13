@@ -8,7 +8,7 @@ interface Props {
   onClick?: () => void
 }
 
-const PrivateIcon: React.FunctionComponent<Props> = ({
+const SecretIcon: React.FunctionComponent<Props> = ({
   isPublic,
   height,
   marginTop = 0,
@@ -21,10 +21,10 @@ const PrivateIcon: React.FunctionComponent<Props> = ({
       onClick={onClick}
       style={{ height, marginTop, marginRight }}
       src={iconPath}
-      title={'Private Gist'}
-      alt="private-gist"
+      title={'Secret Gist'}
+      alt="secret-gist"
     />
   )
 }
 
-export default PrivateIcon
+export default SecretIcon
