@@ -71,7 +71,7 @@ export default class ModalEditMeta extends React.Component<Props, State> {
       : new Error('Description cannot be empty.')
 
   render() {
-    const { visible, title, onDismiss, loading, action } = this.props
+    const { visible, title, onDismiss, action } = this.props
 
     return (
       <ModalDialog visible={visible} title={title} onDismiss={onDismiss}>
@@ -81,11 +81,11 @@ export default class ModalEditMeta extends React.Component<Props, State> {
             autoFocus={false}
             type="checkbox"
             title={
-              this.props.isPublic
+              this.state.isPublic && this.state.isPublic
                 ? 'Cannot update a public Gist to be secret!'
                 : 'Gist is secret'
             }
-            disabled={this.props.isPublic == null && this.state.isPublic}
+            disabled={this.state.isPublic}
             checked={!this.state.isPublic}
             onChange={e => this.setState({ isPublic: !e.target.checked })}
           />
