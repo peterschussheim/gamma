@@ -2,9 +2,8 @@ const debug = require('debug')('mutation:gist')
 const util = require('util')
 import * as Octokit from '@octokit/rest'
 import { UnauthenticatedError } from '../../utils/errors'
-import { getUserIdFromSession, AuthError } from '../../utils/getUserId'
+import { getUserIdFromSession } from '../../utils/getUserId'
 import { Context } from '../../gamma'
-import { create } from 'domain'
 
 export const gist = {
   createGist: async (parent, args, ctx: Context, info) => {
