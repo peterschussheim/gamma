@@ -319,8 +319,9 @@ export default class Router extends React.Component<Props, State> {
                     visible={currentModal === 'edit-description'}
                     action="Save Changes"
                     title="Edit Gist metadata"
-                    isPublic={isPublic != null ? isPublic : false}
+                    isPublic={isPublic}
                     description={gistDescription}
+                    isNewGist={true}
                     onDismiss={this.handleDismissEditModal}
                     onSave={this.handleEditMeta}
                   />

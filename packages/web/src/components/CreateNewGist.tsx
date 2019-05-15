@@ -18,6 +18,7 @@ type Files = Array<{ filename: string; content: Content }>
 type Props = {
   dirty: boolean
   gistId: string
+  isPublic: boolean
   description: string
   files: Files
   onSaveCompleted: (data: Partial<CreateGist_createGist>) => void
@@ -44,12 +45,12 @@ export const CreateNewGist: React.FunctionComponent<Props> = props => {
             data-cy="save-button"
             onClick={async e => {
               e.preventDefault()
-              const { description } = props
+              const { isPublic, description } = props
               const files = props.files()
               await createGist({
                 variables: {
                   data: {
-                    isPublic: true,
+                    isPublic,
                     description,
                     files
                   }

@@ -23,6 +23,7 @@ import {
   UpdateGist_updateGist,
   CreateGist_createGist
 } from '../__generated__/types'
+import SecretIcon from '../components/PrivateIcon'
 
 const defaultOptions = {
   fontSize: 12,
@@ -139,6 +140,7 @@ export default class NewGistView extends React.Component<
       history,
       entries,
       entry,
+      isPublic,
       gistDescription,
       gistId,
       onSaveGistCompleted,
@@ -154,6 +156,7 @@ export default class NewGistView extends React.Component<
             history={history}
             dirty={true}
             gistId={gistId}
+            isPublic={isPublic}
             description={gistDescription}
             files={getConvertedEntries}
             onSaveCompleted={onSaveGistCompleted}
@@ -198,6 +201,7 @@ export default class NewGistView extends React.Component<
             footer={
               <Footer
                 currentFile={this.props.entry && this.props.entry.item.path}
+                isPublic={<SecretIcon isPublic={isPublic} height={17} />}
                 iconComponent={
                   this.props.entry != null ? (
                     <Icon

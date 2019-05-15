@@ -20,6 +20,7 @@ type Props = {
   onDismiss: () => void
   isPublic: boolean | undefined
   description: string | undefined
+  isNewGist?: boolean
   loading?: boolean
 }
 
@@ -47,7 +48,7 @@ export default class ModalEditMeta extends React.Component<Props, State> {
   }
 
   state = {
-    isPublic: undefined,
+    isPublic: this.props.isPublic || true,
     description: this.props.description || '',
     visible: this.props.visible
   }
@@ -85,7 +86,7 @@ export default class ModalEditMeta extends React.Component<Props, State> {
                 ? 'Cannot update a public Gist to be secret!'
                 : 'Gist is secret'
             }
-            disabled={this.state.isPublic}
+            disabled={this.props.isNewGist ? false : true}
             checked={!this.state.isPublic}
             onChange={e => this.setState({ isPublic: !e.target.checked })}
           />

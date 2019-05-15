@@ -84,7 +84,7 @@ export default class GistByIdView extends React.Component<
   }
 
   // tslint:disable-next-line: variable-name
-  _EditorComponent: React.ComponentType<any>
+  _EditorComponent: any
   didMount: boolean
   initialValues: FileSystemEntry[] | []
 
@@ -148,7 +148,6 @@ export default class GistByIdView extends React.Component<
       this.props.isPublic !== prevProps.isPublic &&
       prevProps.isPublic == null
     ) {
-      // console.log('vis changed')
       this.props.onChangeVisibility(this.props.isPublic)
     }
 
@@ -195,6 +194,7 @@ export default class GistByIdView extends React.Component<
       entry,
       gistDescription,
       gistId,
+      isPublic,
       onSaveGistCompleted,
       getConvertedEntries,
       saveStatus
