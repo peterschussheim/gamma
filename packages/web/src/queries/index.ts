@@ -160,20 +160,6 @@ export const DELETE_GIST = gql`
   }
 `
 
-export const CREATE_POST = gql`
-  mutation CreatePost($data: PostCreateInput) {
-    createPost(data: $data) {
-      id
-      visibility
-      files {
-        name
-        type
-        content
-      }
-    }
-  }
-`
-
 export const COUNTER_SUBSCRIPTION = gql`
   subscription Counter {
     counter {
