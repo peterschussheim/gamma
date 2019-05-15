@@ -26,7 +26,7 @@ import {
 } from './components/CodeEditor/types'
 import { entryArrayToGist } from './utils/convertFileStructure'
 import { buildEntriesFromGist } from './utils/buildEntries'
-import ModalEditDescription from './components/Modal/ModalEditDescription'
+import ModalEditMeta from './components/Modal/ModalEditMeta'
 
 // TODO: remove any
 const EditorViewWithData: any = graphql(VIEWER_GISTS, {
@@ -36,6 +36,11 @@ const EditorViewWithData: any = graphql(VIEWER_GISTS, {
     ssr: true
   })
 })(EditorView)
+
+interface IEditMeta {
+  isPublic: boolean
+  description: string
+}
 
 type Props = {
   data?: any
@@ -47,6 +52,7 @@ type Props = {
 
 type State = {
   fileEntries: FileSystemEntry[]
+  isPublic: boolean
   gistDescription: string
   gistId: string
   saveStatus: SaveStatus
@@ -55,6 +61,7 @@ type State = {
 
 const initialState: State = {
   fileEntries: [],
+  isPublic: null,
   gistDescription: '',
   gistId: '',
   saveStatus: 'no-changes',
@@ -163,6 +170,30 @@ export default class Router extends React.Component<Props, State> {
     })
   }
 
+  handleEditMeta = (data: IEditMeta) => {
+    this.setState(prevState => {
+      return {
+        isPublic:
+          data.isPublic !== undefined ? data.isPublic : prevState.isPublic,
+        gistDescription:
+          data.description !== undefined
+            ? data.description
+            : prevState.gistDescription,
+        currentModal: null,
+        saveStatus: 'changed'
+      }
+    })
+  }
+
+  handleEditVisibility = (isPublic: boolean) => {
+    this.setState(prevState => {
+      return {
+        isPublic,
+        currentModal: null
+      }
+    })
+  }
+
   handleEditDescription = (gistDescription: string) => {
     this.setState(prevState => {
       return {
@@ -190,6 +221,7 @@ export default class Router extends React.Component<Props, State> {
     const {
       currentModal,
       fileEntries,
+      isPublic,
       gistDescription,
       saveStatus
     } = this.state
@@ -230,19 +262,21 @@ export default class Router extends React.Component<Props, State> {
                       return (
                         data.getGistById && (
                           <React.Fragment>
-                            <ModalEditDescription
+                            <ModalEditMeta
                               visible={currentModal === 'edit-description'}
-                              action="Save Description"
-                              title="Edit gist description"
+                              action="Save Changes"
+                              title="Edit Gist metadata"
+                              isPublic={isPublic}
                               description={gistDescription}
                               onDismiss={this.handleDismissEditModal}
-                              onSave={this.handleEditDescription}
+                              onSave={this.handleEditMeta}
                             />
                             <GistByIdView
                               onChangeCode={this.handleChangeCode}
                               onFileEntriesChange={this.handleFileEntriesChange}
                               onChangeGistId={this.handleGistIdChange}
                               onResetLocalState={this.handleResetLocalState}
+                              onChangeVisibility={this.handleEditVisibility}
                               onChangeDescription={this.handleEditDescription}
                               onSaveStatusChange={this.handleSaveStatusChange}
                               onShowDescriptionEdit={
@@ -261,6 +295,7 @@ export default class Router extends React.Component<Props, State> {
                               entry={focusedEntry}
                               path={focusedEntry}
                               gistId={gistId}
+                              isPublic={isPublic}
                               gistDescription={gistDescription}
                               saveStatus={saveStatus}
                             />
@@ -280,19 +315,22 @@ export default class Router extends React.Component<Props, State> {
               const focusedEntry = this.findFocusedEntry(this.state.fileEntries)
               return (
                 <React.Fragment>
-                  <ModalEditDescription
+                  <ModalEditMeta
                     visible={currentModal === 'edit-description'}
-                    action="Save Description"
-                    title="Edit gist description"
+                    action="Save Changes"
+                    title="Edit Gist metadata"
+                    isPublic={isPublic}
                     description={gistDescription}
+                    isNewGist={true}
                     onDismiss={this.handleDismissEditModal}
-                    onSave={this.handleEditDescription}
+                    onSave={this.handleEditMeta}
                   />
                   <NewGistView
                     onChangeCode={this.handleChangeCode}
                     onFileEntriesChange={this.handleFileEntriesChange}
                     onChangeGistId={this.handleGistIdChange}
                     onResetLocalState={this.handleResetLocalState}
+                    onChangeVisibility={this.handleEditVisibility}
                     onChangeDescription={this.handleEditDescription}
                     onSaveStatusChange={this.handleSaveStatusChange}
                     onShowDescriptionEdit={this.handleShowDescriptionModal}
@@ -306,12 +344,13 @@ export default class Router extends React.Component<Props, State> {
                       files: [
                         { filename: 'readme.md', content: '## Welcome!' }
                       ],
-                      isPublic: true
+                      isPublic: false
                     }}
                     entries={fileEntries}
                     entry={focusedEntry}
                     path={focusedEntry}
                     gistId={this.state.gistId}
+                    isPublic={isPublic}
                     gistDescription={gistDescription}
                     saveStatus={saveStatus}
                   />

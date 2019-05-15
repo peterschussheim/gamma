@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Mutation } from 'react-apollo'
-import { CREATE_GIST, EDIT_GIST, GET_GIST_BY_ID } from '../queries'
+import { EDIT_GIST, GET_GIST_BY_ID } from '../queries'
 import { GreenButton } from './Buttons'
 import { UpdateGist, GistUpdateInput } from '../__generated__/types'
 import { TextFileEntry } from './CodeEditor/types'

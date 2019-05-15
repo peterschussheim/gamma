@@ -7,6 +7,8 @@
     - [Application Features](#application-features)
     - [Developer Features](#developer-features)
     - [Repo Structure](#repo-structure)
+    - [Important Scripts](#important-scripts)
+      - [Generate fresh TypeScript types after updating the GraphQL schema:](#generate-fresh-typescript-types-after-updating-the-graphql-schema)
     - [Architecture](#architecture)
     - [Screenshots](#screenshots)
     - [Known Issues](#known-issues)
@@ -53,6 +55,15 @@ CI/CD Scripts for use with CircleCI:
 - `sendurl.sh`: Bash script which posts preview deployment metadata to a GitHub app
 - `update.sh`: Bash script to dynamically inject an environment variable into a Dockerfile 'template'
 
+### Important Scripts
+
+The following are a few scripts in various packages that are useful when developing:
+
+#### Generate fresh TypeScript types after updating the GraphQL schema:
+
+- `yarn workspace web codegen`: Examines the GraphQL service running on port 4000 and generates `schema.json`.
+- `yarn workspace web types`: Call this script AFTER `codegen` to generate TypeScript types from the json schema.
+
 ### Architecture
 
 coming soon
@@ -82,8 +93,8 @@ with regard to functionality/features.
 
 Below are links to various documents created during development that may be useful to others.  Please note that these documents were created for personal use and are unfinished/unedited.
 
-- [CI-CD]('docs/ci-cd.md')
-- [codegen]('docs/codegen.md')
-- [consuming types question for stack overflow]('docs/consuming-types-so-question.md')
-- [monaco notes]('docs/monaco.md')
-- [monorepo notes]('docs/monorepo.md')
+- [CI-CD](docs/ci-cd.md)
+- [codegen](docs/codegen.md)
+- [consuming types question for stack overflow](docs/consuming-types-so-question.md)
+- [monaco notes](docs/monaco.md)
+- [monorepo notes](docs/monorepo.md)

@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { css } from '@emotion/core'
-import 'react-tippy/dist/tippy.css'
 
 // tslint:disable:max-line-length
 const globalStyles = css`
@@ -92,29 +91,6 @@ const globalStyles = css`
 
   .input-group {
     margin-bottom: 1rem;
-  }
-
-  .tippy-popper {
-    position: absolute;
-  }
-
-  .tippy-popper,
-  .tippy-popper * {
-    pointer-events: none;
-  }
-
-  .tippy-tooltip [x-circle] {
-    background-color: rgb(21, 24, 25) !important;
-  }
-
-  .tippy-tooltip.update-theme {
-    .arrow-regular {
-      border-bottom: 7px solid var(--green) !important;
-    }
-
-    background-color: var(--green);
-    border-radius: 2px;
-    padding: 0 !important;
   }
 
   button:disabled {
