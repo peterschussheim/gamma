@@ -113,7 +113,6 @@ input GistCreateInput {
 
 input GistUpdateInput {
   gistId: String!
-  isPublic: Boolean!
   files: [GistCreateFileObjectInput]
   description: String
 }
