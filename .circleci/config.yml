@@ -248,12 +248,14 @@ jobs:
       - run:
           name: Deploy web to now & alias
           command: |
-            now -t $NOW_TOKEN -A now.ui.json && now -t $NOW_TOKEN -A now.ui.json alias
+            # now -t $NOW_TOKEN -A now.ui.json && now -t $NOW_TOKEN -A now.ui.json alias
+            now -t $NOW_TOKEN -A now.ui.json --target production
       - run:
           name: Deploy api to now & alias
           command: |
             cd packages/api
-            now -t $NOW_TOKEN -A now.api.json && now -t $NOW_TOKEN -A now.api.json alias
+            # now -t $NOW_TOKEN -A now.api.json && now -t $NOW_TOKEN -A now.api.json alias
+            now -t $NOW_TOKEN -A now.api.json --target production
 
 workflows:
   build-test-push-deploy-pr:
