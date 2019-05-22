@@ -1,6 +1,8 @@
+/** @jsx jsx */
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
-
+import { jsx } from '@emotion/core'
+import { css } from 'emotion'
 import Login from './components/Form/Login'
 import Signup from './components/Form/Signup'
 
@@ -226,7 +228,13 @@ export default class Router extends React.Component<Props, State> {
       saveStatus
     } = this.state
     return (
-      <React.Fragment>
+      <div
+        className={css({
+          backgroundColor: '#0E2840',
+          display: 'flex',
+          flexDirection: 'column'
+        })}
+      >
         <Global styles={globalStyles} />
         <Navbar />
         <Switch>
@@ -367,7 +375,7 @@ export default class Router extends React.Component<Props, State> {
           <Route path="/confirm/:id" component={ConfirmEmail} />
           <Route path="*" component={NotFound} />
         </Switch>
-      </React.Fragment>
+      </div>
     )
   }
 }

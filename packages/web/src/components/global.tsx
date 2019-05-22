@@ -37,19 +37,6 @@ const globalStyles = css`
     color: #ff00aa;
   }
 
-  .flex-container {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .flex-container > .flex-item {
-    flex: auto;
-  }
-
-  .flex-container > .raw-item {
-    width: 5rem;
-  }
-
   .text-input {
     padding: 0.5rem;
     width: 100%;
