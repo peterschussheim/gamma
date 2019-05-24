@@ -12,7 +12,7 @@ const Login = props => {
   const { mutate } = props
   return (
     <React.Fragment>
-      <h1>Login</h1>
+      <h1 style={{ textAlign: 'center' }}>Login</h1>
       <Formik
         validationSchema={validLoginSchema}
         validateOnChange={true}
@@ -68,26 +68,28 @@ const Login = props => {
               aria-labelledby="password"
               data-cy="password-input"
             />
-            <GreenButton
-              data-cy="login-button"
-              type="submit"
-              disabled={!dirty || isSubmitting}
-            >
-              Submit
-            </GreenButton>
-            <GreenButton
-              type="reset"
-              className="secondary"
-              disabled={!dirty || isSubmitting}
-              onClick={handleReset}
-            >
-              Reset
-            </GreenButton>
-            <Link to="/auth/signup">
-              <GreenButton data-cy="signup-button" type="button">
-                Signup
+            <div className="button-group">
+              <GreenButton
+                data-cy="login-button"
+                type="submit"
+                disabled={!dirty || isSubmitting}
+              >
+                Submit
               </GreenButton>
-            </Link>
+              <GreenButton
+                type="reset"
+                className="secondary"
+                disabled={!dirty || isSubmitting}
+                onClick={handleReset}
+              >
+                Reset
+              </GreenButton>
+              <Link to="/auth/signup">
+                <GreenButton data-cy="signup-button" type="button">
+                  Signup
+                </GreenButton>
+              </Link>
+            </div>
           </Form>
         )}
       />
