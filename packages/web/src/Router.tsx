@@ -16,8 +16,6 @@ import Home from './views/Home'
 import NewGistView from './views/NewGistView'
 import ConfirmEmail from './views/ConfirmEmail'
 import NotFound from './views/NotFound'
-import { Global } from '@emotion/core'
-import globalStyles from './components/global'
 import Navbar from './components/Navbar'
 import { EditorContext } from './components/CodeEditor/EditorProvider'
 import { updateEntry } from './actions'
@@ -230,12 +228,9 @@ export default class Router extends React.Component<Props, State> {
     return (
       <div
         className={css({
-          backgroundColor: '#0E2840',
-          display: 'flex',
-          flexDirection: 'column'
+          position: 'relative'
         })}
       >
-        <Global styles={globalStyles} />
         <Navbar />
         <Switch>
           <Route exact={true} path="/" component={Home} />
