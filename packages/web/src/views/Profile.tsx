@@ -35,7 +35,7 @@ class Profile extends React.Component {
           } else {
             return (
               <React.Fragment>
-                <div>Welcome, {data.viewer.me.email}</div>
+                <h3>Welcome, {data.viewer.me.email}</h3>
                 {data.viewer.me.githubProfile ? null : (
                   <ConnectToGithub
                     onClickHandler={() =>
