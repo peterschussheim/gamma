@@ -3,7 +3,7 @@ import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 
-import { GreenButton } from '../Buttons'
+import { DefaultButton } from '../Buttons'
 import { TextInput } from './Inputs'
 import { VIEWER_ME, REGISTER } from '../../queries'
 import { validRegistrationSchema } from '../../utils/schemas'
@@ -11,8 +11,8 @@ import { validRegistrationSchema } from '../../utils/schemas'
 const Signup = props => {
   const { mutate } = props
   return (
-    <div>
-      <h1>Signup</h1>
+    <React.Fragment>
+      <h1 style={{ textAlign: 'center' }}>Signup</h1>
       <Formik
         validationSchema={validRegistrationSchema}
         validateOnChange={true}
@@ -83,30 +83,32 @@ const Signup = props => {
               aria-labelledby="password"
               data-cy="password-input"
             />
-            <GreenButton
-              data-cy="signup-button"
-              type="submit"
-              disabled={!dirty || isSubmitting}
-            >
-              Submit
-            </GreenButton>
-            <GreenButton
-              type="reset"
-              className="secondary"
-              disabled={!dirty || isSubmitting}
-              onClick={handleReset}
-            >
-              Reset
-            </GreenButton>
-            <Link to="/auth/login">
-              <GreenButton data-cy="login-button" type="button">
-                Login
-              </GreenButton>
-            </Link>
+            <div className="button-group">
+              <DefaultButton
+                data-cy="signup-button"
+                type="submit"
+                disabled={!dirty || isSubmitting}
+              >
+                Submit
+              </DefaultButton>
+              <DefaultButton
+                type="reset"
+                className="secondary"
+                disabled={!dirty || isSubmitting}
+                onClick={handleReset}
+              >
+                Reset
+              </DefaultButton>
+              <Link to="/auth/login">
+                <DefaultButton data-cy="login-button" type="button">
+                  Login
+                </DefaultButton>
+              </Link>
+            </div>
           </Form>
         )}
       />
-    </div>
+    </React.Fragment>
   )
 }
 

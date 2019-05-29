@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 
 import { TextInput } from './Inputs'
-import { GreenButton } from '../Buttons'
+import { DefaultButton } from '../Buttons'
 import { LOGIN, VIEWER_ME } from '../../queries'
 import { validLoginSchema } from '../../utils/schemas'
 
@@ -69,25 +69,25 @@ const Login = props => {
               data-cy="password-input"
             />
             <div className="button-group">
-              <GreenButton
+              <DefaultButton
                 data-cy="login-button"
                 type="submit"
                 disabled={!dirty || isSubmitting}
               >
                 Submit
-              </GreenButton>
-              <GreenButton
+              </DefaultButton>
+              <DefaultButton
                 type="reset"
                 className="secondary"
                 disabled={!dirty || isSubmitting}
                 onClick={handleReset}
               >
                 Reset
-              </GreenButton>
+              </DefaultButton>
               <Link to="/auth/signup">
-                <GreenButton data-cy="signup-button" type="button">
+                <DefaultButton data-cy="signup-button" type="button">
                   Signup
-                </GreenButton>
+                </DefaultButton>
               </Link>
             </div>
           </Form>
