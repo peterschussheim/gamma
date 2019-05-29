@@ -19,7 +19,8 @@
     "PRISMA_MANAGEMENT_API_SECRET": "@prisma-management-api-secret",
     "MAILSLURP_KEY": "@mailslurp-key"
   },
+  "version": 1,
   "features": {
-    "cloud": "v2"
+    "cloud": "v1"
   }
 }
