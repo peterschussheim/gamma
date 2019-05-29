@@ -231,7 +231,9 @@ export default class Router extends React.Component<Props, State> {
           position: 'relative'
         })}
       >
-        <Navbar />
+        <Navbar>
+          <Profile />
+        </Navbar>
         <Switch>
           <Route exact={true} path="/" component={Home} />
           <Route exact={true} path="/profile" component={Profile} />

@@ -6,7 +6,6 @@ import * as React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 
 import { Menu, MenuButton, MenuList, MenuLink } from '@reach/menu-button'
-import Profile from '../views/Profile'
 import '@reach/menu-button/styles.css'
 
 const NavLayout = props => (
@@ -53,7 +52,7 @@ const NavLayoutWithRouter = withRouter(NavLayout)
 const Navbar = props => (
   <nav>
     <NavLayoutWithRouter {...props} />
-    <Profile />
+    {props.children}
   </nav>
 )
 
