@@ -1,6 +1,8 @@
+/** @jsx jsx */
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
-
+import { jsx } from '@emotion/core'
+import { css } from 'emotion'
 import Login from './components/Form/Login'
 import Signup from './components/Form/Signup'
 
@@ -14,8 +16,6 @@ import Home from './views/Home'
 import NewGistView from './views/NewGistView'
 import ConfirmEmail from './views/ConfirmEmail'
 import NotFound from './views/NotFound'
-import { Global } from '@emotion/core'
-import globalStyles from './components/global'
 import Navbar from './components/Navbar'
 import { EditorContext } from './components/CodeEditor/EditorProvider'
 import { updateEntry } from './actions'
@@ -226,9 +226,14 @@ export default class Router extends React.Component<Props, State> {
       saveStatus
     } = this.state
     return (
-      <React.Fragment>
-        <Global styles={globalStyles} />
-        <Navbar />
+      <div
+        className={css({
+          position: 'relative'
+        })}
+      >
+        <Navbar>
+          <Profile />
+        </Navbar>
         <Switch>
           <Route exact={true} path="/" component={Home} />
           <Route exact={true} path="/profile" component={Profile} />
@@ -367,7 +372,7 @@ export default class Router extends React.Component<Props, State> {
           <Route path="/confirm/:id" component={ConfirmEmail} />
           <Route path="*" component={NotFound} />
         </Switch>
-      </React.Fragment>
+      </div>
     )
   }
 }

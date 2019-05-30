@@ -14,7 +14,6 @@ describe('Logout', () => {
       .should('have.value', '12345')
     cy.get('[data-cy="login-button"]').click()
     cy.get('[data-cy="authenticate-link"]').should('not.exist')
-    cy.get('[data-cy="counter-sub"]').should('be.visible')
     cy.get('[data-cy="logout-button"]').should('be.visible')
     cy.get('[data-cy="logout-button"]').click()
     cy.get('[data-cy="authenticate-link"]').should('be.visible')

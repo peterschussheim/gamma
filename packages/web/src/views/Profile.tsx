@@ -25,7 +25,7 @@ class Profile extends React.Component {
       <Query query={VIEWER_ME} ssr={false}>
         {({ client, loading, error, data }) => {
           if (loading) {
-            return <p>Loading...</p>
+            return null
           }
           if (error) {
             return <div>{error}</div>
@@ -35,7 +35,7 @@ class Profile extends React.Component {
           } else {
             return (
               <React.Fragment>
-                <div>Welcome, {data.viewer.me.email}</div>
+                <h3>{data.viewer.me.email}</h3>
                 {data.viewer.me.githubProfile ? null : (
                   <ConnectToGithub
                     onClickHandler={() =>

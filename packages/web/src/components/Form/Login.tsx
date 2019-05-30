@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Formik, Form } from 'formik'
 
 import { TextInput } from './Inputs'
-import { GreenButton } from '../Buttons'
+import { DefaultButton } from '../Buttons'
 import { LOGIN, VIEWER_ME } from '../../queries'
 import { validLoginSchema } from '../../utils/schemas'
 
@@ -12,7 +12,7 @@ const Login = props => {
   const { mutate } = props
   return (
     <React.Fragment>
-      <h1>Login</h1>
+      <h1 style={{ textAlign: 'center' }}>Login</h1>
       <Formik
         validationSchema={validLoginSchema}
         validateOnChange={true}
@@ -68,26 +68,28 @@ const Login = props => {
               aria-labelledby="password"
               data-cy="password-input"
             />
-            <GreenButton
-              data-cy="login-button"
-              type="submit"
-              disabled={!dirty || isSubmitting}
-            >
-              Submit
-            </GreenButton>
-            <GreenButton
-              type="reset"
-              className="secondary"
-              disabled={!dirty || isSubmitting}
-              onClick={handleReset}
-            >
-              Reset
-            </GreenButton>
-            <Link to="/auth/signup">
-              <GreenButton data-cy="signup-button" type="button">
-                Signup
-              </GreenButton>
-            </Link>
+            <div className="button-group">
+              <DefaultButton
+                data-cy="login-button"
+                type="submit"
+                disabled={!dirty || isSubmitting}
+              >
+                Submit
+              </DefaultButton>
+              <DefaultButton
+                type="reset"
+                className="secondary"
+                disabled={!dirty || isSubmitting}
+                onClick={handleReset}
+              >
+                Reset
+              </DefaultButton>
+              <Link to="/auth/signup">
+                <DefaultButton data-cy="signup-button" type="button">
+                  Signup
+                </DefaultButton>
+              </Link>
+            </div>
           </Form>
         )}
       />
