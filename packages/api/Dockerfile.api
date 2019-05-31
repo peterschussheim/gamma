@@ -14,5 +14,4 @@ COPY --from=base /usr/src .
 ENV NODE_ENV="production"
 ENV DEBUG="*,-express-session*,-body-parser:*,-express:*"
 ENV NOW_CONFIG=./now.api.json
-EXPOSE 3000
 CMD ["node", "dist"]
