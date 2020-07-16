@@ -72,7 +72,7 @@
     "ioredis": "4.0.0",
     "jsonwebtoken": "8.2.2",
     "keygrip": "1.0.2",
-    "lodash": "4.17.10",
+    "lodash": "4.17.19",
     "mime-types": "2.1.18",
     "multiparty": "4.1.4",
     "node-uuid": "1.4.8",
