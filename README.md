@@ -9,7 +9,6 @@
     - [Repo Structure](#repo-structure)
     - [Important Scripts](#important-scripts)
       - [Generate fresh TypeScript types after updating the GraphQL schema:](#generate-fresh-typescript-types-after-updating-the-graphql-schema)
-    - [Architecture](#architecture)
     - [Screenshots](#screenshots)
     - [Known Issues](#known-issues)
     - [Ackowledgements](#ackowledgements)
@@ -19,9 +18,9 @@
 
 ### Project Goals
 
-- [ ] Build an alternative UI for working with [GitHub Gists](https://gist.github.com/)
-- [ ] Great developer experience
-- [ ] experiment with monorepo structure to understand tradeoffs (blog post coming soon)
+- [x] Build an alternative UI for working with [GitHub Gists](https://gist.github.com/)
+- [x] Great developer experience
+- [x] experiment with monorepo structure to understand tradeoffs (blog post coming soon)
 
 ### Application Features
 
@@ -64,13 +63,24 @@ The following are a few scripts in various packages that are useful when develop
 - `yarn workspace web codegen`: Examines the GraphQL service running on port 4000 and generates `schema.json`.
 - `yarn workspace web types`: Call this script AFTER `codegen` to generate TypeScript types from the json schema.
 
-### Architecture
-
-coming soon
-
 ### Screenshots
 
-coming soon
+![home](https://github.com/peterschussheim/gamma/blob/master/resources/2020-05-09%2012_38_50-https___gamma.app.png)
+
+![auth](https://github.com/peterschussheim/gamma/blob/master/resources/2020-05-09%2012_39_48-https___gamma.app_auth_login.png)
+
+![authenticated](https://github.com/peterschussheim/gamma/blob/master/resources/2020-05-09%2012_40_07-https___gamma.app.png)
+
+![example1](https://github.com/peterschussheim/gamma/blob/master/resources/2020-05-09%2012_41_57-https___gamma.app_g_754e1e14f3b710dcbafae795f642a6d3.png)
+
+![example1](https://github.com/peterschussheim/gamma/blob/master/resources/2020-05-09%2012_42_18-https___gamma.app_g_754e1e14f3b710dcbafae795f642a6d3.png)
+
+![example1](https://github.com/peterschussheim/gamma/blob/master/resources/2020-05-09%2012_43_15-https___gamma.app_g_7c69d47b17ad50a4c70c3b17b9dc5869.png)
+
+![new_file](https://github.com/peterschussheim/gamma/blob/master/resources/2020-05-09%2012_45_03-https___gamma.app_new.png)
+
+![example1](https://github.com/peterschussheim/gamma/blob/master/resources/2020-05-09%2012_46_56-https___gamma.app_g_2bd83c7ed49ce8b3feefb5b8908c074b.png)
+
 ### Known Issues
 
 Due to time constraints and project goals, there are a number of known issues and known limitations
